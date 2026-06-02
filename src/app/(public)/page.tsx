@@ -94,16 +94,16 @@ export default function HomePage() {
 
           <FadeIn delay={0.22}>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-              <Link href="/dizajnok"
+              <Link href="/kapcsolat"
                 className="group flex items-center gap-2 px-7 py-4 rounded-2xl text-base font-semibold text-white transition-all hover:opacity-90 hover:-translate-y-0.5"
                 style={{ background: 'linear-gradient(135deg, #0284c7, #0ea5e9, #06b6d4)', boxShadow: '0 0 40px rgba(14,165,233,0.3)' }}>
-                Dizájnokat böngészek
+                Ajánlatot kérek
                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="/kapcsolat"
+              <Link href="/referenciak"
                 className="flex items-center gap-2 px-7 py-4 rounded-2xl text-base font-semibold transition-all hover:-translate-y-0.5"
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.85)' }}>
-                Ajánlatot kérek
+                Referenciáink
               </Link>
             </div>
           </FadeIn>
