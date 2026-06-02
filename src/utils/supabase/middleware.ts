@@ -32,14 +32,17 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   // Protect admin routes
-  const publicPaths = ['/', '/szolgaltatasok', '/dizajnok', '/arak', '/kapcsolat']
-  const isPublic =
-    publicPaths.includes(request.nextUrl.pathname) ||
-    request.nextUrl.pathname.startsWith('/szolgaltatasok/') ||
-    request.nextUrl.pathname.startsWith('/referenciak') ||
-    request.nextUrl.pathname.startsWith('/api/') ||
-    request.nextUrl.pathname.startsWith('/offers/view/') ||
-    request.nextUrl.pathname.startsWith('/login')
+  const pathname = request.nextUrl.pathname
+  const isAdminRoute =
+    pathname.startsWith('/dashboard') ||
+    pathname.startsWith('/leads') ||
+    pathname.startsWith('/customers') ||
+    pathname.startsWith('/payments') ||
+    pathname.startsWith('/subscriptions') ||
+    pathname.startsWith('/tasks') ||
+    pathname.startsWith('/settings') ||
+    (pathname.startsWith('/offers') && !pathname.startsWith('/offers/view/'))
+  const isPublic = !isAdminRoute
 
   if (!user && !isPublic) {
     const url = request.nextUrl.clone()
