@@ -26,7 +26,7 @@ export function ControlledSelect({
   return (
     <>
       <input type="hidden" name={name} value={value} />
-      <Select value={value} onValueChange={setValue}>
+      <Select value={value} onValueChange={(v) => setValue(v ?? '')}>
         <SelectTrigger>
           <SelectValue>
             {label ?? <span className="text-muted-foreground">{placeholder}</span>}
