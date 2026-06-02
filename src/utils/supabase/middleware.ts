@@ -35,6 +35,8 @@ export async function updateSession(request: NextRequest) {
   const publicPaths = ['/', '/szolgaltatasok', '/dizajnok', '/arak', '/kapcsolat']
   const isPublic =
     publicPaths.includes(request.nextUrl.pathname) ||
+    request.nextUrl.pathname.startsWith('/szolgaltatasok/') ||
+    request.nextUrl.pathname.startsWith('/referenciak') ||
     request.nextUrl.pathname.startsWith('/api/') ||
     request.nextUrl.pathname.startsWith('/offers/view/') ||
     request.nextUrl.pathname.startsWith('/login')
