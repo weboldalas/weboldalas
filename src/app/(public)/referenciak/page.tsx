@@ -41,7 +41,7 @@ export default function ReferencjakPage() {
             {REFERENCES.map((ref, i) => (
               <StaggerItem key={ref.slug}>
                 <Link href={`/referenciak/${ref.slug}`} className="group block">
-                  <div className="rounded-3xl overflow-hidden transition-all hover:-translate-y-1"
+                  <div className="rounded-3xl overflow-hidden transition-all hover:-translate-y-0.5"
                     style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.08)' }}>
                     <div className={`grid ${i % 2 === 0 ? 'lg:grid-cols-[2fr_3fr]' : 'lg:grid-cols-[3fr_2fr]'}`}>
 

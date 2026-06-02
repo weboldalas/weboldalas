@@ -78,7 +78,7 @@ export function DesignFilter({ designs }: { designs: any[] }) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.25 }}
-              className="group rounded-2xl overflow-hidden hover:-translate-y-1 transition-all"
+              className="group rounded-2xl overflow-hidden hover:-translate-y-0.5 transition-all"
               style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
             >
               {/* Preview area */}

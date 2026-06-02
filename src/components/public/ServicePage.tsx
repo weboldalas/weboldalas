@@ -172,7 +172,7 @@ export function ServicePage({ data }: { data: ServicePageData }) {
           <StaggerChildren className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {data.forWhom.items.map((item, i) => (
               <StaggerItem key={i}>
-                <div className="p-6 rounded-2xl text-center hover:-translate-y-1 transition-all" style={SURFACE}>
+                <div className="p-6 rounded-2xl text-center hover:-translate-y-0.5 transition-all" style={SURFACE}>
                   <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3"
                     style={{ background: `${data.accentColor}15`, border: `1px solid ${data.accentColor}20` }}>
                     <item.icon className="h-6 w-6" style={{ color: data.accentColor }} />

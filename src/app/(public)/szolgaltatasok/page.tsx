@@ -93,7 +93,7 @@ export default function SzolgaltatasokPage() {
               <StaggerItem key={i}>
                 <Link href={svc.href}>
                   <div
-                    className={`group p-7 rounded-3xl hover:-translate-y-1 relative overflow-hidden transition-all ${!svc.highlight ? 'svc-card' : ''}`}
+                    className={`group p-7 rounded-3xl hover:-translate-y-0.5 relative overflow-hidden transition-all ${!svc.highlight ? 'svc-card' : ''}`}
                     style={svc.highlight
                       ? { background: `${svc.accentColor}10`, border: `1px solid ${svc.accentColor}30` }
                       : { ...SURFACE }}

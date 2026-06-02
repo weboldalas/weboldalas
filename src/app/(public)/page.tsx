@@ -132,7 +132,7 @@ export default function HomePage() {
           <StaggerChildren className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {whoFor.map((item, i) => (
               <StaggerItem key={i}>
-                <div className="flex flex-col items-center gap-3 p-6 rounded-2xl transition-all hover:-translate-y-1 cursor-default text-center"
+                <div className="flex flex-col items-center gap-3 p-6 rounded-2xl transition-all hover:-translate-y-0.5 cursor-default text-center"
                   style={SURFACE}>
                   <AppIcon icon={item.icon} color={item.color as any} size="md" />
                   <span className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.7)' }}>{item.label}</span>
@@ -155,7 +155,7 @@ export default function HomePage() {
             {services.map((svc, i) => (
               <StaggerItem key={i}>
                 <Link href={svc.href}>
-                  <div className="svc-card group p-6 rounded-2xl hover:-translate-y-1 h-full flex flex-col gap-4"
+                  <div className="svc-card group p-6 rounded-2xl hover:-translate-y-0.5 h-full flex flex-col gap-4"
                     style={SURFACE}>
                     <AppIcon icon={svc.icon} color={svc.color as any} size="md" />
                     <div className="flex-1">
@@ -263,7 +263,7 @@ export default function HomePage() {
             ].map((ref, i) => (
               <StaggerItem key={i}>
                 <Link href={`/referenciak/${ref.slug}`} className="group block">
-                  <div className="relative rounded-2xl p-10 text-center hover:-translate-y-1 transition-all overflow-hidden"
+                  <div className="relative rounded-2xl p-10 text-center hover:-translate-y-0.5 transition-all overflow-hidden"
                     style={{ background: `linear-gradient(135deg, ${ref.from}, ${ref.to})`, border: '1px solid rgba(255,255,255,0.08)' }}>
                     <div className="absolute inset-0 opacity-[0.08]"
                       style={{

@@ -51,19 +51,25 @@
 /* Public site service cards: hover border glow */
 .svc-card {
   border-color: rgba(255,255,255,0.07);
-  transition: border-color 0.2s, transform 0.2s;
+  transition: border-color 0.35s ease, transform 0.35s ease;
 }
 .svc-card:hover {
-  border-color: rgba(14,165,233,0.3);
+  border-color: rgba(14,165,233,0.25);
 }
 
 /* Footer nav links hover */
 .footer-link {
   color: rgba(255,255,255,0.4);
-  transition: color 0.15s;
+  transition: color 0.25s ease;
 }
 .footer-link:hover {
-  color: rgba(255,255,255,0.9);
+  color: rgba(255,255,255,0.85);
+}
+
+/* Softer global transitions for public pages */
+.transition-all {
+  transition-duration: 300ms !important;
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1) !important;
 }
 
 /* ============================================

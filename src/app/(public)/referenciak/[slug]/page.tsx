@@ -170,7 +170,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
           <FadeIn>
             <p className="text-xs font-bold uppercase tracking-widest mb-6" style={{ color: 'rgba(255,255,255,0.3)' }}>Következő projekt</p>
             <Link href={`/referenciak/${next.slug}`} className="group block">
-              <div className="rounded-3xl overflow-hidden transition-all hover:-translate-y-1"
+              <div className="rounded-3xl overflow-hidden transition-all hover:-translate-y-0.5"
                 style={{ background: `linear-gradient(135deg, ${next.gradientFrom}, ${next.gradientTo})`, border: '1px solid rgba(255,255,255,0.1)' }}>
                 <div className="relative p-10 flex items-center justify-between">
                   <div className="absolute inset-0 opacity-10"
