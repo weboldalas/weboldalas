@@ -1,4 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!;
 const APP_URL = Deno.env.get('NEXT_PUBLIC_APP_URL') || 'http://localhost:3000';
@@ -6,13 +7,24 @@ const FROM_EMAIL = 'Weboldalas <noreply@weboldalas.hu>';
 const CONTACT_EMAIL = 'info@weboldalas.hu';
 const CONTACT_PHONE = '+36 30 540 4177';
 
+const supabase = createClient(
+  Deno.env.get('SUPABASE_URL')!,
+  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+);
+
 Deno.serve(async (req: Request) => {
   if (req.method !== 'POST') {
     return new Response('Method not allowed', { status: 405 });
   }
 
   try {
-    const { offer, customer, items } = await req.json();
+    const { offer, customer } = await req.json();
+
+    const { data: items } = await supabase
+      .from('offer_items')
+      .select('*')
+      .eq('offer_id', offer.id)
+      .order('created_at', { ascending: true });
     const publicUrl = `${APP_URL}/offers/view/${offer.public_token}`;
 
     let paymentBadge = 'Egyösszegű fizetés';
