@@ -4,7 +4,7 @@ const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!;
 const APP_URL = Deno.env.get('NEXT_PUBLIC_APP_URL') || 'http://localhost:3000';
 const FROM_EMAIL = 'Weboldalas <noreply@weboldalas.hu>';
 const CONTACT_EMAIL = 'info@weboldalas.hu';
-const CONTACT_PHONE = '+36 30 123 4567';
+const CONTACT_PHONE = '+36 30 540 4177';
 
 Deno.serve(async (req: Request) => {
   if (req.method !== 'POST') {
@@ -26,7 +26,7 @@ Deno.serve(async (req: Request) => {
     } else if (offer.payment_type === 'subscription') {
       paymentBadge = `Előfizetés — ${offer.subscription_plan_name || 'Havidíjas'}`;
       paymentLabel = 'Havi díj';
-      paymentNote = 'Az előfizetés minimum 12 hónapra szól. Tartalmaz 1 óra/hó fejlesztési keretet.';
+      paymentNote = offer.subscription_note || '';
     }
 
     const itemsHtml = items.map((item: { description: string; price: number }) => `

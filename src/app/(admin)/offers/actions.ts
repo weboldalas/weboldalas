@@ -32,24 +32,26 @@ export async function createOffer(_prevState: unknown, formData: FormData) {
   const installmentMonthsRaw = formData.get('installment_months')
   const installmentMonths = paymentType === 'installments' && installmentMonthsRaw ? parseInt(installmentMonthsRaw as string, 10) : null
   const subscriptionPlanName = paymentType === 'subscription' ? formData.get('subscription_plan_name') as string : null
+  const subscriptionNote = paymentType === 'subscription' ? (formData.get('subscription_note') as string || null) : null
 
   const itemsJson = formData.get('items') as string
   const items = itemsJson ? JSON.parse(itemsJson) : []
-  
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const totalAmount = items.reduce((sum: number, item: any) => sum + Number(item.price), 0)
 
   // 1. Create offer
   const { data: offer, error: offerError } = await supabase
     .from('offers')
-    .insert([{ 
-      customer_id: customerId, 
+    .insert([{
+      customer_id: customerId,
       lead_id: leadId,
-      status, 
+      status,
       total_amount: totalAmount,
       payment_type: paymentType,
       installment_months: installmentMonths,
-      subscription_plan_name: subscriptionPlanName
+      subscription_plan_name: subscriptionPlanName,
+      subscription_note: subscriptionNote
     }])
     .select()
     .single()
@@ -111,24 +113,26 @@ export async function updateOffer(id: string, _prevState: unknown, formData: For
   const installmentMonthsRaw = formData.get('installment_months')
   const installmentMonths = paymentType === 'installments' && installmentMonthsRaw ? parseInt(installmentMonthsRaw as string, 10) : null
   const subscriptionPlanName = paymentType === 'subscription' ? formData.get('subscription_plan_name') as string : null
+  const subscriptionNote = paymentType === 'subscription' ? (formData.get('subscription_note') as string || null) : null
 
   const itemsJson = formData.get('items') as string
   const items = itemsJson ? JSON.parse(itemsJson) : []
-  
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const totalAmount = items.reduce((sum: number, item: any) => sum + Number(item.price), 0)
 
   // 1. Update offer
   const { error: offerError } = await supabase
     .from('offers')
-    .update({ 
-      customer_id: customerId, 
+    .update({
+      customer_id: customerId,
       lead_id: leadId,
-      status, 
+      status,
       total_amount: totalAmount,
       payment_type: paymentType,
       installment_months: installmentMonths,
-      subscription_plan_name: subscriptionPlanName
+      subscription_plan_name: subscriptionPlanName,
+      subscription_note: subscriptionNote
     })
     .eq('id', id)
 

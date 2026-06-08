@@ -215,9 +215,22 @@ export function OfferForm({ offer, customers, leads, defaultCustomerId, defaultL
               )}
             </div>
             {paymentType === 'subscription' && (
-              <p className="text-sm text-muted-foreground">
-                Előfizetésnél a lenti összeg lesz a havi díj.
-              </p>
+              <div className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  Előfizetésnél a lenti összeg lesz a havi díj.
+                </p>
+                <div className="space-y-2">
+                  <Label htmlFor="subscription_note">Megjegyzés az emailben (opcionális)</Label>
+                  <textarea
+                    id="subscription_note"
+                    name="subscription_note"
+                    rows={3}
+                    defaultValue={offer?.subscription_note ?? 'Az előfizetés minimum 12 hónapra szól. Tartalmaz 1 óra/hó fejlesztési keretet.'}
+                    placeholder="pl. Az előfizetés minimum 12 hónapra szól."
+                    className="w-full rounded-md border border-white/10 bg-transparent px-3 py-2 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-white/20 resize-none"
+                  />
+                </div>
+              </div>
             )}
             {paymentType === 'installments' && (
               <p className="text-sm text-muted-foreground">
