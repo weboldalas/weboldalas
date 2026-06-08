@@ -20,11 +20,12 @@ Deno.serve(async (req: Request) => {
   try {
     const { offer, customer } = await req.json();
 
-    const { data: items } = await supabase
+    const { data: itemsData } = await supabase
       .from('offer_items')
       .select('*')
       .eq('offer_id', offer.id)
       .order('created_at', { ascending: true });
+    const items = itemsData || [];
     const publicUrl = `${APP_URL}/offers/view/${offer.public_token}`;
 
     let paymentBadge = 'Egyösszegű fizetés';
@@ -177,6 +178,13 @@ Deno.serve(async (req: Request) => {
 
 </body>
 </html>`;
+
+    if (!customer?.email) {
+      return new Response(JSON.stringify({ error: 'Az ügyfélnek nincs email-je.' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
 
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
