@@ -33,6 +33,8 @@ export async function createOffer(_prevState: unknown, formData: FormData) {
   const installmentMonths = paymentType === 'installments' && installmentMonthsRaw ? parseInt(installmentMonthsRaw as string, 10) : null
   const subscriptionPlanName = paymentType === 'subscription' ? formData.get('subscription_plan_name') as string : null
   const subscriptionNote = paymentType === 'subscription' ? (formData.get('subscription_note') as string || null) : null
+  const expiresAtRaw = formData.get('expires_at') as string
+  const expiresAt = expiresAtRaw ? `${expiresAtRaw}T23:59:59Z` : null
 
   const itemsJson = formData.get('items') as string
   const items = itemsJson ? JSON.parse(itemsJson) : []
@@ -51,7 +53,8 @@ export async function createOffer(_prevState: unknown, formData: FormData) {
       payment_type: paymentType,
       installment_months: installmentMonths,
       subscription_plan_name: subscriptionPlanName,
-      subscription_note: subscriptionNote
+      subscription_note: subscriptionNote,
+      expires_at: expiresAt,
     }])
     .select()
     .single()
@@ -114,6 +117,8 @@ export async function updateOffer(id: string, _prevState: unknown, formData: For
   const installmentMonths = paymentType === 'installments' && installmentMonthsRaw ? parseInt(installmentMonthsRaw as string, 10) : null
   const subscriptionPlanName = paymentType === 'subscription' ? formData.get('subscription_plan_name') as string : null
   const subscriptionNote = paymentType === 'subscription' ? (formData.get('subscription_note') as string || null) : null
+  const expiresAtRaw = formData.get('expires_at') as string
+  const expiresAt = expiresAtRaw ? `${expiresAtRaw}T23:59:59Z` : null
 
   const itemsJson = formData.get('items') as string
   const items = itemsJson ? JSON.parse(itemsJson) : []
@@ -132,7 +137,8 @@ export async function updateOffer(id: string, _prevState: unknown, formData: For
       payment_type: paymentType,
       installment_months: installmentMonths,
       subscription_plan_name: subscriptionPlanName,
-      subscription_note: subscriptionNote
+      subscription_note: subscriptionNote,
+      expires_at: expiresAt,
     })
     .eq('id', id)
 
@@ -369,6 +375,23 @@ export async function realizeOffer(id: string) {
   revalidatePath(`/customers/${finalCustomerId}`)
   if (offer.lead_id) revalidatePath(`/leads/${offer.lead_id}`)
 
+  return { success: true }
+}
+
+export async function renewOffer(id: string, newExpiresAt: string) {
+  const supabase = await createClient()
+
+  const expiresAt = newExpiresAt ? `${newExpiresAt}T23:59:59Z` : null
+
+  const { error } = await supabase
+    .from('offers')
+    .update({ status: 'sent', expires_at: expiresAt })
+    .eq('id', id)
+
+  if (error) return { error: error.message }
+
+  revalidatePath('/offers')
+  revalidatePath(`/offers/${id}`)
   return { success: true }
 }
 

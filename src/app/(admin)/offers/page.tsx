@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Plus, Send, FileText, CheckCircle, XCircle } from 'lucide-react'
+import { Plus, Send, FileText, CheckCircle, XCircle, CalendarX } from 'lucide-react'
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
 import { DeleteOfferIconButton } from './DeleteOfferIconButton'
@@ -9,10 +9,11 @@ export const metadata = {
 }
 
 const STATUS_CONFIG = {
-  draft:    { label: 'Tervezet',   color: 'oklch(0.60 0.05 270)', bg: 'oklch(0.60 0.05 270 / 0.10)', icon: FileText  },
-  sent:     { label: 'Kiküldve',   color: 'oklch(0.65 0.18 280)', bg: 'oklch(0.65 0.18 280 / 0.10)', icon: Send      },
+  draft:    { label: 'Tervezet',   color: 'oklch(0.60 0.05 270)', bg: 'oklch(0.60 0.05 270 / 0.10)', icon: FileText   },
+  sent:     { label: 'Kiküldve',   color: 'oklch(0.65 0.18 280)', bg: 'oklch(0.65 0.18 280 / 0.10)', icon: Send       },
   accepted: { label: 'Elfogadva',  color: 'oklch(0.68 0.18 145)', bg: 'oklch(0.68 0.18 145 / 0.10)', icon: CheckCircle },
-  rejected: { label: 'Elutasítva', color: 'oklch(0.62 0.22 25)',  bg: 'oklch(0.62 0.22 25 / 0.08)',  icon: XCircle   },
+  rejected: { label: 'Elutasítva', color: 'oklch(0.62 0.22 25)',  bg: 'oklch(0.62 0.22 25 / 0.08)',  icon: XCircle    },
+  expired:  { label: 'Lejárt',     color: 'oklch(0.65 0.12 55)',  bg: 'oklch(0.65 0.12 55 / 0.10)',  icon: CalendarX  },
 } as const
 
 const PAYMENT_LABELS: Record<string, string> = {
@@ -34,6 +35,7 @@ export default async function OffersPage() {
     draft:    offers?.filter(o => o.status === 'draft')    ?? [],
     accepted: offers?.filter(o => o.status === 'accepted') ?? [],
     rejected: offers?.filter(o => o.status === 'rejected') ?? [],
+    expired:  offers?.filter(o => o.status === 'expired')  ?? [],
   }
 
   const totalValue = (offers ?? []).reduce((s, o) => s + Number(o.total_amount), 0)

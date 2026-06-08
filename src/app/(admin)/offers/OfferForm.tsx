@@ -151,18 +151,31 @@ export function OfferForm({ offer, customers, leads, defaultCustomerId, defaultL
                 )}
               </div>
 
-              <div className="space-y-2">
-                <Label>Státusz *</Label>
-                <Select value={status} onValueChange={v => setStatus(v || 'draft')}>
-                  <SelectTrigger>
-                    <SelectValue>{statusLabel}</SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {STATUS_OPTIONS.map(o => (
-                      <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label>Státusz *</Label>
+                  <Select value={status} onValueChange={v => setStatus(v || 'draft')}>
+                    <SelectTrigger>
+                      <SelectValue>{statusLabel}</SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {STATUS_OPTIONS.map(o => (
+                        <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="expires_at">Lejárati dátum (opcionális)</Label>
+                  <Input
+                    id="expires_at"
+                    name="expires_at"
+                    type="date"
+                    defaultValue={offer?.expires_at ? offer.expires_at.split('T')[0] : ''}
+                    min={new Date().toISOString().split('T')[0]}
+                  />
+                  <p className="text-xs text-white/30">Ha meg van adva, az ügyfél emlékeztetőt kap 1 nappal előtte és a lejárat napján.</p>
+                </div>
               </div>
             </div>
           </div>
