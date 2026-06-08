@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { DeleteSubscriptionButton } from './DeleteSubscriptionButton'
 
 const subStatusMap: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
   active: { label: 'Aktív', variant: 'default' },
@@ -54,11 +55,14 @@ export function SubscriptionsList({ subscriptions }: { subscriptions: any[] }) {
                 {Number(sub.monthly_fee).toLocaleString('hu-HU')} {sub.currency}
               </TableCell>
               <TableCell className="text-right">
-                <Link href={`/subscriptions/${sub.id}`}>
-                  <Button variant="ghost" size="sm">
-                    Szerkesztés
-                  </Button>
-                </Link>
+                <div className="flex items-center justify-end gap-1">
+                  <Link href={`/subscriptions/${sub.id}`}>
+                    <Button variant="ghost" size="sm">
+                      Szerkesztés
+                    </Button>
+                  </Link>
+                  <DeleteSubscriptionButton id={sub.id} />
+                </div>
               </TableCell>
             </TableRow>
           ))}

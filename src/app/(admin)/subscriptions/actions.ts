@@ -59,3 +59,22 @@ export async function updateSubscription(id: string, _prevState: unknown, formDa
   revalidatePath(`/customers/${data.customer_id}`)
   redirect('/subscriptions')
 }
+
+export async function deleteSubscription(id: string) {
+  const supabase = await createClient()
+
+  const { data: sub } = await supabase
+    .from('subscriptions')
+    .select('customer_id')
+    .eq('id', id)
+    .single()
+
+  const { error } = await supabase.from('subscriptions').delete().eq('id', id)
+
+  if (error) return { error: error.message }
+
+  revalidatePath('/subscriptions')
+  revalidatePath('/payments')
+  if (sub?.customer_id) revalidatePath(`/customers/${sub.customer_id}`)
+  return { success: true }
+}
