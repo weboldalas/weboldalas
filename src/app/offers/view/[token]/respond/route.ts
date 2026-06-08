@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { respondCustomerHtml } from '@/lib/offer-emails'
+import { respondCustomerHtml, adminRespondHtml } from '@/lib/offer-emails'
 
 export async function POST(
   request: Request,
@@ -142,11 +142,6 @@ export async function POST(
     const contactEmail = offer.customers?.email || (offer.leads as any)?.email || ''
 
     if (resendApiKey) {
-      const actionText = action === 'accept' ? 'elfogadta' : 'elutasította'
-      const color = action === 'accept' ? '#10b981' : '#ef4444'
-      const extraNote = action === 'accept'
-        ? '<p style="color:#10b981;font-weight:600;">✅ A pénzügyi tételek automatikusan létrejöttek.</p>'
-        : ''
       const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
 
       // Admin email
@@ -157,15 +152,7 @@ export async function POST(
           from: fromEmail,
           to: [adminEmail],
           subject: `${action === 'accept' ? '✅ Elfogadva' : '❌ Elutasítva'} – ${contactName}`,
-          html: `
-            <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:20px;background:#07070e;color:#e0e0f0;border-radius:12px;">
-              <h2 style="color:#e0e0f0;">Ügyfél visszajelzés érkezett!</h2>
-              <p><strong>${contactName}</strong>${contactEmail ? ` (${contactEmail})` : ''} <strong style="color:${color}">${actionText}</strong> az árajánlatot.</p>
-              <p><strong>Összeg:</strong> ${Number(offer.total_amount).toLocaleString('hu-HU')} Ft</p>
-              ${extraNote}
-              <p><a href="${appUrl}/offers/${offer.id}" style="display:inline-block;padding:12px 24px;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;text-decoration:none;border-radius:8px;font-weight:700;">Megtekintés az adminban →</a></p>
-            </div>
-          `,
+          html: adminRespondHtml(contactName, contactEmail, action, Number(offer.total_amount), offer.id, appUrl),
         }),
       })
 
@@ -178,7 +165,7 @@ export async function POST(
             from: fromEmail,
             to: [contactEmail],
             subject: `${action === 'accept' ? '✅ Ajánlat elfogadva' : 'Visszajelzés megkaptuk'} – Weboldalas`,
-            html: respondCustomerHtml(contactName, action, Number(offer.total_amount)),
+            html: respondCustomerHtml(contactName, action, Number(offer.total_amount), appUrl),
           }),
         })
       }

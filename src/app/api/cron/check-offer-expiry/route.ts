@@ -51,7 +51,7 @@ export async function GET(request: Request) {
     const name  = offer.customers?.name  || offer.leads?.name  || 'Ügyfél'
     const email = offer.customers?.email || offer.leads?.email
     const publicUrl = `${APP_URL}/offers/view/${offer.public_token}`
-    if (email) await sendEmail(email, 'Ajánlata lejárt – Weboldalas', expiryCustomerHtml(name, publicUrl, 'expired'))
+    if (email) await sendEmail(email, 'Ajánlata lejárt – Weboldalas', expiryCustomerHtml(name, publicUrl, 'expired', APP_URL))
     await sendEmail(ADMIN_EMAIL, `❌ Lejárt ajánlat – ${name}`, expiryAdminHtml(name, email || '', Number(offer.total_amount), offer.id, 'expired', APP_URL))
     expired++
   }
@@ -69,7 +69,7 @@ export async function GET(request: Request) {
     const name  = offer.customers?.name  || offer.leads?.name  || 'Ügyfél'
     const email = offer.customers?.email || offer.leads?.email
     const publicUrl = `${APP_URL}/offers/view/${offer.public_token}`
-    if (email) await sendEmail(email, '🔔 Ajánlata ma jár le – Weboldalas', expiryCustomerHtml(name, publicUrl, 'today'))
+    if (email) await sendEmail(email, '🔔 Ajánlata ma jár le – Weboldalas', expiryCustomerHtml(name, publicUrl, 'today', APP_URL))
     await sendEmail(ADMIN_EMAIL, `🔔 Ajánlat ma jár le – ${name}`, expiryAdminHtml(name, email || '', Number(offer.total_amount), offer.id, 'today', APP_URL))
     remindedToday++
   }
@@ -87,7 +87,7 @@ export async function GET(request: Request) {
     const name  = offer.customers?.name  || offer.leads?.name  || 'Ügyfél'
     const email = offer.customers?.email || offer.leads?.email
     const publicUrl = `${APP_URL}/offers/view/${offer.public_token}`
-    if (email) await sendEmail(email, '⏰ Ajánlata holnap jár le – Weboldalas', expiryCustomerHtml(name, publicUrl, 'tomorrow'))
+    if (email) await sendEmail(email, '⏰ Ajánlata holnap jár le – Weboldalas', expiryCustomerHtml(name, publicUrl, 'tomorrow', APP_URL))
     await sendEmail(ADMIN_EMAIL, `⏰ Ajánlat holnap jár le – ${name}`, expiryAdminHtml(name, email || '', Number(offer.total_amount), offer.id, 'tomorrow', APP_URL))
     remindedTomorrow++
   }
