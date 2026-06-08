@@ -3,7 +3,7 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!;
 const APP_URL = Deno.env.get('NEXT_PUBLIC_APP_URL') || 'http://localhost:3000';
-const FROM_EMAIL = 'Weboldalas <noreply@weboldalas.hu>';
+const FROM_EMAIL = 'Weboldalas <hello@weboldalas.hu>';
 const CONTACT_EMAIL = 'info@weboldalas.hu';
 const CONTACT_PHONE = '+36 30 540 4177';
 

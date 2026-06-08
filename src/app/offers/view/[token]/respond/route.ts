@@ -136,7 +136,7 @@ export async function POST(
     // 5. Admin értesítő email
     const resendApiKey = process.env.RESEND_API_KEY
     const adminEmail = process.env.ADMIN_EMAIL || 'lacibalda@gmail.com'
-    const fromEmail = 'Weboldalas <noreply@weboldalas.hu>'
+    const fromEmail = 'Weboldalas <hello@weboldalas.hu>'
 
     const contactName  = offer.customers?.name  || (offer.leads as any)?.name  || 'Ismeretlen'
     const contactEmail = offer.customers?.email || (offer.leads as any)?.email || ''

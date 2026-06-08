@@ -32,7 +32,7 @@ serve(async (req) => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'Weboldalas <onboarding@resend.dev>',
+        from: 'Weboldalas <hello@weboldalas.hu>',
         to: ADMIN_EMAIL,
         subject: `Új érdeklődő: ${name}${interest_type ? ` — ${interest_type}` : ''}`,
         html: `

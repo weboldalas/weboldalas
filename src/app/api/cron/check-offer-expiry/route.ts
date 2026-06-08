@@ -5,7 +5,7 @@ import { expiryCustomerHtml, expiryAdminHtml } from '@/lib/offer-emails'
 const RESEND_API_KEY = process.env.RESEND_API_KEY!
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'lacibalda@gmail.com'
-const FROM_EMAIL = 'Weboldalas <noreply@weboldalas.hu>'
+const FROM_EMAIL = 'Weboldalas <hello@weboldalas.hu>'
 
 function getSupabase() {
   return createClient(
