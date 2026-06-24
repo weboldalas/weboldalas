@@ -8,6 +8,7 @@ import { FadeIn, StaggerChildren, StaggerItem } from '@/components/public/FadeIn
 import { AppIcon } from '@/components/public/AppIcon'
 import { PricingPreview } from '@/components/public/PricingPreview'
 import { FaqAccordion } from '@/components/public/FaqAccordion'
+import { LogoCarousel } from '@/components/public/LogoCarousel'
 
 export const metadata = {
   title: 'Weboldalas – Modern weboldal kisebb vállalkozásoknak',
@@ -285,6 +286,17 @@ export default function HomePage() {
               </StaggerItem>
             ))}
           </StaggerChildren>
+        </div>
+      </section>
+
+      {/* ===== LOGO CAROUSEL ===== */}
+      <section className="py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeIn className="text-center mb-12">
+            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Akikkel dolgoztunk</p>
+            <h2 className="text-3xl sm:text-4xl font-bold">Ügyfeleink</h2>
+          </FadeIn>
+          <LogoCarousel />
         </div>
       </section>
 
