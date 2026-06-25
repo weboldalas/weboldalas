@@ -12,48 +12,49 @@ import { LogoCarousel } from '@/components/public/LogoCarousel'
 
 export const metadata = {
   title: 'Weboldalas – Modern weboldal kisebb vállalkozásoknak',
-  description: 'Modern weboldalak ingyenes foglalási rendszerrel, nagy kezdő költségek nélkül.',
+  description: 'Professzionális weboldal vállalkozásoknak nagy kezdő költségek nélkül. Kiszámítható havi díj, gyors indulás, folyamatos támogatás.',
 }
 
 const services = [
-  { icon: Globe,         color: 'blue',    title: 'Bemutatkozó weboldal',   desc: 'Prémium megjelenés, ami bizalmat épít.',       href: '/szolgaltatasok/bemutatkozo-weboldal' },
-  { icon: ShoppingBag,   color: 'violet',  title: 'Webshop',                desc: 'Online értékesítés egyszerűen.',               href: '/szolgaltatasok/webshop' },
-  { icon: Calendar,      color: 'emerald', title: 'Foglalási rendszer',      desc: 'Automatikus időpontfoglalás, 0 Ft havidíjjal.', href: '/szolgaltatasok/foglalasi-rendszer' },
-  { icon: LayoutTemplate,color: 'amber',   title: 'Landing Page',           desc: 'Konverzióra épített egyoldalas megjelenés.',    href: '/szolgaltatasok/landing-page' },
-  { icon: Users,         color: 'rose',    title: 'CRM',                    desc: 'Ügyfelek, ajánlatok, pénzügyek egy helyen.',     href: '/szolgaltatasok/crm' },
-  { icon: Wrench,        color: 'slate',   title: 'Üzemeltetés',            desc: 'Teljes karbantartás, te csak a bizniszre.', href: '/szolgaltatasok/uzemeltetes' },
+  { icon: Globe,          color: 'blue',    title: 'Reszponzív weboldal',        desc: 'Modern, mobilbarát weboldalak, amelyek telefonon, tableten és asztali gépen is tökéletesen működnek.',                           href: '/szolgaltatasok/bemutatkozo-weboldal' },
+  { icon: ShoppingBag,    color: 'violet',  title: 'Webshop',                    desc: 'Online értékesítés könnyen kezelhető rendszerrel, termékekkel, rendelésekkel és fizetési lehetőségekkel.',                        href: '/szolgaltatasok/webshop' },
+  { icon: Calendar,       color: 'emerald', title: 'Foglalási rendszer',         desc: 'Időpontfoglalás, szolgáltatásfoglalás vagy bérlési folyamat automatizálása egyszerűen.',                                          href: '/szolgaltatasok/foglalasi-rendszer' },
+  { icon: LayoutTemplate, color: 'amber',   title: 'Landing Page',              desc: 'Célzott kampányoldalak hirdetésekhez, ajánlatokhoz vagy egy konkrét szolgáltatás bemutatásához.',                                  href: '/szolgaltatasok/landing-page' },
+  { icon: Users,          color: 'rose',    title: 'CRM',                        desc: 'Ügyfelek, érdeklődők, ajánlatok és feladatok kezelése egy átlátható rendszerben.',                                                href: '/szolgaltatasok/crm' },
+  { icon: Wrench,         color: 'slate',   title: 'Karbantartás',               desc: 'Frissítések, biztonsági mentések és technikai támogatás, hogy neked ne kelljen ezzel foglalkoznod.',                              href: '/szolgaltatasok/uzemeltetes' },
 ]
 
 const whoFor = [
-  { icon: Home,        color: 'blue',    label: 'Szállásadók' },
-  { icon: Utensils,    color: 'amber',   label: 'Éttermek' },
-  { icon: Scissors,    color: 'rose',    label: 'Szépségipar' },
-  { icon: Heart,       color: 'rose',    label: 'Egészségügy' },
-  { icon: Wrench,      color: 'slate',   label: 'Szakemberek' },
-  { icon: Hammer,      color: 'slate',   label: 'Kivitelezők' },
-  { icon: ShoppingBag, color: 'violet',  label: 'Webshopok' },
-  { icon: Building2,   color: 'cyan',    label: 'Vállalkozások' },
+  { icon: Scissors,    color: 'rose',    label: 'Szolgáltatók' },
+  { icon: Building2,   color: 'cyan',    label: 'Helyi vállalkozások' },
+  { icon: Home,        color: 'blue',    label: 'Egyéni vállalkozók' },
+  { icon: Heart,       color: 'rose',    label: 'Kisvállalkozások' },
+  { icon: Hammer,      color: 'slate',   label: 'Induló cégek' },
+  { icon: ShoppingBag, color: 'violet',  label: 'Webshopot indítók' },
+  { icon: Calendar,    color: 'emerald', label: 'Időpontfoglalós szolgáltatók' },
+  { icon: Utensils,    color: 'amber',   label: 'Online jelenlétet építők' },
 ]
 
 const steps = [
-  { n: '01', title: 'Dizájnt választasz', desc: 'Böngéssz prémium sablonjaink között és válaszd ki a márkádhoz illőt.' },
-  { n: '02', title: 'Megadjuk a részleteket', desc: 'Rövid konzultáció után pontosítjuk a szövegeket, képeket és elrendezést.' },
-  { n: '03', title: 'Mi elkészítjük', desc: '5–10 munkanap alatt átadjuk az elkészült weboldalt.' },
-  { n: '04', title: 'Te pedig növekedsz', desc: 'Élesítés után is velünk vagy — frissítések, karbantartás, support.' },
+  { n: '01', title: 'Beszéljünk',    desc: 'Megismerjük a vállalkozásodat, céljaidat és azt, mire van szükséged az online jelenléthez.' },
+  { n: '02', title: 'Megtervezzük',  desc: 'Összerakjuk a weboldal felépítését, szöveges irányát és a hozzá illő modern megjelenést.' },
+  { n: '03', title: 'Elkészítjük',   desc: 'Lefejlesztjük a weboldalt, beállítjuk a szükséges funkciókat, majd minden eszközön teszteljük.' },
+  { n: '04', title: 'Indulhat',      desc: 'Élesítjük az oldalt, és igény esetén folyamatosan segítünk a karbantartásban és fejlesztésben.' },
 ]
 
 const reviews = [
-  { name: 'Kis Péter', role: 'Panzió tulajdonos', text: 'Az online foglalásaim száma megduplázódott az új weboldal óta. Profi csapat, gyors munka!', stars: 5 },
-  { name: 'Nagy Éva', role: 'Fodrászat', text: 'Végre van egy oldalunk ami nem szégyenítő. Az ügyfelek mindig megdicsérik és sokkal több visszaigazolt foglalásunk van.', stars: 5 },
-  { name: 'Takács András', role: 'Étterem', text: 'A havidíjas modell tökéletes. Nem kellett nagy összeget kiadni egyszerre, és minden benne van.', stars: 5 },
+  { name: 'Kis Péter',     role: 'Panzió tulajdonos', text: 'Az online foglalásaim száma megduplázódott az új weboldal óta. Profi csapat, gyors munka!', stars: 5 },
+  { name: 'Nagy Éva',      role: 'Fodrászat',         text: 'Végre van egy oldalunk ami nem szégyenítő. Az ügyfelek mindig megdicsérik, és sokkal több visszaigazolt foglalásunk van.', stars: 5 },
+  { name: 'Takács András', role: 'Étterem',            text: 'A havidíjas modell tökéletes. Nem kellett nagy összeget kiadni egyszerre, és minden benne van.', stars: 5 },
 ]
 
 const faqs = [
-  { q: 'Mennyi idő alatt készül el a weboldal?', a: 'Általában 5–10 munkanap alatt elkészítjük és átadjuk. Az átfutási idő a weboldalad összetettségétől függ.' },
-  { q: 'A weboldal az enyém lesz?', a: 'Egyszeri és részletfizetésnél a teljes kifizetés után igen, teljesen a tiéd. Előfizetésnél az együttműködés ideje alatt üzemeltetjük, de a tartalom mindig a tiéd.' },
-  { q: 'Van ingyenes foglalási rendszer?', a: 'Igen! Minden weboldalhoz opcionálisan elérhető az online időpontfoglalás extra havidíj nélkül.' },
-  { q: 'Van részletfizetés?', a: 'Igen, 3–24 hónapos részletfizetési lehetőséget kínálunk. A kifizetés után a weboldal teljesen a tiéd.' },
-  { q: 'Mi kerül bele az előfizetésbe?', a: 'Minden: tárhely, SSL, karbantartás, havi módosítások (1 óra/hó), foglalási rendszer és support. Minimum 12 hónap.' },
+  { q: 'Mennyi idő alatt készül el a weboldal?',          a: 'Általában 5–10 munkanap alatt elkészítjük és átadjuk. Az átfutási idő a weboldalad összetettségétől függ.' },
+  { q: 'Tényleg nincs nagy kezdő költség?',               a: 'Havidíjas csomagunknál valóban nincs nagy egyszeri beruházás. Kiszámítható havi díjért profi weboldalt kapsz teljes üzemeltetéssel. Az egyszeri megoldásoknál az árat előre egyeztetjük.' },
+  { q: 'Később bővíthető a weboldal?',                    a: 'Igen, a weboldaladat bármikor bővíthetjük új aloldalakkal, funkciókkal vagy integrációkkal. A fejlesztések mindig az igényeidhez igazodnak.' },
+  { q: 'Én is tudom majd szerkeszteni?',                   a: 'Attól függ, milyen rendszert választasz. Kezelőfelületes megoldásoknál lehetséges az önálló szerkesztés. Egyébként a módosításokat mi végezzük el a megállapodott kereten belül.' },
+  { q: 'Mi történik, ha lemondom a havidíjas csomagot?',  a: 'A weboldal üzemeltetését leállítjuk, de minden tartalom elérhető marad számodra. Az együttműködés minimuma 12 hónap, ezt követően bármikor felmondható.' },
+  { q: 'Segítetek a Google-ben is megjelenni?',           a: 'Igen! Minden weboldalunkat alapszintű keresőoptimalizálással adjuk át: gyors betöltés, strukturált adatok, mobilbarát kialakítás és megfelelő meta beállítások.' },
 ]
 
 const SURFACE = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }
@@ -88,8 +89,9 @@ export default function HomePage() {
 
           <FadeIn delay={0.15}>
             <p className="text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed mb-12" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              Ma már nem elég csak jelen lenni az interneten. A látogatók gyors, modern és
-              bizalomépítő weboldalakat keresnek. Mi ezt megcsináljuk — egyszerűen és megfizethető áron.
+              Professzionális weboldalt készítünk vállalkozásoknak, amely nemcsak jól néz ki,
+              hanem segít bizalmat építeni és új érdeklődőket szerezni. Egyszeri több százezer
+              forintos beruházás helyett kiszámítható havi díjjal is elindulhatsz.
             </p>
           </FadeIn>
 
@@ -104,7 +106,7 @@ export default function HomePage() {
               <Link href="/referenciak"
                 className="flex items-center gap-2 px-7 py-4 rounded-2xl text-base font-semibold transition-all hover:-translate-y-0.5"
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.85)' }}>
-                Referenciáink
+                Referenciák
               </Link>
             </div>
           </FadeIn>
@@ -112,7 +114,7 @@ export default function HomePage() {
           {/* Trust row */}
           <FadeIn delay={0.3}>
             <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-              {['Havidíjas konstrukció', 'Ingyenes foglalási rendszer', 'Teljes üzemeltetés', 'Mobilbarát', 'Gyors indulás'].map(t => (
+              {['Gyors indulás', 'Mobilbarát kialakítás', 'Keresőoptimalizált alapok', 'Kiszámítható havi díj', 'Folyamatos támogatás'].map(t => (
                 <span key={t} className="flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
                   <Check className="h-3.5 w-3.5 text-cyan-500" strokeWidth={3} />
                   {t}
@@ -128,7 +130,11 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn className="text-center mb-12">
             <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Célcsoportjaink</p>
-            <h2 className="text-3xl sm:text-4xl font-bold">Kinek ajánljuk?</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Kinek ajánljuk?</h2>
+            <p className="text-base max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              Legyen szó induló vállalkozásról, szolgáltatóról vagy régóta működő cégről, a cél ugyanaz:
+              egy modern, megbízható weboldal, ami segít jobb első benyomást kelteni és több érdeklődőt szerezni.
+            </p>
           </FadeIn>
           <StaggerChildren className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {whoFor.map((item, i) => (
@@ -150,7 +156,7 @@ export default function HomePage() {
           <FadeIn className="text-center mb-16">
             <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Amit kínálunk</p>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Szolgáltatásaink</h2>
-            <p className="max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>Mindent egy helyen, mindent érthetően.</p>
+            <p className="max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>Minden, amire egy modern online megjelenéshez szükséged lehet.</p>
           </FadeIn>
           <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {services.map((svc, i) => (
@@ -179,7 +185,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn className="text-center mb-16">
             <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Egyszerű folyamat</p>
-            <h2 className="text-3xl sm:text-4xl font-bold">Így működik</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Így működik</h2>
+            <p className="max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>Egyszerű folyamat, átlátható lépésekben.</p>
           </FadeIn>
           <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {steps.map((step, i) => (
@@ -198,7 +205,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== HAVIDÍJAS ===== */}
+      {/* ===== TECHNIKAI BLOKK ===== */}
       <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-3xl p-8 lg:p-16 relative overflow-hidden"
@@ -209,22 +216,23 @@ export default function HomePage() {
               <FadeIn from="left">
                 <p className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: '#38bdf8' }}>Gondtalan üzemeltetés</p>
                 <h2 className="text-3xl sm:text-4xl font-bold mb-5">
-                  Nem szeretne technikai dolgokkal foglalkozni?
+                  Ön a vállalkozására koncentráljon, mi intézzük a technikai hátteret.
                 </h2>
                 <p className="text-lg leading-relaxed mb-8" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  Érthető. A vállalkozásodra kell fókuszálnod. Mi gondoskodunk minden technikai részletről, te csak az ügyfelekre figyelj.
+                  Domain, tárhely, biztonsági mentések, frissítések, technikai beállítások és folyamatos
+                  támogatás egy helyen. Nem kell értened a weboldalakhoz — mi végigvezetünk a folyamaton.
                 </p>
                 <Link href="/szolgaltatasok/uzemeltetes"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white"
                   style={{ background: 'linear-gradient(135deg, #0ea5e9, #06b6d4)' }}>
-                  Részletek <ArrowRight className="h-4 w-4" />
+                  Érdekel <ArrowRight className="h-4 w-4" />
                 </Link>
               </FadeIn>
               <FadeIn from="right">
                 <div className="grid grid-cols-2 gap-3">
-                  {['Képcsere és szövegfrissítés', 'Szoftverfrissítések', 'Karbantartás és hibajavítás',
-                    'SSL és biztonság', 'Tárhely és domain', 'Foglalási rendszer',
-                    'Havi módosítási keret', 'Magyar ügyfélszolgálat'].map((item, i) => (
+                  {['Domain és tárhely beállítás', 'Biztonsági mentések', 'Frissítések kezelése',
+                    'Technikai támogatás', 'Alap keresőoptimalizálás', 'Mérőkódok beállítása',
+                    'E-mail beállítások', 'Teljesítmény optimalizálás'].map((item, i) => (
                     <div key={i} className="flex items-center gap-2 rounded-xl px-3 py-3" style={SURFACE}>
                       <Check className="h-4 w-4 text-cyan-400 shrink-0" strokeWidth={2.5} />
                       <span className="text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>{item}</span>
@@ -243,7 +251,7 @@ export default function HomePage() {
           <FadeIn className="text-center mb-16">
             <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Rugalmas konstrukciók</p>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Válassz fizetési módot</h2>
-            <p style={{ color: 'rgba(255,255,255,0.4)' }}>Egyszeri, részletes vagy havidíjas — te döntöd el.</p>
+            <p style={{ color: 'rgba(255,255,255,0.4)' }}>Döntsd el, számodra melyik konstrukció a legkényelmesebb.</p>
           </FadeIn>
           <PricingPreview />
         </div>
@@ -254,7 +262,10 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn className="text-center mb-16">
             <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Portfólió</p>
-            <h2 className="text-3xl sm:text-4xl font-bold">Néhány referenciánk</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Néhány referenciánk</h2>
+            <p className="max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              Az elmúlt években több vállalkozás online megjelenésén dolgoztunk. Ezekből mutatunk néhányat.
+            </p>
           </FadeIn>
           <StaggerChildren className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
@@ -294,7 +305,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn className="text-center mb-12">
             <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Akikkel dolgoztunk</p>
-            <h2 className="text-3xl sm:text-4xl font-bold">Ügyfeleink</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Ügyfeleink</h2>
+            <p className="max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>Akik már minket választottak.</p>
           </FadeIn>
           <LogoCarousel />
         </div>
@@ -305,7 +317,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn className="text-center mb-16">
             <p className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: '#38bdf8' }}>Ügyfeleink mondják</p>
-            <h2 className="text-3xl sm:text-4xl font-bold">Vélemények</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Vélemények</h2>
+            <p className="max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>A legjobb visszajelzés számunkra ügyfeleink elégedettsége.</p>
           </FadeIn>
 
           <StaggerChildren className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -367,13 +380,13 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <FadeIn>
             <h2 className="text-4xl sm:text-5xl font-extrabold mb-6">
-              Készen állsz a modern{' '}
+              Legyen végre olyan{' '}
               <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(135deg, #38bdf8, #06b6d4)' }}>
-                online megjelenésre?
+                weboldalad, amire büszke lehetsz.
               </span>
             </h2>
             <p className="text-lg mb-10" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Vedd fel velünk a kapcsolatot ma, és egy héten belül élőben lesz a weboldalad.
+              Kérj ajánlatot, és nézzük meg együtt, milyen megoldás lenne a legjobb a vállalkozásod számára.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/kapcsolat"
@@ -381,10 +394,10 @@ export default function HomePage() {
                 style={{ background: 'linear-gradient(135deg, #0284c7, #0ea5e9, #06b6d4)', boxShadow: '0 0 40px rgba(14,165,233,0.25)' }}>
                 Ajánlatot kérek →
               </Link>
-              <Link href="/dizajnok"
+              <Link href="/referenciak"
                 className="px-8 py-4 rounded-2xl text-base font-bold transition-all hover:-translate-y-0.5"
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
-                Dizájnok böngészése
+                Referenciák
               </Link>
             </div>
           </FadeIn>

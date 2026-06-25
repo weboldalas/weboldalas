@@ -26,7 +26,7 @@ export function PublicFooter() {
           <div className="md:col-span-2">
             <Image src="/weboldalas-logo.svg" alt="Weboldalas" width={120} height={16} className="mb-5" />
             <p className="text-sm leading-relaxed max-w-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Modern weboldalak kisebb vállalkozásoknak, nagy kezdő költségek nélkül. Gyors indulás, prémium dizájn, teljes üzemeltetés.
+              Modern weboldalak, webshopok és online rendszerek vállalkozásoknak. Egyszerű indulás, átlátható folyamat és folyamatos támogatás.
             </p>
             <div className="flex items-center gap-2 mt-5">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />

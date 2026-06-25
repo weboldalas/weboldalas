@@ -10,27 +10,27 @@ const plans = [
   {
     id: 'one_time', label: 'Egyszeri',
     title: 'Egyszeri fizetés',
-    desc: 'Fizetsz egyszer — a weboldal teljesen a tiéd.',
+    desc: 'Egyszeri weboldalfejlesztés azoknak, akik saját tulajdonú weboldalt szeretnének egy előre egyeztetett ár alapján.',
     price: '150.000 Ft-tól', priceNote: 'egyszeri díj',
-    features: ['Teljes tulajdonjog', 'Prémium dizájn', 'Mobilbarát', 'Foglalási rendszer opció'],
+    features: ['Teljes tulajdonjog', 'Prémium dizájn', 'Mobilbarát kialakítás', 'Foglalási rendszer opció'],
     accent: '#0ea5e9',
   },
   {
     id: 'installments', label: 'Részlet',
     title: 'Részletfizetés',
-    desc: 'Ossza el 3–24 hónapra. Kifizetés után tiéd.',
+    desc: 'Jó választás induló vállalkozásoknak. Profi weboldal nagy kezdő költség nélkül, kiszámítható havi díjjal.',
     price: 'Egyéni', priceNote: '3–24 hónap',
     features: ['3–24 hónap futamidő', 'Kamatmentes részletek', 'Kifizetés után tulajdonod', 'Prémium dizájn'],
     accent: '#a855f7',
-    highlight: true,
   },
   {
     id: 'subscription', label: 'Előfizetés',
     title: 'Havidíjas',
-    desc: 'Minden benne van. Üzemeltetés, karbantartás, support.',
+    desc: 'Folyamatos fejlesztéssel, karbantartással és támogatással azoknak, akik hosszú távon szeretnék építeni online jelenlétüket.',
     price: '19.990 Ft/hó-tól', priceNote: 'min. 12 hónap',
-    features: ['Tárhely + SSL', 'Karbantartás', '1 óra/hó módosítás', 'Foglalási rendszer'],
+    features: ['Tárhely + SSL + domain', 'Karbantartás és frissítések', '1 óra/hó módosítás', 'Foglalási rendszer'],
     accent: '#10b981',
+    highlight: true,
   },
 ]
 
