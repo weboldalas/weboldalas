@@ -5,7 +5,7 @@ import { AppIcon } from '@/components/public/AppIcon'
 
 export const metadata = {
   title: 'Szolgáltatások | Weboldalas',
-  description: 'Modern weboldalak, webshopok, foglalási rendszerek és CRM kisebb vállalkozásoknak.',
+  description: 'Weboldal, webshop, foglalási rendszer és CRM kisvállalkozásoknak. Nem funkciókat kínálunk — eredményeket.',
 }
 
 const SURFACE = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }
@@ -14,50 +14,50 @@ const services = [
   {
     icon: Globe, color: 'blue', accentColor: '#0ea5e9',
     title: 'Bemutatkozó weboldal',
-    sub: 'Prémium megjelenés, ami bizalmat épít és ügyfeleket hoz.',
+    sub: 'Professzionális megjelenés, amely hitelesebbé teszi vállalkozásodat és segít meggyőzni a leendő ügyfeleket.',
     href: '/szolgaltatasok/bemutatkozo-weboldal',
-    points: ['Egyedi prémium dizájn', 'Mobilbarát megjelenés', 'SEO alapok', 'Kapcsolati form'],
+    points: ['Egyedi prémium megjelenés', 'Mobilbarát minden eszközön', 'Google alapoptimalizálás', 'Kapcsolatfelvételi lehetőség'],
     from: '150.000 Ft-tól',
   },
   {
     icon: ShoppingBag, color: 'violet', accentColor: '#a855f7',
     title: 'Webshop',
-    sub: 'Online értékesítés könnyen, biztonságosan, hatékonyan.',
+    sub: 'Értékesíts online egyszerűen, biztonságosan és olyan rendszerrel, amely együtt fejlődik vállalkozásoddal.',
     href: '/szolgaltatasok/webshop',
-    points: ['Korlátlan termék', 'Biztonságos fizetés', 'Rendeléskezelés', 'Mobilbarát kosár'],
+    points: ['Korlátlan termék', 'Online fizetés', 'Egyszerű rendeléskezelés', 'Mobilbarát vásárlás'],
     from: '250.000 Ft-tól',
   },
   {
     icon: Calendar, color: 'emerald', accentColor: '#10b981',
     title: 'Foglalási rendszer',
-    sub: 'Automatikus időpontfoglalás — 0 Ft extra havidíjjal.',
+    sub: 'Automatizáld az időpontfoglalást — így kevesebb telefonálás, és több idő jut a valódi munkára.',
     href: '/szolgaltatasok/foglalasi-rendszer',
-    points: ['Online naptár', 'Automatikus visszaigazolás', 'Google Naptár szinkron', '0 Ft havidíj'],
+    points: ['Online foglalás', 'Google Naptár szinkron', 'Automatikus visszaigazolás', 'Kevesebb adminisztráció'],
     from: 'Ingyenes kiegészítő',
     highlight: true,
   },
   {
     icon: LayoutTemplate, color: 'amber', accentColor: '#f59e0b',
     title: 'Landing Page',
-    sub: 'Konverzióra épített egyoldalas megjelenés hirdetésekhez.',
+    sub: 'Kampányoldalak, amelyek egyetlen célra készülnek: minél több érdeklődőt vagy vásárlót szerezni.',
     href: '/szolgaltatasok/landing-page',
-    points: ['Erős CTA elemek', 'Lead capture form', 'Analytics integráció', 'Gyors átfutás'],
+    points: ['Erős CTA', 'Lead gyűjtés', 'Analytics integráció', 'Gyors betöltés'],
     from: '80.000 Ft-tól',
   },
   {
     icon: Users, color: 'rose', accentColor: '#f43f5e',
-    title: 'CRM rendszer',
-    sub: 'Ügyfeleid, ajánlataid és pénzügyeid egy helyen kezelve.',
+    title: 'CRM',
+    sub: 'Minden ügyfeled, ajánlatod és feladatod egyetlen átlátható rendszerben — átláthatóan, naprakészen.',
     href: '/szolgaltatasok/crm',
-    points: ['Lead pipeline', 'Ajánlatkezelés', 'Pénzügyi nyilvántartás', 'Feladatkezelő'],
+    points: ['Ügyfélkezelés', 'Ajánlatkezelés', 'Feladatok', 'Pénzügyi nyilvántartás'],
     from: 'Egyéni ajánlat',
   },
   {
     icon: Wrench, color: 'slate', accentColor: '#64748b',
     title: 'Üzemeltetés',
-    sub: 'Teljes karbantartás és support — te csak a bizniszre.',
+    sub: 'Mi gondoskodunk a weboldalad technikai működéséről, hogy neked csak a vállalkozásodra kelljen koncentrálnod.',
     href: '/szolgaltatasok/uzemeltetes',
-    points: ['Tárhely és SSL', 'Frissítések', '1 óra/hó módosítás', 'Magyar support'],
+    points: ['Frissítések', 'Biztonsági mentések', 'Tárhely és SSL', 'Magyar támogatás'],
     from: '19.990 Ft/hó-tól',
   },
 ]
@@ -79,7 +79,8 @@ export default function SzolgaltatasokPage() {
               </span>
             </h1>
             <p className="text-lg max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.45)' }}>
-              Nem csak weboldalt csinálunk. Partnerek vagyunk a vállalkozásod online növekedésében — a dizájntól az üzemeltetésig.
+              Nem csupán weboldalakat készítünk. Olyan online megoldásokat építünk, amelyek segítenek
+              bizalmat építeni, új ügyfeleket szerezni és növelni vállalkozásodat.
             </p>
           </FadeIn>
         </div>
@@ -140,9 +141,10 @@ export default function SzolgaltatasokPage() {
       <section className="py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="max-w-3xl mx-auto px-4 text-center">
           <FadeIn>
-            <h2 className="text-3xl font-bold mb-4">Nem tudod melyik kell?</h2>
+            <h2 className="text-3xl font-bold mb-4">Nem tudod, melyik megoldás lenne számodra a legjobb?</h2>
             <p className="text-lg mb-8" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Vedd fel velünk a kapcsolatot és segítünk kiválasztani a legjobb megoldást a vállalkozásodhoz.
+              Mesélj a vállalkozásodról, mi pedig segítünk kiválasztani azt a megoldást,
+              amely valóban támogatja a céljaidat.
             </p>
             <Link href="/kapcsolat"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-bold text-white transition-all hover:opacity-90"
