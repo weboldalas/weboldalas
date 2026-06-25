@@ -277,10 +277,24 @@ a, button, [role="button"] {
 }
 
 .logo-chip img {
-  filter: grayscale(100%) brightness(1.2) opacity(0.6);
   transition: filter 0.4s ease;
 }
 
-.logo-chip:hover img {
-  filter: grayscale(0%) brightness(1) opacity(1);
+/* White/light logo on transparent background — boost brightness */
+.logo-chip.logo-transparent img {
+  filter: brightness(1.8) opacity(0.85);
+}
+.logo-chip.logo-transparent:hover img {
+  filter: brightness(1) opacity(1);
+}
+
+/* Colored/dark logo on opaque white background
+   invert flips white bg → black, mix-blend-mode:screen makes black invisible */
+.logo-chip.logo-whitebg img {
+  filter: invert(1) grayscale(1) brightness(1.8) opacity(0.85);
+  mix-blend-mode: screen;
+}
+.logo-chip.logo-whitebg:hover img {
+  filter: invert(1) grayscale(1) brightness(3) opacity(1);
+  mix-blend-mode: screen;
 }
