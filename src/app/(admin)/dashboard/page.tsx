@@ -6,6 +6,7 @@ import {
   RefreshCw, CheckSquare, Clock, Zap, ArrowRight,
 } from 'lucide-react'
 import { PIPELINE_STAGES } from '../leads/pipeline'
+import { PhoneLink } from './PhoneLink'
 
 export const metadata = {
   title: 'Dashboard | Weboldalas Admin',
@@ -140,13 +141,7 @@ export default async function DashboardPage() {
                       {lead.interest_type || lead.industry || '—'} · {new Date(lead.next_call_date!).toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </div>
-                  {lead.phone && (
-                    <a href={`tel:${lead.phone}`} onClick={e => e.stopPropagation()}
-                      className="ml-auto shrink-0 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
-                      style={{ color: 'oklch(0.68 0.18 145)' }}>
-                      <Phone className="h-3.5 w-3.5" />
-                    </a>
-                  )}
+                  {lead.phone && <PhoneLink phone={lead.phone} />}
                 </div>
               </Link>
             ))}
