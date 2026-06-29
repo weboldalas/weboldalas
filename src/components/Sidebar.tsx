@@ -66,8 +66,8 @@ function SidebarContent() {
                 key={route.href}
                 href={route.href}
                 className={cn(
-                  'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200',
-                  isActive ? 'text-white' : 'text-white/50 hover:text-white/90'
+                  'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200',
+                  isActive ? 'text-white' : 'text-white/55 hover:text-white/90'
                 )}
                 style={isActive ? {
                   background: 'linear-gradient(135deg, oklch(0.60 0.22 290 / 0.9), oklch(0.55 0.22 240 / 0.9))',
@@ -86,7 +86,7 @@ function SidebarContent() {
                   }
                 }}
               >
-                <Icon className={cn('h-4 w-4 shrink-0', isActive ? 'text-white' : 'text-white/40')} />
+                <Icon className={cn('h-4 w-4 shrink-0', isActive ? 'text-white' : 'text-white/50')} />
                 {route.label}
               </Link>
             )
