@@ -3,6 +3,7 @@ import {
   ShoppingCart, Percent, UserCheck, Building2, CreditCard,
   Clock, Banknote, SlidersHorizontal, FileText, Calculator,
   Layers, ShoppingBag, Zap, Package,
+  Map, PartyPopper, Landmark, BedDouble, Store, Images, Mail, Shield, Settings,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -192,7 +193,7 @@ export const REFERENCES: Reference[] = [
   {
     slug: 'visitkigyos',
     name: 'VisitKígyós',
-    tagline: 'Turisztikai bemutatkozó oldal helyi látványosságokkal',
+    tagline: 'Modern turisztikai weboldal a település bemutatására',
     category: 'Turizmus',
     year: '2025',
     accentColor: '#10b981',
@@ -200,18 +201,77 @@ export const REFERENCES: Reference[] = [
     gradientFrom: '#064e3b',
     gradientTo: '#065f46',
     description:
-      'A VisitKígyós projekt célja Kígyós község turisztikai vonzerejének online bemutatása volt. A weboldal megmutatja a helyi látnivalókat, eseményeket és elősegíti a helyi turizmus fejlődését.',
+      'A Visit Kígyós számára egy modern, reszponzív turisztikai weboldalt készítettünk, amely egy helyen mutatja be a település látnivalóit, programjait, szálláshelyeit és szolgáltatásait.',
     challenge:
-      'A községnek nem volt egységes online turisztikai felülete. A látogatók nehezen találták meg az információkat a helyi programokról és látnivalókról.',
+      'A cél egy könnyen kezelhető, gyors és látványos weboldal létrehozása volt, amely egyszerre nyújt hasznos információt a látogatóknak, miközben erősíti a település online jelenlétét.',
     services: [
-      { icon: Globe,    label: 'Bemutatkozó weboldal' },
+      { icon: Globe,    label: 'Egyedi turisztikai weboldal' },
       { icon: Search,   label: 'SEO optimalizálás' },
-      { icon: BarChart2,label: 'Analytics integráció' },
+      { icon: Wrench,   label: 'Üzemeltetés és támogatás' },
     ],
-    testimonial: {
-      text: 'A weboldal megjelenése óta sokkal több érdeklődőt kapunk a helyi programjainkra. Büszkék vagyunk rá, hogy Kígyósnak végre van egy méltó online arca.',
-      author: 'VisitKígyós',
-      role: 'Projekt koordinátor',
-    },
+    features: [
+      {
+        icon: Map,
+        title: 'Modern egyedi megjelenés',
+        description: 'A település arculatához igazított, teljesen egyedi dizájn — nem sablon alapú megoldás.',
+      },
+      {
+        icon: PartyPopper,
+        title: 'Programok és események',
+        description: 'Aktuális rendezvények és események egyszerű kezelése és megjelenítése a látogatók számára.',
+      },
+      {
+        icon: Landmark,
+        title: 'Látnivalók bemutatása',
+        description: 'A település nevezetességeinek részletes ismertetése képekkel és strukturált információkkal.',
+      },
+      {
+        icon: BedDouble,
+        title: 'Szálláshelyek megjelenítése',
+        description: 'A helyi szállásadók bemutatása elérhetőségekkel és képgalériával, egy helyen.',
+      },
+      {
+        icon: Store,
+        title: 'Szolgáltatók bemutatása',
+        description: 'Helyi vállalkozások és szolgáltatások egységes, rendezett megjelenítése.',
+      },
+      {
+        icon: Images,
+        title: 'Képgalériák',
+        description: 'Látványos galériák a település hangulatának és rendezvényeinek bemutatására.',
+      },
+      {
+        icon: Mail,
+        title: 'Kapcsolati és érdeklődési űrlapok',
+        description: 'Egyszerű kapcsolatfelvételi lehetőség a látogatók számára, spam-védett megoldással.',
+      },
+      {
+        icon: Smartphone,
+        title: 'Reszponzív kialakítás',
+        description: 'Tökéletes működés mobiltelefonon, tableten és számítógépen egyaránt.',
+      },
+      {
+        icon: Search,
+        title: 'SEO-optimalizált felépítés',
+        description: 'Keresőbarát technikai háttér és metaadatok a jobb online láthatóság érdekében.',
+      },
+      {
+        icon: Zap,
+        title: 'Gyors és biztonságos működés',
+        description: 'Optimalizált teljesítmény és megbízható technikai háttér, folyamatos rendelkezésre állással.',
+      },
+      {
+        icon: Settings,
+        title: 'Egyszerű tartalomkezelés',
+        description: 'Az adminisztrációs felületen a tartalmak gyorsan és könnyen frissíthetők technikai tudás nélkül.',
+      },
+      {
+        icon: Wrench,
+        title: 'Folyamatos üzemeltetés és támogatás',
+        description: 'A weboldal az indulás után is folyamatos karbantartást, biztonsági frissítéseket és fejlesztést kap.',
+      },
+    ],
+    outcome:
+      'A Visit Kígyós weboldala egy modern turisztikai információs felületté vált, amely átlátható módon mutatja be a település értékeit, programjait és szolgáltatásait, miközben egyszerűbbé teszi a látogatók tájékozódását.',
   },
 ]
