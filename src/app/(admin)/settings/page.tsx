@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { logout } from '@/app/login/actions'
 import { Button } from '@/components/ui/button'
 import { User, Shield, LogOut } from 'lucide-react'
+import { CompanySettingsForm } from './CompanySettingsForm'
 
 export const metadata = {
   title: 'Beállítások | Weboldalas Admin',
@@ -10,20 +11,29 @@ export const metadata = {
 
 export default async function SettingsPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const [
+    { data: { user } },
+    { data: companySettings },
+  ] = await Promise.all([
+    supabase.auth.getUser(),
+    supabase.from('company_settings').select('*').limit(1).single(),
+  ])
 
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-white">Beállítások</h1>
-        <p className="text-white/50 mt-1">Fiók és rendszer beállítások.</p>
+        <p className="text-white/50 mt-1">Fiók, cégadatok és rendszer beállítások.</p>
       </div>
 
       <div className="grid gap-4 max-w-2xl">
+        {/* Company settings */}
+        {companySettings && <CompanySettingsForm settings={companySettings} />}
+
         {/* Account info */}
         <Card>
           <CardHeader className="flex flex-row items-center gap-3 space-y-0">
-            <div className="rounded-xl p-2.5 bg-gradient-to-br from-violet-500 to-purple-500 shadow-lg">
+            <div className="rounded-xl p-2.5 bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg">
               <User className="h-4 w-4 text-white" />
             </div>
             <div>
@@ -87,11 +97,7 @@ export default async function SettingsPage() {
           </CardHeader>
           <CardContent>
             <form action={logout}>
-              <Button
-                type="submit"
-                variant="destructive"
-                className="w-full sm:w-auto"
-              >
+              <Button type="submit" variant="destructive" className="w-full sm:w-auto">
                 Kijelentkezés
               </Button>
             </form>

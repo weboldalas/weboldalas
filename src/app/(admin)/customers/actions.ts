@@ -4,14 +4,28 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 
+function extractCustomerData(formData: FormData) {
+  const isCompany = formData.get('is_company') === 'true'
+  return {
+    is_company: isCompany,
+    name: (formData.get('name') as string) || null,
+    email: (formData.get('email') as string) || null,
+    phone: (formData.get('phone') as string) || null,
+    company_name: (formData.get('company_name') as string) || null,
+    contact_name: (formData.get('contact_name') as string) || null,
+    position: (formData.get('position') as string) || null,
+    address: (formData.get('address') as string) || null,
+    billing_address: (formData.get('billing_address') as string) || null,
+    tax_number: (formData.get('tax_number') as string) || null,
+    registration_number: (formData.get('registration_number') as string) || null,
+    website: (formData.get('website') as string) || null,
+    notes: (formData.get('notes') as string) || null,
+  }
+}
+
 export async function createCustomer(_prevState: unknown, formData: FormData) {
   const supabase = await createClient()
-
-  const data = {
-    name: formData.get('name') as string,
-    email: formData.get('email') as string,
-    phone: formData.get('phone') as string,
-  }
+  const data = extractCustomerData(formData)
 
   const { error } = await supabase.from('customers').insert([data])
 
@@ -27,11 +41,7 @@ export async function createCustomer(_prevState: unknown, formData: FormData) {
 export async function updateCustomer(id: string, _prevState: unknown, formData: FormData) {
   const supabase = await createClient()
 
-  const data = {
-    name: formData.get('name') as string,
-    email: formData.get('email') as string,
-    phone: formData.get('phone') as string,
-  }
+  const data = extractCustomerData(formData)
 
   const { error } = await supabase.from('customers').update(data).eq('id', id)
 

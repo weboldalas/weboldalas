@@ -1,12 +1,14 @@
 import { createClient } from '@/utils/supabase/server'
 import { OfferForm } from '../OfferForm'
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import { SendOfferButton } from './SendOfferButton'
 import { RealizeOfferButton } from './RealizeOfferButton'
 import { DeleteOfferButton } from './DeleteOfferButton'
 import { RenewOfferButton } from './RenewOfferButton'
 import { Badge } from '@/components/ui/badge'
-import { CalendarX } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { CalendarX, FileSignature } from 'lucide-react'
 
 const statusMap: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
   draft:    { label: 'Tervezet',   variant: 'outline' },
@@ -59,6 +61,11 @@ export default async function EditOfferPage({ params }: { params: Promise<{ id: 
           )}
         </div>
         <div className="flex flex-col sm:flex-row gap-2 flex-wrap">
+          <Link href={`/contracts/new?offer_id=${offer.id}${offer.customer_id ? `&customer_id=${offer.customer_id}` : ''}`}>
+            <Button variant="outline" size="sm" style={{ borderColor: 'oklch(0.68 0.22 290 / 0.4)', color: 'oklch(0.78 0.18 290)' }}>
+              <FileSignature className="mr-1.5 h-4 w-4" /> Szerződés készítése
+            </Button>
+          </Link>
           {isExpired && <RenewOfferButton offerId={offer.id} currentExpiresAt={offer.expires_at} />}
           <RealizeOfferButton
             offerId={offer.id}

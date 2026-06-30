@@ -10,7 +10,6 @@ export async function POST(
 ) {
   const { id } = await params
 
-  // Auth check via SSR client
   const cookieStore = await cookies()
   const supabaseAuth = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -23,24 +22,23 @@ export async function POST(
     }
   )
   const { data: { user } } = await supabaseAuth.auth.getUser()
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
   const content: string = body.content || ''
   const title: string = body.title || 'Szerződés'
+  const companySettings = body.companySettings ?? null
+  const clientSignature: string | null = body.clientSignature ?? null
+  const companySignature: string | null = body.companySignature ?? null
 
-  // Generate PDF buffer
   let pdfBuffer: Buffer
   try {
-    pdfBuffer = await generatePdfBuffer(content, title)
+    pdfBuffer = await generatePdfBuffer({ content, title, companySettings, clientSignature, companySignature })
   } catch (err) {
     console.error('PDF render error:', err)
     return NextResponse.json({ error: 'PDF generálás sikertelen.' }, { status: 500 })
   }
 
-  // Upload to Supabase Storage using service role key
   const supabaseAdmin = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -49,25 +47,20 @@ export async function POST(
   const fileName = `${id}/${Date.now()}.pdf`
   const { error: uploadError } = await supabaseAdmin.storage
     .from('contracts')
-    .upload(fileName, pdfBuffer, {
-      contentType: 'application/pdf',
-      upsert: true,
-    })
+    .upload(fileName, pdfBuffer, { contentType: 'application/pdf', upsert: true })
 
   if (uploadError) {
     console.error('Storage upload error:', uploadError)
     return NextResponse.json({ error: 'PDF feltöltés sikertelen.' }, { status: 500 })
   }
 
-  // Get signed URL (valid 10 years)
   const { data: signedData, error: signError } = await supabaseAdmin.storage
     .from('contracts')
     .createSignedUrl(fileName, 60 * 60 * 24 * 365 * 10)
 
   if (signError || !signedData) {
-    console.error('Signed URL error:', signError)
     return NextResponse.json({ error: 'PDF URL generálás sikertelen.' }, { status: 500 })
   }
 
-  return NextResponse.json({ url: signedData.signedUrl })
+  return NextResponse.json({ url: signedData.signedUrl, fileName })
 }
