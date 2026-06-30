@@ -67,7 +67,12 @@ export default function ArakPage() {
                     <th className="px-6 py-4 text-left text-sm font-medium" style={{ color: 'rgba(255,255,255,0.35)' }}>Jellemző</th>
                     <th className="px-6 py-4 text-center text-sm font-bold" style={{ color: '#38bdf8' }}>Egyszeri</th>
                     <th className="px-6 py-4 text-center text-sm font-bold" style={{ color: '#a855f7', background: 'rgba(168,85,247,0.05)' }}>Részlet</th>
-                    <th className="px-6 py-4 text-center text-sm font-bold" style={{ color: '#34d399' }}>Előfizetés</th>
+                    <th className="px-6 py-4 text-center text-sm font-bold" style={{ color: '#34d399', background: 'rgba(16,185,129,0.06)' }}>
+                      <div className="flex flex-col items-center gap-1">
+                        <span>Előfizetés</span>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: '#10b981', color: '#fff' }}>Ajánlott</span>
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -76,7 +81,7 @@ export default function ArakPage() {
                       <td className="px-6 py-4 font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>{row.label}</td>
                       {row.vals.map((v, j) => (
                         <td key={j} className="px-6 py-4 text-center"
-                          style={j === 1 ? { background: 'rgba(168,85,247,0.04)' } : {}}>
+                          style={j === 1 ? { background: 'rgba(168,85,247,0.04)' } : j === 2 ? { background: 'rgba(16,185,129,0.04)' } : {}}>
                           {v === true ? (
                             <span className="inline-flex items-center justify-center w-6 h-6 rounded-full"
                               style={{ background: 'rgba(52,211,153,0.15)' }}>

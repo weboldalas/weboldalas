@@ -8,6 +8,7 @@ const SURFACE = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(
 const MIN_MONTHS = 3
 const MAX_MONTHS = 24
 const MONTH_TICKS = [3, 6, 12, 18, 24]
+const INSTALLMENT_SURCHARGE = 0.15 // 15% kezelési díj részletfizetésnél
 
 // ── ÁR SZERKESZTÉSE ITT ───────────────────────────────────────────────────────
 type Service = {
@@ -20,8 +21,8 @@ type Service = {
 }
 
 const SERVICES: Service[] = [
-  { id: 'weboldal',    label: 'Bemutatkozó weboldal', oneTime: 150000, sub: 19990 },
-  { id: 'webshop',     label: 'Webshop',              oneTime: 250000, sub: 29990 },
+  { id: 'weboldal',    label: 'Bemutatkozó weboldal', oneTime: 250000, sub: 19990 },
+  { id: 'webshop',     label: 'Webshop',              oneTime: 450000, sub: 29990 },
   { id: 'landing',     label: 'Landing Page',         oneTime: 80000,  sub: null  },
   { id: 'foglalas',    label: 'Foglalási rendszer',   oneTime: null,   sub: null,  free: true  },
   { id: 'crm',         label: 'CRM rendszer',         oneTime: null,   sub: null,  custom: true },
@@ -45,7 +46,7 @@ type PlanId = 'one_time' | 'installments' | 'subscription'
 
 export function PricingCalculator({ sidebar }: { sidebar?: React.ReactNode }) {
   const [serviceId, setServiceId] = useState('weboldal')
-  const [plan, setPlan] = useState<PlanId>('one_time')
+  const [plan, setPlan] = useState<PlanId>('subscription')
   const [months, setMonths] = useState(12)
 
   const svc = SERVICES.find(s => s.id === serviceId)!
@@ -64,7 +65,9 @@ export function PricingCalculator({ sidebar }: { sidebar?: React.ReactNode }) {
   }, [serviceId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const base = svc.oneTime ?? 0
-  const monthly = Math.ceil(base / months)
+  const installmentTotal = Math.round(base * (1 + INSTALLMENT_SURCHARGE))
+  const installmentExtra = installmentTotal - base
+  const monthly = Math.ceil(installmentTotal / months)
   const pct = ((months - MIN_MONTHS) / (MAX_MONTHS - MIN_MONTHS)) * 100
 
   return (
@@ -89,10 +92,16 @@ export function PricingCalculator({ sidebar }: { sidebar?: React.ReactNode }) {
           <div className="inline-flex rounded-2xl p-1.5 gap-1" style={{ background: 'rgba(255,255,255,0.05)' }}>
             {availablePlans.map(t => (
               <button key={t.id} onClick={() => setPlan(t.id)}
-                className="px-5 py-3 rounded-xl text-sm font-semibold transition-all"
+                className="relative px-5 py-3 rounded-xl text-sm font-semibold transition-all"
                 style={plan === t.id
                   ? { background: `${t.accent}20`, color: t.accent, border: `1px solid ${t.accent}40` }
                   : { color: 'rgba(255,255,255,0.4)' }}>
+                {t.id === 'subscription' && (
+                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap"
+                    style={{ background: '#10b981', color: '#fff' }}>
+                    Ajánlott
+                  </span>
+                )}
                 {t.label}
               </button>
             ))}
@@ -200,8 +209,11 @@ export function PricingCalculator({ sidebar }: { sidebar?: React.ReactNode }) {
                     <span className="text-5xl font-extrabold text-white">{monthly.toLocaleString('hu-HU')}</span>
                     <span className="text-xl ml-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Ft / hó</span>
                   </div>
-                  <p className="text-sm mb-6" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                    Összesen: {svc.oneTime.toLocaleString('hu-HU')} Ft · {months} hónap
+                  <p className="text-sm mb-1" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                    Összesen: {installmentTotal.toLocaleString('hu-HU')} Ft · {months} hónap
+                  </p>
+                  <p className="text-xs mb-6 font-medium" style={{ color: 'rgba(251,146,60,0.8)' }}>
+                    +{installmentExtra.toLocaleString('hu-HU')} Ft az egyszeri fizetéshez képest (15% kezelési díj)
                   </p>
                   <div className="mb-8">
                     <div className="flex justify-between text-xs mb-3" style={{ color: 'rgba(255,255,255,0.4)' }}>
@@ -244,11 +256,15 @@ export function PricingCalculator({ sidebar }: { sidebar?: React.ReactNode }) {
                     </div>
                     <div className="flex justify-between text-sm pt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                       <span style={{ color: 'rgba(255,255,255,0.5)' }}>Végösszeg:</span>
-                      <span className="font-bold text-white">{svc.oneTime.toLocaleString('hu-HU')} Ft</span>
+                      <span className="font-bold" style={{ color: 'rgba(251,146,60,0.9)' }}>{installmentTotal.toLocaleString('hu-HU')} Ft</span>
+                    </div>
+                    <div className="flex justify-between text-xs pt-1.5" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                      <span>Egyszeri fizetéssel:</span>
+                      <span>{base.toLocaleString('hu-HU')} Ft</span>
                     </div>
                   </div>
                   <ul className="space-y-2.5">
-                    {['Prémium dizájn', 'Mobilbarát', 'Foglalási rendszer opció', 'SEO alapok', 'Kamatmentes részletek', 'Kifizetés után teljes tulajdon'].map(f => (
+                    {['Prémium dizájn', 'Mobilbarát', 'Foglalási rendszer opció', 'SEO alapok', 'Kifizetés után teljes tulajdon'].map(f => (
                       <li key={f} className="flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
                         <Check className="h-3.5 w-3.5 text-violet-400 shrink-0" strokeWidth={2.5} /> {f}
                       </li>
@@ -261,7 +277,13 @@ export function PricingCalculator({ sidebar }: { sidebar?: React.ReactNode }) {
 
           {/* Subscription */}
           {!svc.free && !svc.custom && plan === 'subscription' && svc.sub && (
-            <div className="rounded-3xl p-8 lg:p-12" style={{ background: 'rgba(16,185,129,0.05)', border: '2px solid rgba(16,185,129,0.25)' }}>
+            <div className="rounded-3xl p-8 lg:p-12 relative overflow-hidden"
+              style={{ background: 'rgba(16,185,129,0.07)', border: '2px solid rgba(16,185,129,0.4)', boxShadow: '0 0 40px rgba(16,185,129,0.1)' }}>
+              {/* "Legjobb értékarány" szalag */}
+              <div className="absolute top-5 right-5 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold"
+                style={{ background: 'rgba(16,185,129,0.2)', border: '1px solid rgba(16,185,129,0.4)', color: '#34d399' }}>
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" /> Legjobb értékarány
+              </div>
               <div className="grid lg:grid-cols-2 gap-10 items-start">
                 <div>
                   <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold mb-4"
@@ -272,9 +294,12 @@ export function PricingCalculator({ sidebar }: { sidebar?: React.ReactNode }) {
                     <span className="text-5xl font-extrabold text-white">{svc.sub.toLocaleString('hu-HU')}</span>
                     <span className="text-xl ml-2" style={{ color: 'rgba(255,255,255,0.4)' }}>Ft / hó-tól</span>
                   </div>
-                  <p className="text-sm mb-6" style={{ color: 'rgba(255,255,255,0.35)' }}>Minimum 12 hónap · Nincs rejtett költség</p>
+                  <p className="text-sm mb-2" style={{ color: 'rgba(255,255,255,0.35)' }}>Minimum 12 hónap · Nincs rejtett költség</p>
+                  <p className="text-xs mb-6 font-medium" style={{ color: 'rgba(52,211,153,0.7)' }}>
+                    Weboldal + tárhely + üzemeltetés + support — egyetlen havidíjban
+                  </p>
                   <p className="text-lg leading-relaxed mb-8" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                    Minden hónapban fizet egy fix összeget, és mi gondoskodunk mindenről. Technikai stressz nélkül.
+                    Minden hónapban fizet egy fix összeget, és mi gondoskodunk mindenről. Nincs meglepetés, nincs technikai stressz.
                   </p>
                   <Link href="/kapcsolat"
                     className="inline-flex items-center gap-2 px-7 py-4 rounded-2xl text-base font-bold text-white hover:opacity-90 transition-all"
@@ -282,17 +307,17 @@ export function PricingCalculator({ sidebar }: { sidebar?: React.ReactNode }) {
                     Ajánlatot kérek <ArrowRight className="h-4 w-4" />
                   </Link>
                 </div>
-                <div className="rounded-2xl p-6" style={SURFACE}>
-                  <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: 'rgba(255,255,255,0.3)' }}>Tartalmazza</p>
+                <div className="rounded-2xl p-6" style={{ background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.15)' }}>
+                  <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: 'rgba(52,211,153,0.6)' }}>Tartalmazza</p>
                   <ul className="space-y-3">
                     {subFeatures.map(f => (
-                      <li key={f} className="flex items-center gap-2.5 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                      <li key={f} className="flex items-center gap-2.5 text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>
                         <Check className="h-4 w-4 text-emerald-400 shrink-0" strokeWidth={2.5} /> {f}
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-5 p-3 rounded-xl text-sm italic" style={{ background: 'rgba(16,185,129,0.08)', color: 'rgba(255,255,255,0.4)' }}>
-                    "Koncentráljon a vállalkozására — mi a technikát intézzük."
+                  <div className="mt-5 p-3 rounded-xl text-sm font-medium" style={{ background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.2)', color: 'rgba(52,211,153,0.9)' }}>
+                    Koncentráljon a vállalkozására — mi a technikát intézzük.
                   </div>
                 </div>
               </div>
