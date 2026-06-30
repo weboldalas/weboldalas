@@ -2,6 +2,7 @@ import {
   Globe, Calendar, Wrench, Search, BarChart2, Smartphone,
   ShoppingCart, Percent, UserCheck, Building2, CreditCard,
   Clock, Banknote, SlidersHorizontal, FileText, Calculator,
+  Layers, ShoppingBag, Zap, Package,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -117,27 +118,76 @@ export const REFERENCES: Reference[] = [
   {
     slug: 'sztanfa',
     name: 'Sztanfa',
-    tagline: 'Modern étterem weboldal asztalfoglalással',
-    category: 'Vendéglátás',
+    tagline: 'Egyedi WooCommerce webshop faipari termékek értékesítésére',
+    category: 'Webshop',
     year: '2025',
     accentColor: '#f59e0b',
     gradient: 'linear-gradient(135deg, #d97706, #f59e0b, #fbbf24)',
     gradientFrom: '#78350f',
     gradientTo: '#92400e',
     description:
-      'A Sztanfa egy helyi étterem, amely szerette volna modernizálni az online jelenlétét és leegyszerűsíteni az asztalfoglalást. Az új weboldal tükrözi az étterem karakterét és automatizálja a foglalási folyamatot.',
+      'A Sztanfa számára egy modern WooCommerce webshopot fejlesztettünk, amely a prémium faipari termékek egyszerű bemutatását és online értékesítését szolgálja. A projekt során kiemelt figyelmet fordítottunk a felhasználói élményre, az átlátható termékoldalakra és a gyors vásárlási folyamatra.',
     challenge:
-      'Az étteremnek nem volt saját weboldalja, csak Facebook oldala. Szükség volt egy profi bemutatkozó felületre és egy online asztalfoglalási rendszerre.',
+      'Az eredmény egy gyors, letisztult és könnyen kezelhető webshop, amely egyszerre támogatja az értékesítést és a márka professzionális megjelenését minden eszközön.',
     services: [
-      { icon: Globe,      label: 'Bemutatkozó weboldal' },
-      { icon: Calendar,   label: 'Asztalfoglalási rendszer' },
-      { icon: Smartphone, label: 'Mobilbarát megjelenés' },
+      { icon: ShoppingCart, label: 'WooCommerce webshop fejlesztés' },
+      { icon: Smartphone,   label: 'Reszponzív kialakítás' },
+      { icon: Wrench,       label: 'Folyamatos üzemeltetés' },
     ],
-    testimonial: {
-      text: 'Végre van egy rendes weboldalunk. Az ügyfelek imádják, hogy online tudnak asztalt foglalni, és mi sem veszítünk el több foglalást elfelejtett telefonok miatt.',
-      author: 'Sztanfa étterem',
-      role: 'Tulajdonos',
-    },
+    features: [
+      {
+        icon: ShoppingBag,
+        title: 'Egyedi WooCommerce webshop',
+        description: 'A vállalkozás igényeire szabott webshop egyedi kialakítással, nem sablon alapon.',
+      },
+      {
+        icon: Layers,
+        title: 'Modern termékoldalak',
+        description: 'Átlátható termékbemutatás részletes információkkal és kiemelt vizuális megjelenéssel.',
+      },
+      {
+        icon: Package,
+        title: 'Variációs termékkezelés',
+        description: 'Színek, méretek és egyéb termékváltozatok egyszerű kiválasztása a vásárló számára.',
+      },
+      {
+        icon: SlidersHorizontal,
+        title: 'Intelligens termékszűrők',
+        description: 'Gyors keresés kategóriák, tulajdonságok és egyéb szempontok alapján, nagy termékkatalógusnál is.',
+      },
+      {
+        icon: ShoppingCart,
+        title: 'Egyedi kosár és pénztár',
+        description: 'Egyszerű, gyors és felhasználóbarát vásárlási folyamat, minimális súrlódással.',
+      },
+      {
+        icon: Smartphone,
+        title: 'Mobilbarát kialakítás',
+        description: 'A webshop minden kijelzőméreten kényelmesen és hibátlanul használható.',
+      },
+      {
+        icon: Zap,
+        title: 'Gyors működés',
+        description: 'Optimalizált betöltési sebesség és modern technikai háttér a legjobb felhasználói élményért.',
+      },
+      {
+        icon: Search,
+        title: 'SEO-optimalizált felépítés',
+        description: 'Keresőbarát struktúra és metaadatok a jobb online láthatóság és organikus forgalom érdekében.',
+      },
+      {
+        icon: BarChart2,
+        title: 'Analytics és Ads integráció',
+        description: 'Google Analytics és Google Ads konverziómérés — a látogatók és a kampányok teljesítményének pontos követése.',
+      },
+      {
+        icon: Wrench,
+        title: 'Folyamatos fejlesztés és üzemeltetés',
+        description: 'A webshop az indulás után is folyamatos támogatást és fejlesztést kap, biztonsági frissítésekkel együtt.',
+      },
+    ],
+    outcome:
+      'A Sztanfa webshopja egy modern, gyors és könnyen használható online értékesítési felület lett, amely professzionális megjelenésével támogatja a márka építését és egyszerűbbé teszi a vásárlási folyamatot mind lakossági, mind üzleti ügyfelek számára.',
   },
   {
     slug: 'visitkigyos',
