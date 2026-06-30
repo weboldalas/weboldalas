@@ -36,11 +36,19 @@ export function SignaturePanel({
   const [success, setSuccess] = useState(false)
 
   useEffect(() => {
-    let SignaturePad: any
+    function resizeCanvas(canvas: HTMLCanvasElement) {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1)
+      const rect = canvas.getBoundingClientRect()
+      canvas.width = rect.width * ratio
+      canvas.height = rect.height * ratio
+      canvas.getContext('2d')?.scale(ratio, ratio)
+    }
+
     import('signature_pad').then(m => {
-      SignaturePad = m.default
+      const SignaturePad = m.default
 
       if (clientCanvasRef.current && !existingClientSig) {
+        resizeCanvas(clientCanvasRef.current)
         clientPadRef.current = new SignaturePad(clientCanvasRef.current, {
           backgroundColor: 'rgba(255,255,255,0)',
           penColor: '#1a1a2e',
@@ -51,6 +59,7 @@ export function SignaturePanel({
       }
 
       if (companyCanvasRef.current && !existingCompanySig) {
+        resizeCanvas(companyCanvasRef.current)
         companyPadRef.current = new SignaturePad(companyCanvasRef.current, {
           backgroundColor: 'rgba(255,255,255,0)',
           penColor: '#1a1a2e',
@@ -151,7 +160,7 @@ export function SignaturePanel({
         </div>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
         {/* Client signature */}
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
@@ -173,13 +182,13 @@ export function SignaturePanel({
           </div>
           {existingClientSig ? (
             <div className="rounded-xl overflow-hidden border border-white/10"
-              style={{ background: 'white', height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              style={{ background: 'white', height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={existingClientSig} alt="Megbízó aláírása" style={{ maxHeight: '80px', objectFit: 'contain' }} />
+              <img src={existingClientSig} alt="Megbízó aláírása" style={{ maxHeight: '120px', objectFit: 'contain' }} />
             </div>
           ) : (
             <div className="rounded-xl overflow-hidden" style={{ border: '2px dashed oklch(1 0 0 / 0.15)', background: 'white', cursor: 'crosshair' }}>
-              <canvas ref={clientCanvasRef} width={280} height={100} style={{ display: 'block', width: '100%', height: '100px', touchAction: 'none' }} />
+              <canvas ref={clientCanvasRef} style={{ display: 'block', width: '100%', height: '150px', touchAction: 'none' }} />
             </div>
           )}
           {!existingClientSig && (
@@ -208,13 +217,13 @@ export function SignaturePanel({
           </div>
           {existingCompanySig ? (
             <div className="rounded-xl overflow-hidden border border-white/10"
-              style={{ background: 'white', height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              style={{ background: 'white', height: '150px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={existingCompanySig} alt="Megbízott aláírása" style={{ maxHeight: '80px', objectFit: 'contain' }} />
+              <img src={existingCompanySig} alt="Megbízott aláírása" style={{ maxHeight: '120px', objectFit: 'contain' }} />
             </div>
           ) : (
             <div className="rounded-xl overflow-hidden" style={{ border: '2px dashed oklch(1 0 0 / 0.15)', background: 'white', cursor: 'crosshair' }}>
-              <canvas ref={companyCanvasRef} width={280} height={100} style={{ display: 'block', width: '100%', height: '100px', touchAction: 'none' }} />
+              <canvas ref={companyCanvasRef} style={{ display: 'block', width: '100%', height: '150px', touchAction: 'none' }} />
             </div>
           )}
           {!existingCompanySig && (
