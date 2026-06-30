@@ -4,6 +4,7 @@ import {
   Clock, Banknote, SlidersHorizontal, FileText, Calculator,
   Layers, ShoppingBag, Zap, Package,
   Map, PartyPopper, Landmark, BedDouble, Store, Images, Mail, Shield, Settings,
+  Newspaper, Users, Tag, Info,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -273,5 +274,89 @@ export const REFERENCES: Reference[] = [
     ],
     outcome:
       'A Visit Kígyós weboldala egy modern turisztikai információs felületté vált, amely átlátható módon mutatja be a település értékeit, programjait és szolgáltatásait, miközben egyszerűbbé teszi a látogatók tájékozódását.',
+  },
+  {
+    slug: 'csabai-piac',
+    name: 'Csabai Piac',
+    tagline: 'Modern weboldal és információs rendszer',
+    category: 'Weboldal',
+    year: '2025',
+    accentColor: '#f97316',
+    gradient: 'linear-gradient(135deg, #ea580c, #f97316, #fb923c)',
+    gradientFrom: '#7c2d12',
+    gradientTo: '#9a3412',
+    description:
+      'A Csabai Piac számára egy modern, könnyen kezelhető weboldalt fejlesztettünk, amely egyszerre szolgálja a látogatók gyors tájékoztatását és az üzemeltetők egyszerű tartalomkezelését.',
+    challenge:
+      'A weboldal a modern megjelenést egy könnyen kezelhető adminisztrációs rendszerrel ötvözi, így az üzemeltetők külön fejlesztő segítsége nélkül is frissíthetik a tartalmakat.',
+    services: [
+      { icon: Globe,    label: 'Egyedi weboldal fejlesztés' },
+      { icon: Settings, label: 'Tartalomkezelő rendszer' },
+      { icon: Wrench,   label: 'Üzemeltetés és támogatás' },
+    ],
+    features: [
+      {
+        icon: Globe,
+        title: 'Egyedi webdesign',
+        description: 'A piac arculatához igazított, teljesen egyedi megjelenés — nem sablon alapú megoldás.',
+      },
+      {
+        icon: Newspaper,
+        title: 'Hírek és közlemények',
+        description: 'Egyszerűen kezelhető hírrendszer aktuális információk és közlemények megjelenítésére.',
+      },
+      {
+        icon: Calendar,
+        title: 'Programok és rendezvények',
+        description: 'A piac eseményeinek és rendezvényeinek kezelése és megjelenítése, dátum szerint rendezve.',
+      },
+      {
+        icon: Users,
+        title: 'Árusi adatlapok',
+        description: 'Az árusok részletes bemutatása elérhetőségekkel, termékekkel és képekkel.',
+      },
+      {
+        icon: Tag,
+        title: 'Kategóriák és keresés',
+        description: 'Gyors böngészés és keresés az árusok és termékek között kategóriák alapján.',
+      },
+      {
+        icon: Info,
+        title: 'Nyitvatartás és információk',
+        description: 'Mindig naprakész nyitvatartási adatok és látogatói információk egy helyen.',
+      },
+      {
+        icon: Images,
+        title: 'Galéria',
+        description: 'Látványos képgaléria a piac életéről, hangulatáról és rendezvényeiről.',
+      },
+      {
+        icon: Mail,
+        title: 'Kapcsolati űrlap',
+        description: 'Egyszerű, spam-védett kapcsolatfelvételi lehetőség a látogatók számára.',
+      },
+      {
+        icon: Settings,
+        title: 'Adminisztrációs felület',
+        description: 'A tartalmak egyszerű kezelése és frissítése külön fejlesztő bevonása nélkül.',
+      },
+      {
+        icon: Smartphone,
+        title: 'Reszponzív kialakítás',
+        description: 'Mobilon, tableten és számítógépen egyaránt tökéletes felhasználói élmény.',
+      },
+      {
+        icon: Search,
+        title: 'SEO-optimalizált felépítés',
+        description: 'Keresőbarát technikai háttér és metaadatok a jobb online láthatóság érdekében.',
+      },
+      {
+        icon: Zap,
+        title: 'Gyors és biztonságos működés',
+        description: 'Optimalizált teljesítmény, stabil rendszer és folyamatos biztonsági frissítések.',
+      },
+    ],
+    outcome:
+      'A Csabai Piac új weboldala gyorsabbá és átláthatóbbá tette a látogatók tájékozódását, miközben az adminisztráció számára is jelentősen egyszerűbbé vált a tartalmak kezelése és frissítése.',
   },
 ]
