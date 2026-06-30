@@ -5,6 +5,7 @@ import {
   Layers, ShoppingBag, Zap, Package,
   Map, PartyPopper, Landmark, BedDouble, Store, Images, Mail, Shield, Settings,
   Newspaper, Users, Tag, Info,
+  Briefcase, Sparkles, MousePointerClick,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -358,5 +359,89 @@ export const REFERENCES: Reference[] = [
     ],
     outcome:
       'A Csabai Piac új weboldala gyorsabbá és átláthatóbbá tette a látogatók tájékozódását, miközben az adminisztráció számára is jelentősen egyszerűbbé vált a tartalmak kezelése és frissítése.',
+  },
+  {
+    slug: 'hello-roar',
+    name: 'Hello Roar',
+    tagline: 'Modern vállalati weboldal biztosítási tanácsadók számára',
+    category: 'Vállalati weboldal',
+    year: '2025',
+    accentColor: '#8b5cf6',
+    gradient: 'linear-gradient(135deg, #7c3aed, #8b5cf6, #a78bfa)',
+    gradientFrom: '#2e1065',
+    gradientTo: '#4c1d95',
+    description:
+      'A Hello Roar számára — a Palm Group megbízásából — egy egyedi vállalati weboldalt készítettünk, amely egyszerre szolgálja a márkaépítést, az ügyfélszerzést és az új tanácsadók toborzását.',
+    challenge:
+      'Kiemelt figyelmet fordítottunk az egyedi vizuális megjelenésre, a felhasználói élményre és az átlátható tartalmi struktúrára — a cél egy professzionális platform volt, amely tükrözi a vállalat karakterét.',
+    services: [
+      { icon: Globe,     label: 'Egyedi vállalati weboldal' },
+      { icon: Briefcase, label: 'Karrieroldal és toborzás' },
+      { icon: Wrench,    label: 'Üzemeltetés és támogatás' },
+    ],
+    features: [
+      {
+        icon: Sparkles,
+        title: 'Egyedi webdesign',
+        description: 'Teljesen egyedi, a márka arculatához igazított vizuális megjelenés — nem sablon alapú megoldás.',
+      },
+      {
+        icon: Building2,
+        title: 'Bemutatkozó vállalati weboldal',
+        description: 'A vállalat, szolgáltatások és értékek professzionális, átlátható bemutatása.',
+      },
+      {
+        icon: FileText,
+        title: 'Szolgáltatások bemutatása',
+        description: 'A biztosítási megoldások részletes ismertetése könnyen áttekinthető, strukturált formában.',
+      },
+      {
+        icon: Briefcase,
+        title: 'Karrier oldal',
+        description: 'Külön aloldal az új tanácsadók toborzására, a csapat bemutatására és a jelentkezések ösztönzésére.',
+      },
+      {
+        icon: Newspaper,
+        title: 'Blog rendszer',
+        description: 'Egyszerűen kezelhető blog a szakmai tartalmak, hírek és cikkek rendszeres publikálására.',
+      },
+      {
+        icon: Mail,
+        title: 'Kapcsolati űrlapok',
+        description: 'Gyors kapcsolatfelvételi és ajánlatkérési lehetőség, spam-védett megoldással.',
+      },
+      {
+        icon: MousePointerClick,
+        title: 'Egyedi animációk és interakciók',
+        description: 'Modern vizuális megoldások és micro-interakciók a felhasználói élmény javítására.',
+      },
+      {
+        icon: Settings,
+        title: 'Tartalomkezelő rendszer',
+        description: 'Az adminisztráció egyszerűen frissítheti a weboldal tartalmát fejlesztő bevonása nélkül.',
+      },
+      {
+        icon: Smartphone,
+        title: 'Reszponzív kialakítás',
+        description: 'Tökéletes működés mobiltelefonon, tableten és asztali számítógépen egyaránt.',
+      },
+      {
+        icon: Search,
+        title: 'SEO-optimalizált felépítés',
+        description: 'Keresőbarát technikai háttér, strukturált adatok és metaadatok a jobb láthatóságért.',
+      },
+      {
+        icon: Zap,
+        title: 'Gyors és optimalizált működés',
+        description: 'Modern technológiai háttér, optimalizált betöltési sebesség minden eszközön.',
+      },
+      {
+        icon: Wrench,
+        title: 'Folyamatos támogatás és üzemeltetés',
+        description: 'A weboldal az indulás után is folyamatos karbantartást, fejlesztést és biztonsági frissítéseket kap.',
+      },
+    ],
+    outcome:
+      'A Hello Roar weboldala egy modern és vizuálisan karakteres vállalati platform lett, amely egyszerre támogatja a márkaépítést, a szolgáltatások bemutatását és az új tanácsadók megszólítását. Az egyedi megjelenés és az átlátható felépítés professzionális online jelenlétet biztosít a vállalat számára.',
   },
 ]
