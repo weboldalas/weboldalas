@@ -31,20 +31,16 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
 
       {/* Hero */}
       <section className="relative min-h-[60vh] flex items-end pb-0">
-        {/* Gradient background */}
         <div className="absolute inset-0" style={{ background: `linear-gradient(160deg, ${ref.gradientFrom} 0%, ${ref.gradientTo} 50%, #08080f 100%)` }} />
-        {/* Grid */}
         <div className="absolute inset-0 opacity-[0.07]"
           style={{
             backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
             backgroundSize: '48px 48px',
           }} />
-        {/* Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] opacity-30 pointer-events-none"
           style={{ background: `radial-gradient(ellipse, ${ref.accentColor}, transparent 70%)` }} />
 
         <div className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-24">
-          {/* Back link */}
           <FadeIn>
             <Link href="/referenciak"
               className="footer-link inline-flex items-center gap-2 text-sm font-medium mb-10 transition-colors">
@@ -53,34 +49,33 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
           </FadeIn>
 
           <div>
-              <FadeIn>
-                <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-5"
-                  style={{ background: 'rgba(0,0,0,0.35)', color: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                  {ref.category} · {ref.year}
-                </div>
-              </FadeIn>
-              <FadeIn delay={0.06}>
-                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white mb-4">
-                  {ref.name}
-                </h1>
-              </FadeIn>
-              <FadeIn delay={0.12}>
-                <p className="text-xl max-w-xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                  {ref.tagline}
-                </p>
-              </FadeIn>
-            </div>
+            <FadeIn>
+              <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-5"
+                style={{ background: 'rgba(0,0,0,0.35)', color: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                {ref.category} · {ref.year}
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.06}>
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white mb-4">
+                {ref.name}
+              </h1>
+            </FadeIn>
+            <FadeIn delay={0.12}>
+              <p className="text-xl max-w-xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                {ref.tagline}
+              </p>
+            </FadeIn>
+          </div>
         </div>
       </section>
 
-      {/* Content */}
+      {/* Description + sidebar */}
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-[1fr_340px] gap-12">
 
             {/* Main content */}
             <div>
-              {/* About */}
               <FadeIn>
                 <div className="mb-12">
                   <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: ref.accentColor }}>A projektről</p>
@@ -89,7 +84,6 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
                 </div>
               </FadeIn>
 
-              {/* Testimonial */}
               {ref.testimonial && (
                 <FadeIn>
                   <div className="relative rounded-3xl p-8 mb-12 overflow-hidden"
@@ -112,7 +106,6 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
                 </FadeIn>
               )}
 
-              {/* Services used */}
               <FadeIn>
                 <p className="text-xs font-bold uppercase tracking-widest mb-5" style={{ color: ref.accentColor }}>Amit csináltunk</p>
                 <div className="flex flex-col gap-3">
@@ -133,7 +126,6 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
 
             {/* Sidebar */}
             <div className="space-y-5">
-              {/* CTA */}
               <FadeIn from="right" delay={0.08}>
                 <div className="rounded-2xl p-6"
                   style={{ background: `${ref.accentColor}0d`, border: `1px solid ${ref.accentColor}25` }}>
@@ -149,7 +141,6 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
                 </div>
               </FadeIn>
 
-              {/* URL if exists */}
               {ref.url && (
                 <FadeIn from="right" delay={0.12}>
                   <a href={ref.url} target="_blank" rel="noopener noreferrer"
@@ -163,6 +154,57 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
           </div>
         </div>
       </section>
+
+      {/* Features grid */}
+      {ref.features && ref.features.length > 0 && (
+        <section className="pb-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+            <FadeIn>
+              <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: ref.accentColor }}>Funkciók</p>
+              <h2 className="text-3xl font-black text-white mb-12">A webshop főbb funkciói</h2>
+            </FadeIn>
+            <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {ref.features.map((f, i) => (
+                <StaggerItem key={i}>
+                  <div className="h-full p-6 rounded-2xl flex flex-col gap-4 transition-all"
+                    style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                      style={{ background: `${ref.accentColor}15`, border: `1px solid ${ref.accentColor}20` }}>
+                      <f.icon className="h-5 w-5" style={{ color: ref.accentColor }} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-white mb-1.5">{f.title}</h3>
+                      <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.42)' }}>{f.description}</p>
+                    </div>
+                  </div>
+                </StaggerItem>
+              ))}
+            </StaggerChildren>
+          </div>
+        </section>
+      )}
+
+      {/* Outcome block */}
+      {ref.outcome && (
+        <section className="pb-24">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <FadeIn>
+              <div className="relative rounded-3xl p-10 lg:p-14 overflow-hidden"
+                style={{ background: `linear-gradient(135deg, ${ref.accentColor}12 0%, ${ref.accentColor}06 100%)`, border: `1px solid ${ref.accentColor}22` }}>
+                {/* Decorative glow */}
+                <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full pointer-events-none"
+                  style={{ background: `radial-gradient(ellipse, ${ref.accentColor}18, transparent 70%)` }} />
+                <p className="text-xs font-bold uppercase tracking-widest mb-5 relative" style={{ color: ref.accentColor }}>
+                  Projekt eredménye
+                </p>
+                <p className="text-xl lg:text-2xl font-medium leading-relaxed relative" style={{ color: 'rgba(255,255,255,0.78)' }}>
+                  {ref.outcome}
+                </p>
+              </div>
+            </FadeIn>
+          </div>
+        </section>
+      )}
 
       {/* Next project */}
       <section className="py-16" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>

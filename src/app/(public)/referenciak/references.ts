@@ -1,4 +1,8 @@
-import { Globe, Calendar, Wrench, Search, BarChart2, Smartphone } from 'lucide-react'
+import {
+  Globe, Calendar, Wrench, Search, BarChart2, Smartphone,
+  ShoppingCart, Percent, UserCheck, Building2, CreditCard,
+  Clock, Banknote, SlidersHorizontal, FileText, Calculator,
+} from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 export type Reference = {
@@ -14,6 +18,8 @@ export type Reference = {
   description: string
   challenge: string
   services: { icon: LucideIcon; label: string }[]
+  features?: { icon: LucideIcon; title: string; description: string }[]
+  outcome?: string
   testimonial?: { text: string; author: string; role: string }
   url?: string
 }
@@ -22,27 +28,91 @@ export const REFERENCES: Reference[] = [
   {
     slug: 'helkem',
     name: 'Helkem',
-    tagline: 'Prémium szálláshely weboldal foglalási rendszerrel',
-    category: 'Szálláshely',
+    tagline: 'Egyedi B2B/B2C webshop partnerkezeléssel',
+    category: 'Webshop',
     year: '2025',
     accentColor: '#0ea5e9',
     gradient: 'linear-gradient(135deg, #0284c7, #0ea5e9, #06b6d4)',
     gradientFrom: '#0c4a6e',
     gradientTo: '#0369a1',
     description:
-      'A Helkem egy vidéki szálláshely, amely korábban csak telefonon és emailen fogadott foglalásokat. Az új weboldallal teljesen automatizálták az időpontkezelést — az ügyfelek bármikor foglalhatnak, visszaigazolás azonnal megérkezik.',
+      'A Helkem számára egy teljesen egyedi B2B/B2C webshopot fejlesztettünk, amely egyszerre szolgálja ki a lakossági és céges vásárlókat. A projekt célja egy gyors, modern és hosszú távon bővíthető rendszer létrehozása volt, amely alkalmazkodik a vállalkozás egyedi működéséhez.',
     challenge:
-      'A tulajdonos rengeteg időt töltött manuális foglalásegyeztetéssel. Szükség volt egy profi megjelenésre és egy rendszerre, ami önállóan kezeli a foglalásokat.',
+      'A webshop nem csupán online értékesítési felületként működik, hanem automatizált funkciókkal támogatja a partnerkezelést, a rendelési folyamatokat és a napi adminisztrációt.',
     services: [
-      { icon: Globe,     label: 'Bemutatkozó weboldal' },
-      { icon: Calendar,  label: 'Foglalási rendszer' },
-      { icon: Wrench,    label: 'Üzemeltetés' },
+      { icon: ShoppingCart, label: 'Egyedi webshop fejlesztés' },
+      { icon: Building2,    label: 'B2B partnerkezelés' },
+      { icon: Wrench,       label: 'Folyamatos üzemeltetés' },
     ],
-    testimonial: {
-      text: 'Azóta sokkal több online foglalásunk van, és nem kell minden héten emaileket írogatni. A rendszer önmagát kezeli — mi csak a vendégekre figyelünk.',
-      author: 'Helkem tulajdonosa',
-      role: 'Szállásadó',
-    },
+    features: [
+      {
+        icon: ShoppingCart,
+        title: 'Egyedi B2B/B2C webshop',
+        description: 'Egy rendszerben kezeli a lakossági és céges vásárlókat, eltérő jogosultságokkal és teljesen különálló működési logikával.',
+      },
+      {
+        icon: Percent,
+        title: 'Partnerenként eltérő árak',
+        description: 'Minden partner saját árakat és kedvezményeket kap, amelyek automatikusan érvényesülnek rendeléskor, manuális beavatkozás nélkül.',
+      },
+      {
+        icon: UserCheck,
+        title: 'Céges regisztráció jóváhagyással',
+        description: 'Az új céges partnerek regisztrációja adminisztrátori jóváhagyáshoz kötött — nincs automatikus hozzáférés B2B árakhoz.',
+      },
+      {
+        icon: Building2,
+        title: 'Céges ügyfélkezelés',
+        description: 'Partneradatok, telephelyek, kedvezmények és jogosultságok kezelése egy helyen, strukturáltan.',
+      },
+      {
+        icon: CreditCard,
+        title: 'Testreszabott checkout',
+        description: 'Teljesen egyedi WooCommerce rendelési és fizetési folyamat, a Helkem belső működésére szabva.',
+      },
+      {
+        icon: Clock,
+        title: 'Halasztott fizetési lehetőségek',
+        description: '8, 15 és 30 napos fizetési határidő partnerenként szabályozható módon, automatikus nyomon követéssel.',
+      },
+      {
+        icon: Banknote,
+        title: 'Több pénznem, nettó/bruttó ár',
+        description: 'HUF és EUR támogatás, valamint váltható nettó/bruttó ármegjelenítés mind a felületen, mind a számlázásban.',
+      },
+      {
+        icon: SlidersHorizontal,
+        title: 'Intelligens termékszűrők',
+        description: 'Gyors keresés és szűrés különböző terméktulajdonságok alapján, nagy termékkatalógus esetén is.',
+      },
+      {
+        icon: FileText,
+        title: 'Műszaki dokumentumtár',
+        description: 'Technikai adatlapok, biztonsági adatlapok és egyéb dokumentumok kezelése közvetlenül a termékoldalakon.',
+      },
+      {
+        icon: Calculator,
+        title: 'Anyagszükséglet kalkulátorok',
+        description: 'Beépített kalkulátorok a szükséges termékmennyiség kiszámításához — csökkentik a visszáru és a félrerendelés arányát.',
+      },
+      {
+        icon: BarChart2,
+        title: 'Analytics és Ads integráció',
+        description: 'Google Analytics és Google Ads konverziómérés, marketing esemény követés és remarketing listák kezelése.',
+      },
+      {
+        icon: Smartphone,
+        title: 'Reszponzív, gyors, SEO-optimalizált',
+        description: 'Modern technikai háttér, Core Web Vitals-optimalizált teljesítmény és keresőoptimalizálás minden eszközön.',
+      },
+      {
+        icon: Wrench,
+        title: 'Folyamatos fejlesztés és üzemeltetés',
+        description: 'A rendszer az indulás után is folyamatosan fejlődik — új funkciók, automatizációk és biztonsági frissítések rendszeresen.',
+      },
+    ],
+    outcome:
+      'A Helkem webshopja ma már nem csupán egy webáruház, hanem egy összetett B2B értékesítési rendszer, amely gyorsabbá, átláthatóbbá és hatékonyabbá tette a vállalat online értékesítését és partnerkezelését.',
   },
   {
     slug: 'sztanfa',
