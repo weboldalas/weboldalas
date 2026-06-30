@@ -3,20 +3,26 @@
 import { useEffect, useRef, useState, useTransition } from 'react'
 import { PenLine, RotateCcw, CheckCircle2, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { saveSignatures } from '../actions'
+import { saveSignatures, updateVersionPdfUrl } from '../actions'
 
 export function SignaturePanel({
   documentId,
   versionId,
   existingClientSig,
   existingCompanySig,
+  content,
+  title,
+  companySettings,
   onSigned,
 }: {
   documentId: string
   versionId: string
   existingClientSig: string | null
   existingCompanySig: string | null
-  onSigned: () => void
+  content: string
+  title: string
+  companySettings: unknown
+  onSigned: (pdfUrl?: string) => void
 }) {
   const clientCanvasRef = useRef<HTMLCanvasElement>(null)
   const companyCanvasRef = useRef<HTMLCanvasElement>(null)
@@ -96,17 +102,29 @@ export function SignaturePanel({
         setError((result as { error: string }).error ?? null)
       } else {
         setSuccess(true)
-        onSigned()
-        // Re-generate PDF with signatures
-        await fetch(`/api/contracts/${documentId}/pdf`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            clientSignature: clientSig,
-            companySignature: companySig,
-            versionId,
-          }),
-        })
+        // Re-generate PDF with signatures embedded
+        let newPdfUrl: string | undefined
+        try {
+          const res = await fetch(`/api/contracts/${documentId}/pdf`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              content,
+              title,
+              companySettings,
+              clientSignature: clientSig,
+              companySignature: companySig,
+            }),
+          })
+          const json = await res.json()
+          if (res.ok && json.url) {
+            newPdfUrl = json.url
+            await updateVersionPdfUrl(documentId, versionId, json.url)
+          }
+        } catch {
+          // PDF frissítés nem kritikus, az aláírás már el van mentve
+        }
+        onSigned(newPdfUrl)
       }
     })
   }

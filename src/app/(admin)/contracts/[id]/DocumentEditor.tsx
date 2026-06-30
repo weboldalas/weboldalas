@@ -307,7 +307,10 @@ export function DocumentEditor({
           versionId={currentVersionId}
           existingClientSig={latestVersion?.client_signature || null}
           existingCompanySig={latestVersion?.company_signature || null}
-          onSigned={() => setStatus('signed')}
+          content={content}
+          title={document.title}
+          companySettings={companySettings}
+          onSigned={(url) => { setStatus('signed'); if (url) setPdfUrl(url) }}
         />
       )}
 
