@@ -1,4 +1,5 @@
-import ReactPDF, {
+import {
+  renderToBuffer,
   Document, Page, Text, View, Image, StyleSheet, Font,
 } from '@react-pdf/renderer'
 
@@ -239,6 +240,6 @@ function ContractDocument({ content, title, companySettings, clientSignature, co
 }
 
 export async function generatePdfBuffer(props: PdfProps): Promise<Buffer> {
-  const stream = await ReactPDF.renderToBuffer(<ContractDocument {...props} />)
-  return Buffer.isBuffer(stream) ? stream : Buffer.from(stream)
+  const result = await renderToBuffer(<ContractDocument {...props} />)
+  return Buffer.isBuffer(result) ? result : Buffer.from(result)
 }
