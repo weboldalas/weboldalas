@@ -2,19 +2,77 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { headers } from 'next/headers'
 import { createClient } from '@/utils/supabase/server'
 import { buildVariableMap, substituteVariables } from '@/lib/document-variables'
 
 // -----------------------------------------------
+// Request metadata (IP, browser, OS, device)
+// -----------------------------------------------
+function parseUA(ua: string): { browser: string; os: string; device: string } {
+  const isMobile = /Mobile|Android|iPhone/.test(ua)
+  const isTablet = /iPad|Tablet/.test(ua)
+  const device = isTablet ? 'Tablet' : isMobile ? 'Mobil' : 'Asztali'
+
+  let browser = 'Ismeretlen'
+  const edgeM = ua.match(/Edg\/([\d]+)/)
+  const chromeM = ua.match(/Chrome\/([\d]+)/)
+  const ffM = ua.match(/Firefox\/([\d]+)/)
+  const safariM = ua.match(/Version\/([\d]+).*Safari/)
+  if (edgeM) browser = `Edge ${edgeM[1]}`
+  else if (chromeM && !/Chromium/.test(ua)) browser = `Chrome ${chromeM[1]}`
+  else if (ffM) browser = `Firefox ${ffM[1]}`
+  else if (safariM) browser = `Safari ${safariM[1]}`
+
+  let os = 'Ismeretlen'
+  if (/Windows NT 10|Windows NT 11/.test(ua)) os = 'Windows 10/11'
+  else if (/Windows NT 6\.3/.test(ua)) os = 'Windows 8.1'
+  else if (/Windows NT 6\.1/.test(ua)) os = 'Windows 7'
+  else if (/Windows/.test(ua)) os = 'Windows'
+  else if (/Mac OS X/.test(ua)) {
+    const m = ua.match(/Mac OS X ([\d_]+)/)
+    os = m ? `macOS ${m[1].replace(/_/g, '.')}` : 'macOS'
+  } else if (/iPhone OS/.test(ua)) {
+    const m = ua.match(/iPhone OS ([\d_]+)/)
+    os = m ? `iOS ${m[1].replace(/_/g, '.')}` : 'iOS'
+  } else if (/iPad.*OS/.test(ua)) {
+    const m = ua.match(/OS ([\d_]+)/)
+    os = m ? `iPadOS ${m[1].replace(/_/g, '.')}` : 'iPadOS'
+  } else if (/Android/.test(ua)) {
+    const m = ua.match(/Android ([\d.]+)/)
+    os = m ? `Android ${m[1]}` : 'Android'
+  } else if (/Linux/.test(ua)) os = 'Linux'
+
+  return { browser, os, device }
+}
+
+async function getRequestMeta() {
+  const h = await headers()
+  const ip = h.get('x-forwarded-for')?.split(',')[0]?.trim()
+    || h.get('x-real-ip')
+    || 'ismeretlen'
+  const ua = h.get('user-agent') || ''
+  return { ip, ...parseUA(ua) }
+}
+
+// -----------------------------------------------
 // Log activity
 // -----------------------------------------------
+type ActivityMeta = { ip: string; browser: string; os: string; device: string }
+
 async function logActivity(
   supabase: Awaited<ReturnType<typeof createClient>>,
   documentId: string,
   action: string,
   description: string,
+  metadata?: ActivityMeta,
 ) {
-  await supabase.from('document_activity').insert([{ document_id: documentId, action, description }])
+  await supabase.from('document_activity').insert([{
+    document_id: documentId,
+    action,
+    description,
+    ...(metadata ? { metadata } : {}),
+  }])
 }
 
 // -----------------------------------------------
@@ -51,7 +109,6 @@ export async function createDocument(_prevState: unknown, formData: FormData) {
 
   if (docError || !doc) return { error: docError?.message || 'Hiba a dokumentum létrehozásakor.' }
 
-  // Create version 1
   const { error: versionError } = await supabase.from('document_versions').insert([{
     document_id: doc.id,
     version: 1,
@@ -60,7 +117,8 @@ export async function createDocument(_prevState: unknown, formData: FormData) {
 
   if (versionError) return { error: versionError.message }
 
-  await logActivity(supabase, doc.id, 'created', 'Dokumentum létrehozva (v1)')
+  const meta = await getRequestMeta()
+  await logActivity(supabase, doc.id, 'created', 'Dokumentum létrehozva (v1)', meta)
 
   revalidatePath('/contracts')
   redirect(`/contracts/${doc.id}`)
@@ -90,7 +148,8 @@ export async function saveDocumentVersion(
     .eq('id', documentId)
   if (docError) return { error: docError.message }
 
-  await logActivity(supabase, documentId, 'edited', `Új verzió mentve (v${newVersion})`)
+  const meta = await getRequestMeta()
+  await logActivity(supabase, documentId, 'edited', `Új verzió mentve (v${newVersion})`, meta)
 
   revalidatePath(`/contracts/${documentId}`)
   return { success: true, newVersion }
@@ -134,7 +193,8 @@ export async function updateDocumentStatus(documentId: string, status: string) {
     draft: 'Tervezet', generated: 'Generálva', sent: 'Elküldve',
     signed: 'Aláírva', archived: 'Archivált', cancelled: 'Visszavonva',
   }
-  await logActivity(supabase, documentId, 'status_changed', `Státusz: ${STATUS_LABELS[status] ?? status}`)
+  const meta = await getRequestMeta()
+  await logActivity(supabase, documentId, 'status_changed', `Státusz: ${STATUS_LABELS[status] ?? status}`, meta)
 
   revalidatePath(`/contracts/${documentId}`)
   revalidatePath('/contracts')
@@ -161,7 +221,8 @@ export async function updateVersionPdfUrl(
     .update({ status: 'generated' })
     .eq('id', documentId)
 
-  await logActivity(supabase, documentId, 'pdf_generated', 'PDF generálva és mentve')
+  const meta = await getRequestMeta()
+  await logActivity(supabase, documentId, 'pdf_generated', 'PDF generálva és mentve', meta)
 
   revalidatePath(`/contracts/${documentId}`)
   revalidatePath('/contracts')
@@ -193,7 +254,8 @@ export async function saveSignatures(
     .update({ status: 'signed' })
     .eq('id', documentId)
 
-  await logActivity(supabase, documentId, 'signed', 'Mindkét fél aláírta')
+  const meta = await getRequestMeta()
+  await logActivity(supabase, documentId, 'signed', 'Dokumentum aláírva', meta)
 
   revalidatePath(`/contracts/${documentId}`)
   revalidatePath('/contracts')
@@ -209,7 +271,8 @@ export async function logEmailSent(documentId: string, recipientEmail: string) {
     .from('documents')
     .update({ status: 'sent' })
     .eq('id', documentId)
-  await logActivity(supabase, documentId, 'email_sent', `Email elküldve: ${recipientEmail}`)
+  const meta = await getRequestMeta()
+  await logActivity(supabase, documentId, 'email_sent', `Email elküldve: ${recipientEmail}`, meta)
   revalidatePath(`/contracts/${documentId}`)
   revalidatePath('/contracts')
   return { success: true }

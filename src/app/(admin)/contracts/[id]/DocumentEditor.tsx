@@ -30,11 +30,19 @@ type Version = {
   signed_at: string | null
 }
 
+type ActivityMeta = {
+  ip?: string
+  browser?: string
+  os?: string
+  device?: string
+}
+
 type ActivityEntry = {
   id: string
   created_at: string
   action: string
   description: string | null
+  metadata?: ActivityMeta | null
 }
 
 type CompanySettings = {
@@ -387,9 +395,17 @@ export function DocumentEditor({
               {activity.map(a => (
                 <div key={a.id} className="flex items-start gap-2 py-1.5 border-b border-white/5 last:border-0">
                   <span className="text-sm">{ACTION_ICONS[a.action] ?? '•'}</span>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <div className="text-xs text-white/70">{a.description}</div>
                     <div className="text-xs text-white/25">{new Date(a.created_at).toLocaleString('hu-HU')}</div>
+                    {a.metadata && (
+                      <div className="mt-1 flex flex-wrap gap-x-2 gap-y-0.5">
+                        {a.metadata.ip && <span className="text-xs text-white/20">IP: {a.metadata.ip}</span>}
+                        {a.metadata.browser && <span className="text-xs text-white/20">{a.metadata.browser}</span>}
+                        {a.metadata.os && <span className="text-xs text-white/20">{a.metadata.os}</span>}
+                        {a.metadata.device && <span className="text-xs text-white/20">{a.metadata.device}</span>}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
