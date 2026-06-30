@@ -41,7 +41,8 @@ export async function updateSession(request: NextRequest) {
     pathname.startsWith('/subscriptions') ||
     pathname.startsWith('/tasks') ||
     pathname.startsWith('/settings') ||
-    (pathname.startsWith('/offers') && !pathname.startsWith('/offers/view/'))
+    (pathname.startsWith('/offers') && !pathname.startsWith('/offers/view/')) ||
+    pathname.startsWith('/contracts')
   const isPublic = !isAdminRoute
 
   if (!user && !isPublic) {

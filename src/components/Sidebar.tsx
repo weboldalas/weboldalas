@@ -15,6 +15,7 @@ import {
   LogOut,
   Menu,
   RefreshCw,
+  FileSignature,
 } from 'lucide-react'
 
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
@@ -27,6 +28,7 @@ const routes = [
   { href: '/leads', label: 'Érdeklődők', icon: Users },
   { href: '/customers', label: 'Ügyfelek', icon: Briefcase },
   { href: '/offers', label: 'Ajánlatok', icon: ListTodo },
+  { href: '/contracts', label: 'Szerződések', icon: FileSignature },
   { href: '/payments', label: 'Pénzügy', icon: CreditCard },
   { href: '/subscriptions', label: 'Előfizetések', icon: RefreshCw },
   { href: '/settings', label: 'Beállítások', icon: Settings },
