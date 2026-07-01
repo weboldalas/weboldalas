@@ -8,7 +8,7 @@ const SURFACE = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(
 const MIN_MONTHS = 3
 const MAX_MONTHS = 24
 const MONTH_TICKS = [3, 6, 12, 18, 24]
-const INSTALLMENT_SURCHARGE = 0.15 // 15% kezelési díj részletfizetésnél
+const MONTHLY_INSTALLMENT_RATE = 0.01 // 1% / hó kezelési díj — minél hosszabb a futamidő, annál drágább
 
 // ── ÁR SZERKESZTÉSE ITT ───────────────────────────────────────────────────────
 type Service = {
@@ -65,7 +65,8 @@ export function PricingCalculator({ sidebar }: { sidebar?: React.ReactNode }) {
   }, [serviceId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const base = svc.oneTime ?? 0
-  const installmentTotal = Math.round(base * (1 + INSTALLMENT_SURCHARGE))
+  const installmentSurcharge = months * MONTHLY_INSTALLMENT_RATE
+  const installmentTotal = Math.round(base * (1 + installmentSurcharge))
   const installmentExtra = installmentTotal - base
   const monthly = Math.ceil(installmentTotal / months)
   const pct = ((months - MIN_MONTHS) / (MAX_MONTHS - MIN_MONTHS)) * 100
@@ -213,7 +214,7 @@ export function PricingCalculator({ sidebar }: { sidebar?: React.ReactNode }) {
                     Összesen: {installmentTotal.toLocaleString('hu-HU')} Ft · {months} hónap
                   </p>
                   <p className="text-xs mb-6 font-medium" style={{ color: 'rgba(251,146,60,0.8)' }}>
-                    +{installmentExtra.toLocaleString('hu-HU')} Ft az egyszeri fizetéshez képest (15% kezelési díj)
+                    +{installmentExtra.toLocaleString('hu-HU')} Ft az egyszeri fizetéshez képest ({months}% kezelési díj)
                   </p>
                   <div className="mb-8">
                     <div className="flex justify-between text-xs mb-3" style={{ color: 'rgba(255,255,255,0.4)' }}>
