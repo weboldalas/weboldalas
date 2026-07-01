@@ -57,7 +57,7 @@ const data: ServicePageData = {
   },
   pricing: {
     title: 'Webshop árazás',
-    note: '250.000 Ft-tól egyszeri fizetéssel. A termékek számától és a funkciók összetettségétől függően személyre szabott ajánlatot adunk.',
+    note: '450.000 Ft-tól egyszeri fizetéssel. A termékek számától és a funkciók összetettségétől függően személyre szabott ajánlatot adunk.',
     cta: 'Ajánlatot kérek a webshophoz',
   },
   faqs: [

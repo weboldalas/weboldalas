@@ -17,7 +17,7 @@ const services = [
     sub: 'Professzionális megjelenés, amely hitelesebbé teszi vállalkozásodat és segít meggyőzni a leendő ügyfeleket.',
     href: '/szolgaltatasok/bemutatkozo-weboldal',
     points: ['Egyedi prémium megjelenés', 'Mobilbarát minden eszközön', 'Google alapoptimalizálás', 'Kapcsolatfelvételi lehetőség'],
-    from: '150.000 Ft-tól',
+    from: '250.000 Ft-tól',
   },
   {
     icon: ShoppingBag, color: 'violet', accentColor: '#a855f7',
@@ -25,7 +25,7 @@ const services = [
     sub: 'Értékesíts online egyszerűen, biztonságosan és olyan rendszerrel, amely együtt fejlődik vállalkozásoddal.',
     href: '/szolgaltatasok/webshop',
     points: ['Korlátlan termék', 'Online fizetés', 'Egyszerű rendeléskezelés', 'Mobilbarát vásárlás'],
-    from: '250.000 Ft-tól',
+    from: '450.000 Ft-tól',
   },
   {
     icon: Calendar, color: 'emerald', accentColor: '#10b981',

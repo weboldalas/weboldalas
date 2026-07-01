@@ -57,7 +57,7 @@ const data: ServicePageData = {
   },
   pricing: {
     title: 'Rugalmas fizetési lehetőségek',
-    note: '150.000 Ft-tól egyszeri fizetéssel, vagy havi 19.990 Ft-tól előfizetéssel. Részletfizetés is elérhető.',
+    note: '250.000 Ft-tól egyszeri fizetéssel, vagy havi 19.990 Ft-tól előfizetéssel. Részletfizetés is elérhető.',
     cta: 'Ingyenes ajánlatot kérek',
   },
   faqs: [
