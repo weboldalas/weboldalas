@@ -208,12 +208,17 @@ export async function updateVersionPdfUrl(
   documentId: string,
   versionId: string,
   pdfUrl: string,
+  pdfHash?: string,
 ) {
   const supabase = await createClient()
 
   await supabase
     .from('document_versions')
-    .update({ pdf_url: pdfUrl, generated_at: new Date().toISOString() })
+    .update({
+      pdf_url: pdfUrl,
+      generated_at: new Date().toISOString(),
+      ...(pdfHash ? { pdf_hash: pdfHash } : {}),
+    })
     .eq('id', versionId)
 
   await supabase
@@ -222,7 +227,7 @@ export async function updateVersionPdfUrl(
     .eq('id', documentId)
 
   const meta = await getRequestMeta()
-  await logActivity(supabase, documentId, 'pdf_generated', 'PDF generálva és mentve', meta)
+  await logActivity(supabase, documentId, 'pdf_generated', `PDF generálva${pdfHash ? ` · SHA-256: ${pdfHash.slice(0, 12)}…` : ''}`, meta)
 
   revalidatePath(`/contracts/${documentId}`)
   revalidatePath('/contracts')
@@ -230,7 +235,7 @@ export async function updateVersionPdfUrl(
 }
 
 // -----------------------------------------------
-// Save signatures on version
+// Save signatures on version + lock document
 // -----------------------------------------------
 export async function saveSignatures(
   documentId: string,
@@ -239,23 +244,24 @@ export async function saveSignatures(
   companySignature: string,
 ) {
   const supabase = await createClient()
+  const now = new Date().toISOString()
 
   await supabase
     .from('document_versions')
     .update({
       client_signature: clientSignature,
       company_signature: companySignature,
-      signed_at: new Date().toISOString(),
+      signed_at: now,
     })
     .eq('id', versionId)
 
   await supabase
     .from('documents')
-    .update({ status: 'signed' })
+    .update({ status: 'signed', locked_at: now })
     .eq('id', documentId)
 
   const meta = await getRequestMeta()
-  await logActivity(supabase, documentId, 'signed', 'Dokumentum aláírva', meta)
+  await logActivity(supabase, documentId, 'signed', 'Dokumentum aláírva és zárolva', meta)
 
   revalidatePath(`/contracts/${documentId}`)
   revalidatePath('/contracts')
@@ -296,14 +302,17 @@ export async function quickCreateCustomer(formData: FormData) {
   const supabase = await createClient()
 
   const isCompany = formData.get('is_company') === 'true'
+  const str = (key: string) => (formData.get(key) as string)?.trim() || null
   const data = {
     is_company: isCompany,
-    name: (formData.get('name') as string) || null,
-    company_name: (formData.get('company_name') as string) || null,
-    email: (formData.get('email') as string) || null,
-    phone: (formData.get('phone') as string) || null,
-    address: (formData.get('address') as string) || null,
-    tax_number: (formData.get('tax_number') as string) || null,
+    name: str('name'),
+    company_name: str('company_name'),
+    contact_name: str('contact_name'),
+    email: str('email'),
+    phone: str('phone'),
+    address: str('address'),
+    tax_number: str('tax_number'),
+    registration_number: str('registration_number'),
   }
 
   const { data: customer, error } = await supabase

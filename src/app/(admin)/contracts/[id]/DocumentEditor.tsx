@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useTransition, useCallback, useRef } from 'react'
+import { useState, useTransition, useRef } from 'react'
 import {
   Save, FileText, Send, CheckCircle2, XCircle, Archive, Loader2, ChevronDown,
-  Eye, EyeOff, Clock, Trash2, Mail, PenLine, History,
+  Eye, EyeOff, Clock, Trash2, Mail, PenLine, History, Lock, ShieldCheck,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { LivePreview } from './LivePreview'
@@ -24,6 +24,7 @@ type Version = {
   version: number
   content: string
   pdf_url: string | null
+  pdf_hash: string | null
   generated_at: string | null
   client_signature: string | null
   company_signature: string | null
@@ -57,6 +58,9 @@ type CompanySettings = {
   email: string | null
   phone: string | null
   website: string | null
+  business_type?: string | null
+  brand_name?: string | null
+  tax_form?: string | null
 }
 
 const STATUS_OPTIONS = [
@@ -90,6 +94,7 @@ export function DocumentEditor({
   const [content, setContent] = useState(latestVersion?.content ?? '')
   const [status, setStatus] = useState<string>(document.status)
   const [pdfUrl, setPdfUrl] = useState<string | null>(latestVersion?.pdf_url ?? null)
+  const [pdfHash, setPdfHash] = useState<string | null>(latestVersion?.pdf_hash ?? null)
   const [currentVersion, setCurrentVersion] = useState(document.current_version)
   const [currentVersionId, setCurrentVersionId] = useState(latestVersion?.id ?? '')
   const [showPreview, setShowPreview] = useState(true)
@@ -103,9 +108,11 @@ export function DocumentEditor({
   const [statusDropdown, setStatusDropdown] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
+  const isLocked = !!document.locked_at
   const currentStatusCfg = STATUS_OPTIONS.find(s => s.value === status) ?? STATUS_OPTIONS[0]
 
   function handleSaveNew() {
+    if (isLocked) return
     setError(null)
     setSaving(true)
     setSavedMsg('')
@@ -122,7 +129,7 @@ export function DocumentEditor({
   }
 
   function handleSaveInPlace() {
-    if (!currentVersionId) return
+    if (isLocked || !currentVersionId) return
     setError(null)
     setSaving(true)
     startTransition(async () => {
@@ -160,8 +167,9 @@ export function DocumentEditor({
       const json = await res.json()
       if (!res.ok || json.error) { setError(json.error || 'PDF generálás sikertelen.'); return }
       setPdfUrl(json.url)
+      setPdfHash(json.hash || null)
       setStatus('generated')
-      await updateVersionPdfUrl(document.id, currentVersionId, json.url)
+      await updateVersionPdfUrl(document.id, currentVersionId, json.url, json.hash)
     } catch {
       setError('Hálózati hiba a PDF generálás során.')
     } finally {
@@ -200,24 +208,32 @@ export function DocumentEditor({
     startTransition(async () => { await deleteDocument(document.id) })
   }
 
-  // Insert text at cursor in textarea
-  function insertAtCursor(text: string) {
-    const ta = textareaRef.current
-    if (!ta) return
-    const start = ta.selectionStart
-    const end = ta.selectionEnd
-    const newContent = content.slice(0, start) + text + content.slice(end)
-    setContent(newContent)
-    setTimeout(() => {
-      ta.focus()
-      ta.setSelectionRange(start + text.length, start + text.length)
-    }, 0)
-  }
-
   const StatusIcon = currentStatusCfg.icon
 
   return (
     <div className="flex flex-col gap-3 min-h-0 flex-1">
+
+      {/* Lock banner */}
+      {isLocked && (
+        <div className="flex items-center gap-3 rounded-xl px-4 py-3 shrink-0"
+          style={{ background: 'oklch(0.68 0.18 145 / 0.10)', border: '1px solid oklch(0.68 0.18 145 / 0.25)' }}>
+          <Lock className="h-4 w-4 shrink-0" style={{ color: 'oklch(0.75 0.18 145)' }} />
+          <div className="flex-1 min-w-0">
+            <span className="text-sm font-semibold" style={{ color: 'oklch(0.75 0.18 145)' }}>
+              Dokumentum zárolva — aláírás után nem szerkeszthető.
+            </span>
+            {pdfHash && (
+              <div className="text-xs mt-0.5 font-mono" style={{ color: 'oklch(0.65 0.10 145)' }}>
+                SHA-256: {pdfHash.slice(0, 16)}…
+              </div>
+            )}
+          </div>
+          {pdfHash && (
+            <ShieldCheck className="h-5 w-5 shrink-0" style={{ color: 'oklch(0.68 0.18 145)' }} />
+          )}
+        </div>
+      )}
+
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-2 shrink-0 p-3 rounded-xl"
         style={{ background: 'oklch(1 0 0 / 0.04)', border: '1px solid oklch(1 0 0 / 0.10)' }}>
@@ -246,12 +262,12 @@ export function DocumentEditor({
 
         <div className="h-4 w-px bg-white/10 hidden sm:block" />
 
-        {/* Save buttons */}
-        <Button size="sm" variant="outline" onClick={handleSaveInPlace} disabled={isPending || saving}>
+        {/* Save buttons — disabled when locked */}
+        <Button size="sm" variant="outline" onClick={handleSaveInPlace} disabled={isPending || saving || isLocked}>
           {saving ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Save className="mr-1.5 h-3.5 w-3.5" />}
           Mentés
         </Button>
-        <Button size="sm" variant="outline" onClick={handleSaveNew} disabled={isPending || saving}>
+        <Button size="sm" variant="outline" onClick={handleSaveNew} disabled={isPending || saving || isLocked}>
           <History className="mr-1.5 h-3.5 w-3.5" /> Új v{currentVersion + 1}
         </Button>
 
@@ -277,10 +293,18 @@ export function DocumentEditor({
         <div className="h-4 w-px bg-white/10 hidden sm:block" />
 
         {/* Signature */}
-        <Button size="sm" variant="outline" onClick={() => setShowSignature(v => !v)}
-          style={showSignature ? { background: 'oklch(0.68 0.22 290 / 0.2)', borderColor: 'oklch(0.68 0.22 290 / 0.5)' } : {}}>
-          <PenLine className="mr-1.5 h-3.5 w-3.5" /> Aláírás
-        </Button>
+        {!isLocked && (
+          <Button size="sm" variant="outline" onClick={() => setShowSignature(v => !v)}
+            style={showSignature ? { background: 'oklch(0.68 0.22 290 / 0.2)', borderColor: 'oklch(0.68 0.22 290 / 0.5)' } : {}}>
+            <PenLine className="mr-1.5 h-3.5 w-3.5" /> Aláírás
+          </Button>
+        )}
+        {isLocked && (
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold"
+            style={{ background: 'oklch(0.68 0.18 145 / 0.10)', color: 'oklch(0.75 0.18 145)', border: '1px solid oklch(0.68 0.18 145 / 0.25)' }}>
+            <Lock className="h-3 w-3" /> Zárolva
+          </div>
+        )}
 
         {/* Preview toggle */}
         <button onClick={() => setShowPreview(v => !v)}
@@ -309,7 +333,7 @@ export function DocumentEditor({
       )}
 
       {/* Signature panel */}
-      {showSignature && (
+      {showSignature && !isLocked && (
         <SignaturePanel
           documentId={document.id}
           versionId={currentVersionId}
@@ -318,7 +342,11 @@ export function DocumentEditor({
           content={content}
           title={document.title}
           companySettings={companySettings}
-          onSigned={(url) => { setStatus('signed'); if (url) setPdfUrl(url) }}
+          onSigned={(url) => {
+            setStatus('signed')
+            setShowSignature(false)
+            if (url) setPdfUrl(url)
+          }}
         />
       )}
 
@@ -328,17 +356,22 @@ export function DocumentEditor({
 
         {/* Editor panel */}
         <div className="flex flex-col gap-2 min-h-0" style={{ flex: showPreview ? '0 0 50%' : '1' }}>
-          <div className="text-xs font-semibold text-white/30 px-1">SZERKESZTŐ</div>
+          <div className="text-xs font-semibold text-white/30 px-1 flex items-center gap-2">
+            SZERKESZTŐ
+            {isLocked && <span className="text-xs font-normal" style={{ color: 'oklch(0.68 0.18 145)' }}>· csak olvasható</span>}
+          </div>
           <textarea
             ref={textareaRef}
             value={content}
-            onChange={e => setContent(e.target.value)}
+            onChange={e => !isLocked && setContent(e.target.value)}
+            readOnly={isLocked}
             className="flex-1 w-full rounded-xl px-4 py-4 text-sm font-mono leading-relaxed resize-none"
             style={{
-              background: 'oklch(0.10 0.02 270)',
+              background: isLocked ? 'oklch(0.09 0.015 270)' : 'oklch(0.10 0.02 270)',
               border: '1px solid oklch(1 0 0 / 0.10)',
-              color: 'oklch(0.90 0.005 264)',
+              color: isLocked ? 'oklch(0.70 0.005 264)' : 'oklch(0.90 0.005 264)',
               minHeight: '500px',
+              cursor: isLocked ? 'default' : undefined,
             }}
             spellCheck={false}
           />
@@ -369,19 +402,26 @@ export function DocumentEditor({
             <div className="text-xs font-bold uppercase tracking-widest text-white/40 mb-3">Verziók</div>
             <div className="flex flex-col gap-2 max-h-48 overflow-y-auto">
               {versions.map(v => (
-                <div key={v.id} className="flex items-center justify-between gap-2 py-2 border-b border-white/5 last:border-0">
-                  <div>
+                <div key={v.id} className="flex items-start justify-between gap-2 py-2 border-b border-white/5 last:border-0">
+                  <div className="min-w-0">
                     <div className="text-sm font-semibold text-white/80">v{v.version}</div>
                     <div className="text-xs text-white/30">{new Date(v.created_at).toLocaleString('hu-HU')}</div>
+                    {v.pdf_hash && (
+                      <div className="text-xs font-mono mt-0.5" style={{ color: 'oklch(0.65 0.10 145)' }}>
+                        {v.pdf_hash.slice(0, 12)}…
+                      </div>
+                    )}
                   </div>
-                  <div className="flex gap-1">
+                  <div className="flex gap-1 shrink-0">
                     {v.pdf_url && <span className="text-xs px-2 py-0.5 rounded-full text-emerald-400/80 bg-emerald-400/10">PDF</span>}
                     {v.signed_at && <span className="text-xs px-2 py-0.5 rounded-full text-violet-400/80 bg-violet-400/10">Aláírt</span>}
-                    <button
-                      onClick={() => { setContent(v.content); setCurrentVersionId(v.id); setCurrentVersion(v.version) }}
-                      className="text-xs px-2 py-0.5 rounded-full text-white/40 hover:text-white/80 transition-colors">
-                      Betölt
-                    </button>
+                    {!isLocked && (
+                      <button
+                        onClick={() => { setContent(v.content); setCurrentVersionId(v.id); setCurrentVersion(v.version) }}
+                        className="text-xs px-2 py-0.5 rounded-full text-white/40 hover:text-white/80 transition-colors">
+                        Betölt
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
@@ -416,12 +456,14 @@ export function DocumentEditor({
       )}
 
       {/* Danger zone */}
-      <div className="flex justify-end shrink-0 pt-2">
-        <Button variant="ghost" size="sm" onClick={handleDelete} disabled={isPending}
-          className="text-red-400/60 hover:text-red-400">
-          <Trash2 className="mr-2 h-3.5 w-3.5" /> Szerződés törlése
-        </Button>
-      </div>
+      {!isLocked && (
+        <div className="flex justify-end shrink-0 pt-2">
+          <Button variant="ghost" size="sm" onClick={handleDelete} disabled={isPending}
+            className="text-red-400/60 hover:text-red-400">
+            <Trash2 className="mr-2 h-3.5 w-3.5" /> Szerződés törlése
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

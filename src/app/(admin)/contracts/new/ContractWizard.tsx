@@ -1,12 +1,13 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { ChevronRight, ChevronLeft, UserPlus, User, FileSignature, Loader2, AlertCircle } from 'lucide-react'
+import { ChevronRight, ChevronLeft, UserPlus, User, FileSignature, Loader2, AlertCircle, Building2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { buildDocumentFromTemplate, quickCreateCustomer, createDocument } from '../actions'
-import { MANUAL_VARIABLES, VARIABLE_LABELS, findUnresolvedVariables } from '@/lib/document-variables'
+import { findUnresolvedVariables } from '@/lib/document-variables'
+import { getTemplateFields, type TemplateField } from '@/lib/template-fields'
 
 type Customer = {
   id: string
@@ -24,6 +25,59 @@ type Customer = {
 type Template = { id: string; name: string; description: string | null; type: string }
 
 const STEP_LABELS = ['Ügyfél', 'Sablon', 'Adatok', 'Áttekintés'] as const
+
+function FieldInput({
+  field,
+  value,
+  onChange,
+}: {
+  field: TemplateField
+  value: string
+  onChange: (v: string) => void
+}) {
+  const inputStyle = {
+    background: 'oklch(1 0 0 / 0.07)',
+    border: '1px solid oklch(1 0 0 / 0.15)',
+    color: 'white',
+  }
+
+  if (field.type === 'textarea') {
+    return (
+      <textarea
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        rows={field.rows ?? 2}
+        placeholder={field.placeholder || ''}
+        className="mt-1 w-full rounded-xl px-3 py-2.5 text-sm resize-none"
+        style={inputStyle}
+      />
+    )
+  }
+
+  if (field.type === 'select' && field.options) {
+    return (
+      <select
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        className="mt-1 w-full rounded-xl px-3 py-2.5 text-sm"
+        style={inputStyle}
+      >
+        {field.options.map(opt => (
+          <option key={opt} value={opt} style={{ background: '#1a1a2e' }}>{opt}</option>
+        ))}
+      </select>
+    )
+  }
+
+  return (
+    <Input
+      className="mt-1"
+      value={value}
+      onChange={e => onChange(e.target.value)}
+      placeholder={field.placeholder || ''}
+    />
+  )
+}
 
 export function ContractWizard({
   customers,
@@ -53,13 +107,21 @@ export function ContractWizard({
   )
   const [customerSearch, setCustomerSearch] = useState('')
   const [newCustomer, setNewCustomer] = useState({
-    is_company: false, name: '', company_name: '', email: '', phone: '', address: '', tax_number: ''
+    is_company: false,
+    name: '',
+    company_name: '',
+    contact_name: '',
+    email: '',
+    phone: '',
+    address: '',
+    tax_number: '',
+    registration_number: '',
   })
 
   // Step 1: template
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null)
 
-  // Step 2: manual variables (offer_price, payment_terms, etc.)
+  // Step 2: dynamic variables
   const [manualVars, setManualVars] = useState<Record<string, string>>(() => {
     const formatPayment = () => {
       if (!preOfferPaymentType || preOfferPaymentType === 'one_time') return 'Egyösszegű fizetés, banki átutalással, 8 napon belül'
@@ -69,12 +131,10 @@ export function ContractWizard({
     return {
       offer_price: preOfferAmount ? preOfferAmount.toLocaleString('hu-HU') : '',
       payment_terms: formatPayment(),
-      project_description: '',
-      deadline: 'A szerződés aláírásától számított 30 munkanapon belül',
     }
   })
 
-  // Step 3: generated content
+  // Step 3: preview
   const [generatedContent, setGeneratedContent] = useState('')
   const [generatedTitle, setGeneratedTitle] = useState('')
   const [unresolvedVars, setUnresolvedVars] = useState<string[]>([])
@@ -91,7 +151,8 @@ export function ContractWizard({
   async function handleCustomerNext() {
     setError(null)
     if (customerMode === 'new') {
-      if (!newCustomer.name && !newCustomer.company_name) {
+      const needsName = newCustomer.is_company ? !newCustomer.company_name : !newCustomer.name
+      if (needsName) {
         setError(newCustomer.is_company ? 'Cégnév megadása kötelező.' : 'Név megadása kötelező.')
         return
       }
@@ -109,15 +170,31 @@ export function ContractWizard({
     }
   }
 
-  async function handleTemplateNext() {
+  function handleTemplateNext() {
     setError(null)
     if (!selectedTemplate) { setError('Válassz egy sablont.'); return }
+    // Pre-fill defaults for the selected template
+    const fields = getTemplateFields(selectedTemplate.name)
+    setManualVars(prev => {
+      const updated = { ...prev }
+      for (const f of fields) {
+        if (!updated[f.key] && f.defaultValue) updated[f.key] = f.defaultValue
+        if (!updated[f.key] && f.options?.[0]) updated[f.key] = f.options[0]
+      }
+      return updated
+    })
     setStep(2)
   }
 
-  async function handleVarsNext() {
+  function handleVarsNext() {
     setError(null)
     if (!selectedTemplate || !selectedCustomer) return
+    const fields = getTemplateFields(selectedTemplate.name)
+    const missingRequired = fields.filter(f => f.required && !manualVars[f.key]?.trim())
+    if (missingRequired.length > 0) {
+      setError(`Kötelező mező hiányzik: ${missingRequired.map(f => f.label).join(', ')}`)
+      return
+    }
     startTransition(async () => {
       const result = await buildDocumentFromTemplate(
         selectedTemplate.id,
@@ -151,6 +228,8 @@ export function ContractWizard({
   const clientDisplayName = selectedCustomer?.is_company
     ? (selectedCustomer.company_name || selectedCustomer.name || '—')
     : (selectedCustomer?.name || '—')
+
+  const templateFields = selectedTemplate ? getTemplateFields(selectedTemplate.name) : []
 
   return (
     <div className="max-w-2xl w-full mx-auto flex flex-col gap-4">
@@ -202,7 +281,7 @@ export function ContractWizard({
                   ? { background: 'oklch(0.68 0.22 290)', color: 'white' }
                   : { background: 'oklch(1 0 0 / 0.06)', color: 'oklch(1 0 0 / 0.5)' }}>
                 {mode === 'select' ? <User className="h-4 w-4" /> : <UserPlus className="h-4 w-4" />}
-                {mode === 'select' ? 'Meglévő' : 'Új ügyfél'}
+                {mode === 'select' ? 'Meglévő ügyfél' : 'Új ügyfél'}
               </button>
             ))}
           </div>
@@ -225,7 +304,9 @@ export function ContractWizard({
                       style={selectedCustomer?.id === c.id
                         ? { background: 'oklch(0.68 0.22 290 / 0.15)', border: '1px solid oklch(0.68 0.22 290 / 0.4)', color: 'white' }
                         : { background: 'oklch(1 0 0 / 0.04)', border: '1px solid oklch(1 0 0 / 0.08)', color: 'oklch(1 0 0 / 0.7)' }}>
-                      <User className="h-4 w-4 shrink-0 opacity-50" />
+                      {c.is_company
+                        ? <Building2 className="h-4 w-4 shrink-0 opacity-50" />
+                        : <User className="h-4 w-4 shrink-0 opacity-50" />}
                       <div className="min-w-0">
                         <div className="font-semibold text-sm truncate">{display}</div>
                         {sub && <div className="text-xs opacity-50 truncate">{sub}</div>}
@@ -241,6 +322,7 @@ export function ContractWizard({
 
           {customerMode === 'new' && (
             <div className="flex flex-col gap-3">
+              {/* Company/Individual toggle */}
               <div className="flex gap-2">
                 {[false, true].map(isCompany => (
                   <button key={String(isCompany)} type="button"
@@ -249,27 +331,34 @@ export function ContractWizard({
                     style={newCustomer.is_company === isCompany
                       ? { background: 'oklch(0.68 0.22 290 / 0.25)', color: 'white', border: '1px solid oklch(0.68 0.22 290 / 0.5)' }
                       : { background: 'oklch(1 0 0 / 0.05)', color: 'oklch(1 0 0 / 0.4)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
-                    {isCompany ? 'Céges' : 'Magánszemély'}
+                    {isCompany ? '🏢 Céges ügyfél' : '👤 Magánszemély'}
                   </button>
                 ))}
               </div>
+
               {newCustomer.is_company ? (
                 <>
                   <div><Label>Cégnév *</Label><Input className="mt-1" value={newCustomer.company_name} onChange={e => setNewCustomer(p => ({ ...p, company_name: e.target.value }))} placeholder="Példa Kft." /></div>
-                  <div><Label>Kapcsolattartó neve</Label><Input className="mt-1" value={newCustomer.name} onChange={e => setNewCustomer(p => ({ ...p, name: e.target.value }))} placeholder="Kovács János" /></div>
+                  <div><Label>Kapcsolattartó neve</Label><Input className="mt-1" value={newCustomer.contact_name} onChange={e => setNewCustomer(p => ({ ...p, contact_name: e.target.value }))} placeholder="Kovács János" /></div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div><Label>E-mail</Label><Input className="mt-1" type="email" value={newCustomer.email} onChange={e => setNewCustomer(p => ({ ...p, email: e.target.value }))} /></div>
+                    <div><Label>Telefon</Label><Input className="mt-1" value={newCustomer.phone} onChange={e => setNewCustomer(p => ({ ...p, phone: e.target.value }))} /></div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div><Label>Adószám</Label><Input className="mt-1" value={newCustomer.tax_number} onChange={e => setNewCustomer(p => ({ ...p, tax_number: e.target.value }))} placeholder="12345678-2-41" /></div>
+                    <div><Label>Cégjegyzékszám</Label><Input className="mt-1" value={newCustomer.registration_number} onChange={e => setNewCustomer(p => ({ ...p, registration_number: e.target.value }))} placeholder="01-09-123456" /></div>
+                  </div>
+                  <div><Label>Székhely</Label><Input className="mt-1" value={newCustomer.address} onChange={e => setNewCustomer(p => ({ ...p, address: e.target.value }))} placeholder="1234 Budapest, Példa utca 1." /></div>
                 </>
               ) : (
-                <div><Label>Név *</Label><Input className="mt-1" value={newCustomer.name} onChange={e => setNewCustomer(p => ({ ...p, name: e.target.value }))} placeholder="Kovács János" /></div>
-              )}
-              <div className="grid grid-cols-2 gap-3">
-                <div><Label>E-mail</Label><Input className="mt-1" type="email" value={newCustomer.email} onChange={e => setNewCustomer(p => ({ ...p, email: e.target.value }))} /></div>
-                <div><Label>Telefon</Label><Input className="mt-1" value={newCustomer.phone} onChange={e => setNewCustomer(p => ({ ...p, phone: e.target.value }))} /></div>
-              </div>
-              {newCustomer.is_company && (
-                <div className="grid grid-cols-2 gap-3">
-                  <div><Label>Adószám</Label><Input className="mt-1" value={newCustomer.tax_number} onChange={e => setNewCustomer(p => ({ ...p, tax_number: e.target.value }))} /></div>
-                  <div><Label>Cím</Label><Input className="mt-1" value={newCustomer.address} onChange={e => setNewCustomer(p => ({ ...p, address: e.target.value }))} /></div>
-                </div>
+                <>
+                  <div><Label>Név *</Label><Input className="mt-1" value={newCustomer.name} onChange={e => setNewCustomer(p => ({ ...p, name: e.target.value }))} placeholder="Kovács János" /></div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div><Label>E-mail</Label><Input className="mt-1" type="email" value={newCustomer.email} onChange={e => setNewCustomer(p => ({ ...p, email: e.target.value }))} /></div>
+                    <div><Label>Telefon</Label><Input className="mt-1" value={newCustomer.phone} onChange={e => setNewCustomer(p => ({ ...p, phone: e.target.value }))} /></div>
+                  </div>
+                  <div><Label>Cím</Label><Input className="mt-1" value={newCustomer.address} onChange={e => setNewCustomer(p => ({ ...p, address: e.target.value }))} placeholder="1234 Budapest, Példa utca 1." /></div>
+                </>
               )}
             </div>
           )}
@@ -288,7 +377,7 @@ export function ContractWizard({
         <div className="rounded-2xl p-6 flex flex-col gap-4"
           style={{ background: 'oklch(1 0 0 / 0.04)', border: '1px solid oklch(1 0 0 / 0.10)' }}>
           <div>
-            <h2 className="text-lg font-bold text-white">Sablon kiválasztása</h2>
+            <h2 className="text-lg font-bold text-white">Szerződés típusa</h2>
             <p className="text-sm text-white/40 mt-0.5">Ügyfél: <span className="text-white/70 font-semibold">{clientDisplayName}</span></p>
           </div>
           <div className="flex flex-col gap-2">
@@ -300,7 +389,7 @@ export function ContractWizard({
                   : { background: 'oklch(1 0 0 / 0.04)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
                 <FileSignature className="h-5 w-5 mt-0.5 shrink-0"
                   style={{ color: selectedTemplate?.id === t.id ? 'oklch(0.68 0.22 290)' : 'oklch(1 0 0 / 0.30)' }} />
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <div className="font-semibold text-white text-sm">{t.name}</div>
                   {t.description && <div className="text-xs text-white/40 mt-0.5">{t.description}</div>}
                 </div>
@@ -310,46 +399,31 @@ export function ContractWizard({
           </div>
           <div className="flex justify-between pt-2">
             <Button variant="ghost" onClick={() => setStep(0)}><ChevronLeft className="mr-2 h-4 w-4" /> Vissza</Button>
-            <Button onClick={handleTemplateNext} disabled={isPending}>
-              Tovább <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
+            <Button onClick={handleTemplateNext}>Tovább <ChevronRight className="ml-2 h-4 w-4" /></Button>
           </div>
         </div>
       )}
 
-      {/* ── STEP 2: Manual variables ── */}
+      {/* ── STEP 2: Dynamic fields per template ── */}
       {step === 2 && (
         <div className="rounded-2xl p-6 flex flex-col gap-4"
           style={{ background: 'oklch(1 0 0 / 0.04)', border: '1px solid oklch(1 0 0 / 0.10)' }}>
           <div>
             <h2 className="text-lg font-bold text-white">Szerződés adatai</h2>
-            <p className="text-sm text-white/40 mt-0.5">Ezek kerülnek be a szerződésbe</p>
+            <p className="text-sm text-white/40 mt-0.5">{selectedTemplate?.name}</p>
           </div>
           <div className="flex flex-col gap-3">
-            {MANUAL_VARIABLES.filter(k => k !== 'contract_number').map(key => (
-              <div key={key}>
-                <Label>{VARIABLE_LABELS[key]}</Label>
-                {key === 'project_description' || key === 'payment_terms' ? (
-                  <textarea
-                    value={manualVars[key] || ''}
-                    onChange={e => setManualVars(p => ({ ...p, [key]: e.target.value }))}
-                    rows={key === 'project_description' ? 3 : 2}
-                    placeholder={key === 'project_description' ? 'Pl. Egyedi vállalati weboldal fejlesztése, 10 aloldal' : ''}
-                    className="mt-1 w-full rounded-xl px-3 py-2.5 text-sm resize-none"
-                    style={{
-                      background: 'oklch(1 0 0 / 0.07)',
-                      border: '1px solid oklch(1 0 0 / 0.15)',
-                      color: 'white',
-                    }}
-                  />
-                ) : (
-                  <Input
-                    className="mt-1"
-                    value={manualVars[key] || ''}
-                    onChange={e => setManualVars(p => ({ ...p, [key]: e.target.value }))}
-                    placeholder={key === 'offer_price' ? '250 000' : ''}
-                  />
-                )}
+            {templateFields.map(field => (
+              <div key={field.key}>
+                <Label>
+                  {field.label}
+                  {field.required && <span className="ml-1 text-red-400/70">*</span>}
+                </Label>
+                <FieldInput
+                  field={field}
+                  value={manualVars[field.key] || ''}
+                  onChange={v => setManualVars(p => ({ ...p, [field.key]: v }))}
+                />
               </div>
             ))}
           </div>
@@ -371,9 +445,9 @@ export function ContractWizard({
               style={{ background: 'oklch(0.65 0.12 55 / 0.12)', color: 'oklch(0.80 0.12 55)', border: '1px solid oklch(0.65 0.12 55 / 0.30)' }}>
               <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
               <div>
-                <div className="font-semibold">Kitöltetlen változók:</div>
+                <div className="font-semibold">Kitöltetlen mezők a sablonban:</div>
                 <div className="text-xs mt-0.5 opacity-80">
-                  {unresolvedVars.map(v => `{{${v}}}`).join(', ')} — a szerkesztőben még javíthatod
+                  {unresolvedVars.map(v => `{{${v}}}`).join(', ')} — a szerkesztőben még javítható
                 </div>
               </div>
             </div>
@@ -387,14 +461,14 @@ export function ContractWizard({
             </div>
             <pre className="text-xs text-white/60 font-mono leading-relaxed max-h-72 overflow-y-auto rounded-xl p-3"
               style={{ background: 'oklch(1 0 0 / 0.05)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
-              {generatedContent.slice(0, 1200)}{generatedContent.length > 1200 ? '\n…' : ''}
+              {generatedContent.slice(0, 1500)}{generatedContent.length > 1500 ? '\n…' : ''}
             </pre>
 
             <div className="flex justify-between pt-2">
               <Button variant="ghost" onClick={() => setStep(2)}><ChevronLeft className="mr-2 h-4 w-4" /> Vissza</Button>
               <Button onClick={handleCreate} disabled={isPending}>
                 {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                Szerződés megnyitása szerkesztőben →
+                Megnyitás szerkesztőben →
               </Button>
             </div>
           </div>

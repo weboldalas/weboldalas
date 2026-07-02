@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { createHash } from 'crypto'
 import { createClient } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
@@ -39,6 +40,9 @@ export async function POST(
     return NextResponse.json({ error: 'PDF generálás sikertelen.' }, { status: 500 })
   }
 
+  // SHA-256 hash for integrity verification
+  const hash = createHash('sha256').update(pdfBuffer).digest('hex')
+
   const supabaseAdmin = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -62,5 +66,5 @@ export async function POST(
     return NextResponse.json({ error: 'PDF URL generálás sikertelen.' }, { status: 500 })
   }
 
-  return NextResponse.json({ url: signedData.signedUrl, fileName })
+  return NextResponse.json({ url: signedData.signedUrl, fileName, hash })
 }
