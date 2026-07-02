@@ -1,14 +1,14 @@
-import path from 'path'
 import {
   renderToBuffer,
   Document, Page, Text, View, Image, StyleSheet, Font,
 } from '@react-pdf/renderer'
+import { ROBOTO_REGULAR_B64, ROBOTO_BOLD_B64 } from './fonts'
 
 Font.register({
   family: 'Roboto',
   fonts: [
-    { src: path.resolve('./public/fonts/Roboto-Regular.ttf'), fontWeight: 400 },
-    { src: path.resolve('./public/fonts/Roboto-Bold.ttf'),    fontWeight: 700 },
+    { src: `data:font/truetype;base64,${ROBOTO_REGULAR_B64}`, fontWeight: 400 },
+    { src: `data:font/truetype;base64,${ROBOTO_BOLD_B64}`,    fontWeight: 700 },
   ],
 })
 
