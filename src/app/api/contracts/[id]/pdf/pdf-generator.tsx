@@ -1,11 +1,21 @@
+import path from 'path'
 import {
   renderToBuffer,
   Document, Page, Text, View, Image, StyleSheet, Font,
 } from '@react-pdf/renderer'
 
+Font.register({
+  family: 'Roboto',
+  fonts: [
+    { src: path.resolve('./public/fonts/Roboto-Regular.ttf'), fontWeight: 400 },
+    { src: path.resolve('./public/fonts/Roboto-Bold.ttf'),    fontWeight: 700 },
+  ],
+})
+
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Helvetica',
+    fontFamily: 'Roboto',
+    fontWeight: 400,
     fontSize: 9.5,
     paddingTop: 55,
     paddingBottom: 55,
@@ -37,7 +47,8 @@ const styles = StyleSheet.create({
     objectPositionX: 0,
   },
   companyName: {
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'Roboto',
+    fontWeight: 700,
     fontSize: 13,
     color: '#1a1a2e',
     marginBottom: 2,
@@ -51,7 +62,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionTitle: {
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'Roboto',
+    fontWeight: 700,
     fontSize: 10.5,
     color: '#1a1a2e',
     marginTop: 10,
@@ -59,7 +71,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
   },
   numberedTitle: {
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'Roboto',
+    fontWeight: 700,
     fontSize: 9.5,
     color: '#1a1a2e',
     marginTop: 8,
@@ -71,10 +84,12 @@ const styles = StyleSheet.create({
     marginBottom: 1,
   },
   monoLine: {
-    fontFamily: 'Courier',
+    fontFamily: 'Roboto',
+    fontWeight: 400,
     fontSize: 9,
     color: '#444444',
     marginTop: 2,
+    letterSpacing: 0.3,
   },
   emptyLine: {
     marginBottom: 4,
@@ -159,7 +174,6 @@ function ContractDocument({ content, title, companySettings, clientSignature, co
   const lines = content.split('\n')
   const company = companySettings
 
-  // Detect signature area lines (the last 5 lines before end)
   const signatureStartIndex = lines.findLastIndex(l => l.includes('_____'))
   const bodyLines = signatureStartIndex >= 0 ? lines.slice(0, signatureStartIndex - 3) : lines
   const sigLines = signatureStartIndex >= 0 ? lines.slice(signatureStartIndex - 3) : []
@@ -218,7 +232,6 @@ function ContractDocument({ content, title, companySettings, clientSignature, co
               </View>
             </View>
           ) : (
-            // Render signature lines from template text
             <>
               {sigLines.map((line, i) => {
                 if (line === '---') return <View key={i} style={styles.separator} />
