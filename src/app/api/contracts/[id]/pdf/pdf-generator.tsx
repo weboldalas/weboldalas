@@ -42,9 +42,9 @@ const styles = StyleSheet.create({
     color: '#666666',
   },
   logo: {
-    height: 32,
+    height: 22,
+    maxWidth: 90,
     objectFit: 'contain',
-    objectPositionX: 0,
   },
   companyName: {
     fontFamily: 'Roboto',
