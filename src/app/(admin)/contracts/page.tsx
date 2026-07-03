@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Plus, FileSignature, FileText, Send, CheckCircle2, XCircle, Archive } from 'lucide-react'
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
+import { DeleteContractButton } from './DeleteContractButton'
 
 export const metadata = {
   title: 'Szerződések | Weboldalas Admin',
@@ -94,6 +95,7 @@ export default async function ContractsPage() {
                   ? (customer.company_name || customer.name)
                   : customer?.name || '—'
                 const template = doc.document_templates as { name: string } | null
+                const isLocked = !!doc.locked_at
                 return (
                   <div key={doc.id} className="rounded-2xl p-4 flex flex-col gap-3"
                     style={{ background: 'oklch(1 0 0 / 0.03)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
@@ -110,11 +112,14 @@ export default async function ContractsPage() {
                           v{doc.current_version} · {new Date(doc.created_at).toLocaleDateString('hu-HU')}
                         </span>
                       </div>
-                      <Link href={`/contracts/${doc.id}`}>
-                        <Button variant="ghost" size="sm" className="h-7 text-xs">
-                          Megnyit →
-                        </Button>
-                      </Link>
+                      <div className="flex items-center gap-1">
+                        <DeleteContractButton id={doc.id} isLocked={isLocked} />
+                        <Link href={`/contracts/${doc.id}`}>
+                          <Button variant="ghost" size="sm" className="h-7 text-xs">
+                            Megnyit →
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 )

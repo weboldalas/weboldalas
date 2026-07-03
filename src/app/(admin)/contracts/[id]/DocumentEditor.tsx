@@ -204,7 +204,10 @@ export function DocumentEditor({
   }
 
   function handleDelete() {
-    if (!confirm('Biztosan törlöd ezt a szerződést? Ez nem visszavonható.')) return
+    const msg = isLocked
+      ? 'Ez a szerződés ALÁÍRT és ZÁROLT. Biztosan törlöd? Ez nem visszavonható.'
+      : 'Biztosan törlöd ezt a szerződést? Ez nem visszavonható.'
+    if (!confirm(msg)) return
     startTransition(async () => { await deleteDocument(document.id) })
   }
 
@@ -456,14 +459,12 @@ export function DocumentEditor({
       )}
 
       {/* Danger zone */}
-      {!isLocked && (
-        <div className="flex justify-end shrink-0 pt-2">
-          <Button variant="ghost" size="sm" onClick={handleDelete} disabled={isPending}
-            className="text-red-400/60 hover:text-red-400">
-            <Trash2 className="mr-2 h-3.5 w-3.5" /> Szerződés törlése
-          </Button>
-        </div>
-      )}
+      <div className="flex justify-end shrink-0 pt-2">
+        <Button variant="ghost" size="sm" onClick={handleDelete} disabled={isPending}
+          className="text-red-400/60 hover:text-red-400">
+          <Trash2 className="mr-2 h-3.5 w-3.5" /> Szerződés törlése
+        </Button>
+      </div>
     </div>
   )
 }
