@@ -2,8 +2,8 @@ import { createClient } from '@/utils/supabase/server'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
 import {
-  Phone, AlertTriangle, Users, CreditCard,
-  RefreshCw, CheckSquare, Clock, Zap, ArrowRight,
+  Phone, AlertTriangle, Users, TrendingUp,
+  CheckSquare, Clock, Zap, ArrowRight,
 } from 'lucide-react'
 import { PIPELINE_STAGES } from '../leads/pipeline'
 import { PhoneLink } from './PhoneLink'
@@ -24,17 +24,16 @@ export default async function DashboardPage() {
   const [
     { data: leads },
     { data: activeSubscriptions },
-    { data: overduePayments },
-    { data: pendingPayments },
+    { data: monthPayments },
     { data: openTasks },
     { data: recentNotes },
     { count: urgentTasks },
   ] = await Promise.all([
     supabase.from('leads').select('id, name, status, phone, next_call_date, industry, interest_type'),
     supabase.from('subscriptions').select('monthly_fee, currency').eq('status', 'active'),
-    supabase.from('payments').select('amount').eq('status', 'overdue'),
-    supabase.from('payments').select('amount').eq('status', 'pending')
-      .gte('due_date', monthStart).lte('due_date', monthEnd),
+    supabase.from('payments').select('amount')
+      .gte('due_date', monthStart).lte('due_date', monthEnd)
+      .neq('status', 'cancelled'),
     supabase.from('tasks').select('id, title, due_date, priority, status, lead_id, customer_id')
       .in('status', ['todo', 'in_progress', 'waiting'])
       .order('due_date', { ascending: true, nullsFirst: false })
@@ -67,10 +66,10 @@ export default async function DashboardPage() {
       && new Date(l.next_call_date) < new Date(todayStart)
   }) ?? []
 
-  // MRR
   const mrr = activeSubscriptions?.reduce((sum, s) => sum + Number(s.monthly_fee), 0) ?? 0
-  const pendingRevenue = pendingPayments?.reduce((sum, p) => sum + Number(p.amount), 0) ?? 0
-  const outstandingDebt = overduePayments?.reduce((sum, p) => sum + Number(p.amount), 0) ?? 0
+  const projectRevenue = monthPayments?.reduce((sum, p) => sum + Number(p.amount), 0) ?? 0
+  const expectedRevenue = mrr + projectRevenue
+  const monthName = now.toLocaleDateString('hu-HU', { month: 'long' })
 
   const OUTCOME_LABELS: Record<string, string> = {
     elerte: '✅ Elértem', nem_vette_fel: '📵 Nem vette fel',
@@ -176,54 +175,35 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* === PÉNZÜGYI MUTATÓK === */}
+      {/* === VÁRHATÓ BEVÉTEL === */}
       <div>
         <h2 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3 flex items-center gap-2">
-          <CreditCard className="h-3.5 w-3.5" /> Pénzügyek
+          <TrendingUp className="h-3.5 w-3.5" /> Pénzügyek
         </h2>
-        <div className="grid gap-4 sm:grid-cols-3">
-          <Link href="/subscriptions">
-            <Card className="hover:-translate-y-0.5 transition-transform cursor-pointer">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-white/60">Havi bevétel (MRR)</CardTitle>
-                <div className="rounded-xl p-2 bg-gradient-to-br from-emerald-500 to-teal-500">
-                  <RefreshCw className="h-3.5 w-3.5 text-white" />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-white">{mrr.toLocaleString('hu-HU')} Ft</div>
-                <div className="text-xs text-white/30 mt-1">{activeSubscriptions?.length ?? 0} aktív előfizetés</div>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link href="/payments">
-            <Card className="hover:-translate-y-0.5 transition-transform cursor-pointer">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-white/60">Várható (ebben a hónapban)</CardTitle>
-                <div className="rounded-xl p-2 bg-gradient-to-br from-violet-500 to-purple-500">
-                  <CreditCard className="h-3.5 w-3.5 text-white" />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-white">{pendingRevenue.toLocaleString('hu-HU')} Ft</div>
-                <div className="text-xs text-white/30 mt-1">Függőben lévő befizetések</div>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link href="/payments">
-            <Card className="hover:-translate-y-0.5 transition-transform cursor-pointer">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-white/60">Kintlévőség</CardTitle>
-                <div className="rounded-xl p-2 bg-gradient-to-br from-rose-500 to-red-500">
-                  <AlertTriangle className="h-3.5 w-3.5 text-white" />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-white">{outstandingDebt.toLocaleString('hu-HU')} Ft</div>
-                <div className="text-xs text-white/30 mt-1">Lejárt, kifizetetlen tételek</div>
-              </CardContent>
-            </Card>
-          </Link>
+        <div className="rounded-2xl p-5"
+          style={{ background: 'oklch(0.68 0.18 145 / 0.07)', border: '1px solid oklch(0.68 0.18 145 / 0.20)' }}>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <div className="text-sm font-medium text-white/50 mb-1">Várható bevétel — {monthName}</div>
+              <div className="text-4xl font-bold text-white tracking-tight">{expectedRevenue.toLocaleString('hu-HU')} Ft</div>
+              <div className="flex items-center gap-4 mt-3 text-xs text-white/35">
+                <Link href="/subscriptions" className="hover:text-white/60 transition-colors">
+                  MRR: {mrr.toLocaleString('hu-HU')} Ft ({activeSubscriptions?.length ?? 0} előfizetés)
+                </Link>
+                {projectRevenue > 0 && (
+                  <>
+                    <span className="text-white/15">·</span>
+                    <Link href="/payments" className="hover:text-white/60 transition-colors">
+                      Projektek: {projectRevenue.toLocaleString('hu-HU')} Ft
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+            <div className="rounded-2xl p-3 shrink-0" style={{ background: 'oklch(0.68 0.18 145 / 0.15)' }}>
+              <TrendingUp className="h-6 w-6" style={{ color: 'oklch(0.75 0.18 145)' }} />
+            </div>
+          </div>
         </div>
       </div>
 
