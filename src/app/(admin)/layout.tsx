@@ -21,8 +21,8 @@ export default function AdminLayout({
         theme="dark"
         toastOptions={{
           style: {
-            background: 'oklch(0.15 0.02 270)',
-            border: '1px solid oklch(1 0 0 / 0.10)',
+            background: 'hsl(222 25% 14%)',
+            border: '1px solid hsl(222 20% 22%)',
             color: 'white',
           },
         }}
