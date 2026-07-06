@@ -38,12 +38,12 @@ function SidebarContent() {
   const pathname = usePathname()
 
   return (
-    <div className="flex h-full flex-col" style={{
-      background: 'hsl(222 25% 12%)',
-      borderRight: '1px solid hsl(222 20% 18%)',
+    <div className="flex h-full flex-col backdrop-blur-xl" style={{
+      background: 'oklch(1 0 0 / 0.03)',
+      borderRight: '1px solid oklch(1 0 0 / 0.08)',
     }}>
       {/* Logo area */}
-      <div className="flex h-16 items-center px-5" style={{ borderBottom: '1px solid hsl(222 20% 18%)' }}>
+      <div className="flex h-16 items-center px-5" style={{ borderBottom: '1px solid oklch(1 0 0 / 0.08)' }}>
         <Link href="/" className="flex items-center gap-3 group">
           <Image
             src="/weboldalas-logo.svg"
@@ -69,20 +69,17 @@ function SidebarContent() {
                 href={route.href}
                 className={cn(
                   'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200',
-                  isActive
-                    ? 'text-[hsl(72_91%_62%)]'
-                    : 'text-[hsl(222_10%_55%)] hover:text-white'
+                  isActive ? 'text-white' : 'text-white/55 hover:text-white/90'
                 )}
                 style={isActive ? {
-                  background: 'hsl(72 91% 62% / 0.10)',
-                  borderLeft: '2px solid hsl(72 91% 62%)',
-                  paddingLeft: '10px',
+                  background: 'linear-gradient(135deg, oklch(0.60 0.22 290 / 0.9), oklch(0.55 0.22 240 / 0.9))',
+                  boxShadow: '0 2px 12px oklch(0.60 0.22 290 / 0.35), inset 0 1px 0 oklch(1 0 0 / 0.15)',
                 } : {
                   background: 'transparent',
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.background = 'hsl(222 20% 17%)'
+                    e.currentTarget.style.background = 'oklch(1 0 0 / 0.06)'
                   }
                 }}
                 onMouseLeave={(e) => {
@@ -91,7 +88,7 @@ function SidebarContent() {
                   }
                 }}
               >
-                <Icon className="h-4 w-4 shrink-0" />
+                <Icon className={cn('h-4 w-4 shrink-0', isActive ? 'text-white' : 'text-white/50')} />
                 {route.label}
               </Link>
             )
@@ -100,16 +97,15 @@ function SidebarContent() {
       </div>
 
       {/* Logout */}
-      <div className="p-3" style={{ borderTop: '1px solid hsl(222 20% 18%)' }}>
+      <div className="p-3" style={{ borderTop: '1px solid oklch(1 0 0 / 0.08)' }}>
         <form action={logout}>
           <button
             type="submit"
-            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 cursor-pointer"
-            style={{ color: 'hsl(222 10% 50%)' }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'hsl(222 20% 17%)'; e.currentTarget.style.color = 'white' }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'hsl(222 10% 50%)' }}
+            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-white/50 hover:text-white/90 transition-all duration-200 cursor-pointer"
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'oklch(1 0 0 / 0.06)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
           >
-            <LogOut className="h-4 w-4 shrink-0" />
+            <LogOut className="h-4 w-4 shrink-0 text-white/40" />
             Kijelentkezés
           </button>
         </form>
@@ -128,8 +124,8 @@ export function Sidebar() {
 
       {/* Mobile Topbar */}
       <div className="flex flex-col md:hidden">
-        <header className="flex h-14 items-center gap-4 px-4"
-          style={{ background: 'hsl(222 25% 12%)', borderBottom: '1px solid hsl(222 20% 18%)' }}>
+        <header className="flex h-14 items-center gap-4 px-4 backdrop-blur-xl"
+          style={{ background: 'oklch(1 0 0 / 0.04)', borderBottom: '1px solid oklch(1 0 0 / 0.08)' }}>
           <Sheet>
             <SheetTrigger render={<Button variant="ghost" size="icon" className="shrink-0 text-white/70 hover:text-white hover:bg-white/10" />}>
               <Menu className="h-5 w-5" />
