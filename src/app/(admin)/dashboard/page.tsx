@@ -97,8 +97,8 @@ export default async function DashboardPage() {
               <div className="flex items-center gap-3 rounded-xl px-4 py-3 cursor-pointer hover:opacity-90 transition-opacity"
                 style={{ background: 'oklch(0.62 0.22 25 / 0.15)', border: '1px solid oklch(0.62 0.22 25 / 0.30)' }}>
                 <AlertTriangle className="h-4 w-4 shrink-0" style={{ color: 'oklch(0.75 0.20 25)' }} />
-                <span className="text-sm font-medium" style={{ color: 'oklch(0.75 0.20 25)' }}>
-                  {overdueCallbacks.length} lejárt visszahívás — {overdueCallbacks.slice(0, 3).map(l => l.name).join(', ')}{overdueCallbacks.length > 3 ? ` +${overdueCallbacks.length - 3}` : ''}
+                <span className="text-sm font-medium truncate min-w-0" style={{ color: 'oklch(0.75 0.20 25)' }}>
+                  {overdueCallbacks.length} lejárt visszahívás <span className="hidden sm:inline">— {overdueCallbacks.slice(0, 3).map(l => l.name).join(', ')}{overdueCallbacks.length > 3 ? ` +${overdueCallbacks.length - 3}` : ''}</span>
                 </span>
                 <ArrowRight className="h-4 w-4 ml-auto shrink-0" style={{ color: 'oklch(0.75 0.20 25)' }} />
               </div>
@@ -109,7 +109,7 @@ export default async function DashboardPage() {
               <div className="flex items-center gap-3 rounded-xl px-4 py-3 cursor-pointer hover:opacity-90 transition-opacity"
                 style={{ background: 'oklch(0.70 0.20 40 / 0.12)', border: '1px solid oklch(0.70 0.20 40 / 0.25)' }}>
                 <Zap className="h-4 w-4 shrink-0" style={{ color: 'oklch(0.75 0.18 40)' }} />
-                <span className="text-sm font-medium" style={{ color: 'oklch(0.75 0.18 40)' }}>
+                <span className="text-sm font-medium truncate min-w-0" style={{ color: 'oklch(0.75 0.18 40)' }}>
                   {urgentTasks} sürgős feladat vár
                 </span>
                 <ArrowRight className="h-4 w-4 ml-auto shrink-0" style={{ color: 'oklch(0.75 0.18 40)' }} />
@@ -183,16 +183,16 @@ export default async function DashboardPage() {
         <div className="rounded-2xl p-5"
           style={{ background: 'oklch(0.68 0.18 145 / 0.07)', border: '1px solid oklch(0.68 0.18 145 / 0.20)' }}>
           <div className="flex items-start justify-between gap-4">
-            <div>
+            <div className="min-w-0">
               <div className="text-sm font-medium text-white/50 mb-1">Várható bevétel — {monthName}</div>
-              <div className="text-4xl font-bold text-white tracking-tight">{expectedRevenue.toLocaleString('hu-HU')} Ft</div>
-              <div className="flex items-center gap-4 mt-3 text-xs text-white/35">
+              <div className="text-3xl sm:text-4xl font-bold text-white tracking-tight truncate">{expectedRevenue.toLocaleString('hu-HU')} Ft</div>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-4 mt-3 text-xs text-white/35">
                 <Link href="/subscriptions" className="hover:text-white/60 transition-colors">
                   MRR: {mrr.toLocaleString('hu-HU')} Ft ({activeSubscriptions?.length ?? 0} előfizetés)
                 </Link>
                 {projectRevenue > 0 && (
                   <>
-                    <span className="text-white/15">·</span>
+                    <span className="hidden sm:inline-block text-white/15">·</span>
                     <Link href="/payments" className="hover:text-white/60 transition-colors">
                       Projektek: {projectRevenue.toLocaleString('hu-HU')} Ft
                     </Link>
@@ -226,7 +226,7 @@ export default async function DashboardPage() {
                   <div className={`flex items-center gap-3 px-4 py-3 hover:bg-white/[0.03] transition-colors ${i < (openTasks.length - 1) ? 'border-b border-white/5' : ''}`}>
                     <div className="w-1.5 h-1.5 rounded-full shrink-0"
                       style={{ background: task.priority === 'urgent' ? 'oklch(0.65 0.22 25)' : task.priority === 'high' ? 'oklch(0.70 0.18 40)' : 'oklch(0.60 0.05 270)' }} />
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 pr-2">
                       <div className="text-sm text-white/80 truncate">{task.title}</div>
                     </div>
                     {task.due_date && (
