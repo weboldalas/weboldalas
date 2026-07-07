@@ -157,20 +157,20 @@ export default async function DashboardPage() {
         <h2 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3 flex items-center gap-2">
           <Users className="h-3.5 w-3.5" /> Értékesítési pipeline
         </h2>
-        <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid gap-2 sm:gap-3 grid-cols-3 sm:grid-cols-3 lg:grid-cols-6">
           {PIPELINE_STAGES.map(stage => {
             const count = pipelineCounts[stage.id] ?? 0
             return (
               <Link key={stage.id} href="/leads">
                 <Card className="hover:-translate-y-0.5 transition-transform cursor-pointer"
                   style={{ background: stage.bg, border: `1px solid ${stage.color}25` }}>
-                  <CardHeader className="pb-1 pt-4 px-4">
-                    <CardTitle className="text-xs font-medium" style={{ color: stage.color }}>
+                  <CardHeader className="pb-1 pt-3 px-3 sm:pt-4 sm:px-4">
+                    <CardTitle className="text-xs font-medium truncate" style={{ color: stage.color }}>
                       {stage.label}
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="px-4 pb-4">
-                    <div className="text-2xl font-bold text-white">{count}</div>
+                  <CardContent className="px-3 pb-3 sm:px-4 sm:pb-4">
+                    <div className="text-xl sm:text-2xl font-bold text-white">{count}</div>
                   </CardContent>
                 </Card>
               </Link>
@@ -212,7 +212,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* === ALSÓ SOR: Feladatok + Hívásnapló === */}
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-5 sm:gap-6 sm:grid-cols-2">
 
         {/* Nyitott feladatok */}
         <div>
