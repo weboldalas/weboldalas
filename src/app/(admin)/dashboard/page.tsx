@@ -81,9 +81,9 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-5 sm:gap-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-white">Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Dashboard</h1>
         <p className="text-white/40 mt-1 text-sm">
           {now.toLocaleDateString('hu-HU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
