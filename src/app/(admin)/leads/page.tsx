@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { hu } from 'date-fns/locale'
-import { Plus, Phone, Mail, Calendar, Users } from 'lucide-react'
+import { Plus, Phone, Mail, Calendar, Users, PhoneCall } from 'lucide-react'
 
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
@@ -20,6 +20,19 @@ export default async function LeadsPage() {
     .from('leads')
     .select('*')
     .order('created_at', { ascending: false })
+
+  const now = new Date()
+  const todayStr = now.toISOString().split('T')[0]
+
+  const todayCallbacks = leads?.filter(l => {
+    if (!l.next_call_date) return false
+    return l.next_call_date.startsWith(todayStr) && !['elfogadott', 'elutasitott'].includes(l.status)
+  }) ?? []
+
+  const overdueCallbacks = leads?.filter(l => {
+    if (!l.next_call_date) return false
+    return l.next_call_date < todayStr && !['elfogadott', 'elutasitott'].includes(l.status)
+  }) ?? []
 
   const groups = PIPELINE_STAGES.map(stage => ({
     stage,
@@ -42,6 +55,64 @@ export default async function LeadsPage() {
           <Button><Plus className="mr-2 h-4 w-4" /> Új Érdeklődő</Button>
         </Link>
       </div>
+
+      {/* === MAI VISSZAHÍVÁSOK === */}
+      {(todayCallbacks.length > 0 || overdueCallbacks.length > 0) && (
+        <div className="flex flex-col gap-2">
+
+          {/* Lejárt visszahívások */}
+          {overdueCallbacks.length > 0 && (
+            <div className="rounded-xl px-4 py-3 flex items-center gap-3"
+              style={{ background: 'oklch(0.62 0.22 25 / 0.10)', border: '1px solid oklch(0.62 0.22 25 / 0.25)' }}>
+              <PhoneCall className="h-4 w-4 shrink-0" style={{ color: 'oklch(0.72 0.20 25)' }} />
+              <span className="text-sm font-medium" style={{ color: 'oklch(0.80 0.18 25)' }}>
+                {overdueCallbacks.length} lejárt visszahívás — {overdueCallbacks.map(l => l.name).slice(0, 3).join(', ')}{overdueCallbacks.length > 3 ? ` +${overdueCallbacks.length - 3}` : ''}
+              </span>
+            </div>
+          )}
+
+          {/* Mai hívások */}
+          {todayCallbacks.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <PhoneCall className="h-3.5 w-3.5" style={{ color: 'oklch(0.68 0.18 145)' }} />
+                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'oklch(0.68 0.18 145)' }}>
+                  Ma felhívandók — {todayCallbacks.length} személy
+                </span>
+              </div>
+              <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {todayCallbacks.map(lead => {
+                  const stage = PIPELINE_STAGES.find(s => s.id === lead.status)
+                  return (
+                    <Link key={lead.id} href={`/leads/${lead.id}`}>
+                      <div className="flex items-center gap-3 rounded-xl px-4 py-3 hover:opacity-80 transition-opacity"
+                        style={{ background: 'oklch(0.68 0.18 145 / 0.08)', border: '1px solid oklch(0.68 0.18 145 / 0.25)' }}>
+                        <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 font-bold text-sm"
+                          style={{ background: 'oklch(0.68 0.18 145 / 0.20)', color: 'oklch(0.75 0.18 145)' }}>
+                          {lead.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-semibold text-white truncate">{lead.name}</div>
+                          <div className="text-xs text-white/40 truncate">
+                            {format(new Date(lead.next_call_date!), 'HH:mm')} · {stage?.label ?? lead.status}
+                          </div>
+                        </div>
+                        {lead.phone && (
+                          <a href={`tel:${lead.phone}`} onClick={e => e.stopPropagation()}
+                            className="shrink-0 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                            style={{ color: 'oklch(0.75 0.18 145)' }}>
+                            <Phone className="h-4 w-4" />
+                          </a>
+                        )}
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Pipeline stat kártyák */}
       <div className="grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
