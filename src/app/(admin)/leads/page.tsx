@@ -84,28 +84,27 @@ export default async function LeadsPage() {
                 {todayCallbacks.map(lead => {
                   const stage = PIPELINE_STAGES.find(s => s.id === lead.status)
                   return (
-                    <Link key={lead.id} href={`/leads/${lead.id}`}>
-                      <div className="flex items-center gap-3 rounded-xl px-4 py-3 hover:opacity-80 transition-opacity"
-                        style={{ background: 'oklch(0.68 0.18 145 / 0.08)', border: '1px solid oklch(0.68 0.18 145 / 0.25)' }}>
-                        <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 font-bold text-sm"
-                          style={{ background: 'oklch(0.68 0.18 145 / 0.20)', color: 'oklch(0.75 0.18 145)' }}>
-                          {lead.name.charAt(0).toUpperCase()}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-sm font-semibold text-white truncate">{lead.name}</div>
-                          <div className="text-xs text-white/40 truncate">
-                            {format(new Date(lead.next_call_date!), 'HH:mm')} · {stage?.label ?? lead.status}
-                          </div>
-                        </div>
-                        {lead.phone && (
-                          <a href={`tel:${lead.phone}`} onClick={e => e.stopPropagation()}
-                            className="shrink-0 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
-                            style={{ color: 'oklch(0.75 0.18 145)' }}>
-                            <Phone className="h-4 w-4" />
-                          </a>
-                        )}
+                    <div key={lead.id} className="flex items-center gap-3 rounded-xl px-4 py-3"
+                      style={{ background: 'oklch(0.68 0.18 145 / 0.08)', border: '1px solid oklch(0.68 0.18 145 / 0.25)' }}>
+                      <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 font-bold text-sm"
+                        style={{ background: 'oklch(0.68 0.18 145 / 0.20)', color: 'oklch(0.75 0.18 145)' }}>
+                        {lead.name.charAt(0).toUpperCase()}
                       </div>
-                    </Link>
+                      <Link href={`/leads/${lead.id}`} className="flex-1 min-w-0 hover:opacity-80 transition-opacity">
+                        <div className="text-sm font-semibold text-white truncate">{lead.name}</div>
+                        <div className="text-xs text-white/40 truncate">
+                          {stage?.label ?? lead.status}
+                          {lead.next_call_date && ` · ${new Date(lead.next_call_date).toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })}`}
+                        </div>
+                      </Link>
+                      {lead.phone && (
+                        <a href={`tel:${lead.phone}`}
+                          className="shrink-0 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                          style={{ color: 'oklch(0.75 0.18 145)' }}>
+                          <Phone className="h-4 w-4" />
+                        </a>
+                      )}
+                    </div>
                   )
                 })}
               </div>
