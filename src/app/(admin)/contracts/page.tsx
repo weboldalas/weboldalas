@@ -92,7 +92,7 @@ export default async function ContractsPage() {
                 {statusDocs.length}
               </span>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-3 lg:grid-cols-2 xl:grid-cols-3">
               {statusDocs.map(doc => {
                 const customer = doc.customers as { name: string; company_name: string | null; is_company: boolean } | null
                 const clientName = customer?.is_company
@@ -101,25 +101,23 @@ export default async function ContractsPage() {
                 const template = doc.document_templates as { name: string } | null
                 const isLocked = !!doc.locked_at
                 return (
-                  <div key={doc.id} className="rounded-2xl p-4 flex flex-col gap-3"
+                  <div key={doc.id} className="rounded-2xl p-4 flex flex-col gap-3 overflow-hidden"
                     style={{ background: 'oklch(1 0 0 / 0.03)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
-                    <div>
+                    <div className="min-w-0">
                       <div className="font-semibold text-white truncate">{doc.title}</div>
                       <div className="text-xs text-white/40 mt-0.5 truncate">{clientName}</div>
                       {template && (
                         <div className="text-xs text-white/25 mt-0.5 truncate">{template.name}</div>
                       )}
                     </div>
-                    <div className="flex items-center justify-between pt-2 border-t border-white/5">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-white/30">
-                          v{doc.current_version} · {new Date(doc.created_at).toLocaleDateString('hu-HU')}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1">
+                    <div className="flex items-center justify-between pt-2 border-t border-white/5 gap-2">
+                      <span className="text-xs text-white/30 truncate">
+                        v{doc.current_version} · {new Date(doc.created_at).toLocaleDateString('hu-HU')}
+                      </span>
+                      <div className="flex items-center gap-1 shrink-0">
                         <DeleteContractButton id={doc.id} isLocked={isLocked} />
                         <Link href={`/contracts/${doc.id}`}>
-                          <Button variant="ghost" size="sm" className="h-7 text-xs">
+                          <Button variant="ghost" size="sm" className="h-7 text-xs px-2">
                             Megnyit →
                           </Button>
                         </Link>
