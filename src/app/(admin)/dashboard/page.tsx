@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
 import {
-  Phone, AlertTriangle, Users, TrendingUp,
+  Phone, Users, TrendingUp,
   CheckSquare, Clock, Zap, ArrowRight,
 } from 'lucide-react'
 import { PIPELINE_STAGES } from '../leads/pipeline'
@@ -58,14 +58,6 @@ export default async function DashboardPage() {
     return d >= new Date(todayStart) && d <= new Date(todayEnd)
   }) ?? []
 
-  // Overdue callbacks (nem nyert/elutasított)
-  const overdueCallbacks = leads?.filter(l => {
-    if (!l.next_call_date) return false
-    return new Date(l.next_call_date) < now
-      && !['elfogadott', 'elutasitott'].includes(l.status)
-      && new Date(l.next_call_date) < new Date(todayStart)
-  }) ?? []
-
   const mrr = activeSubscriptions?.reduce((sum, s) => sum + Number(s.monthly_fee), 0) ?? 0
   const projectRevenue = monthPayments?.reduce((sum, p) => sum + Number(p.amount), 0) ?? 0
   const expectedRevenue = mrr + projectRevenue
@@ -90,22 +82,8 @@ export default async function DashboardPage() {
       </div>
 
       {/* === ALERTS === */}
-      {(overdueCallbacks.length > 0 || (urgentTasks ?? 0) > 0) && (
+      {(urgentTasks ?? 0) > 0 && (
         <div className="flex flex-col gap-2">
-          {overdueCallbacks.length > 0 && (
-            <Link href="/leads">
-              <div className="flex items-center gap-3 rounded-xl px-4 py-3 cursor-pointer hover:opacity-90 transition-opacity"
-                style={{ background: 'oklch(0.62 0.22 25 / 0.15)', border: '1px solid oklch(0.62 0.22 25 / 0.30)' }}>
-                <AlertTriangle className="h-4 w-4 shrink-0" style={{ color: 'oklch(0.75 0.20 25)' }} />
-                <div className="flex-1 min-w-0">
-                  <span className="text-sm font-medium truncate block" style={{ color: 'oklch(0.75 0.20 25)' }}>
-                    {overdueCallbacks.length} lejárt visszahívás <span className="hidden sm:inline">— {overdueCallbacks.slice(0, 3).map(l => l.name).join(', ')}{overdueCallbacks.length > 3 ? ` +${overdueCallbacks.length - 3}` : ''}</span>
-                  </span>
-                </div>
-                <ArrowRight className="h-4 w-4 ml-auto shrink-0" style={{ color: 'oklch(0.75 0.20 25)' }} />
-              </div>
-            </Link>
-          )}
           {(urgentTasks ?? 0) > 0 && (
             <Link href="/tasks">
               <div className="flex items-center gap-3 rounded-xl px-4 py-3 cursor-pointer hover:opacity-90 transition-opacity"
