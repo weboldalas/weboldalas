@@ -305,7 +305,7 @@ export async function quickCreateCustomer(formData: FormData) {
   const str = (key: string) => (formData.get(key) as string)?.trim() || null
   const data = {
     is_company: isCompany,
-    name: str('name'),
+    name: str('name') ?? str('company_name') ?? str('contact_name'),
     company_name: str('company_name'),
     contact_name: str('contact_name'),
     email: str('email'),
