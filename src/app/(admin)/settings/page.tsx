@@ -26,7 +26,7 @@ export default async function SettingsPage() {
         <p className="text-white/50 mt-1">Fiók, cégadatok és rendszer beállítások.</p>
       </div>
 
-      <div className="grid gap-4 max-w-2xl">
+      <div className="grid gap-4 w-full max-w-2xl">
         {/* Company settings */}
         {companySettings && <CompanySettingsForm settings={companySettings} />}
 
@@ -48,7 +48,7 @@ export default async function SettingsPage() {
             </div>
             <div className="flex justify-between items-center py-2 border-b border-white/5">
               <span className="text-white/50">Felhasználó ID</span>
-              <span className="text-white/60 font-mono text-xs">{user?.id}</span>
+              <span className="text-white/60 font-mono text-xs truncate max-w-[140px] sm:max-w-xs">{user?.id}</span>
             </div>
             <div className="flex justify-between items-center py-2">
               <span className="text-white/50">Utolsó bejelentkezés</span>

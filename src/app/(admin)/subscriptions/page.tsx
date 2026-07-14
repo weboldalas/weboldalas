@@ -17,17 +17,19 @@ export default async function SubscriptionsPage() {
     .order('created_at', { ascending: false })
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-5 sm:gap-8">
+      <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Előfizetések</h1>
-          <p className="text-muted-foreground mt-2">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Előfizetések</h1>
+          <p className="text-muted-foreground mt-1 text-sm hidden sm:block">
             Aktív és korábbi előfizetések áttekintése.
           </p>
         </div>
         <Link href="/subscriptions/new">
-          <Button>
-            <Plus className="mr-2 h-4 w-4" /> Új Előfizetés
+          <Button size="sm" className="sm:size-default shrink-0">
+            <Plus className="mr-1 sm:mr-2 h-4 w-4" />
+            <span className="hidden sm:inline">Új Előfizetés</span>
+            <span className="sm:hidden">Új</span>
           </Button>
         </Link>
       </div>

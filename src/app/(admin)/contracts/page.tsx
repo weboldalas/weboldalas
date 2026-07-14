@@ -37,17 +37,21 @@ export default async function ContractsPage() {
   const total = (documents?.length ?? 0) - ((groups.cancelled?.length ?? 0) + (groups.archived?.length ?? 0))
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-5 sm:gap-8">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">Szerződések</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Szerződések</h1>
           <p className="text-white/40 mt-1 text-sm">
             {total} aktív · {signed} aláírt
           </p>
         </div>
         <Link href="/contracts/new">
-          <Button><Plus className="mr-2 h-4 w-4" /> Új Szerződés</Button>
+          <Button size="sm" className="sm:size-default shrink-0">
+            <Plus className="mr-1 sm:mr-2 h-4 w-4" />
+            <span className="hidden sm:inline">Új Szerződés</span>
+            <span className="sm:hidden">Új</span>
+          </Button>
         </Link>
       </div>
 
