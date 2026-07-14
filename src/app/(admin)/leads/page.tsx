@@ -29,11 +29,6 @@ export default async function LeadsPage() {
     return l.next_call_date.startsWith(todayStr) && !['elfogadott', 'elutasitott'].includes(l.status)
   }) ?? []
 
-  const overdueCallbacks = leads?.filter(l => {
-    if (!l.next_call_date) return false
-    return l.next_call_date < todayStr && !['elfogadott', 'elutasitott'].includes(l.status)
-  }) ?? []
-
   const groups = PIPELINE_STAGES.map(stage => ({
     stage,
     leads: leads?.filter(l => l.status === stage.id) ?? [],
@@ -57,19 +52,8 @@ export default async function LeadsPage() {
       </div>
 
       {/* === MAI VISSZAHÍVÁSOK === */}
-      {(todayCallbacks.length > 0 || overdueCallbacks.length > 0) && (
+      {todayCallbacks.length > 0 && (
         <div className="flex flex-col gap-2">
-
-          {/* Lejárt visszahívások */}
-          {overdueCallbacks.length > 0 && (
-            <div className="rounded-xl px-4 py-3 flex items-center gap-3"
-              style={{ background: 'oklch(0.62 0.22 25 / 0.10)', border: '1px solid oklch(0.62 0.22 25 / 0.25)' }}>
-              <PhoneCall className="h-4 w-4 shrink-0" style={{ color: 'oklch(0.72 0.20 25)' }} />
-              <span className="text-sm font-medium" style={{ color: 'oklch(0.80 0.18 25)' }}>
-                {overdueCallbacks.length} lejárt visszahívás — {overdueCallbacks.map(l => l.name).slice(0, 3).join(', ')}{overdueCallbacks.length > 3 ? ` +${overdueCallbacks.length - 3}` : ''}
-              </span>
-            </div>
-          )}
 
           {/* Mai hívások */}
           {todayCallbacks.length > 0 && (
