@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import { PIPELINE_STAGES } from '../leads/pipeline'
 import { PhoneLink } from './PhoneLink'
+import { RevenueChart } from './RevenueChart'
 
 export const metadata = {
   title: 'Dashboard | Weboldalas Admin',
@@ -21,6 +22,8 @@ export default async function DashboardPage() {
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
   const monthEnd   = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59).toISOString()
 
+  const twoYearsAgo = new Date(now.getFullYear() - 2, 0, 1).toISOString()
+
   const [
     { data: leads },
     { data: activeSubscriptions },
@@ -28,6 +31,7 @@ export default async function DashboardPage() {
     { data: openTasks },
     { data: recentNotes },
     { count: urgentTasks },
+    { data: chartPayments },
   ] = await Promise.all([
     supabase.from('leads').select('id, name, status, phone, next_call_date, industry, interest_type'),
     supabase.from('subscriptions').select('monthly_fee, currency').eq('status', 'active'),
@@ -43,6 +47,10 @@ export default async function DashboardPage() {
       .limit(6),
     supabase.from('tasks').select('*', { count: 'exact', head: true })
       .eq('priority', 'urgent').in('status', ['todo', 'in_progress', 'waiting']),
+    supabase.from('payments').select('amount, payment_date')
+      .eq('status', 'completed')
+      .not('payment_date', 'is', null)
+      .gte('payment_date', twoYearsAgo),
   ])
 
   // Pipeline counts
@@ -157,36 +165,17 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* === VÁRHATÓ BEVÉTEL === */}
+      {/* === PÉNZÜGYEK CHART === */}
       <div>
         <h2 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-3 flex items-center gap-2">
           <TrendingUp className="h-3.5 w-3.5" /> Pénzügyek
         </h2>
-        <div className="rounded-2xl p-5"
-          style={{ background: 'oklch(0.68 0.18 145 / 0.07)', border: '1px solid oklch(0.68 0.18 145 / 0.20)' }}>
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex-1 min-w-0">
-              <div className="text-sm font-medium text-white/50 mb-1">Várható bevétel — {monthName}</div>
-              <div className="text-3xl sm:text-4xl font-bold text-white tracking-tight truncate">{expectedRevenue.toLocaleString('hu-HU')} Ft</div>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-4 mt-3 text-xs text-white/35">
-                <Link href="/subscriptions" className="hover:text-white/60 transition-colors">
-                  MRR: {mrr.toLocaleString('hu-HU')} Ft ({activeSubscriptions?.length ?? 0} előfizetés)
-                </Link>
-                {projectRevenue > 0 && (
-                  <>
-                    <span className="hidden sm:inline-block text-white/15">·</span>
-                    <Link href="/payments" className="hover:text-white/60 transition-colors">
-                      Projektek: {projectRevenue.toLocaleString('hu-HU')} Ft
-                    </Link>
-                  </>
-                )}
-              </div>
-            </div>
-            <div className="rounded-2xl p-3 shrink-0" style={{ background: 'oklch(0.68 0.18 145 / 0.15)' }}>
-              <TrendingUp className="h-6 w-6" style={{ color: 'oklch(0.75 0.18 145)' }} />
-            </div>
-          </div>
-        </div>
+        <RevenueChart
+          payments={chartPayments ?? []}
+          mrr={mrr}
+          activeSubscriptions={activeSubscriptions?.length ?? 0}
+          projectRevenue={projectRevenue}
+        />
       </div>
 
       {/* === ALSÓ SOR: Feladatok + Hívásnapló === */}
