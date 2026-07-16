@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Cell,
@@ -11,7 +11,9 @@ type View = 'heti' | 'havi' | 'eves'
 
 interface Payment {
   amount: string | number
-  payment_date: string
+  payment_date: string | null
+  due_date: string | null
+  status: string
 }
 
 interface Props {
@@ -68,11 +70,20 @@ function ChartTooltip({ active, payload, label }: any) {
 export function RevenueChart({ payments, mrr, activeSubscriptions, projectRevenue }: Props) {
   const [view, setView] = useState<View>('havi')
   const [comparison, setComparison] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => { setMounted(true) }, [])
 
   const now = useMemo(() => new Date(), [])
 
-  const paidData = useMemo(
-    () => payments.map(p => ({ date: new Date(p.payment_date), amount: Number(p.amount) })),
+  const paidData = useMemo(() =>
+    payments
+      .map(p => {
+        const dateStr = p.payment_date ?? p.due_date
+        if (!dateStr) return null
+        return { date: new Date(dateStr), amount: Number(p.amount) }
+      })
+      .filter((p): p is { date: Date; amount: number } => p !== null),
     [payments]
   )
 
@@ -123,6 +134,13 @@ export function RevenueChart({ payments, mrr, activeSubscriptions, projectRevenu
   const periodLabels = {
     current: view === 'heti' ? 'Ezen a héten' : view === 'havi' ? `${now.getFullYear()}` : 'Aktuális',
     previous: view === 'heti' ? 'Múlt héten' : view === 'havi' ? `${now.getFullYear() - 1}` : 'Előző',
+  }
+
+  if (!mounted) {
+    return (
+      <div className="rounded-2xl h-64 animate-pulse"
+        style={{ background: 'oklch(1 0 0 / 0.03)', border: '1px solid oklch(1 0 0 / 0.08)' }} />
+    )
   }
 
   return (

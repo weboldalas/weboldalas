@@ -47,10 +47,9 @@ export default async function DashboardPage() {
       .limit(6),
     supabase.from('tasks').select('*', { count: 'exact', head: true })
       .eq('priority', 'urgent').in('status', ['todo', 'in_progress', 'waiting']),
-    supabase.from('payments').select('amount, payment_date')
-      .eq('status', 'completed')
-      .not('payment_date', 'is', null)
-      .gte('payment_date', twoYearsAgo),
+    supabase.from('payments').select('amount, payment_date, due_date, status')
+      .neq('status', 'cancelled')
+      .or(`payment_date.gte.${twoYearsAgo},due_date.gte.${twoYearsAgo}`),
   ])
 
   // Pipeline counts
