@@ -272,98 +272,104 @@ export function DocumentEditor({
       )}
 
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-2 shrink-0 p-3 rounded-xl"
+      <div className="flex items-center gap-2 shrink-0 rounded-xl"
         style={{ background: 'oklch(1 0 0 / 0.04)', border: '1px solid oklch(1 0 0 / 0.10)' }}>
 
-        {/* Status */}
-        <div className="relative">
-          <button
-            onClick={() => setStatusDropdown(v => !v)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all"
-            style={{ background: `${currentStatusCfg.color}15`, color: currentStatusCfg.color, border: `1px solid ${currentStatusCfg.color}30` }}>
-            <StatusIcon className="h-3.5 w-3.5" /> {currentStatusCfg.label} <ChevronDown className="h-3 w-3" />
-          </button>
-          {statusDropdown && (
-            <div className="absolute top-full left-0 mt-1 z-50 rounded-xl overflow-hidden"
-              style={{ background: 'oklch(0.12 0.04 270 / 0.95)', border: '1px solid oklch(1 0 0 / 0.15)', backdropFilter: 'blur(20px)', minWidth: '150px' }}>
-              {STATUS_OPTIONS.map(opt => (
-                <button key={opt.value} onClick={() => handleStatusChange(opt.value)}
-                  className="flex items-center gap-2 w-full px-3 py-2 text-sm font-medium text-left transition-all hover:bg-white/5"
-                  style={{ color: opt.color }}>
-                  <opt.icon className="h-3.5 w-3.5" /> {opt.label}
-                </button>
-              ))}
+        {/* Scrollable action buttons */}
+        <div className="flex items-center gap-2 flex-1 min-w-0 overflow-x-auto p-3" style={{ scrollbarWidth: 'none' }}>
+
+          {/* Status */}
+          <div className="relative shrink-0">
+            <button
+              onClick={() => setStatusDropdown(v => !v)}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all"
+              style={{ background: `${currentStatusCfg.color}15`, color: currentStatusCfg.color, border: `1px solid ${currentStatusCfg.color}30` }}>
+              <StatusIcon className="h-3.5 w-3.5" /> {currentStatusCfg.label} <ChevronDown className="h-3 w-3" />
+            </button>
+            {statusDropdown && (
+              <div className="absolute top-full left-0 mt-1 z-50 rounded-xl overflow-hidden"
+                style={{ background: 'oklch(0.12 0.04 270 / 0.95)', border: '1px solid oklch(1 0 0 / 0.15)', backdropFilter: 'blur(20px)', minWidth: '150px' }}>
+                {STATUS_OPTIONS.map(opt => (
+                  <button key={opt.value} onClick={() => handleStatusChange(opt.value)}
+                    className="flex items-center gap-2 w-full px-3 py-2 text-sm font-medium text-left transition-all hover:bg-white/5"
+                    style={{ color: opt.color }}>
+                    <opt.icon className="h-3.5 w-3.5" /> {opt.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="h-4 w-px bg-white/10 shrink-0" />
+
+          {/* Save buttons */}
+          <Button size="sm" variant="outline" onClick={handleSaveInPlace} disabled={isPending || saving || isLocked} className="shrink-0">
+            {saving ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Save className="mr-1.5 h-3.5 w-3.5" />}
+            Mentés
+          </Button>
+          <Button size="sm" variant="outline" onClick={handleSaveNew} disabled={isPending || saving || isLocked} className="shrink-0">
+            <History className="mr-1.5 h-3.5 w-3.5" /> Új v{currentVersion + 1}
+          </Button>
+
+          <div className="h-4 w-px bg-white/10 shrink-0" />
+
+          {/* PDF */}
+          <Button size="sm" onClick={handleGeneratePdf} disabled={generating || isPending} className="shrink-0">
+            {generating ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <FileText className="mr-1.5 h-3.5 w-3.5" />}
+            {generating ? 'Generálás...' : 'PDF'}
+          </Button>
+
+          {pdfUrl && (
+            <a href={pdfUrl} target="_blank" rel="noopener noreferrer" className="shrink-0">
+              <Button size="sm" variant="outline">⬇ Letöltés</Button>
+            </a>
+          )}
+
+          <Button size="sm" variant="outline" onClick={handleSendEmail} disabled={sendingEmail || isPending || !pdfUrl} className="shrink-0">
+            {sendingEmail ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Mail className="mr-1.5 h-3.5 w-3.5" />}
+            Email
+          </Button>
+
+          <Button size="sm" variant="outline" onClick={handleShare} disabled={sharing || isPending || isLocked} className="shrink-0"
+            style={shareUrl ? { background: 'oklch(0.55 0.22 290 / 0.15)', borderColor: 'oklch(0.65 0.22 290 / 0.5)', color: 'oklch(0.75 0.20 290)' } : {}}>
+            {sharing ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Link2 className="mr-1.5 h-3.5 w-3.5" />}
+            {shareUrl ? 'Link kész' : 'Megosztás'}
+          </Button>
+
+          <div className="h-4 w-px bg-white/10 shrink-0" />
+
+          {/* Signature */}
+          {!isLocked && (
+            <Button size="sm" variant="outline" onClick={() => setShowSignature(v => !v)} className="shrink-0"
+              style={showSignature ? { background: 'oklch(0.68 0.22 290 / 0.2)', borderColor: 'oklch(0.68 0.22 290 / 0.5)' } : {}}>
+              <PenLine className="mr-1.5 h-3.5 w-3.5" /> Aláírás
+            </Button>
+          )}
+          {isLocked && (
+            <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold shrink-0"
+              style={{ background: 'oklch(0.68 0.18 145 / 0.10)', color: 'oklch(0.75 0.18 145)', border: '1px solid oklch(0.68 0.18 145 / 0.25)' }}>
+              <Lock className="h-3 w-3" /> Zárolva
             </div>
           )}
         </div>
 
-        <div className="h-4 w-px bg-white/10 hidden sm:block" />
+        {/* View toggles — always visible on the right */}
+        <div className="flex items-center gap-1 pr-3 shrink-0">
+          <button onClick={() => setShowPreview(v => !v)}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
+            style={{ background: 'oklch(1 0 0 / 0.05)', color: 'oklch(1 0 0 / 0.5)', border: '1px solid oklch(1 0 0 / 0.10)' }}>
+            {showPreview ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+            <span className="hidden sm:block">Előnézet</span>
+          </button>
 
-        {/* Save buttons — disabled when locked */}
-        <Button size="sm" variant="outline" onClick={handleSaveInPlace} disabled={isPending || saving || isLocked}>
-          {saving ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Save className="mr-1.5 h-3.5 w-3.5" />}
-          Mentés
-        </Button>
-        <Button size="sm" variant="outline" onClick={handleSaveNew} disabled={isPending || saving || isLocked}>
-          <History className="mr-1.5 h-3.5 w-3.5" /> Új v{currentVersion + 1}
-        </Button>
-
-        <div className="h-4 w-px bg-white/10 hidden sm:block" />
-
-        {/* PDF */}
-        <Button size="sm" onClick={handleGeneratePdf} disabled={generating || isPending}>
-          {generating ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <FileText className="mr-1.5 h-3.5 w-3.5" />}
-          {generating ? 'Generálás...' : 'PDF'}
-        </Button>
-
-        {pdfUrl && (
-          <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
-            <Button size="sm" variant="outline">⬇ Letöltés</Button>
-          </a>
-        )}
-
-        <Button size="sm" variant="outline" onClick={handleSendEmail} disabled={sendingEmail || isPending || !pdfUrl}>
-          {sendingEmail ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Mail className="mr-1.5 h-3.5 w-3.5" />}
-          Email
-        </Button>
-
-        <Button size="sm" variant="outline" onClick={handleShare} disabled={sharing || isPending || isLocked}
-          style={shareUrl ? { background: 'oklch(0.55 0.22 290 / 0.15)', borderColor: 'oklch(0.65 0.22 290 / 0.5)', color: 'oklch(0.75 0.20 290)' } : {}}>
-          {sharing ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Link2 className="mr-1.5 h-3.5 w-3.5" />}
-          {shareUrl ? 'Link kész' : 'Megosztás'}
-        </Button>
-
-        <div className="h-4 w-px bg-white/10 hidden sm:block" />
-
-        {/* Signature */}
-        {!isLocked && (
-          <Button size="sm" variant="outline" onClick={() => setShowSignature(v => !v)}
-            style={showSignature ? { background: 'oklch(0.68 0.22 290 / 0.2)', borderColor: 'oklch(0.68 0.22 290 / 0.5)' } : {}}>
-            <PenLine className="mr-1.5 h-3.5 w-3.5" /> Aláírás
-          </Button>
-        )}
-        {isLocked && (
-          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold"
-            style={{ background: 'oklch(0.68 0.18 145 / 0.10)', color: 'oklch(0.75 0.18 145)', border: '1px solid oklch(0.68 0.18 145 / 0.25)' }}>
-            <Lock className="h-3 w-3" /> Zárolva
-          </div>
-        )}
-
-        {/* Preview toggle */}
-        <button onClick={() => setShowPreview(v => !v)}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ml-auto"
-          style={{ background: 'oklch(1 0 0 / 0.05)', color: 'oklch(1 0 0 / 0.5)', border: '1px solid oklch(1 0 0 / 0.10)' }}>
-          {showPreview ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-          <span className="hidden sm:block">Előnézet</span>
-        </button>
-
-        <button onClick={() => setShowHistory(v => !v)}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
-          style={{ background: 'oklch(1 0 0 / 0.05)', color: 'oklch(1 0 0 / 0.5)', border: '1px solid oklch(1 0 0 / 0.10)' }}>
-          <Clock className="h-3.5 w-3.5" />
+          <button onClick={() => setShowHistory(v => !v)}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
+            style={{ background: 'oklch(1 0 0 / 0.05)', color: 'oklch(1 0 0 / 0.5)', border: '1px solid oklch(1 0 0 / 0.10)' }}>
+            <Clock className="h-3.5 w-3.5" />
           <span className="hidden sm:block">Napló</span>
-        </button>
-      </div>
+          </button>
+        </div>{/* end view toggles */}
+      </div>{/* end toolbar */}
 
       {/* Share URL panel */}
       {shareUrl && (
