@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useTransition, useRef } from 'react'
+import { useState, useTransition, useRef, useEffect } from 'react'
 import {
   Save, FileText, Send, CheckCircle2, XCircle, Archive, Loader2, ChevronDown,
-  Eye, EyeOff, Clock, Trash2, Mail, PenLine, History, Lock, ShieldCheck,
+  Eye, EyeOff, Clock, Trash2, Mail, PenLine, History, Lock, ShieldCheck, Link2, Copy, Check,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { LivePreview } from './LivePreview'
@@ -104,6 +104,15 @@ export function DocumentEditor({
   const [savedMsg, setSavedMsg] = useState('')
   const [generating, setGenerating] = useState(false)
   const [sendingEmail, setSendingEmail] = useState(false)
+  const [sharing, setSharing] = useState(false)
+  const [shareUrl, setShareUrl] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (document.public_token) {
+      setShareUrl(`${window.location.origin}/contracts/view/${document.public_token}`)
+    }
+  }, [document.public_token])
+  const [copied, setCopied] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [statusDropdown, setStatusDropdown] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -162,6 +171,8 @@ export function DocumentEditor({
           title: document.title,
           versionId: currentVersionId,
           companySettings,
+          clientSignature: latestVersion?.client_signature ?? null,
+          companySignature: latestVersion?.company_signature ?? null,
         }),
       })
       const json = await res.json()
@@ -201,6 +212,29 @@ export function DocumentEditor({
     } finally {
       setSendingEmail(false)
     }
+  }
+
+  async function handleShare() {
+    setError(null)
+    setSharing(true)
+    try {
+      const res = await fetch(`/api/contracts/${document.id}/share`, { method: 'POST' })
+      const json = await res.json()
+      if (!res.ok || json.error) { setError(json.error || 'Megosztás sikertelen.'); return }
+      setShareUrl(json.url)
+      setStatus('sent')
+    } catch {
+      setError('Hálózati hiba a megosztás során.')
+    } finally {
+      setSharing(false)
+    }
+  }
+
+  async function handleCopy() {
+    if (!shareUrl) return
+    await navigator.clipboard.writeText(shareUrl)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   function handleDelete() {
@@ -293,6 +327,12 @@ export function DocumentEditor({
           Email
         </Button>
 
+        <Button size="sm" variant="outline" onClick={handleShare} disabled={sharing || isPending || isLocked}
+          style={shareUrl ? { background: 'oklch(0.55 0.22 290 / 0.15)', borderColor: 'oklch(0.65 0.22 290 / 0.5)', color: 'oklch(0.75 0.20 290)' } : {}}>
+          {sharing ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Link2 className="mr-1.5 h-3.5 w-3.5" />}
+          {shareUrl ? 'Link kész' : 'Megosztás'}
+        </Button>
+
         <div className="h-4 w-px bg-white/10 hidden sm:block" />
 
         {/* Signature */}
@@ -324,6 +364,20 @@ export function DocumentEditor({
           <span className="hidden sm:block">Napló</span>
         </button>
       </div>
+
+      {/* Share URL panel */}
+      {shareUrl && (
+        <div className="shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm"
+          style={{ background: 'oklch(0.55 0.22 290 / 0.12)', border: '1px solid oklch(0.65 0.22 290 / 0.3)' }}>
+          <Link2 className="h-3.5 w-3.5 shrink-0" style={{ color: 'oklch(0.75 0.20 290)' }} />
+          <span className="flex-1 font-mono text-xs truncate" style={{ color: 'oklch(0.80 0.18 290)' }}>{shareUrl}</span>
+          <button onClick={handleCopy}
+            className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-all shrink-0"
+            style={{ background: 'oklch(0.55 0.22 290 / 0.25)', color: 'white' }}>
+            {copied ? <><Check className="h-3 w-3" /> Másolva</> : <><Copy className="h-3 w-3" /> Másolás</>}
+          </button>
+        </div>
+      )}
 
       {/* Status messages */}
       {(error || savedMsg) && (
