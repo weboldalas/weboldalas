@@ -133,7 +133,6 @@ function DevicesIllustration() {
           </div>
           <div className="rounded-lg bg-gradient-to-br from-sky-500/40 via-cyan-400/20 to-transparent" />
         </div>
-        <div className="shimmer absolute inset-0" />
       </div>
       {/* phone */}
       <div className="absolute bottom-0 right-2 h-[92%] w-[88px] overflow-hidden rounded-t-[1.4rem] border border-b-0 border-white/15 bg-[#0d0d16] p-2 transition-transform delay-75 duration-500 group-hover:-translate-y-4 sm:right-6 sm:w-[100px]">

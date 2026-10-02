@@ -186,7 +186,7 @@ export default function HomePage() {
                           style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
 
                         {/* mini site preview */}
-                        <div className="absolute inset-x-6 top-6 overflow-hidden rounded-xl border border-white/10 bg-[#0b0b13]/80 shadow-2xl backdrop-blur transition-transform duration-500 group-hover:-translate-y-2"
+                        <div className="absolute inset-x-6 top-6 overflow-hidden rounded-xl border border-white/10 bg-[#0b0b13] shadow-2xl transition-transform duration-500 group-hover:-translate-y-2"
                           style={{ transform: 'translateZ(40px)' }}>
                           <div className="flex gap-1 border-b border-white/[0.06] px-3 py-2">
                             <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
@@ -292,9 +292,8 @@ export default function HomePage() {
             <div className="cta-shell relative mx-auto max-w-6xl rounded-[2.5rem] p-px">
               <div className="relative overflow-hidden rounded-[calc(2.5rem-1px)] bg-[#0a0a14] px-6 py-20 text-center sm:px-12 sm:py-28">
                 <div aria-hidden className="pointer-events-none absolute inset-0">
-                  <div className="home-anim aurora-a absolute -top-1/2 left-1/2 h-[140%] w-[120%] -translate-x-1/2 rounded-full opacity-60 blur-[100px]"
-                    style={{ background: 'conic-gradient(from 180deg at 50% 50%, #0ea5e9, #8b5cf6, #ec4899, #f59e0b, #10b981, #0ea5e9)' }} />
-                  <div className="absolute inset-0 bg-[#0a0a14]/70" />
+                  <div className="absolute inset-0"
+                    style={{ background: 'radial-gradient(45% 60% at 20% 0%, rgba(14,165,233,0.28), transparent 70%), radial-gradient(45% 60% at 80% 0%, rgba(168,85,247,0.25), transparent 70%), radial-gradient(50% 50% at 50% 110%, rgba(236,72,153,0.18), transparent 70%)' }} />
                   <div className="hero-grid absolute inset-0" />
                 </div>
                 <div className="relative">

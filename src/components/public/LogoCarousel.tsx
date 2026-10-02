@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+
 type Logo = { src: string; alt: string; bg: 'transparent' | 'whitebg' }
 
 const logos: Logo[] = [
@@ -65,19 +67,16 @@ export function LogoCarousel() {
               borderRadius: '12px',
             }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={logo.src}
-              alt={logo.alt}
-              style={{
-                maxWidth: '100%',
-                maxHeight: '100%',
-                width: 'auto',
-                height: 'auto',
-                objectFit: 'contain',
-                display: 'block',
-              }}
-            />
+            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+              <Image
+                src={logo.src}
+                alt={i < logos.length ? logo.alt : ''}
+                fill
+                sizes="160px"
+                unoptimized={logo.src.endsWith('.svg')}
+                style={{ objectFit: 'contain' }}
+              />
+            </div>
           </div>
         ))}
       </div>

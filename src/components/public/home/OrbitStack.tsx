@@ -49,7 +49,7 @@ function Ring({
                 >
                   <Icon className="h-5 w-5 sm:h-6 sm:w-6" style={{ color: it.color }} />
                 </span>
-                <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white/60 backdrop-blur">
+                <span className="rounded-full bg-[#0b0b13] px-2 py-0.5 text-[10px] font-semibold text-white/60">
                   {it.label}
                 </span>
               </div>
