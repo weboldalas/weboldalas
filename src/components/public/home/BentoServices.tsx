@@ -42,7 +42,7 @@ export function BentoServices() {
         <Link href="/szolgaltatasok/bemutatkozo-weboldal" className="group block h-full">
           <SpotlightCard className="bento-card h-full min-h-[340px] p-7" rgb="14,165,233">
             <CardHead icon={Globe} color="#38bdf8" title="Bemutatkozó weboldal"
-              desc="Modern, villámgyors és mobilbarát weboldal, ami telefonon, tableten és asztali gépen is lenyűgöz." />
+              desc="Az első benyomás számít. Gyors, mobilbarát oldal, ami bizalmat épít és ügyfelet hoz." />
             <DevicesIllustration />
           </SpotlightCard>
         </Link>
@@ -53,7 +53,7 @@ export function BentoServices() {
         <Link href="/szolgaltatasok/webshop" className="group block h-full">
           <SpotlightCard className="bento-card h-full min-h-[340px] p-7" rgb="139,92,246">
             <CardHead icon={ShoppingBag} color="#a78bfa" title="Webshop"
-              desc="Online értékesítés termékekkel, rendelésekkel és online fizetéssel." />
+              desc="Termék fel, rendelés be, pénz a számlán." />
             <CartIllustration />
           </SpotlightCard>
         </Link>
@@ -64,7 +64,7 @@ export function BentoServices() {
         <Link href="/szolgaltatasok/foglalasi-rendszer" className="group block h-full">
           <SpotlightCard className="bento-card h-full min-h-[320px] p-7" rgb="16,185,129">
             <CardHead icon={Calendar} color="#34d399" title="Foglalási rendszer"
-              desc="Időpont-, asztal- vagy szobafoglalás automatikusan, éjjel-nappal." />
+              desc="Foglalás éjjel-nappal. Telefonálás nélkül." />
             <BookingIllustration />
           </SpotlightCard>
         </Link>
@@ -75,7 +75,7 @@ export function BentoServices() {
         <Link href="/szolgaltatasok/landing-page" className="group block h-full">
           <SpotlightCard className="bento-card h-full min-h-[320px] p-7" rgb="245,158,11">
             <CardHead icon={LayoutTemplate} color="#fbbf24" title="Landing page"
-              desc="Konverzióra optimalizált kampányoldal hirdetésekhez és ajánlatokhoz." />
+              desc="Egy oldal, egy cél: több érdeklődő a hirdetéseidből." />
             <ChartIllustration />
           </SpotlightCard>
         </Link>
@@ -86,7 +86,7 @@ export function BentoServices() {
         <Link href="/szolgaltatasok/crm" className="group block h-full">
           <SpotlightCard className="bento-card h-full min-h-[320px] p-7" rgb="244,63,94">
             <CardHead icon={Users} color="#fb7185" title="CRM rendszer"
-              desc="Érdeklődők, ajánlatok és ügyfelek egy átlátható felületen." />
+              desc="Minden érdeklődő, ajánlat és ügyfél egy helyen. Semmi nem csúszik el." />
             <PipelineIllustration />
           </SpotlightCard>
         </Link>
@@ -98,7 +98,7 @@ export function BentoServices() {
           <SpotlightCard className="bento-card h-full p-7" rgb="148,163,184">
             <div className="grid items-center gap-8 lg:grid-cols-[1fr_1.3fr]">
               <CardHead icon={Wrench} color="#cbd5e1" title="Üzemeltetés és karbantartás"
-                desc="Frissítések, biztonsági mentések, monitorozás és technikai támogatás, hogy neked ne kelljen ezzel foglalkoznod." />
+                desc="Frissítés, mentés, biztonság, support. Neked nem kell foglalkoznod vele. Nekünk ez a dolgunk." />
               <UptimeIllustration />
             </div>
           </SpotlightCard>

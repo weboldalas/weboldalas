@@ -6,13 +6,13 @@ import { MessagesSquare, PenTool, Code2, Rocket } from 'lucide-react'
 
 const steps = [
   { icon: MessagesSquare, when: '1. nap', title: 'Beszéljünk', color: '#38bdf8',
-    desc: 'Egy kötetlen beszélgetésen megismerjük a vállalkozásodat, a céljaidat és azt, mire van szükséged.' },
+    desc: 'Egy kötetlen hívás. Elmondod, mit szeretnél, mi megmondjuk, mi fog működni.' },
   { icon: PenTool, when: '2–3. nap', title: 'Megtervezzük', color: '#a78bfa',
-    desc: 'Összerakjuk az oldal felépítését, a szövegek irányát és a márkádhoz illő, modern dizájnt.' },
+    desc: 'Struktúra, szöveg, dizájn. Mind a márkádra szabva.' },
   { icon: Code2, when: '4–8. nap', title: 'Elkészítjük', color: '#34d399',
-    desc: 'Lefejlesztjük a weboldalt, beállítjuk a funkciókat, és minden eszközön alaposan teszteljük.' },
+    desc: 'Fejlesztés, beállítás, tesztelés minden eszközön.' },
   { icon: Rocket, when: '5–10. nap', title: 'Élesítjük', color: '#fbbf24',
-    desc: 'Elindul az oldal. Utána is veled maradunk: karbantartás, módosítások, fejlesztések.' },
+    desc: 'Indul az oldal. Mi pedig maradunk: karbantartás, módosítás, fejlesztés.' },
 ]
 
 export function ProcessTimeline() {

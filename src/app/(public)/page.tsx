@@ -5,7 +5,7 @@ import { PricingPreview } from '@/components/public/PricingPreview'
 import { FaqAccordion } from '@/components/public/FaqAccordion'
 import { LogoCarousel } from '@/components/public/LogoCarousel'
 import { HomeMotion } from '@/components/public/home/HomeMotion'
-import { HeroShowcase } from '@/components/public/home/HeroShowcase'
+import { HeroBold } from '@/components/public/home/HeroBold'
 import { BentoServices } from '@/components/public/home/BentoServices'
 import { ProcessTimeline } from '@/components/public/home/ProcessTimeline'
 import { StatCounter } from '@/components/public/home/StatCounter'
@@ -59,12 +59,12 @@ export default function HomePage() {
       <div className="overflow-x-clip">
 
         {/* ===== HERO ===== */}
-        <HeroShowcase />
+        <HeroBold />
 
         {/* ===== LOGÓK ===== */}
         <section className="relative py-14">
           <p className="mb-8 text-center text-xs font-semibold uppercase tracking-[0.25em] text-white/35">
-            Akik már minket választottak
+            Ők már velünk nőnek
           </p>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <LogoCarousel />
@@ -95,10 +95,10 @@ export default function HomePage() {
         <section className="relative py-20 sm:py-28">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <SectionHeading
-              eyebrow="Szolgáltatások"
-              title="Minden, ami egy"
-              accent="erős online jelenléthez kell."
-              desc="Egy partner, egy kapcsolattartó, egy havidíj. A weboldaltól a foglalási rendszeren át az üzemeltetésig."
+              eyebrow="Mit csinálunk"
+              title="Egy csapat."
+              accent="Minden, ami online kell."
+              desc="Weboldal, webshop, foglalás, CRM, üzemeltetés. Egy kézben, egy havidíjért."
             />
             <BentoServices />
           </div>
@@ -110,10 +110,10 @@ export default function HomePage() {
             style={{ background: 'radial-gradient(50% 50% at 50% 50%, rgba(139,92,246,0.18), transparent)' }} />
           <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <SectionHeading
-              eyebrow="Így dolgozunk"
-              title="Ötlettől az élő oldalig"
-              accent="10 nap alatt."
-              desc="Átlátható lépések, fix határidők, és mindig tudod, hol tartunk."
+              eyebrow="Folyamat"
+              title="Ötlettől élesig."
+              accent="10 nap."
+              desc="Nincs hónapokig húzódó projekt. Négy lépés, fix határidők."
             />
             <ProcessTimeline />
           </div>
@@ -128,14 +128,14 @@ export default function HomePage() {
                 <div>
                   <SectionHeading
                     align="left"
-                    eyebrow="Gondtalan üzemeltetés"
-                    title="Te a vállalkozásodra figyelj."
-                    accent="A technikát mi intézzük."
+                    eyebrow="Üzemeltetés"
+                    title="Te vállalkozol."
+                    accent="Mi intézzük a többit."
                   />
                   <FadeIn delay={0.1}>
                     <p className="-mt-4 mb-8 text-lg leading-relaxed text-white/50">
-                      Domain, tárhely, biztonsági mentések, frissítések és folyamatos támogatás egy helyen.
-                      Nem kell értened a weboldalakhoz, mi végigvezetünk mindenen.
+                      Domain, tárhely, mentések, frissítések, support. Egy havidíjban, fejfájás nélkül.
+                      Neked semmit nem kell értened hozzá.
                     </p>
                     <ul className="mb-10 grid gap-3 sm:grid-cols-2">
                       {['Domain és tárhely', 'Napi biztonsági mentés', 'Frissítések kezelése', 'Technikai támogatás',
@@ -166,7 +166,7 @@ export default function HomePage() {
         <section className="relative py-20 sm:py-28">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-14 flex flex-col items-start justify-between gap-6 sm:mb-16 md:flex-row md:items-end">
-              <SectionHeading align="left" eyebrow="Portfólió" title="Munkák, amikre" accent="büszkék vagyunk." />
+              <SectionHeading align="left" eyebrow="Portfólió" title="Nem ígérjük." accent="Megmutatjuk." />
               <FadeIn className="md:mb-10">
                 <Link href="/referenciak" className="btn-ghost group">
                   Összes referencia
@@ -227,7 +227,7 @@ export default function HomePage() {
         {/* ===== VÉLEMÉNYEK ===== */}
         <section className="relative py-20 sm:py-28">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <SectionHeading eyebrow="Vélemények" title="Ügyfeleink" accent="mondták." />
+            <SectionHeading eyebrow="Vélemények" title="Ők mondják," accent="nem mi." />
             <StaggerChildren className="grid gap-5 md:grid-cols-3">
               {reviews.map((r, i) => (
                 <StaggerItem key={r.name} className={i === 1 ? 'md:-translate-y-6' : ''}>
@@ -258,10 +258,10 @@ export default function HomePage() {
         <section className="relative py-20 sm:py-28">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <SectionHeading
-              eyebrow="Rugalmas konstrukciók"
-              title="Fizess úgy,"
-              accent="ahogy neked kényelmes."
-              desc="Egyszeri díj, kamatmentes részletfizetés vagy havidíj, mindegyik prémium minőséggel."
+              eyebrow="Árak"
+              title="Három út."
+              accent="Egy minőség."
+              desc="Egyszeri díj, kamatmentes részlet vagy havidíj. Te döntöd el."
             />
             <PricingPreview />
           </div>
@@ -271,8 +271,8 @@ export default function HomePage() {
         <section className="relative py-20 sm:py-28">
           <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-20 lg:px-8">
             <div className="lg:sticky lg:top-28 lg:self-start">
-              <SectionHeading align="left" eyebrow="GYIK" title="Kérdésed" accent="van?"
-                desc="Összegyűjtöttük a leggyakoribb kérdéseket. Ha nem találod a választ, írj nekünk bátran." />
+              <SectionHeading align="left" eyebrow="GYIK" title="Kérdés?" accent="Válasz."
+                desc="A leggyakoribbak itt vannak. Ha a tiéd nincs köztük, írj, és válaszolunk." />
               <FadeIn delay={0.1}>
                 <Link href="/kapcsolat" className="btn-ghost group -mt-2">
                   Kérdezz tőlünk
@@ -298,19 +298,19 @@ export default function HomePage() {
                 </div>
                 <div className="relative">
                   <h2 className="mx-auto max-w-4xl text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-                    Legyen olyan weboldalad,{' '}
-                    <span className="text-gradient">amire büszke vagy.</span>
+                    Kezdjük el.{' '}
+                    <span className="text-gradient">Még ma.</span>
                   </h2>
                   <p className="mx-auto mt-6 max-w-xl text-lg text-white/60">
-                    Kérj ingyenes ajánlatot, és 1 munkanapon belül jelentkezünk egy személyre szabott javaslattal.
+                    Írj nekünk, és 1 munkanapon belül jelentkezünk egy konkrét javaslattal.
                   </p>
                   <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
                     <Link href="/kapcsolat" className="btn-primary btn-lg group w-full sm:w-auto">
-                      Ingyenes ajánlatot kérek
+                      Ajánlatot kérek
                       <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                     </Link>
                     <Link href="/arak" className="btn-ghost btn-lg w-full sm:w-auto">
-                      Árak és kalkulátor
+                      Mennyibe kerül?
                     </Link>
                   </div>
                   <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/45">
