@@ -1,408 +1,332 @@
 import Link from 'next/link'
-import {
-  Globe, ShoppingBag, Calendar, LayoutTemplate, Users, Wrench,
-  ArrowRight, Check, Star, ChevronRight,
-  Home, Utensils, Scissors, Heart, Hammer, Building2,
-} from 'lucide-react'
+import { ArrowRight, Check, Star, Quote, ArrowUpRight } from 'lucide-react'
 import { FadeIn, StaggerChildren, StaggerItem } from '@/components/public/FadeIn'
-import { AppIcon } from '@/components/public/AppIcon'
 import { PricingPreview } from '@/components/public/PricingPreview'
 import { FaqAccordion } from '@/components/public/FaqAccordion'
 import { LogoCarousel } from '@/components/public/LogoCarousel'
+import { HomeMotion } from '@/components/public/home/HomeMotion'
+import { HeroShowcase } from '@/components/public/home/HeroShowcase'
+import { BentoServices } from '@/components/public/home/BentoServices'
+import { ProcessTimeline } from '@/components/public/home/ProcessTimeline'
+import { StatCounter } from '@/components/public/home/StatCounter'
+import { OrbitStack } from '@/components/public/home/OrbitStack'
+import { TiltCard } from '@/components/public/home/TiltCard'
 
 export const metadata = {
   title: 'Weboldalas – Modern weboldal kisebb vállalkozásoknak',
   description: 'Professzionális weboldal vállalkozásoknak nagy kezdő költségek nélkül. Kiszámítható havi díj, gyors indulás, folyamatos támogatás.',
 }
 
-const services = [
-  { icon: Globe,          color: 'blue',    title: 'Reszponzív weboldal',        desc: 'Modern, mobilbarát weboldalak, amelyek telefonon, tableten és asztali gépen is tökéletesen működnek.',                           href: '/szolgaltatasok/bemutatkozo-weboldal' },
-  { icon: ShoppingBag,    color: 'violet',  title: 'Webshop',                    desc: 'Online értékesítés könnyen kezelhető rendszerrel, termékekkel, rendelésekkel és fizetési lehetőségekkel.',                        href: '/szolgaltatasok/webshop' },
-  { icon: Calendar,       color: 'emerald', title: 'Foglalási rendszer',         desc: 'Időpontfoglalás, szolgáltatásfoglalás vagy bérlési folyamat automatizálása egyszerűen.',                                          href: '/szolgaltatasok/foglalasi-rendszer' },
-  { icon: LayoutTemplate, color: 'amber',   title: 'Landing Page',              desc: 'Célzott kampányoldalak hirdetésekhez, ajánlatokhoz vagy egy konkrét szolgáltatás bemutatásához.',                                  href: '/szolgaltatasok/landing-page' },
-  { icon: Users,          color: 'rose',    title: 'CRM',                        desc: 'Ügyfelek, érdeklődők, ajánlatok és feladatok kezelése egy átlátható rendszerben.',                                                href: '/szolgaltatasok/crm' },
-  { icon: Wrench,         color: 'slate',   title: 'Karbantartás',               desc: 'Frissítések, biztonsági mentések és technikai támogatás, hogy neked ne kelljen ezzel foglalkoznod.',                              href: '/szolgaltatasok/uzemeltetes' },
-]
-
-const whoFor = [
-  { icon: Scissors,    color: 'rose',    label: 'Szolgáltatók' },
-  { icon: Building2,   color: 'cyan',    label: 'Helyi vállalkozások' },
-  { icon: Home,        color: 'blue',    label: 'Egyéni vállalkozók' },
-  { icon: Heart,       color: 'rose',    label: 'Kisvállalkozások' },
-  { icon: Hammer,      color: 'slate',   label: 'Induló cégek' },
-  { icon: ShoppingBag, color: 'violet',  label: 'Webshopot indítók' },
-  { icon: Calendar,    color: 'emerald', label: 'Időpontfoglalós szolgáltatók' },
-  { icon: Utensils,    color: 'amber',   label: 'Online jelenlétet építők' },
-]
-
-const steps = [
-  { n: '01', title: 'Beszéljünk',    desc: 'Megismerjük a vállalkozásodat, céljaidat és azt, mire van szükséged az online jelenléthez.' },
-  { n: '02', title: 'Megtervezzük',  desc: 'Összerakjuk a weboldal felépítését, szöveges irányát és a hozzá illő modern megjelenést.' },
-  { n: '03', title: 'Elkészítjük',   desc: 'Lefejlesztjük a weboldalt, beállítjuk a szükséges funkciókat, majd minden eszközön teszteljük.' },
-  { n: '04', title: 'Indulhat',      desc: 'Élesítjük az oldalt, és igény esetén folyamatosan segítünk a karbantartásban és fejlesztésben.' },
+const references = [
+  { slug: 'helkem', name: 'Helkem', type: 'Szálláshely', accent: '#0ea5e9', accent2: '#22d3ee' },
+  { slug: 'sztanfa', name: 'Sztanfa', type: 'Vendéglátás', accent: '#f59e0b', accent2: '#ef4444' },
+  { slug: 'visitkigyos', name: 'VisitKígyós', type: 'Turizmus', accent: '#10b981', accent2: '#84cc16' },
 ]
 
 const reviews = [
-  { name: 'Kis Péter',     role: 'Panzió tulajdonos', text: 'Az online foglalásaim száma megduplázódott az új weboldal óta. Profi csapat, gyors munka!', stars: 5 },
-  { name: 'Nagy Éva',      role: 'Fodrászat',         text: 'Végre van egy oldalunk ami nem szégyenítő. Az ügyfelek mindig megdicsérik, és sokkal több visszaigazolt foglalásunk van.', stars: 5 },
-  { name: 'Takács András', role: 'Étterem',            text: 'A havidíjas modell tökéletes. Nem kellett nagy összeget kiadni egyszerre, és minden benne van.', stars: 5 },
+  { name: 'Kis Péter', role: 'Panzió tulajdonos', text: 'Az online foglalásaim száma megduplázódott az új weboldal óta. Profi csapat, gyors munka!' },
+  { name: 'Nagy Éva', role: 'Fodrászat', text: 'Végre van egy oldalunk ami nem szégyenítő. Az ügyfelek mindig megdicsérik, és sokkal több visszaigazolt foglalásunk van.' },
+  { name: 'Takács András', role: 'Étterem', text: 'A havidíjas modell tökéletes. Nem kellett nagy összeget kiadni egyszerre, és minden benne van.' },
 ]
 
 const faqs = [
-  { q: 'Mennyi idő alatt készül el a weboldal?',          a: 'Általában 5–10 munkanap alatt elkészítjük és átadjuk. Az átfutási idő a weboldalad összetettségétől függ.' },
-  { q: 'Tényleg nincs nagy kezdő költség?',               a: 'Havidíjas csomagunknál valóban nincs nagy egyszeri beruházás. Kiszámítható havi díjért profi weboldalt kapsz teljes üzemeltetéssel. Az egyszeri megoldásoknál az árat előre egyeztetjük.' },
-  { q: 'Később bővíthető a weboldal?',                    a: 'Igen, a weboldaladat bármikor bővíthetjük új aloldalakkal, funkciókkal vagy integrációkkal. A fejlesztések mindig az igényeidhez igazodnak.' },
-  { q: 'Én is tudom majd szerkeszteni?',                   a: 'Attól függ, milyen rendszert választasz. Kezelőfelületes megoldásoknál lehetséges az önálló szerkesztés. Egyébként a módosításokat mi végezzük el a megállapodott kereten belül.' },
-  { q: 'Mi történik, ha lemondom a havidíjas csomagot?',  a: 'A weboldal üzemeltetését leállítjuk, de minden tartalom elérhető marad számodra. Az együttműködés minimuma 12 hónap, ezt követően bármikor felmondható.' },
-  { q: 'Segítetek a Google-ben is megjelenni?',           a: 'Igen! Minden weboldalunkat alapszintű keresőoptimalizálással adjuk át: gyors betöltés, strukturált adatok, mobilbarát kialakítás és megfelelő meta beállítások.' },
+  { q: 'Mennyi idő alatt készül el a weboldal?', a: 'Általában 5–10 munkanap alatt elkészítjük és átadjuk. Az átfutási idő a weboldalad összetettségétől függ.' },
+  { q: 'Tényleg nincs nagy kezdő költség?', a: 'Havidíjas csomagunknál valóban nincs nagy egyszeri beruházás. Kiszámítható havi díjért profi weboldalt kapsz teljes üzemeltetéssel. Az egyszeri megoldásoknál az árat előre egyeztetjük.' },
+  { q: 'Később bővíthető a weboldal?', a: 'Igen, a weboldaladat bármikor bővíthetjük új aloldalakkal, funkciókkal vagy integrációkkal. A fejlesztések mindig az igényeidhez igazodnak.' },
+  { q: 'Én is tudom majd szerkeszteni?', a: 'Attól függ, milyen rendszert választasz. Kezelőfelületes megoldásoknál lehetséges az önálló szerkesztés. Egyébként a módosításokat mi végezzük el a megállapodott kereten belül.' },
+  { q: 'Mi történik, ha lemondom a havidíjas csomagot?', a: 'A weboldal üzemeltetését leállítjuk, de minden tartalom elérhető marad számodra. Az együttműködés minimuma 12 hónap, ezt követően bármikor felmondható.' },
+  { q: 'Segítetek a Google-ben is megjelenni?', a: 'Igen! Minden weboldalunkat alapszintű keresőoptimalizálással adjuk át: gyors betöltés, strukturált adatok, mobilbarát kialakítás és megfelelő meta beállítások.' },
 ]
 
-const SURFACE = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }
+function SectionHeading({ eyebrow, title, accent, desc, align = 'center' }: {
+  eyebrow: string; title: string; accent?: string; desc?: string; align?: 'center' | 'left'
+}) {
+  return (
+    <FadeIn className={align === 'center' ? 'mx-auto mb-14 max-w-3xl text-center sm:mb-16' : 'mb-10'}>
+      <span className="eyebrow">{eyebrow}</span>
+      <h2 className="mt-5 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.5rem]">
+        {title}{' '}
+        {accent && <span className="text-gradient">{accent}</span>}
+      </h2>
+      {desc && <p className={`mt-5 text-lg leading-relaxed text-white/50 ${align === 'center' ? 'mx-auto max-w-2xl' : ''}`}>{desc}</p>}
+    </FadeIn>
+  )
+}
 
 export default function HomePage() {
   return (
-    <div className="overflow-x-hidden">
+    <HomeMotion>
+      <div className="overflow-x-clip">
 
-      {/* ===== HERO ===== */}
-      <section className="relative min-h-screen flex items-center justify-center pt-20 pb-24">
-        {/* Glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full blur-[120px] pointer-events-none opacity-20"
-          style={{ background: 'radial-gradient(ellipse, #0ea5e9 0%, transparent 70%)' }} />
+        {/* ===== HERO ===== */}
+        <HeroShowcase />
 
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <FadeIn>
-            <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium mb-10"
-              style={{ background: 'rgba(14,165,233,0.12)', border: '1px solid rgba(14,165,233,0.25)', color: '#38bdf8' }}>
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
-              Magyar csapat · Magyar support · Gyors indulás
-            </div>
-          </FadeIn>
+        {/* ===== LOGÓK ===== */}
+        <section className="relative py-14">
+          <p className="mb-8 text-center text-xs font-semibold uppercase tracking-[0.25em] text-white/35">
+            Akik már minket választottak
+          </p>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <LogoCarousel />
+          </div>
+        </section>
 
-          <FadeIn delay={0.08}>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-tight mb-7">
-              Modern weboldal{' '}
-              <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(135deg, #38bdf8, #06b6d4)' }}>
-                nagy kezdő&nbsp;költségek&nbsp;nélkül
-              </span>
-            </h1>
-          </FadeIn>
-
-          <FadeIn delay={0.15}>
-            <p className="text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed mb-12" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              Professzionális weboldalt készítünk vállalkozásoknak, amely nemcsak jól néz ki,
-              hanem segít bizalmat építeni és új érdeklődőket szerezni. Egyszeri több százezer
-              forintos beruházás helyett kiszámítható havi díjjal is elindulhatsz.
-            </p>
-          </FadeIn>
-
-          <FadeIn delay={0.22}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-              <Link href="/kapcsolat"
-                className="group flex items-center gap-2 px-7 py-4 rounded-2xl text-base font-semibold text-white transition-all hover:opacity-90 hover:-translate-y-0.5"
-                style={{ background: 'linear-gradient(135deg, #0284c7, #0ea5e9, #06b6d4)', boxShadow: '0 0 40px rgba(14,165,233,0.3)' }}>
-                Ajánlatot kérek
-                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link href="/referenciak"
-                className="flex items-center gap-2 px-7 py-4 rounded-2xl text-base font-semibold transition-all hover:-translate-y-0.5"
-                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.85)' }}>
-                Referenciák
-              </Link>
-            </div>
-          </FadeIn>
-
-          {/* Trust row */}
-          <FadeIn delay={0.3}>
-            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-              {['Gyors indulás', 'Mobilbarát kialakítás', 'Keresőoptimalizált alapok', 'Kiszámítható havi díj', 'Folyamatos támogatás'].map(t => (
-                <span key={t} className="flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                  <Check className="h-3.5 w-3.5 text-cyan-500" strokeWidth={3} />
-                  {t}
-                </span>
+        {/* ===== SZÁMOK ===== */}
+        <section className="relative py-10">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-2 overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] lg:grid-cols-4">
+              {[
+                { node: <StatCounter to={22} suffix="+" />, label: 'elégedett ügyfél' },
+                { node: <><StatCounter to={5} format={false} />–<StatCounter to={10} format={false} /></>, label: 'munkanap az indulásig' },
+                { node: <StatCounter to={19990} suffix=" Ft" />, label: 'havidíj-tól, mindennel' },
+                { node: <StatCounter to={100} suffix="%" />, label: 'mobilbarát kialakítás' },
+              ].map((s, i) => (
+                <div key={i}
+                  className={`relative p-6 text-center sm:p-8 ${i % 2 === 0 ? 'border-r border-white/[0.06]' : ''} ${i < 2 ? 'border-b border-white/[0.06] lg:border-b-0' : ''} ${i === 1 ? 'lg:border-r' : ''}`}>
+                  <div className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">{s.node}</div>
+                  <div className="mt-2 text-sm text-white/45">{s.label}</div>
+                </div>
               ))}
             </div>
-          </FadeIn>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* ===== KINEK AJÁNLJUK ===== */}
-      <section className="py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn className="text-center mb-12">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Célcsoportjaink</p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Kinek ajánljuk?</h2>
-            <p className="text-base max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Legyen szó induló vállalkozásról, szolgáltatóról vagy régóta működő cégről, a cél ugyanaz:
-              egy modern, megbízható weboldal, ami segít jobb első benyomást kelteni és több érdeklődőt szerezni.
-            </p>
-          </FadeIn>
-          <StaggerChildren className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {whoFor.map((item, i) => (
-              <StaggerItem key={i}>
-                <div className="flex flex-col items-center gap-3 p-6 rounded-2xl transition-all hover:-translate-y-0.5 cursor-default text-center"
-                  style={SURFACE}>
-                  <AppIcon icon={item.icon} color={item.color as any} size="md" />
-                  <span className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.7)' }}>{item.label}</span>
+        {/* ===== SZOLGÁLTATÁSOK (BENTO) ===== */}
+        <section className="relative py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <SectionHeading
+              eyebrow="Szolgáltatások"
+              title="Minden, ami egy"
+              accent="erős online jelenléthez kell."
+              desc="Egy partner, egy kapcsolattartó, egy havidíj. A weboldaltól a foglalási rendszeren át az üzemeltetésig."
+            />
+            <BentoServices />
+          </div>
+        </section>
+
+        {/* ===== FOLYAMAT ===== */}
+        <section className="relative py-20 sm:py-28">
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-1/2 h-[600px] -translate-y-1/2 opacity-40"
+            style={{ background: 'radial-gradient(50% 50% at 50% 50%, rgba(139,92,246,0.18), transparent)' }} />
+          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <SectionHeading
+              eyebrow="Így dolgozunk"
+              title="Ötlettől az élő oldalig"
+              accent="10 nap alatt."
+              desc="Átlátható lépések, fix határidők, és mindig tudod, hol tartunk."
+            />
+            <ProcessTimeline />
+          </div>
+        </section>
+
+        {/* ===== ÜZEMELTETÉS (ORBIT) ===== */}
+        <section className="relative py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="relative overflow-hidden rounded-[2.5rem] border border-white/[0.08] bg-gradient-to-br from-sky-500/[0.08] via-transparent to-violet-500/[0.08] p-6 sm:p-12 lg:p-16">
+              <div aria-hidden className="hero-grid pointer-events-none absolute inset-0 opacity-50" />
+              <div className="relative grid items-center gap-12 lg:grid-cols-2">
+                <div>
+                  <SectionHeading
+                    align="left"
+                    eyebrow="Gondtalan üzemeltetés"
+                    title="Te a vállalkozásodra figyelj."
+                    accent="A technikát mi intézzük."
+                  />
+                  <FadeIn delay={0.1}>
+                    <p className="-mt-4 mb-8 text-lg leading-relaxed text-white/50">
+                      Domain, tárhely, biztonsági mentések, frissítések és folyamatos támogatás egy helyen.
+                      Nem kell értened a weboldalakhoz, mi végigvezetünk mindenen.
+                    </p>
+                    <ul className="mb-10 grid gap-3 sm:grid-cols-2">
+                      {['Domain és tárhely', 'Napi biztonsági mentés', 'Frissítések kezelése', 'Technikai támogatás',
+                        'Alap keresőoptimalizálás', 'Mérőkódok beállítása', 'E-mail beállítások', 'Sebesség optimalizálás'].map(item => (
+                        <li key={item} className="flex items-center gap-3 text-white/70">
+                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sky-500/15">
+                            <Check className="h-3.5 w-3.5 text-sky-400" strokeWidth={3} />
+                          </span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    <Link href="/szolgaltatasok/uzemeltetes" className="btn-primary group">
+                      Részletek
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </FadeIn>
                 </div>
-              </StaggerItem>
-            ))}
-          </StaggerChildren>
-        </div>
-      </section>
-
-      {/* ===== SZOLGÁLTATÁSOK ===== */}
-      <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn className="text-center mb-16">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Amit kínálunk</p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Szolgáltatásaink</h2>
-            <p className="max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>Minden, amire egy modern online megjelenéshez szükséged lehet.</p>
-          </FadeIn>
-          <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {services.map((svc, i) => (
-              <StaggerItem key={i}>
-                <Link href={svc.href}>
-                  <div className="svc-card group p-6 rounded-2xl hover:-translate-y-0.5 h-full flex flex-col gap-4"
-                    style={SURFACE}>
-                    <AppIcon icon={svc.icon} color={svc.color as any} size="md" />
-                    <div className="flex-1">
-                      <h3 className="font-bold text-white mb-1.5">{svc.title}</h3>
-                      <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{svc.desc}</p>
-                    </div>
-                    <div className="flex items-center gap-1 text-sm font-medium text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                      Részletek <ChevronRight className="h-4 w-4" />
-                    </div>
-                  </div>
-                </Link>
-              </StaggerItem>
-            ))}
-          </StaggerChildren>
-        </div>
-      </section>
-
-      {/* ===== ÍGY MŰKÖDIK ===== */}
-      <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.015)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn className="text-center mb-16">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Egyszerű folyamat</p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Így működik</h2>
-            <p className="max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>Egyszerű folyamat, átlátható lépésekben.</p>
-          </FadeIn>
-          <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {steps.map((step, i) => (
-              <StaggerItem key={i}>
-                <div className="p-6 rounded-2xl h-full" style={SURFACE}>
-                  <div className="text-4xl font-black mb-4 text-transparent bg-clip-text"
-                    style={{ backgroundImage: 'linear-gradient(135deg, #38bdf8, #06b6d4)' }}>
-                    {step.n}
-                  </div>
-                  <h3 className="font-bold text-white mb-2">{step.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{step.desc}</p>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerChildren>
-        </div>
-      </section>
-
-      {/* ===== TECHNIKAI BLOKK ===== */}
-      <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl p-8 lg:p-16 relative overflow-hidden"
-            style={{ background: 'linear-gradient(135deg, rgba(14,165,233,0.12), rgba(6,182,212,0.06))', border: '1px solid rgba(14,165,233,0.2)' }}>
-            <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl pointer-events-none opacity-20"
-              style={{ background: 'radial-gradient(circle, #0ea5e9, transparent)' }} />
-            <div className="relative grid lg:grid-cols-2 gap-12 items-center">
-              <FadeIn from="left">
-                <p className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: '#38bdf8' }}>Gondtalan üzemeltetés</p>
-                <h2 className="text-3xl sm:text-4xl font-bold mb-5">
-                  Ön a vállalkozására koncentráljon, mi intézzük a technikai hátteret.
-                </h2>
-                <p className="text-lg leading-relaxed mb-8" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  Domain, tárhely, biztonsági mentések, frissítések, technikai beállítások és folyamatos
-                  támogatás egy helyen. Nem kell értened a weboldalakhoz — mi végigvezetünk a folyamaton.
-                </p>
-                <Link href="/szolgaltatasok/uzemeltetes"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white"
-                  style={{ background: 'linear-gradient(135deg, #0ea5e9, #06b6d4)' }}>
-                  Érdekel <ArrowRight className="h-4 w-4" />
-                </Link>
-              </FadeIn>
-              <FadeIn from="right">
-                <div className="grid grid-cols-2 gap-3">
-                  {['Domain és tárhely beállítás', 'Biztonsági mentések', 'Frissítések kezelése',
-                    'Technikai támogatás', 'Alap keresőoptimalizálás', 'Mérőkódok beállítása',
-                    'E-mail beállítások', 'Teljesítmény optimalizálás'].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2 rounded-xl px-3 py-3" style={SURFACE}>
-                      <Check className="h-4 w-4 text-cyan-400 shrink-0" strokeWidth={2.5} />
-                      <span className="text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </FadeIn>
+                <FadeIn from="right" delay={0.1}>
+                  <OrbitStack />
+                </FadeIn>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ===== ÁRAK PREVIEW ===== */}
-      <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.015)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn className="text-center mb-16">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Rugalmas konstrukciók</p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Válassz fizetési módot</h2>
-            <p style={{ color: 'rgba(255,255,255,0.4)' }}>Döntsd el, számodra melyik konstrukció a legkényelmesebb.</p>
-          </FadeIn>
-          <PricingPreview />
-        </div>
-      </section>
-
-      {/* ===== REFERENCIÁK ===== */}
-      <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn className="text-center mb-16">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Portfólió</p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Néhány referenciánk</h2>
-            <p className="max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Az elmúlt években több vállalkozás online megjelenésén dolgoztunk. Ezekből mutatunk néhányat.
-            </p>
-          </FadeIn>
-          <StaggerChildren className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {[
-              { slug: 'helkem',       name: 'Helkem',      type: 'Szálláshely', from: '#0c4a6e', to: '#0369a1', accent: '#0ea5e9' },
-              { slug: 'sztanfa',      name: 'Sztanfa',     type: 'Vendéglátás', from: '#78350f', to: '#92400e', accent: '#f59e0b' },
-              { slug: 'visitkigyos', name: 'VisitKígyós', type: 'Turizmus',    from: '#064e3b', to: '#065f46', accent: '#10b981' },
-            ].map((ref, i) => (
-              <StaggerItem key={i}>
-                <Link href={`/referenciak/${ref.slug}`} className="group block">
-                  <div className="relative rounded-2xl p-10 text-center hover:-translate-y-0.5 transition-all overflow-hidden"
-                    style={{ background: `linear-gradient(135deg, ${ref.from}, ${ref.to})`, border: '1px solid rgba(255,255,255,0.08)' }}>
-                    <div className="absolute inset-0 opacity-[0.08]"
-                      style={{
-                        backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
-                        backgroundSize: '32px 32px',
-                      }} />
-                    <div className="absolute inset-0 opacity-30"
-                      style={{ background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${ref.accent}, transparent)` }} />
-                    <div className="relative">
-                      <div className="font-black text-white text-3xl mb-2">{ref.name}</div>
-                      <div className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>{ref.type}</div>
-                      <div className="mt-4 inline-flex items-center gap-1 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity"
-                        style={{ color: 'rgba(255,255,255,0.8)' }}>
-                        Megnézem <ChevronRight className="h-3.5 w-3.5" />
-                      </div>
-                    </div>
-                  </div>
+        {/* ===== REFERENCIÁK ===== */}
+        <section className="relative py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-14 flex flex-col items-start justify-between gap-6 sm:mb-16 md:flex-row md:items-end">
+              <SectionHeading align="left" eyebrow="Portfólió" title="Munkák, amikre" accent="büszkék vagyunk." />
+              <FadeIn className="md:mb-10">
+                <Link href="/referenciak" className="btn-ghost group">
+                  Összes referencia
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </Link>
-              </StaggerItem>
-            ))}
-          </StaggerChildren>
-        </div>
-      </section>
+              </FadeIn>
+            </div>
 
-      {/* ===== LOGO CAROUSEL ===== */}
-      <section className="py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn className="text-center mb-12">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Akikkel dolgoztunk</p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Ügyfeleink</h2>
-            <p className="max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>Akik már minket választottak.</p>
-          </FadeIn>
-          <LogoCarousel />
-        </div>
-      </section>
+            <StaggerChildren className="grid gap-5 md:grid-cols-3">
+              {references.map(ref => (
+                <StaggerItem key={ref.slug}>
+                  <Link href={`/referenciak/${ref.slug}`} className="group block">
+                    <TiltCard className="rounded-3xl">
+                      <div className="relative aspect-[5/4] overflow-hidden rounded-3xl border border-white/10 md:aspect-[4/5]"
+                        style={{ background: `linear-gradient(160deg, ${ref.accent}40, #0b0b13 55%)` }}>
+                        <div className="absolute inset-0 opacity-[0.07]"
+                          style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
 
-      {/* ===== VÉLEMÉNYEK ===== */}
-      <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn className="text-center mb-16">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: '#38bdf8' }}>Ügyfeleink mondják</p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Vélemények</h2>
-            <p className="max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.4)' }}>A legjobb visszajelzés számunkra ügyfeleink elégedettsége.</p>
-          </FadeIn>
+                        {/* mini site preview */}
+                        <div className="absolute inset-x-6 top-6 overflow-hidden rounded-xl border border-white/10 bg-[#0b0b13]/80 shadow-2xl backdrop-blur transition-transform duration-500 group-hover:-translate-y-2"
+                          style={{ transform: 'translateZ(40px)' }}>
+                          <div className="flex gap-1 border-b border-white/[0.06] px-3 py-2">
+                            <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
+                            <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
+                            <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
+                          </div>
+                          <div className="space-y-2 p-4">
+                            <div className="h-24 rounded-lg" style={{ background: `linear-gradient(135deg, ${ref.accent}aa, ${ref.accent2}44)` }} />
+                            <div className="h-2 w-3/4 rounded bg-white/20" />
+                            <div className="h-2 w-1/2 rounded bg-white/10" />
+                            <div className="grid grid-cols-3 gap-1.5 pt-1">
+                              <div className="h-8 rounded bg-white/[0.06]" />
+                              <div className="h-8 rounded bg-white/[0.06]" />
+                              <div className="h-8 rounded bg-white/[0.06]" />
+                            </div>
+                          </div>
+                        </div>
 
-          <StaggerChildren className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {reviews.map((r, i) => (
-              <StaggerItem key={i}>
-                <div className="relative rounded-3xl p-7 flex flex-col h-full overflow-hidden"
-                  style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6"
+                          style={{ background: 'linear-gradient(to top, rgba(8,8,15,0.95), transparent)' }}>
+                          <div>
+                            <div className="mb-1 text-xs font-semibold uppercase tracking-widest" style={{ color: ref.accent }}>{ref.type}</div>
+                            <div className="text-3xl font-extrabold text-white">{ref.name}</div>
+                          </div>
+                          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-black transition-transform duration-300 group-hover:rotate-45">
+                            <ArrowUpRight className="h-5 w-5" />
+                          </span>
+                        </div>
+                      </div>
+                    </TiltCard>
+                  </Link>
+                </StaggerItem>
+              ))}
+            </StaggerChildren>
+          </div>
+        </section>
 
-                  {/* Decorative quote mark */}
-                  <div className="absolute -top-2 right-5 text-8xl font-bold leading-none pointer-events-none select-none"
-                    style={{ color: 'rgba(14,165,233,0.1)', fontFamily: 'Georgia, serif', lineHeight: 1 }}>
-                    "
+        {/* ===== VÉLEMÉNYEK ===== */}
+        <section className="relative py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <SectionHeading eyebrow="Vélemények" title="Ügyfeleink" accent="mondták." />
+            <StaggerChildren className="grid gap-5 md:grid-cols-3">
+              {reviews.map((r, i) => (
+                <StaggerItem key={r.name} className={i === 1 ? 'md:-translate-y-6' : ''}>
+                  <figure className="review-card relative flex h-full flex-col rounded-3xl p-7 sm:p-8">
+                    <Quote className="absolute right-7 top-7 h-10 w-10 text-white/[0.06]" />
+                    <div className="mb-6 flex gap-1">
+                      {[0, 1, 2, 3, 4].map(j => <Star key={j} className="h-4 w-4 fill-amber-400 text-amber-400" />)}
+                    </div>
+                    <blockquote className="flex-1 text-lg leading-relaxed text-white/80">„{r.text}”</blockquote>
+                    <figcaption className="mt-8 flex items-center gap-3 border-t border-white/[0.07] pt-6">
+                      <span className="flex h-11 w-11 items-center justify-center rounded-full text-sm font-bold text-white"
+                        style={{ background: ['linear-gradient(135deg,#0284c7,#22d3ee)', 'linear-gradient(135deg,#7c3aed,#ec4899)', 'linear-gradient(135deg,#059669,#84cc16)'][i % 3] }}>
+                        {r.name.split(' ').map(p => p[0]).join('')}
+                      </span>
+                      <span>
+                        <span className="block font-semibold text-white">{r.name}</span>
+                        <span className="block text-sm text-white/40">{r.role}</span>
+                      </span>
+                    </figcaption>
+                  </figure>
+                </StaggerItem>
+              ))}
+            </StaggerChildren>
+          </div>
+        </section>
+
+        {/* ===== ÁRAK ===== */}
+        <section className="relative py-20 sm:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <SectionHeading
+              eyebrow="Rugalmas konstrukciók"
+              title="Fizess úgy,"
+              accent="ahogy neked kényelmes."
+              desc="Egyszeri díj, kamatmentes részletfizetés vagy havidíj, mindegyik prémium minőséggel."
+            />
+            <PricingPreview />
+          </div>
+        </section>
+
+        {/* ===== GYIK ===== */}
+        <section className="relative py-20 sm:py-28">
+          <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-20 lg:px-8">
+            <div className="lg:sticky lg:top-28 lg:self-start">
+              <SectionHeading align="left" eyebrow="GYIK" title="Kérdésed" accent="van?"
+                desc="Összegyűjtöttük a leggyakoribb kérdéseket. Ha nem találod a választ, írj nekünk bátran." />
+              <FadeIn delay={0.1}>
+                <Link href="/kapcsolat" className="btn-ghost group -mt-2">
+                  Kérdezz tőlünk
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </FadeIn>
+            </div>
+            <FadeIn delay={0.1}>
+              <FaqAccordion faqs={faqs} />
+            </FadeIn>
+          </div>
+        </section>
+
+        {/* ===== CTA ===== */}
+        <section className="relative px-4 pb-24 pt-12 sm:px-6 sm:pb-32 lg:px-8">
+          <FadeIn>
+            <div className="cta-shell relative mx-auto max-w-6xl rounded-[2.5rem] p-px">
+              <div className="relative overflow-hidden rounded-[calc(2.5rem-1px)] bg-[#0a0a14] px-6 py-20 text-center sm:px-12 sm:py-28">
+                <div aria-hidden className="pointer-events-none absolute inset-0">
+                  <div className="home-anim aurora-a absolute -top-1/2 left-1/2 h-[140%] w-[120%] -translate-x-1/2 rounded-full opacity-60 blur-[100px]"
+                    style={{ background: 'conic-gradient(from 180deg at 50% 50%, #0ea5e9, #8b5cf6, #ec4899, #f59e0b, #10b981, #0ea5e9)' }} />
+                  <div className="absolute inset-0 bg-[#0a0a14]/70" />
+                  <div className="hero-grid absolute inset-0" />
+                </div>
+                <div className="relative">
+                  <h2 className="mx-auto max-w-4xl text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+                    Legyen olyan weboldalad,{' '}
+                    <span className="text-gradient">amire büszke vagy.</span>
+                  </h2>
+                  <p className="mx-auto mt-6 max-w-xl text-lg text-white/60">
+                    Kérj ingyenes ajánlatot, és 1 munkanapon belül jelentkezünk egy személyre szabott javaslattal.
+                  </p>
+                  <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                    <Link href="/kapcsolat" className="btn-primary btn-lg group w-full sm:w-auto">
+                      Ingyenes ajánlatot kérek
+                      <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                    <Link href="/arak" className="btn-ghost btn-lg w-full sm:w-auto">
+                      Árak és kalkulátor
+                    </Link>
                   </div>
-
-                  {/* Stars */}
-                  <div className="flex gap-1 mb-6">
-                    {[...Array(r.stars)].map((_, j) => (
-                      <Star key={j} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                  <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/45">
+                    {['Kötelezettség nélkül', 'Válasz 1 munkanapon belül', 'Magyar ügyfélszolgálat'].map(t => (
+                      <span key={t} className="flex items-center gap-1.5">
+                        <Check className="h-4 w-4 text-emerald-400" strokeWidth={3} /> {t}
+                      </span>
                     ))}
                   </div>
-
-                  {/* Quote */}
-                  <p className="relative text-base leading-7 flex-1 mb-8" style={{ color: 'rgba(255,255,255,0.72)' }}>
-                    {r.text}
-                  </p>
-
-                  {/* Author */}
-                  <div className="flex items-center gap-3 pt-5"
-                    style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0"
-                      style={{ background: ['linear-gradient(135deg,#0284c7,#0ea5e9)', 'linear-gradient(135deg,#7c3aed,#a855f7)', 'linear-gradient(135deg,#059669,#10b981)'][i % 3] }}>
-                      {r.name.charAt(0)}
-                    </div>
-                    <div>
-                      <div className="font-semibold text-sm text-white">{r.name}</div>
-                      <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{r.role}</div>
-                    </div>
-                  </div>
                 </div>
-              </StaggerItem>
-            ))}
-          </StaggerChildren>
-        </div>
-      </section>
-
-      {/* ===== GYIK ===== */}
-      <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn className="text-center mb-16">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: '#38bdf8' }}>Kérdések és válaszok</p>
-            <h2 className="text-3xl sm:text-4xl font-bold">Gyakori kérdések</h2>
-          </FadeIn>
-          <FaqAccordion faqs={faqs} />
-        </div>
-      </section>
-
-      {/* ===== CTA ===== */}
-      <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <FadeIn>
-            <h2 className="text-4xl sm:text-5xl font-extrabold mb-6">
-              Legyen végre olyan{' '}
-              <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(135deg, #38bdf8, #06b6d4)' }}>
-                weboldalad, amire büszke lehetsz.
-              </span>
-            </h2>
-            <p className="text-lg mb-10" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Kérj ajánlatot, és nézzük meg együtt, milyen megoldás lenne a legjobb a vállalkozásod számára.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/kapcsolat"
-                className="px-8 py-4 rounded-2xl text-base font-bold text-white transition-all hover:opacity-90 hover:-translate-y-0.5"
-                style={{ background: 'linear-gradient(135deg, #0284c7, #0ea5e9, #06b6d4)', boxShadow: '0 0 40px rgba(14,165,233,0.25)' }}>
-                Ajánlatot kérek →
-              </Link>
-              <Link href="/referenciak"
-                className="px-8 py-4 rounded-2xl text-base font-bold transition-all hover:-translate-y-0.5"
-                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
-                Referenciák
-              </Link>
+              </div>
             </div>
           </FadeIn>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </HomeMotion>
   )
 }
