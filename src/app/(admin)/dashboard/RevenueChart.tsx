@@ -1,335 +1,67 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
-import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, Cell, ReferenceLine,
-} from 'recharts'
-import { TrendingUp, Eye, EyeOff } from 'lucide-react'
+import { useMemo, useState, useSyncExternalStore } from 'react'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
+import { Eye, EyeOff, TrendingUp } from 'lucide-react'
 
 type View = 'havi' | 'eves'
-
-interface Payment {
-  amount: string | number
-  payment_date: string | null
-  due_date: string | null
-  status: string
+interface Payment { amount: string | number; payment_date: string | null; due_date: string | null; status: string }
+interface Props { payments: Payment[]; mrr: number; activeSubscriptions: number; projectRevenue: number }
+const months = ['Jan', 'Feb', 'Már', 'Ápr', 'Máj', 'Jún', 'Júl', 'Aug', 'Sze', 'Okt', 'Nov', 'Dec']
+function formatMoney(value: number) { return `${value.toLocaleString('hu-HU')} Ft` }
+function formatAxis(value: number) { return value >= 1000000 ? `${(value / 1000000).toFixed(1)} M` : value >= 1000 ? `${Math.round(value / 1000)} e` : `${value}` }
+function subscribePrivacy(callback: () => void) {
+  window.addEventListener('storage', callback)
+  window.addEventListener('revenue-privacy-changed', callback)
+  return () => { window.removeEventListener('storage', callback); window.removeEventListener('revenue-privacy-changed', callback) }
 }
+function privacySnapshot() { try { return localStorage.getItem('revenue-privacy') !== 'false' } catch { return true } }
+const noSubscribe = () => () => {}
 
-interface Props {
-  payments: Payment[]
-  mrr: number
-  activeSubscriptions: number
-  projectRevenue: number
-}
-
-const HU_MONTHS = ['Jan', 'Feb', 'Már', 'Ápr', 'Máj', 'Jún', 'Júl', 'Aug', 'Sze', 'Okt', 'Nov', 'Dec']
-
-function fmtK(v: number) {
-  if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(1)}M`
-  if (v >= 1_000) return `${Math.round(v / 1_000)}e`
-  return String(v)
-}
-
-function fmtFt(v: number) {
-  return v.toLocaleString('hu-HU') + ' Ft'
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function ChartTooltip({ active, payload, label }: any) {
+function ChartTooltip({active, payload, label}: {active?: boolean; payload?: readonly {dataKey?: string | number; value?: number | string}[]; label?: string | number}) {
   if (!active || !payload?.length) return null
-  const mrr = payload.find((p: { dataKey: string }) => p.dataKey === 'mrr')?.value ?? 0
-  const projects = payload.find((p: { dataKey: string }) => p.dataKey === 'projects')?.value ?? 0
-  const total = mrr + projects
-  return (
-    <div style={{
-      background: 'oklch(0.13 0.02 250)',
-      border: '1px solid rgba(255,255,255,0.10)',
-      borderRadius: 10,
-      padding: '10px 14px',
-      minWidth: 180,
-    }}>
-      <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11, marginBottom: 8, fontWeight: 600 }}>{label}</p>
-      {mrr > 0 && (
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, marginBottom: 4, alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <div style={{ width: 8, height: 8, borderRadius: 2, background: '#0ea5e9', flexShrink: 0 }} />
-            <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11 }}>Előfizetések</span>
-          </div>
-          <span style={{ color: '#0ea5e9', fontSize: 12, fontWeight: 600 }}>{fmtFt(mrr)}</span>
-        </div>
-      )}
-      {projects > 0 && (
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, marginBottom: 4, alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <div style={{ width: 8, height: 8, borderRadius: 2, background: '#a855f7', flexShrink: 0 }} />
-            <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11 }}>Projektek</span>
-          </div>
-          <span style={{ color: '#a855f7', fontSize: 12, fontWeight: 600 }}>{fmtFt(projects)}</span>
-        </div>
-      )}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: 8, paddingTop: 8, display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 12, fontWeight: 600 }}>Összesen</span>
-        <span style={{ color: 'white', fontSize: 12, fontWeight: 700 }}>{fmtFt(total)}</span>
-      </div>
-    </div>
-  )
-}
-
-function PrivateValue({ value, hidden, className }: { value: string; hidden: boolean; className?: string }) {
-  return (
-    <span
-      className={className}
-      style={{
-        filter: hidden ? 'blur(8px)' : 'none',
-        transition: 'filter 0.25s ease',
-        userSelect: hidden ? 'none' : 'auto',
-        display: 'inline-block',
-      }}
-    >
-      {value}
-    </span>
-  )
+  const base = Number(payload.find(item => item.dataKey === 'mrr')?.value ?? 0)
+  const payments = Number(payload.find(item => item.dataKey === 'projects')?.value ?? 0)
+  return <div className="admin-chart-tooltip"><strong>{label}</strong><p>Aktuális havidíjak alapján <span>{formatMoney(base)}</span></p><p>Befizetési tételek <span>{formatMoney(payments)}</span></p><p>Összesen <span>{formatMoney(base + payments)}</span></p></div>
 }
 
 export function RevenueChart({ payments, mrr, activeSubscriptions, projectRevenue }: Props) {
   const [view, setView] = useState<View>('havi')
-  const [mounted, setMounted] = useState(false)
-  const [hidden, setHidden] = useState(true)
-
-  useEffect(() => { setMounted(true) }, [])
-
-  useEffect(() => {
-    const stored = localStorage.getItem('revenue-privacy')
-    if (stored !== null) setHidden(stored === 'true')
-  }, [])
-
-  function toggleHidden() {
-    const next = !hidden
-    setHidden(next)
-    localStorage.setItem('revenue-privacy', String(next))
-  }
-
+  const mounted = useSyncExternalStore(noSubscribe, () => true, () => false)
+  const hidden = useSyncExternalStore(subscribePrivacy, privacySnapshot, () => true)
   const now = useMemo(() => new Date(), [])
-
-  // Minden befizetés dátummal
-  const paidData = useMemo(() =>
-    payments.map(p => {
-      const dateStr = p.payment_date ?? p.due_date
-      if (!dateStr) return null
-      return { date: new Date(dateStr), amount: Number(p.amount) }
-    }).filter((p): p is { date: Date; amount: number } => p !== null),
-    [payments]
-  )
-
-  const chartData = useMemo(() => {
-    if (view === 'havi') {
-      // -3 múlt hónap + aktuális + +8 jövő hónap = 12 total
-      return Array.from({ length: 12 }, (_, i) => {
-        const offset = i - 3
-        const d = new Date(now.getFullYear(), now.getMonth() + offset, 1)
-        const y = d.getFullYear()
-        const m = d.getMonth()
-
-        const isCurrent = offset === 0
-        const isFuture = offset > 0
-
-        const projects = paidData
-          .filter(p => p.date.getFullYear() === y && p.date.getMonth() === m)
-          .reduce((s, p) => s + p.amount, 0)
-
-        // Jövő hónapokra MRR-t mutatunk, de projektek is láthatók ha van ütemezett fizetés
-        const mrrValue = mrr
-        const label = HU_MONTHS[m] + (y !== now.getFullYear() ? ` '${String(y).slice(2)}` : '')
-
-        return { label, mrr: mrrValue, projects, isCurrent, isFuture, offset }
-      })
-    }
-
-    // Éves nézet: 5 év
-    const curYear = now.getFullYear()
-    return Array.from({ length: 5 }, (_, i) => {
-      const year = curYear - 4 + i
-      const isCurrent = year === curYear
-      const isFuture = year > curYear
-
-      const projects = paidData
-        .filter(p => p.date.getFullYear() === year)
-        .reduce((s, p) => s + p.amount, 0)
-
-      const mrrAnnual = mrr * 12
-
-      return { label: String(year), mrr: mrrAnnual, projects, isCurrent, isFuture, offset: year - curYear }
+  const data = useMemo(() => {
+    const datedPayments = payments.flatMap(payment => {
+      const date = payment.payment_date ?? payment.due_date
+      if (!date) return []
+      const parts = new Intl.DateTimeFormat('sv-SE', {timeZone:'Europe/Budapest'}).format(new Date(date)).split('-')
+      return [{year:Number(parts[0]), month:Number(parts[1])-1, amount:Number(payment.amount)}]
     })
-  }, [view, paidData, mrr, now])
-
-  const currentData = chartData.find(d => d.isCurrent)
-  const currentTotal = (currentData?.mrr ?? 0) + (currentData?.projects ?? 0)
-  const prevData = chartData.find(d => d.offset === -1)
-  const prevTotal = (prevData?.mrr ?? 0) + (prevData?.projects ?? 0)
-  const changePct = prevTotal > 0 ? ((currentTotal - prevTotal) / prevTotal) * 100 : null
-
-  if (!mounted) {
-    return (
-      <div className="rounded-2xl h-72 animate-pulse"
-        style={{ background: 'oklch(1 0 0 / 0.03)', border: '1px solid oklch(1 0 0 / 0.08)' }} />
-    )
+    const nowParts = new Intl.DateTimeFormat('sv-SE', {timeZone:'Europe/Budapest'}).format(now).split('-')
+    const currentYear = Number(nowParts[0])
+    const currentMonth = Number(nowParts[1])-1
+    return Array.from({length:view === 'havi' ? 12 : 5}, (_, index) => {
+      const offset = view === 'havi' ? index - 3 : index - 4
+      const date = new Date(Date.UTC(currentYear, currentMonth + (view === 'havi' ? offset : 0), 1))
+      const year = view === 'havi' ? date.getUTCFullYear() : currentYear + offset
+      const month = date.getUTCMonth()
+      const projects = datedPayments.filter(payment => payment.year === year && (view === 'eves' || payment.month === month)).reduce((sum, payment) => sum + payment.amount, 0)
+      return {label:view === 'havi' ? `${months[month]}${year !== currentYear ? ` '${String(year).slice(2)}` : ''}` : `${year}`, mrr:view === 'havi' ? mrr : mrr * 12, projects, isCurrent:offset === 0, isFuture:offset > 0}
+    })
+  }, [payments, mrr, view, now])
+  const current = data.find(item => item.isCurrent)
+  const total = (current?.mrr ?? 0) + (current?.projects ?? 0)
+  function togglePrivacy() {
+    try { localStorage.setItem('revenue-privacy', String(!hidden)); window.dispatchEvent(new Event('revenue-privacy-changed')) } catch { /* Keep values hidden when storage is unavailable. */ }
   }
 
-  return (
-    <div className="rounded-2xl overflow-hidden"
-      style={{ background: 'oklch(1 0 0 / 0.03)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
-
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 p-5 pb-2">
-        <div className="min-w-0">
-          <div className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-2 flex items-center gap-2">
-            <TrendingUp className="h-3.5 w-3.5" />
-            {view === 'havi' ? 'Várható bevétel — havi bontás' : 'Éves összesítő'}
-            <button
-              onClick={toggleHidden}
-              className="ml-1 p-0.5 rounded transition-colors hover:text-white/70"
-              style={{ color: 'rgba(255,255,255,0.35)' }}
-              title={hidden ? 'Összegek megjelenítése' : 'Összegek elrejtése'}
-            >
-              {hidden ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
-            </button>
-          </div>
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <span className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-              <PrivateValue value={fmtFt(currentTotal)} hidden={hidden} />
-            </span>
-            <span className="text-xs text-white/40">ebben a hónapban</span>
-            {changePct !== null && (
-              <span className="text-sm font-semibold" style={{
-                filter: hidden ? 'blur(6px)' : 'none',
-                transition: 'filter 0.25s ease',
-                color: changePct > 0 ? 'oklch(0.72 0.18 145)' : changePct < 0 ? 'oklch(0.72 0.18 25)' : 'rgba(255,255,255,0.4)'
-              }}>
-                {changePct > 0 ? '↑' : '↓'} {Math.abs(changePct).toFixed(1)}% az előző hónaphoz képest
-              </span>
-            )}
-          </div>
-          {/* MRR + projekt breakdown */}
-          <div className="flex items-center gap-4 mt-2 flex-wrap">
-            <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: '#0ea5e9' }} />
-              <span className="text-xs text-white/40">Előfizetések: <PrivateValue value={fmtFt(mrr)} hidden={hidden} className="text-white/70 font-medium" /></span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: '#a855f7' }} />
-              <span className="text-xs text-white/40">Projektek: <PrivateValue value={fmtFt(projectRevenue)} hidden={hidden} className="text-white/70 font-medium" /></span>
-            </div>
-            <span className="text-xs text-white/25">{activeSubscriptions} aktív előfizetés</span>
-          </div>
-        </div>
-
-        {/* View toggle */}
-        <div className="flex rounded-lg overflow-hidden p-0.5 shrink-0"
-          style={{ background: 'oklch(1 0 0 / 0.06)', alignSelf: 'flex-start' }}>
-          {(['havi', 'eves'] as View[]).map(v => (
-            <button
-              key={v}
-              onClick={() => setView(v)}
-              className="px-4 py-1.5 text-xs font-medium rounded-md transition-all duration-150"
-              style={view === v
-                ? { background: '#0ea5e9', color: 'white' }
-                : { color: 'rgba(255,255,255,0.38)', background: 'transparent' }
-              }
-            >
-              {v === 'havi' ? 'Havi' : 'Éves'}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Chart */}
-      <div className="px-1 pt-3 pb-3" style={{ filter: hidden ? 'blur(6px)' : 'none', transition: 'filter 0.25s ease' }}>
-        <ResponsiveContainer width="100%" height={210}>
-          <BarChart
-            data={chartData}
-            barCategoryGap="28%"
-            margin={{ top: 4, right: 12, bottom: 0, left: 0 }}
-          >
-            <CartesianGrid vertical={false} stroke="rgba(255,255,255,0.05)" />
-            <XAxis
-              dataKey="label"
-              tick={(props) => {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const entry = chartData[props.index] as any
-                const color = entry?.isCurrent
-                  ? 'rgba(255,255,255,0.85)'
-                  : entry?.isFuture
-                    ? 'rgba(255,255,255,0.30)'
-                    : 'rgba(255,255,255,0.38)'
-                return (
-                  <text x={props.x} y={Number(props.y) + 10} textAnchor="middle" fontSize={11} fill={color}>
-                    {props.payload.value}
-                  </text>
-                )
-              }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <YAxis
-              tick={{ fill: 'rgba(255,255,255,0.22)', fontSize: 10 }}
-              axisLine={false}
-              tickLine={false}
-              tickFormatter={fmtK}
-              width={38}
-            />
-            <Tooltip
-              content={<ChartTooltip />}
-              cursor={{ fill: 'rgba(255,255,255,0.03)', radius: 6 } as React.SVGProps<SVGRectElement>}
-            />
-            {/* MRR — előfizetések (cián, alul) */}
-            <Bar dataKey="mrr" stackId="a" name="Előfizetések" maxBarSize={44} radius={[0, 0, 4, 4]}>
-              {chartData.map((entry, i) => (
-                <Cell
-                  key={i}
-                  fill="#0ea5e9"
-                  fillOpacity={entry.isFuture ? 0.35 : entry.isCurrent ? 1 : 0.65}
-                />
-              ))}
-            </Bar>
-            {/* Projektek — egyszeri (lila, felül) */}
-            <Bar dataKey="projects" stackId="a" name="Projektek" maxBarSize={44} radius={[4, 4, 0, 0]}>
-              {chartData.map((entry, i) => (
-                <Cell
-                  key={i}
-                  fill="#a855f7"
-                  fillOpacity={entry.isFuture ? 0.3 : entry.isCurrent ? 1 : 0.6}
-                />
-              ))}
-            </Bar>
-            {/* Jelző vonal az aktuális hónap MRR szintjén */}
-            {mrr > 0 && (
-              <ReferenceLine
-                y={mrr}
-                stroke="rgba(14,165,233,0.3)"
-                strokeDasharray="4 4"
-                label={{ value: 'MRR alap', position: 'insideTopRight', fill: 'rgba(14,165,233,0.45)', fontSize: 10 }}
-              />
-            )}
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-
-      {/* Jelmagyarázat */}
-      <div className="flex items-center justify-center gap-6 pb-4 text-xs text-white/35">
-        <div className="flex items-center gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#0ea5e9' }} />
-          Előfizetések (MRR)
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-sm" style={{ background: '#a855f7' }} />
-          Projektek / Egyszeri
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-5 border-t border-dashed" style={{ borderColor: 'rgba(14,165,233,0.4)' }} />
-          MRR alap
-        </div>
-      </div>
+  return <div className="admin-revenue-chart">
+    <div className="admin-chart-header"><div><p><TrendingUp size={14} />{view === 'havi' ? 'Havi bevételi terv' : 'Éves bevételi terv'}</p><strong>{hidden ? '••• ••• Ft' : formatMoney(total)}</strong><span>{view === 'havi' ? 'az aktuális hónapra' : 'az aktuális évre'}</span></div><button type="button" onClick={togglePrivacy} className="admin-chart-privacy" aria-label={hidden ? 'Összegek megjelenítése' : 'Összegek elrejtése'} aria-pressed={!hidden} title={hidden ? 'Összegek megjelenítése' : 'Összegek elrejtése'}>{hidden ? <Eye size={18} /> : <EyeOff size={18} />}</button></div>
+    <div className="admin-chart-breakdown"><span><i style={{background:'#8f9aff'}} />Havidíjak: <strong>{hidden ? '••• Ft' : formatMoney(mrr)}</strong></span><span><i style={{background:'#69b9b0'}} />Havi tételek: <strong>{hidden ? '••• Ft' : formatMoney(projectRevenue)}</strong></span></div>
+    <div className="admin-chart-toolbar"><span>{activeSubscriptions} aktív HUF-előfizetés</span><div role="group" aria-label="Grafikon időszaka">{(['havi','eves'] as const).map(option => <button type="button" key={option} onClick={() => setView(option)} aria-pressed={view === option} className={view === option ? 'is-active' : ''}>{option === 'havi' ? 'Havi' : 'Éves'}</button>)}</div></div>
+    <div className="admin-chart-area">
+      {!mounted ? <div className="admin-chart-placeholder" role="status">Grafikon betöltése…</div> : hidden ? <div className="admin-chart-placeholder"><EyeOff size={25} /><p>A pénzügyi összegek el vannak rejtve.</p><button type="button" onClick={togglePrivacy}>Összegek és grafikon megjelenítése</button></div> : <ResponsiveContainer width="100%" height={210}><BarChart data={data} barCategoryGap="28%" margin={{top:8,right:8,bottom:0,left:0}} accessibilityLayer><CartesianGrid vertical={false} stroke="#ffffff08" /><XAxis dataKey="label" tick={{fill:'#a5b2c9',fontSize:10}} axisLine={false} tickLine={false} /><YAxis tick={{fill:'#97a8c3',fontSize:10}} tickFormatter={formatAxis} width={43} axisLine={false} tickLine={false} /><Tooltip content={<ChartTooltip />} cursor={{fill:'#ffffff05'}} /><Bar dataKey="mrr" name="Aktuális havidíjak alapján" stackId="a" maxBarSize={34} radius={[0,0,3,3]}>{data.map(item => <Cell key={item.label} fill="#8f9aff" fillOpacity={item.isFuture ? .35 : item.isCurrent ? 1 : .65} />)}</Bar><Bar dataKey="projects" name="Befizetési tételek" stackId="a" maxBarSize={34} radius={[3,3,0,0]}>{data.map(item => <Cell key={item.label} fill="#69b9b0" fillOpacity={item.isFuture ? .35 : item.isCurrent ? 1 : .65} />)}</Bar></BarChart></ResponsiveContainer>}
     </div>
-  )
+    <p className="admin-chart-disclaimer">Tervezési nézet: az aktuális előfizetési díjakat és a rögzített befizetési tételeket mutatja. A havidíj minden időszakban a jelenlegi állománnyal számol; az összeg nem könyvelt bevétel.</p>
+  </div>
 }

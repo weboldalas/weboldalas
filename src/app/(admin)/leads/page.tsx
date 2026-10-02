@@ -102,7 +102,7 @@ export default async function LeadsPage() {
         {PIPELINE_STAGES.map(stage => {
           const count = leads?.filter(l => l.status === stage.id).length ?? 0
           return (
-            <div key={stage.id} className="rounded-xl p-3"
+            <div id={count === 0 ? `stage-${stage.id}` : undefined} key={stage.id} className="rounded-xl p-3"
               style={{ background: stage.bg, border: `1px solid ${stage.color}30` }}>
               <div className="text-2xl font-bold text-white">{count}</div>
               <div className="text-xs font-medium mt-0.5 truncate" style={{ color: stage.color }}>
@@ -117,7 +117,7 @@ export default async function LeadsPage() {
       {groups.map(({ stage, leads: stageLeads }) => {
         if (stageLeads.length === 0) return null
         return (
-          <div key={stage.id}>
+          <div id={`stage-${stage.id}`} key={stage.id}>
             {/* Szekció fejléc */}
             <div className="flex items-center gap-2 mb-3">
               <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: stage.color }} />
