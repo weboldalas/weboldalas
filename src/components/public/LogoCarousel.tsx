@@ -45,7 +45,7 @@ export function LogoCarousel() {
         className="logo-track"
         style={{
           display: 'flex',
-          gap: '16px',
+          gap: '24px',
           animation: 'logo-scroll 50s linear infinite',
           width: 'max-content',
         }}
@@ -61,10 +61,7 @@ export function LogoCarousel() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: '14px 20px',
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: '12px',
+              padding: '18px 24px',
             }}
           >
             <div style={{ position: 'relative', width: '100%', height: '100%' }}>
