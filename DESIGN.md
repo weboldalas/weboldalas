@@ -19,53 +19,62 @@ Inspired by a dark-void SaaS style reference (Linear / Vercel / Runway family). 
 
 ## Tokens
 
-### Color (Tailwind v4 `@theme` names in `globals.css`)
+### Color (Tailwind v4 `@theme` in `globals.css`, source of truth: `design/tokens.json`)
 
-| Token | Value | Use |
+| Token / utility | Value | Use |
 |---|---|---|
-| `void` | `#000000` | Page canvas, all section backgrounds |
-| `bone` | `#ffffff` | Headlines, body text, active nav |
-| `ash` | `#9a9a9a` | Ghost links, secondary labels, muted nav |
-| `mist` | `#bdbdbd` | Tertiary body, captions |
-| `iris` | `#8052ff` | Filled primary button, brand accent dots |
-| `saffron` | `#ffb829` | Uppercase labels, emphasis, accent links |
-| `verdant` | `#15846e` | Particle palette / deep accent only |
+| `void` (`bg-void`) | `#000000` | Page canvas, all section backgrounds |
+| `bone-white` | `#ffffff` | Headlines, body text, active nav |
+| `ash-gray` | `#9a9a9a` | Ghost links, secondary labels, muted nav |
+| `silver-mist` | `#bdbdbd` | Tertiary body, captions |
+| `electric-iris` | `#8052ff` | Filled primary button, brand accent dots |
+| `saffron-spark` | `#ffb829` | Uppercase labels, emphasis, accent links |
+| `deep-verdant` | `#15846e` | Particle palette / deep accent only |
 
-Never use default link blue. Links are white, ash or saffron.
+Never use default link blue. Links are white, ash-gray or saffron-spark.
 
 ### Typography
 
 - **Family:** Inter Tight (`next/font/google`, free substitute for PP Neue Montreal), `font-feature-settings: "ss01"`.
 - **Weights:** 200 (body), 400 (all headings + UI), 600 (uppercase labels/nav).
 
-| Role | Size | Weight | Line height | Tracking |
+Use the token utilities — each size already carries its line-height and letter-spacing:
+
+| Utility | Size | Weight | Line height | Tracking |
 |---|---|---|---|---|
-| display | 78–113px (`clamp`) | 400 | 1.0–1.05* | -0.04em |
-| heading-lg | 78px | 400 | 1.05 | -0.04em |
-| heading | 48px | 400 | 1.1 | -0.035em |
-| heading-sm | 42px | 400 | 1.15 | -0.04em |
-| subheading | 36px | 200–400 | 1.2 | -0.02em |
-| heading-2xs | 24px | 400 | 1.25 | -0.02em |
-| body | 18px | 200 | 1.5 | normal |
-| label | 12–14px | 600 | 1.2 | 0.025em, UPPERCASE |
+| `text-display` | 113px | 400 | 1.1 | -0.04em |
+| `text-heading-lg` | 78px | 400 | 1.1 | -0.04em |
+| `text-heading` | 48px | 400 | 1.1 | -0.035em |
+| `text-heading-sm` | 42px | 400 | 1.2 | -0.04em |
+| `text-subheading` | 36px | 400 (200 for quotes) | 1.2 | 0 |
+| `text-heading-xs` | 27px | 400 | 1.0 | 0 |
+| `text-heading-2xs` | 24px | 400 | 1.25 | -0.02em |
+| `text-body` + `font-extralight` | 18px | 200 | 1.5 | 0 |
+| `text-nav-label` + `font-semibold uppercase tracking-nav-label` | 14px | 600 | 1.2 | 0.025em |
+| `text-caption` | 12px | 400/600 | 1.5 | 0 |
+
+Responsive: step down on small screens, e.g. `text-heading sm:text-heading-lg xl:text-display`.
+Tracking tokens are stored in `em` (identical to the reference px values at the nominal size) so they stay correct when the size steps down.
+Font utility: `font-ppneuemontreal` (PP Neue Montreal if licensed files are added, otherwise Inter Tight).
 
 \* Hungarian accents (É, Ő, Ű) need ≥ 1.0 line-height on display text; never clip headlines with `overflow: hidden`.
 
 ### Spacing & shape
 
-- Base unit **6px**: 6, 12, 18, 24, 30, 36, 60, 96, 120.
+- Base unit **6px**: 6, 12, 18, 24, 30, 36, 60, 96, 120 → Tailwind `1.5, 3, 4.5, 6, 7.5, 9, 15, 24, 30` (e.g. `gap-4.5`, `py-30`).
+  The reference's `--spacing-*` tokens are intentionally **not** added to `@theme`: in Tailwind v4 they would redefine `p-6`, `gap-12` … across the whole app (admin included).
 - Section gap **96–120px** desktop, **60–96px** mobile. Max content width **1280px**.
-- Radius **24px** for buttons/media; `9999px` only for tiny tags and dots.
+- Radius tokens: `rounded-buttons`, `rounded-cards`, `rounded-nav` (24px), `rounded-tags` (9999px).
 
 ## Components
 
-- **Primary button:** `bg-iris text-white`, pill, ~46px tall, 14px weight 600 uppercase, `tracking-[0.025em]`. Hover: slightly lighter violet. One per view.
-- **Ghost link:** no container, `text-ash` → `text-white` on hover, optional `→`.
-- **Section label:** 12–14px, weight 600, uppercase, `text-saffron`.
+- **Primary button:** `.void-button` (`bg-electric-iris`, `rounded-buttons`), pill, ~46px tall, 14px weight 600 uppercase, `tracking-[0.025em]`. Hover: slightly lighter violet. One per view.
+- **Ghost link:** no container, `text-ash-gray` → `text-bone-white` on hover, optional `→`.
+- **Section label:** `text-caption sm:text-nav-label font-semibold uppercase tracking-nav-label text-saffron-spark`.
 - **Section headline block:** two columns — headline left (78–113px), label + body right (18px/200).
-- **Typographic list:** services, references, pricing as large text rows separated by whitespace only (no dividers, no cards). Hover: title shifts / turns iris, arrow appears.
+- **Typographic list:** services, references, pricing as large text rows separated by whitespace only (no dividers, no cards). Hover: title shifts / turns electric-iris, arrow appears.
 - **Accordion (FAQ):** native `<details>`, `+` icon rotating to `×`, no boxes.
-- **Carousel dots:** 8px circles, active `iris`, inactive `white/20`.
+- **Carousel dots:** 8px circles, active `electric-iris`, inactive `white/20`.
 - **Particle globe (hero):** canvas of tiny outlined triangles (1px stroke) in the particle palette forming a slowly rotating organic sphere. Pauses off-screen / hidden tab, static frame for `prefers-reduced-motion`.
 - **Ambient field:** sparse static outlined triangles (SVG) at low opacity across black sections.
 

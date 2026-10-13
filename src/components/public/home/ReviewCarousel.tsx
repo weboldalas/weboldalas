@@ -21,12 +21,12 @@ export function ReviewCarousel({ reviews }: { reviews: Review[] }) {
   return (
     <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <figure key={index} className="void-fade min-h-[16rem] sm:min-h-[14rem]">
-        <blockquote className="max-w-4xl text-[1.75rem] font-extralight leading-[1.25] tracking-[-0.02em] text-white sm:text-4xl lg:text-[2.75rem]">
+        <blockquote className="max-w-4xl text-heading-2xs font-extralight text-white sm:text-subheading lg:text-heading-sm lg:tracking-normal">
           „{r.text}”
         </blockquote>
         <figcaption className="mt-8 flex items-baseline gap-3">
-          <span className="text-lg text-white">{r.name}</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.025em] text-saffron">{r.role}</span>
+          <span className="text-body text-white">{r.name}</span>
+          <span className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">{r.role}</span>
         </figcaption>
       </figure>
 
@@ -40,7 +40,7 @@ export function ReviewCarousel({ reviews }: { reviews: Review[] }) {
             onClick={() => { setIndex(i); setPaused(true) }}
             className="group flex h-6 w-6 items-center justify-center"
           >
-            <span className={`block h-2 w-2 rounded-full transition-colors duration-300 ${i === index ? 'bg-iris' : 'bg-white/20 group-hover:bg-white/50'}`} />
+            <span className={`block h-2 w-2 rounded-full transition-colors duration-300 ${i === index ? 'bg-electric-iris' : 'bg-white/20 group-hover:bg-white/50'}`} />
           </button>
         ))}
       </div>
