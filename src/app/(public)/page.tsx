@@ -1,8 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight, Plus } from 'lucide-react'
 import { LogoCarousel } from '@/components/public/LogoCarousel'
-import { ParticleGlobe } from '@/components/public/home/ParticleGlobe'
-import { TriangleField, TriangleRing } from '@/components/public/home/TriangleField'
+import { ScrollParticles } from '@/components/public/home/ScrollParticles'
 import { ReviewCarousel } from '@/components/public/home/ReviewCarousel'
 import { voidFont } from '@/components/public/home/fonts'
 
@@ -21,10 +20,10 @@ const services = [
 ]
 
 const steps = [
-  { when: '1. nap', title: 'Beszéljünk', desc: 'Egy kötetlen hívás. Elmondod, mit szeretnél, mi megmondjuk, mi fog működni.' },
-  { when: '2–3. nap', title: 'Megtervezzük', desc: 'Struktúra, szöveg, dizájn. Mind a márkádra szabva.' },
-  { when: '4–8. nap', title: 'Elkészítjük', desc: 'Fejlesztés, beállítás, tesztelés minden eszközön.' },
-  { when: '5–10. nap', title: 'Élesítjük', desc: 'Indul az oldal. Mi pedig maradunk: karbantartás, módosítás, fejlesztés.' },
+  { shape: 'bulb', when: '1. nap', title: 'Beszéljünk', desc: 'Egy kötetlen hívás. Elmondod, mit szeretnél, mi megmondjuk, mi fog működni.' },
+  { shape: 'window', when: '2–3. nap', title: 'Megtervezzük', desc: 'Struktúra, szöveg, dizájn. Mind a márkádra szabva.' },
+  { shape: 'code', when: '4–8. nap', title: 'Elkészítjük', desc: 'Fejlesztés, beállítás, tesztelés minden eszközön.' },
+  { shape: 'rocket', when: '5–10. nap', title: 'Élesítjük', desc: 'Indul az oldal. Mi pedig maradunk: karbantartás, módosítás, fejlesztés.' },
 ]
 
 const included = [
@@ -74,11 +73,12 @@ function GhostLink({ href, children }: { href: string; children: React.ReactNode
 
 export default function HomePage() {
   return (
-    <div className={`${voidFont.variable} void-page relative overflow-x-clip bg-void font-ppneuemontreal text-bone-white`}>
+    <div className={`${voidFont.variable} void-page relative overflow-x-clip bg-void font-ppneuemontreal text-bone-white [&>section]:relative [&>section]:z-10`}>
+      {/* Scroll-morphing particle cloud: globe → stardust → bulb → window → code → rocket → shield → stardust → globe */}
+      <ScrollParticles />
 
       {/* ===== HERO ===== */}
-      <section className="relative">
-        <TriangleField count={30} seed={11} className="opacity-70" />
+      <section>
         <div className="relative mx-auto grid min-h-[100svh] max-w-[1280px] items-center gap-6 px-4 pb-16 pt-28 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:gap-0 lg:px-8 lg:pb-24 lg:pt-24">
           <div className="relative z-10">
             <h1 className="text-heading sm:text-heading-lg xl:text-display">
@@ -101,9 +101,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="void-in relative -mx-4 h-[380px] sm:h-[480px] lg:mx-0 lg:h-[min(760px,88svh)]" style={{ animationDelay: '200ms' }}>
-            <ParticleGlobe />
-          </div>
+          <div data-particles="globe" aria-hidden className="h-[380px] sm:h-[480px] lg:h-[min(760px,88svh)]" />
         </div>
       </section>
 
@@ -118,7 +116,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== SZOLGÁLTATÁSOK ===== */}
-      <section className="void-section">
+      <section className="void-section" data-particles="scatter">
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg void-reveal">Egy csapat. Minden, ami online kell.</h2>
@@ -147,24 +145,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== FOLYAMAT ===== */}
+      {/* ===== FOLYAMAT (scrollytelling: one shape per step) ===== */}
       <section className="void-section">
-        <div className="mx-auto grid max-w-[1280px] gap-16 px-4 sm:px-6 lg:grid-cols-[1fr_1.15fr] lg:gap-24 lg:px-8">
-          <div className="void-reveal">
-            <Label>Folyamat</Label>
-            <p className="void-mega mt-6" aria-label="10 nap">
-              10<span className="void-mega-unit">nap</span>
-            </p>
-            <p className="text-body font-extralight mt-6 max-w-sm text-silver-mist">
+        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:items-end lg:gap-24">
+            <div className="void-reveal">
+              <Label>Folyamat</Label>
+              <p className="void-mega mt-6" aria-label="10 nap">
+                10<span className="void-mega-unit">nap</span>
+              </p>
+            </div>
+            <p className="void-reveal text-body font-extralight max-w-sm text-silver-mist lg:pb-6">
               Ötlettől élesig. Nincs hónapokig húzódó projekt, csak négy lépés és fix határidők.
             </p>
           </div>
-          <ol className="space-y-14 lg:pt-10">
-            {steps.map(s => (
-              <li key={s.title} className="void-reveal">
-                <Label>{s.when}</Label>
-                <h3 className="mt-3 text-subheading tracking-heading-sm sm:text-heading-sm">{s.title}</h3>
-                <p className="text-body font-extralight mt-3 max-w-md text-silver-mist">{s.desc}</p>
+
+          <ol className="mt-10 lg:mt-0">
+            {steps.map((s, i) => (
+              <li key={s.title} className="grid min-h-[92svh] items-center gap-6 lg:min-h-[100svh] lg:grid-cols-[1fr_1.15fr] lg:gap-24">
+                <div className="order-2 lg:order-1">
+                  <span className="text-caption text-ash-gray">0{i + 1} / 0{steps.length}</span>
+                  <div className="mt-6"><Label>{s.when}</Label></div>
+                  <h3 className="mt-3 text-heading-sm sm:text-heading lg:text-heading-lg">{s.title}</h3>
+                  <p className="text-body font-extralight mt-5 max-w-md text-silver-mist">{s.desc}</p>
+                </div>
+                <div data-particles={s.shape} aria-hidden className="order-1 h-[46svh] lg:order-2 lg:h-[72svh]" />
               </li>
             ))}
           </ol>
@@ -174,9 +179,7 @@ export default function HomePage() {
       {/* ===== ÜZEMELTETÉS ===== */}
       <section className="void-section relative">
         <div className="mx-auto grid max-w-[1280px] items-center gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:px-8">
-          <div className="void-reveal order-2 mx-auto aspect-square w-full max-w-[520px] lg:order-1">
-            <TriangleRing className="ring-spin" />
-          </div>
+          <div data-particles="shield" aria-hidden className="order-2 mx-auto aspect-square w-full max-w-[520px] lg:order-1" />
           <div className="void-reveal order-1 lg:order-2">
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg">Te vállalkozol. Mi intézzük a többit.</h2>
             <div className="mt-10 max-w-[520px]">
@@ -218,7 +221,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== REFERENCIÁK ===== */}
-      <section className="void-section">
+      <section className="void-section" data-particles="scatter">
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg void-reveal">Nem ígérjük. Megmutatjuk.</h2>
@@ -280,7 +283,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== GYIK ===== */}
-      <section className="void-section">
+      <section className="void-section" data-particles="scatter">
         <div className="mx-auto grid max-w-[1280px] gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-24 lg:px-8">
           <div className="void-reveal lg:sticky lg:top-28 lg:self-start">
             <h2 className="text-heading-sm lg:text-heading">Kérdés? Válasz.</h2>
@@ -302,16 +305,18 @@ export default function HomePage() {
       </section>
 
       {/* ===== CTA ===== */}
-      <section className="relative overflow-hidden pb-28 pt-24 sm:pb-36 sm:pt-32">
-        <TriangleField count={36} seed={23} className="opacity-80" />
-        <div className="relative mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-          <h2 className="text-heading sm:text-heading-lg xl:text-display void-reveal max-w-5xl">Kezdjük el. Még ma.</h2>
-          <div className="void-reveal mt-10 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
-            <p className="text-body font-extralight max-w-md text-silver-mist">
+      <section className="pb-28 pt-12 sm:pb-36">
+        <div className="mx-auto grid max-w-[1280px] items-center gap-6 px-4 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:gap-0 lg:px-8">
+          <div>
+            <h2 className="void-reveal text-heading sm:text-heading-lg xl:text-display">Kezdjük el. Még ma.</h2>
+            <p className="void-reveal text-body font-extralight mt-8 max-w-md text-silver-mist">
               Írj nekünk, és 1 munkanapon belül jelentkezünk egy konkrét javaslattal. Kötelezettség nélkül.
             </p>
-            <Link href="/kapcsolat" className="void-button self-start sm:self-auto">Ajánlatot kérek</Link>
+            <div className="void-reveal mt-9">
+              <Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>
+            </div>
           </div>
+          <div data-particles="globe" aria-hidden className="h-[340px] sm:h-[440px] lg:h-[min(640px,80svh)]" />
         </div>
       </section>
     </div>
