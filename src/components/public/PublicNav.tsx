@@ -40,7 +40,7 @@ export function PublicNav() {
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 24)
-    window.addEventListener('scroll', fn)
+    window.addEventListener('scroll', fn, { passive: true })
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
@@ -51,9 +51,8 @@ export function PublicNav() {
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
       style={{
-        background: scrolled || open ? 'rgba(8,8,15,0.95)' : 'transparent',
-        backdropFilter: scrolled || open ? 'blur(20px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : 'none',
+        // Void design: solid black, no blur, no border
+        background: open ? '#000' : scrolled ? 'rgba(0,0,0,0.92)' : 'transparent',
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -87,8 +86,7 @@ export function PublicNav() {
           {/* Desktop CTA */}
           <div className="hidden md:block">
             <Link href="/kapcsolat"
-              className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg, #0ea5e9, #06b6d4)' }}>
+              className="void-button">
               Ajánlatot kérek
             </Link>
           </div>
@@ -115,7 +113,7 @@ export function PublicNav() {
             transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
             style={{ overflow: 'hidden', borderTop: '1px solid rgba(255,255,255,0.06)' }}
           >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 pb-6 space-y-1">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 pb-6 space-y-1 min-h-[calc(100svh-4rem)]">
               {links.map((l, i) => {
                 const isActive = pathname === l.href
                 return (
@@ -132,7 +130,7 @@ export function PublicNav() {
                       }}>
                       {l.label}
                       {isActive && (
-                        <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-electric-iris" />
                       )}
                     </Link>
                   </motion.div>
@@ -146,9 +144,8 @@ export function PublicNav() {
                 className="pt-2"
               >
                 <Link href="/kapcsolat" onClick={() => setOpen(false)}
-                  className="flex items-center justify-center w-full py-4 rounded-2xl text-base font-bold text-white transition-all active:scale-95"
-                  style={{ background: 'linear-gradient(135deg, #0284c7, #0ea5e9, #06b6d4)' }}>
-                  Ajánlatot kérek →
+                  className="void-button w-full !min-h-[52px]">
+                  Ajánlatot kérek
                 </Link>
               </motion.div>
             </div>

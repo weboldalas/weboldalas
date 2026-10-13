@@ -20,7 +20,7 @@ const pages = [
 
 export function PublicFooter() {
   return (
-    <footer style={{ background: '#05050c', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+    <footer style={{ background: '#000', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           <div className="md:col-span-2">
@@ -65,11 +65,7 @@ export function PublicFooter() {
           <p className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
             © {new Date().getFullYear()} Weboldalas. Minden jog fenntartva.
           </p>
-          <Link
-            href="/kapcsolat"
-            className="text-xs px-4 py-2 rounded-lg font-semibold text-white transition-opacity hover:opacity-80"
-            style={{ background: 'linear-gradient(135deg, #0ea5e9, #06b6d4)' }}
-          >
+          <Link href="/kapcsolat" className="footer-link text-sm">
             Ajánlatot kérek →
           </Link>
         </div>

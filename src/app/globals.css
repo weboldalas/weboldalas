@@ -389,7 +389,8 @@ a, button, [role="button"] {
 }
 .void-page ::selection { background: var(--color-electric-iris); color: var(--color-bone-white); }
 
-.void-section { padding-block: 96px; }
+.void-section { padding-block: 80px; }
+@media (min-width: 640px) { .void-section { padding-block: 96px; } }
 @media (min-width: 1024px) { .void-section { padding-block: 120px; } }
 
 /* Oversized numeral (beyond the token scale, used once) */
@@ -446,6 +447,81 @@ a, button, [role="button"] {
   }
 }
 
+/* Oversized, ultra-light service marquee */
+.void-marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+.void-marquee-track { display: flex; width: max-content; animation: void-marquee 48s linear infinite; will-change: transform; }
+@keyframes void-marquee { to { transform: translateX(-50%); } }
+
+/* Service line-art animations (ServiceVisual) — paused until visible */
+.sv { --sv-play: paused; }
+.sv [class^="sv-"] { animation-play-state: var(--sv-play); transform-box: fill-box; }
+.sv-draw   { stroke-dasharray: 1; animation: sv-draw 6s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+.sv-cursor { animation: sv-cursor 6s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+.sv-drop   { opacity: 0; animation: sv-drop 2.7s cubic-bezier(0.5, 0, 0.75, 0) infinite; }
+.sv-count  { opacity: 0; animation: sv-count 2.7s steps(1) infinite; }
+.sv-count:first-of-type { opacity: 1; }
+.sv-pick   { animation: sv-pick 6s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+.sv-check  { stroke-dasharray: 1; animation: sv-check 6s ease infinite; }
+.sv-flow   { animation: sv-flow 1.6s linear infinite; }
+.sv-pulse  { transform-origin: center; animation: sv-pulse 1.6s ease-in-out infinite; }
+.sv-move   { animation: sv-move 6s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+.sv-beat   { animation: sv-beat 2.4s linear infinite; }
+.sv-blink  { animation: sv-blink 1.6s ease-in-out infinite; }
+
+@keyframes sv-draw {
+  0%       { stroke-dashoffset: 1; opacity: 1; }
+  30%, 80% { stroke-dashoffset: 0; opacity: 1; }
+  95%      { stroke-dashoffset: 0; opacity: 0; }
+  100%     { stroke-dashoffset: 1; opacity: 0; }
+}
+@keyframes sv-cursor {
+  0%, 35% { transform: translate(230px, 140px); opacity: 0; }
+  45%     { transform: translate(200px, 120px); opacity: 1; }
+  62%, 78% { transform: translate(78px, 108px); opacity: 1; }
+  92%, 100% { transform: translate(78px, 108px); opacity: 0; }
+}
+@keyframes sv-drop {
+  0%   { transform: translateY(0); opacity: 0; }
+  10%  { opacity: 1; }
+  70%  { transform: translateY(70px); opacity: 1; }
+  85%, 100% { transform: translateY(78px); opacity: 0; }
+}
+@keyframes sv-count {
+  0%, 33% { opacity: 1; }
+  34%, 100% { opacity: 0; }
+}
+@keyframes sv-pick {
+  0%        { transform: translate(0, 0); }
+  15%       { transform: translate(48px, 0); }
+  30%       { transform: translate(96px, 24px); }
+  45%, 90%  { transform: translate(72px, 48px); }
+  100%      { transform: translate(0, 0); }
+}
+@keyframes sv-check {
+  0%, 48% { stroke-dashoffset: 1; opacity: 0; }
+  58%, 88% { stroke-dashoffset: 0; opacity: 1; }
+  100%    { stroke-dashoffset: 0; opacity: 0; }
+}
+@keyframes sv-flow { to { stroke-dashoffset: -32; } }
+@keyframes sv-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.06); }
+}
+@keyframes sv-move {
+  0%, 12%  { transform: translate(0, 0); }
+  32%, 45% { transform: translate(80px, 0); }
+  65%, 85% { transform: translate(160px, 0); }
+  100%     { transform: translate(0, 0); }
+}
+@keyframes sv-beat {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+@keyframes sv-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+
 @keyframes void-in {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: none; }
@@ -460,5 +536,7 @@ a, button, [role="button"] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .void-in, .void-fade, .void-reveal, .logo-track { animation: none !important; }
+  .void-in, .void-fade, .void-reveal, .logo-track, .void-marquee-track { animation: none !important; }
+  .sv [class^="sv-"] { animation: none !important; opacity: 1 !important; }
+  .sv .sv-count:not(:first-of-type), .sv .sv-cursor { opacity: 0 !important; }
 }

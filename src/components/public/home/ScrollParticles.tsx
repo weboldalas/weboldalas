@@ -74,7 +74,7 @@ export function ScrollParticles() {
       scatterU[i] = rand()
       scatterV[i] = rand()
       // only a fraction of particles stays visible in the ambient field
-      scatterA[i] = rand() < 0.28 ? 0.2 + rand() * 0.35 : 0
+      scatterA[i] = rand() < (small ? 0.16 : 0.28) ? 0.2 + rand() * 0.35 : 0
     }
 
     const shapes = {} as Record<ShapeName, Float32Array>
@@ -170,10 +170,13 @@ export function ScrollParticles() {
       const osc = reduceMotion ? 0 : Math.sin(time * 0.00025) * 0.45
       const spinA = A.shape === 'globe' ? time * 0.00012 : osc
       const spinB = B.shape === 'globe' ? time * 0.00012 : osc
-      const tilt = -0.15 + easedY * 0.2
+      // the globe is viewed slightly from above so its parallels read as ellipses
+      const tiltA = (A.shape === 'globe' ? -0.42 : -0.15) + easedY * 0.2
+      const tiltB = (B.shape === 'globe' ? -0.42 : -0.15) + easedY * 0.2
       const cAa = Math.cos(spinA + easedX * 0.5), sAa = Math.sin(spinA + easedX * 0.5)
       const cAb = Math.cos(spinB + easedX * 0.5), sAb = Math.sin(spinB + easedX * 0.5)
-      const cT = Math.cos(tilt), sT = Math.sin(tilt)
+      const cTa = Math.cos(tiltA), sTa = Math.sin(tiltA)
+      const cTb = Math.cos(tiltB), sTb = Math.sin(tiltB)
 
       const explodeR = (A.shape !== 'scatter' && B.shape !== 'scatter' && ia !== ib && !reduceMotion)
         ? Math.sin(Math.PI * t) * Math.min(A.w, A.h, 640) * 0.55
@@ -182,11 +185,11 @@ export function ScrollParticles() {
       const paths: Path2D[] = Array.from({ length: PALETTE.length * ALPHA_BUCKETS.length }, () => new Path2D())
 
       for (let i = 0; i < N; i++) {
-        place(A, i, sy, cAa, sAa, cT, sT)
+        place(A, i, sy, cAa, sAa, cTa, sTa)
         const ax = tmp.x, ay = tmp.y, aa = tmp.a, as = tmp.s
         let x = ax, y = ay, alpha = aa, s = as
         if (ia !== ib && t > 0) {
-          place(B, i, sy, cAb, sAb, cT, sT)
+          place(B, i, sy, cAb, sAb, cTb, sTb)
           x = ax + (tmp.x - ax) * t + dirX[i] * explodeR
           y = ay + (tmp.y - ay) * t + dirY[i] * explodeR
           alpha = aa + (tmp.a - aa) * t

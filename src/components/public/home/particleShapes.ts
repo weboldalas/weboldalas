@@ -67,17 +67,35 @@ function circle(cx: number, cy: number, r: number, steps = 10): Seg[] {
 }
 
 function globe(n: number, rand: Rand) {
+  // Wireframe globe: meridians + parallels read instantly as "globe" while it rotates.
   const out: number[] = []
-  const golden = Math.PI * (3 - Math.sqrt(5))
-  for (let i = 0; i < n; i++) {
-    const y = 1 - (i / (n - 1)) * 2
-    const r = Math.sqrt(1 - y * y)
-    const th = golden * i
-    const x = Math.cos(th) * r
-    const z = Math.sin(th) * r
-    const lump = 1 + 0.12 * Math.sin(3 * x + 2 * y) + 0.08 * Math.sin(5 * z - 3 * y + 1.3)
-    const depth = 0.82 + rand() * 0.18
-    out.push(x * lump * depth, y * lump * depth * 0.95, z * lump * depth)
+  const onSphere = (lat: number, lon: number, jitter = 0.012) => {
+    const r = 1 + (rand() - 0.5) * jitter * 2
+    out.push(Math.cos(lat) * Math.cos(lon) * r, -Math.sin(lat) * r, Math.cos(lat) * Math.sin(lon) * r)
+  }
+  const meridians = 9
+  const parallels = [-60, -30, 0, 30, 60].map(d => (d * Math.PI) / 180)
+  const lineShare = Math.round(n * 0.78)
+  const perMeridian = Math.round((lineShare * 0.52) / meridians)
+  for (let m = 0; m < meridians; m++) {
+    const lon = (m / meridians) * Math.PI
+    for (let k = 0; k < perMeridian; k++) {
+      // full great circle through the poles
+      const a = rand() * Math.PI * 2
+      out.push(Math.cos(a) * Math.cos(lon), -Math.sin(a), Math.cos(a) * Math.sin(lon))
+    }
+  }
+  const parallelBudget = lineShare - meridians * perMeridian
+  const weights = parallels.map(lat => Math.cos(lat))
+  const wSum = weights.reduce((a, b) => a + b, 0)
+  parallels.forEach((lat, i) => {
+    const count = Math.round((parallelBudget * weights[i]) / wSum)
+    for (let k = 0; k < count; k++) onSphere(lat, rand() * Math.PI * 2, 0.008)
+  })
+  // sparse surface "cities"
+  while (out.length / 3 < n) {
+    const u = rand() * 2 - 1
+    onSphere(Math.asin(u), rand() * Math.PI * 2, 0.03)
   }
   return out
 }

@@ -3,33 +3,36 @@ import { ArrowRight, ArrowUpRight, Plus } from 'lucide-react'
 import { LogoCarousel } from '@/components/public/LogoCarousel'
 import { ScrollParticles } from '@/components/public/home/ScrollParticles'
 import { ReviewCarousel } from '@/components/public/home/ReviewCarousel'
+import { ServiceVisual, type ServiceKind } from '@/components/public/home/ServiceVisual'
 import { voidFont } from '@/components/public/home/fonts'
 
 export const metadata = {
-  title: 'Weboldalas – Modern weboldal kisebb vállalkozásoknak',
-  description: 'Professzionális weboldal vállalkozásoknak nagy kezdő költségek nélkül. Kiszámítható havi díj, gyors indulás, folyamatos támogatás.',
+  title: 'Weboldalas – Weboldalak, webshopok és rendszerek kisvállalkozásoknak',
+  description: 'Weboldalt, webshopot és egyedi rendszert tervezünk, fejlesztünk és üzemeltetünk kisvállalkozásoknak. Egyszeri díjjal, részletre vagy kiszámítható havidíjjal.',
 }
 
-const services = [
-  { title: 'Bemutatkozó weboldal', desc: 'Az első benyomás számít. Gyors, mobilbarát oldal, ami bizalmat épít.', href: '/szolgaltatasok/bemutatkozo-weboldal' },
-  { title: 'Webshop', desc: 'Termék fel, rendelés be, pénz a számlán.', href: '/szolgaltatasok/webshop' },
-  { title: 'Foglalási rendszer', desc: 'Foglalás éjjel-nappal, telefonálás nélkül.', href: '/szolgaltatasok/foglalasi-rendszer' },
-  { title: 'Landing page', desc: 'Egy oldal, egy cél: több érdeklődő a hirdetéseidből.', href: '/szolgaltatasok/landing-page' },
-  { title: 'CRM rendszer', desc: 'Minden érdeklődő, ajánlat és ügyfél egy helyen.', href: '/szolgaltatasok/crm' },
-  { title: 'Üzemeltetés', desc: 'Frissítés, mentés, biztonság, support. Nekünk ez a dolgunk.', href: '/szolgaltatasok/uzemeltetes' },
+const services: { title: string; desc: string; href: string; kind: ServiceKind }[] = [
+  { kind: 'web', title: 'Bemutatkozó weboldal', desc: 'Modern, mobilbarát oldal, ami bemutatja, kik vagytok és mit csináltok.', href: '/szolgaltatasok/bemutatkozo-weboldal' },
+  { kind: 'shop', title: 'Webshop', desc: 'Termékek, kosár, online fizetés és rendeléskezelés egy rendszerben.', href: '/szolgaltatasok/webshop' },
+  { kind: 'booking', title: 'Foglalási rendszer', desc: 'Időpont-, asztal- vagy szobafoglalás online, éjjel-nappal.', href: '/szolgaltatasok/foglalasi-rendszer' },
+  { kind: 'landing', title: 'Landing page', desc: 'Egy oldal, egy cél: kampányokra és hirdetésekre szabva.', href: '/szolgaltatasok/landing-page' },
+  { kind: 'crm', title: 'CRM rendszer', desc: 'Érdeklődők, ajánlatok és ügyfelek egy átlátható felületen.', href: '/szolgaltatasok/crm' },
+  { kind: 'ops', title: 'Üzemeltetés', desc: 'Frissítések, mentések, biztonság és support, hogy neked ne kelljen.', href: '/szolgaltatasok/uzemeltetes' },
 ]
 
 const steps = [
-  { shape: 'bulb', when: '1. nap', title: 'Beszéljünk', desc: 'Egy kötetlen hívás. Elmondod, mit szeretnél, mi megmondjuk, mi fog működni.' },
-  { shape: 'window', when: '2–3. nap', title: 'Megtervezzük', desc: 'Struktúra, szöveg, dizájn. Mind a márkádra szabva.' },
-  { shape: 'code', when: '4–8. nap', title: 'Elkészítjük', desc: 'Fejlesztés, beállítás, tesztelés minden eszközön.' },
-  { shape: 'rocket', when: '5–10. nap', title: 'Élesítjük', desc: 'Indul az oldal. Mi pedig maradunk: karbantartás, módosítás, fejlesztés.' },
+  { shape: 'bulb', phase: 'Konzultáció', title: 'Beszéljünk', desc: 'Egy kötetlen beszélgetés. Elmondod, mit szeretnél, mi pedig azt, mit javaslunk és miért.' },
+  { shape: 'window', phase: 'Tervezés', title: 'Megtervezzük', desc: 'Struktúra, szöveg, dizájn. Mind a márkádra és a céljaidra szabva.' },
+  { shape: 'code', phase: 'Fejlesztés', title: 'Elkészítjük', desc: 'Fejlesztés, beállítás és tesztelés telefonon, tableten és asztali gépen.' },
+  { shape: 'rocket', phase: 'Indulás', title: 'Élesítjük', desc: 'Indul az oldal. Mi pedig maradunk: karbantartás, módosítás, fejlesztés.' },
 ]
 
 const included = [
   'Domain és tárhely', 'Napi biztonsági mentés', 'Frissítések', 'Technikai support',
   'Alap SEO', 'Mérőkódok', 'E-mail beállítás', 'Sebesség-optimalizálás',
 ]
+
+const marquee = ['Weboldal', 'Webshop', 'Foglalási rendszer', 'Landing page', 'CRM', 'Üzemeltetés']
 
 const references = [
   { slug: 'helkem', name: 'Helkem', type: 'Szálláshely' },
@@ -50,12 +53,12 @@ const reviews = [
 ]
 
 const faqs = [
-  { q: 'Mennyi idő alatt készül el a weboldal?', a: 'Általában 5–10 munkanap alatt elkészítjük és átadjuk. Az átfutási idő a weboldalad összetettségétől függ.' },
+  { q: 'Mennyi idő alatt készül el?', a: 'A projekt méretétől függ: egy bemutatkozó oldal hamarabb elkészül, mint egy webshop vagy egy egyedi rendszer. A pontos ütemtervet az elején közösen rögzítjük, így mindig tudod, hol tartunk.' },
   { q: 'Tényleg nincs nagy kezdő költség?', a: 'Havidíjas csomagunknál valóban nincs nagy egyszeri beruházás. Kiszámítható havi díjért profi weboldalt kapsz teljes üzemeltetéssel. Az egyszeri megoldásoknál az árat előre egyeztetjük.' },
   { q: 'Később bővíthető a weboldal?', a: 'Igen, a weboldaladat bármikor bővíthetjük új aloldalakkal, funkciókkal vagy integrációkkal. A fejlesztések mindig az igényeidhez igazodnak.' },
   { q: 'Én is tudom majd szerkeszteni?', a: 'Attól függ, milyen rendszert választasz. Kezelőfelületes megoldásoknál lehetséges az önálló szerkesztés. Egyébként a módosításokat mi végezzük el a megállapodott kereten belül.' },
   { q: 'Mi történik, ha lemondom a havidíjas csomagot?', a: 'A weboldal üzemeltetését leállítjuk, de minden tartalom elérhető marad számodra. Az együttműködés minimuma 12 hónap, ezt követően bármikor felmondható.' },
-  { q: 'Segítetek a Google-ben is megjelenni?', a: 'Igen! Minden weboldalunkat alapszintű keresőoptimalizálással adjuk át: gyors betöltés, strukturált adatok, mobilbarát kialakítás és megfelelő meta beállítások.' },
+  { q: 'Segítetek a Google-ben is megjelenni?', a: 'Igen. Minden weboldalt alapszintű keresőoptimalizálással adunk át: gyors betöltés, strukturált adatok, mobilbarát kialakítás és megfelelő meta beállítások.' },
 ]
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -64,7 +67,7 @@ function Label({ children }: { children: React.ReactNode }) {
 
 function GhostLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link href={href} className="group inline-flex items-center gap-2 text-sm text-ash-gray transition-colors hover:text-white">
+    <Link href={href} className="group inline-flex min-h-11 items-center gap-2 text-sm text-ash-gray transition-colors hover:text-white">
       {children}
       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
     </Link>
@@ -79,37 +82,55 @@ export default function HomePage() {
 
       {/* ===== HERO ===== */}
       <section>
-        <div className="relative mx-auto grid min-h-[100svh] max-w-[1280px] items-center gap-6 px-4 pb-16 pt-28 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:gap-0 lg:px-8 lg:pb-24 lg:pt-24">
-          <div className="relative z-10">
+        <div className="mx-auto grid min-h-[100svh] max-w-[1280px] content-center gap-2 px-4 pb-14 pt-20 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-0 lg:px-8 lg:pb-24 lg:pt-24">
+          {/* the globe forms here (above the copy on phones) */}
+          <div data-particles="globe" aria-hidden className="h-[38svh] min-h-[260px] lg:order-2 lg:h-[min(760px,88svh)]" />
+
+          <div className="relative lg:order-1">
             <h1 className="text-heading sm:text-heading-lg xl:text-display">
-              Weboldal, ami ügyfelet hoz.
+              <span className="block">Weboldalak.</span>
+              <span className="block">Webshopok.</span>
+              <span className="block text-ash-gray">Rendszerek.</span>
             </h1>
-            <div className="void-in mt-10 max-w-[480px]" style={{ animationDelay: '120ms' }}>
-              <Label>Weboldal · Webshop · Foglalási rendszer</Label>
+            <div className="void-in mt-8 max-w-[500px] sm:mt-10" style={{ animationDelay: '120ms' }}>
+              <Label>Tervezés · Fejlesztés · Üzemeltetés</Label>
               <p className="text-body font-extralight mt-4">
-                Kisvállalkozásoknak építünk gyors, szép és jól működő online jelenlétet.
-                Kiszámítható havidíjjal, 10 nap alatt élesítve.
+                Kisvállalkozásoknak tervezünk, fejlesztünk és üzemeltetünk weboldalakat, webshopokat és egyedi rendszereket.
+                Egy csapattal, akár kiszámítható havidíjjal.
               </p>
-              <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-5">
+              <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
                 <Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>
                 <GhostLink href="/referenciak">Munkáink</GhostLink>
               </div>
-              <p className="mt-10 text-nav-label font-normal tracking-normal text-silver-mist">
-                <span className="text-white">19 990 Ft</span>/hó-tól <span className="mx-3 text-white/25">/</span>
-                <span className="text-white">22+</span> elégedett ügyfél
+              <p className="mt-8 text-nav-label font-normal tracking-normal text-silver-mist">
+                Havidíjas csomag <span className="text-white">19 990 Ft</span>/hó-tól
               </p>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div data-particles="globe" aria-hidden className="h-[380px] sm:h-[480px] lg:h-[min(760px,88svh)]" />
+      {/* ===== MARQUEE ===== */}
+      <section aria-hidden className="void-marquee select-none py-6 sm:py-10">
+        <div className="void-marquee-track">
+          {[0, 1].map(half => (
+            <div key={half} className="flex shrink-0 items-center">
+              {marquee.map(m => (
+                <span key={`${half}-${m}`} className="flex items-center">
+                  <span className="whitespace-nowrap px-6 text-heading font-extralight text-white/25 sm:px-10 sm:text-heading-lg lg:text-display">{m}</span>
+                  <svg viewBox="0 0 10 10" className="h-4 w-4 shrink-0 sm:h-6 sm:w-6"><polygon points="5,1 9,9 1,9" fill="none" stroke="var(--color-electric-iris)" strokeWidth="1" /></svg>
+                </span>
+              ))}
+            </div>
+          ))}
         </div>
       </section>
 
       {/* ===== LOGÓK ===== */}
-      <section className="py-10 sm:py-16">
+      <section className="py-10 sm:py-14">
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
           <Label>Ők már velünk dolgoznak</Label>
-          <div className="mt-8">
+          <div className="mt-6 sm:mt-8">
             <LogoCarousel />
           </div>
         </div>
@@ -118,26 +139,32 @@ export default function HomePage() {
       {/* ===== SZOLGÁLTATÁSOK ===== */}
       <section className="void-section" data-particles="scatter">
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+          <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg void-reveal">Egy csapat. Minden, ami online kell.</h2>
             <div className="void-reveal lg:pt-4">
               <Label>Szolgáltatások</Label>
               <p className="text-body font-extralight mt-4 text-silver-mist">
-                Weboldal, webshop, foglalás, CRM, üzemeltetés. Egy kézben, egy kapcsolattartóval, egy havidíjért.
+                Weboldal, webshop, foglalás, CRM, üzemeltetés. Egy kézben, egy kapcsolattartóval.
               </p>
             </div>
           </div>
 
-          <ul className="mt-20 sm:mt-24">
+          <ul className="mt-14 space-y-4 sm:mt-20 lg:space-y-2">
             {services.map((s, i) => (
               <li key={s.href} className="void-reveal">
-                <Link href={s.href} className="group grid items-baseline gap-x-8 gap-y-2 py-6 sm:grid-cols-[3rem_1fr] lg:grid-cols-[3rem_1.2fr_1fr_2rem] lg:py-8">
-                  <span className="text-sm text-ash-gray">0{i + 1}</span>
-                  <span className="text-subheading tracking-heading-sm transition-[color,transform] duration-300 group-hover:translate-x-2 group-hover:text-electric-iris sm:text-heading-sm">
-                    {s.title}
+                <Link href={s.href} className="group grid items-center gap-x-10 gap-y-4 py-6 lg:grid-cols-[3rem_1.1fr_1fr_300px] lg:py-8">
+                  <span className="hidden text-sm text-ash-gray lg:block">0{i + 1}</span>
+                  <div>
+                    <span className="mb-2 block text-caption text-ash-gray lg:hidden">0{i + 1}</span>
+                    <span className="block text-subheading tracking-heading-sm transition-[color,transform] duration-300 group-hover:translate-x-2 group-hover:text-electric-iris sm:text-heading-sm">
+                      {s.title}
+                    </span>
+                  </div>
+                  <span className="flex items-start justify-between gap-6">
+                    <span className="text-body font-extralight text-silver-mist">{s.desc}</span>
+                    <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-ash-gray transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
                   </span>
-                  <span className="text-body font-extralight text-silver-mist sm:col-start-2 lg:col-start-auto">{s.desc}</span>
-                  <ArrowUpRight className="hidden h-6 w-6 text-ash-gray opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:text-white lg:block" />
+                  <ServiceVisual kind={s.kind} className="h-[150px] w-full max-w-[340px] lg:max-w-none" />
                 </Link>
               </li>
             ))}
@@ -148,28 +175,28 @@ export default function HomePage() {
       {/* ===== FOLYAMAT (scrollytelling: one shape per step) ===== */}
       <section className="void-section">
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:items-end lg:gap-24">
+          <div className="grid gap-8 lg:grid-cols-[1fr_1.15fr] lg:items-end lg:gap-24">
             <div className="void-reveal">
               <Label>Folyamat</Label>
-              <p className="void-mega mt-6" aria-label="10 nap">
-                10<span className="void-mega-unit">nap</span>
+              <p className="void-mega mt-6" aria-label="4 lépés">
+                4<span className="void-mega-unit">lépés</span>
               </p>
             </div>
-            <p className="void-reveal text-body font-extralight max-w-sm text-silver-mist lg:pb-6">
-              Ötlettől élesig. Nincs hónapokig húzódó projekt, csak négy lépés és fix határidők.
+            <p className="void-reveal text-body font-extralight max-w-md text-silver-mist lg:pb-6">
+              Ötlettől élesig, átlátható lépésekben. Az ütemtervet a projekt elején közösen rögzítjük, így mindig tudod, hol tartunk.
             </p>
           </div>
 
-          <ol className="mt-10 lg:mt-0">
+          <ol className="mt-8 lg:mt-0">
             {steps.map((s, i) => (
-              <li key={s.title} className="grid min-h-[92svh] items-center gap-6 lg:min-h-[100svh] lg:grid-cols-[1fr_1.15fr] lg:gap-24">
-                <div className="order-2 lg:order-1">
+              <li key={s.title} className="grid min-h-[72svh] content-center gap-4 lg:min-h-[100svh] lg:grid-cols-[1fr_1.15fr] lg:items-center lg:gap-24">
+                <div data-particles={s.shape} aria-hidden className="h-[38svh] min-h-[240px] lg:order-2 lg:h-[72svh]" />
+                <div className="lg:order-1">
                   <span className="text-caption text-ash-gray">0{i + 1} / 0{steps.length}</span>
-                  <div className="mt-6"><Label>{s.when}</Label></div>
+                  <div className="mt-5"><Label>{s.phase}</Label></div>
                   <h3 className="mt-3 text-heading-sm sm:text-heading lg:text-heading-lg">{s.title}</h3>
-                  <p className="text-body font-extralight mt-5 max-w-md text-silver-mist">{s.desc}</p>
+                  <p className="text-body font-extralight mt-4 max-w-md text-silver-mist">{s.desc}</p>
                 </div>
-                <div data-particles={s.shape} aria-hidden className="order-1 h-[46svh] lg:order-2 lg:h-[72svh]" />
               </li>
             ))}
           </ol>
@@ -177,17 +204,17 @@ export default function HomePage() {
       </section>
 
       {/* ===== ÜZEMELTETÉS ===== */}
-      <section className="void-section relative">
-        <div className="mx-auto grid max-w-[1280px] items-center gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:px-8">
-          <div data-particles="shield" aria-hidden className="order-2 mx-auto aspect-square w-full max-w-[520px] lg:order-1" />
-          <div className="void-reveal order-1 lg:order-2">
+      <section className="void-section">
+        <div className="mx-auto grid max-w-[1280px] items-center gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:px-8">
+          <div data-particles="shield" aria-hidden className="mx-auto aspect-square w-full max-w-[420px] lg:max-w-[520px]" />
+          <div className="void-reveal">
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg">Te vállalkozol. Mi intézzük a többit.</h2>
-            <div className="mt-10 max-w-[520px]">
+            <div className="mt-8 max-w-[520px] sm:mt-10">
               <Label>Üzemeltetés</Label>
               <p className="text-body font-extralight mt-4 text-silver-mist">
-                Domain, tárhely, mentések, frissítések, support. Egy havidíjban, fejfájás nélkül. Neked semmit nem kell értened hozzá.
+                Domain, tárhely, mentések, frissítések, support. Egy helyen, egy kapcsolattartóval. Neked semmit nem kell értened hozzá.
               </p>
-              <ul className="mt-8 grid grid-cols-2 gap-x-8 gap-y-3">
+              <ul className="mt-8 grid gap-x-8 gap-y-3 sm:grid-cols-2">
                 {included.map(item => (
                   <li key={item} className="flex items-center gap-3 text-[15px] text-bone-white">
                     <svg aria-hidden viewBox="0 0 10 10" className="h-2.5 w-2.5 shrink-0"><polygon points="5,1 9,9 1,9" fill="none" stroke="var(--color-electric-iris)" strokeWidth="1.3" /></svg>
@@ -195,7 +222,7 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-10">
+              <div className="mt-8">
                 <GhostLink href="/szolgaltatasok/uzemeltetes">Mit tartalmaz pontosan?</GhostLink>
               </div>
             </div>
@@ -203,38 +230,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== SZÁMOK ===== */}
-      <section className="void-section">
-        <div className="mx-auto grid max-w-[1280px] grid-cols-2 gap-x-8 gap-y-16 px-4 sm:px-6 lg:grid-cols-4 lg:px-8">
-          {[
-            { n: '22+', l: 'elégedett ügyfél' },
-            { n: '5–10', l: 'munkanap az indulásig' },
-            { n: '19 990', l: 'Ft/hó-tól, mindennel' },
-            { n: '100%', l: 'mobilbarát' },
-          ].map(s => (
-            <div key={s.l} className="void-reveal">
-              <div className="text-heading leading-none sm:text-heading-lg sm:leading-none">{s.n}</div>
-              <div className="mt-4 text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">{s.l}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ===== REFERENCIÁK ===== */}
       <section className="void-section" data-particles="scatter">
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+          <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg void-reveal">Nem ígérjük. Megmutatjuk.</h2>
             <div className="void-reveal lg:pt-4">
               <Label>Referenciák</Label>
               <p className="text-body font-extralight mt-4 text-silver-mist">Néhány vállalkozás, akiknek mi építettük az online jelenlétét.</p>
-              <div className="mt-8"><GhostLink href="/referenciak">Összes referencia</GhostLink></div>
+              <div className="mt-6"><GhostLink href="/referenciak">Összes referencia</GhostLink></div>
             </div>
           </div>
-          <ul className="mt-20 sm:mt-24">
+          <ul className="mt-12 sm:mt-20">
             {references.map(r => (
               <li key={r.slug} className="void-reveal">
-                <Link href={`/referenciak/${r.slug}`} className="group flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 py-5 lg:py-7">
+                <Link href={`/referenciak/${r.slug}`} className="group flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1 py-4 lg:py-7">
                   <span className="text-heading text-white/90 transition-colors duration-300 group-hover:text-white sm:text-heading-lg xl:text-display">
                     {r.name}
                   </span>
@@ -262,19 +272,19 @@ export default function HomePage() {
       {/* ===== ÁRAK ===== */}
       <section className="void-section">
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+          <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg void-reveal">Három út. Egy minőség.</h2>
             <div className="void-reveal lg:pt-4">
               <Label>Árak</Label>
               <p className="text-body font-extralight mt-4 text-silver-mist">Egyszeri díj, kamatmentes részlet vagy havidíj. Te döntöd el, mi kényelmes.</p>
-              <div className="mt-8"><GhostLink href="/arak">Részletes árak és kalkulátor</GhostLink></div>
+              <div className="mt-6"><GhostLink href="/arak">Részletes árak és kalkulátor</GhostLink></div>
             </div>
           </div>
-          <div className="mt-20 grid gap-14 sm:mt-24 md:grid-cols-3 md:gap-10">
+          <div className="mt-12 grid gap-10 sm:mt-20 md:grid-cols-3">
             {plans.map(p => (
               <div key={p.title} className="void-reveal">
                 <Label>{p.title}</Label>
-                <div className="mt-4 text-subheading tracking-heading-sm sm:text-heading-sm">{p.price}</div>
+                <div className="mt-3 text-subheading tracking-heading-sm sm:text-heading-sm">{p.price}</div>
                 <p className="text-body font-extralight mt-3 text-silver-mist">{p.note}</p>
               </div>
             ))}
@@ -284,16 +294,16 @@ export default function HomePage() {
 
       {/* ===== GYIK ===== */}
       <section className="void-section" data-particles="scatter">
-        <div className="mx-auto grid max-w-[1280px] gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-24 lg:px-8">
+        <div className="mx-auto grid max-w-[1280px] gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-24 lg:px-8">
           <div className="void-reveal lg:sticky lg:top-28 lg:self-start">
             <h2 className="text-heading-sm lg:text-heading">Kérdés? Válasz.</h2>
-            <p className="text-body font-extralight mt-6 max-w-sm text-silver-mist">Ha a tiéd nincs köztük, írj, és válaszolunk.</p>
-            <div className="mt-8"><GhostLink href="/kapcsolat">Kérdezz tőlünk</GhostLink></div>
+            <p className="text-body font-extralight mt-5 max-w-sm text-silver-mist">Ha a tiéd nincs köztük, írj, és válaszolunk.</p>
+            <div className="mt-6"><GhostLink href="/kapcsolat">Kérdezz tőlünk</GhostLink></div>
           </div>
           <div className="void-reveal">
             {faqs.map((f, i) => (
-              <details key={f.q} name="faq" open={i === 0} className="void-faq group py-6">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-heading-2xs text-white">
+              <details key={f.q} name="faq" open={i === 0} className="void-faq group py-5 sm:py-6">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-xl leading-snug tracking-[-0.02em] text-white sm:text-heading-2xs">
                   {f.q}
                   <Plus className="mt-1 h-5 w-5 shrink-0 text-ash-gray transition-transform duration-300 group-open:rotate-45 group-open:text-saffron-spark" />
                 </summary>
@@ -305,18 +315,18 @@ export default function HomePage() {
       </section>
 
       {/* ===== CTA ===== */}
-      <section className="pb-28 pt-12 sm:pb-36">
-        <div className="mx-auto grid max-w-[1280px] items-center gap-6 px-4 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:gap-0 lg:px-8">
-          <div>
-            <h2 className="void-reveal text-heading sm:text-heading-lg xl:text-display">Kezdjük el. Még ma.</h2>
-            <p className="void-reveal text-body font-extralight mt-8 max-w-md text-silver-mist">
+      <section className="pb-24 pt-10 sm:pb-36">
+        <div className="mx-auto grid max-w-[1280px] items-center gap-2 px-4 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:gap-0 lg:px-8">
+          <div data-particles="globe" aria-hidden className="h-[34svh] min-h-[240px] lg:order-2 lg:h-[min(640px,80svh)]" />
+          <div className="lg:order-1">
+            <h2 className="void-reveal text-heading sm:text-heading-lg xl:text-display">Kezdjük el.</h2>
+            <p className="void-reveal text-body font-extralight mt-6 max-w-md text-silver-mist sm:mt-8">
               Írj nekünk, és 1 munkanapon belül jelentkezünk egy konkrét javaslattal. Kötelezettség nélkül.
             </p>
-            <div className="void-reveal mt-9">
+            <div className="void-reveal mt-8">
               <Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>
             </div>
           </div>
-          <div data-particles="globe" aria-hidden className="h-[340px] sm:h-[440px] lg:h-[min(640px,80svh)]" />
         </div>
       </section>
     </div>

@@ -75,6 +75,8 @@ Font utility: `font-ppneuemontreal` (PP Neue Montreal if licensed files are adde
 - **Typographic list:** services, references, pricing as large text rows separated by whitespace only (no dividers, no cards). Hover: title shifts / turns electric-iris, arrow appears.
 - **Accordion (FAQ):** native `<details>`, `+` icon rotating to `×`, no boxes.
 - **Carousel dots:** 8px circles, active `electric-iris`, inactive `white/20`.
+- **Service visual (`ServiceVisual`):** small inline-SVG line animations per service (wireframe drawing, cart drop, slot pick, CTA flow, kanban move, heartbeat). 1px strokes, iris/saffron accents, CSS only, paused off-screen.
+- **Scroll particles (`ScrollParticles`):** one fixed canvas; elements with `data-particles="<shape>"` are anchors where the cloud forms that shape (globe, bulb, window, code, rocket, shield); `data-particles="scatter"` dissolves it into ambient stardust. Shapes live in `particleShapes.ts`.
 - **Particle globe (hero):** canvas of tiny outlined triangles (1px stroke) in the particle palette forming a slowly rotating organic sphere. Pauses off-screen / hidden tab, static frame for `prefers-reduced-motion`.
 - **Ambient field:** sparse static outlined triangles (SVG) at low opacity across black sections.
 
@@ -93,4 +95,4 @@ Particle palette: `#8052ff`, `#ffb829`, `#15846e`, `#2dd4bf`, `#e879f9`, `#60a5f
 - Gradients on buttons, text or panels.
 - More than one filled button in a view.
 - Fake product screenshots or stock photos in the hero.
-- Unverifiable claims (only use numbers the business confirmed).
+- Unverifiable claims or promises: no delivery-time promises ("10 nap"), no client counts or results the business has not confirmed. Describe what we do, not what we guarantee.
