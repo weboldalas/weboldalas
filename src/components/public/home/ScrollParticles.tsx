@@ -9,6 +9,7 @@ import { buildShape, mulberry32, type ShapeName } from './particleShapes'
  * Anchors are plain elements on the page: <div data-particles="globe" />.
  * - A shape anchor draws its shape centred on the element (so it scrolls with the layout).
  * - data-particles="scatter" dissolves the cloud into a sparse ambient field across the viewport.
+ * - data-particles="none" fades the cloud out completely (sections whose own visuals need the focus).
  * Between two anchors the cloud explodes outward and re-forms as the next shape.
  *
  * Performance: anchor positions are cached (re-measured only on resize / layout change), triangles are
@@ -21,7 +22,15 @@ const WEIGHTS = [5, 2, 1.5, 1.5, 1.2, 1.5, 3, 1]
 const ALPHA_BUCKETS = [0.16, 0.38, 0.68, 1]
 const SHAPES: ShapeName[] = ['globe', 'bulb', 'window', 'code', 'rocket', 'shield']
 
-type Anchor = { shape: ShapeName | 'scatter'; top: number; left: number; w: number; h: number }
+// `at` = scroll position where this state is fully reached
+type Anchor = { shape: ShapeName | 'scatter' | 'none'; top: number; left: number; w: number; h: number; at: number }
+
+// Morph pacing: wider window = calmer transitions; tau smooths fast scrolling over time.
+const MORPH_FROM = 0.12
+const MORPH_TO = 0.88
+const SMOOTH_TAU_MS = 260
+const STAGGER = 0.35
+const EXPLODE = 0.16
 
 function pickColor(r: number) {
   const total = WEIGHTS.reduce((a, b) => a + b, 0)
@@ -62,6 +71,7 @@ export function ScrollParticles() {
     const scatterU = new Float32Array(N)
     const scatterV = new Float32Array(N)
     const scatterA = new Float32Array(N)
+    const delay = new Float32Array(N)
     for (let i = 0; i < N; i++) {
       color[i] = pickColor(rand())
       size[i] = 2.2 + rand() * 3
@@ -71,6 +81,7 @@ export function ScrollParticles() {
       const m = 0.6 + rand() * 0.9
       dirX[i] = Math.cos(a) * m
       dirY[i] = Math.sin(a) * m
+      delay[i] = rand() * STAGGER
       scatterU[i] = rand()
       scatterV[i] = rand()
       // only a fraction of particles stays visible in the ambient field
@@ -90,13 +101,24 @@ export function ScrollParticles() {
     let pointerY = 0
     let easedX = 0
     let easedY = 0
+    let progress = -1
+    let lastTime = 0
 
     function measure() {
       const sy = window.scrollY
-      anchors = Array.from(document.querySelectorAll<HTMLElement>('[data-particles]')).map(el => {
+      const vhNow = window.innerHeight
+      const list: Anchor[] = []
+      document.querySelectorAll<HTMLElement>('[data-particles]').forEach(el => {
         const r = el.getBoundingClientRect()
-        return { shape: el.dataset.particles as Anchor['shape'], top: r.top + sy, left: r.left, w: r.width, h: r.height }
+        const a = { shape: el.dataset.particles as Anchor['shape'], top: r.top + sy, left: r.left, w: r.width, h: r.height, at: 0 }
+        if (a.shape === 'none') {
+          // hold "empty" for the whole section: gone before it enters, back only after it leaves
+          list.push({ ...a, at: a.top - vhNow * 0.8 }, { ...a, at: a.top + a.h - vhNow * 0.2 })
+        } else {
+          list.push({ ...a, at: a.top + a.h / 2 - vhNow / 2 })
+        }
       })
+      anchors = list
       const page = canvas?.closest('.void-page')
       if (page) pageBottom = page.getBoundingClientRect().bottom + sy
     }
@@ -115,10 +137,10 @@ export function ScrollParticles() {
     // screen position + alpha of particle i for a given anchor
     const tmp = { x: 0, y: 0, a: 0, s: 0 }
     function place(anchor: Anchor, i: number, sy: number, cosA: number, sinA: number, cosT: number, sinT: number) {
-      if (anchor.shape === 'scatter') {
+      if (anchor.shape === 'scatter' || anchor.shape === 'none') {
         tmp.x = scatterU[i] * vw
         tmp.y = scatterV[i] * vh
-        tmp.a = scatterA[i]
+        tmp.a = anchor.shape === 'none' ? 0 : scatterA[i]
         tmp.s = 0.75
         return
       }
@@ -154,15 +176,25 @@ export function ScrollParticles() {
         ctx.clip()
       }
 
-      // which two anchors are we between?
-      const pos = anchors.map(a => a.top + a.h / 2 - vh / 2)
-      let ia = 0, ib = 0, t = 0
-      if (sy >= pos[pos.length - 1]) { ia = ib = anchors.length - 1 }
+      // continuous progress through the anchors (k + morph fraction), with a hold around each anchor
+      const pos = anchors.map(a => a.at)
+      let target = 0
+      if (sy >= pos[pos.length - 1]) target = anchors.length - 1
       else if (sy > pos[0]) {
         for (let k = 0; k < pos.length - 1; k++) {
-          if (sy < pos[k + 1]) { ia = k; ib = k + 1; t = smoothstep(0.22, 0.78, (sy - pos[k]) / (pos[k + 1] - pos[k])); break }
+          if (sy < pos[k + 1]) { target = k + smoothstep(MORPH_FROM, MORPH_TO, (sy - pos[k]) / Math.max(1, pos[k + 1] - pos[k])); break }
         }
       }
+      // ease the displayed progress toward the scroll target, so fast flicks glide instead of jumping
+      const dt = lastTime ? Math.min(64, time - lastTime) : 16
+      lastTime = time
+      if (progress < 0 || reduceMotion) progress = target
+      else progress += (target - progress) * (1 - Math.exp(-dt / SMOOTH_TAU_MS))
+      if (Math.abs(target - progress) < 0.0005) progress = target
+
+      const ia = Math.min(anchors.length - 1, Math.floor(progress))
+      const ib = Math.min(anchors.length - 1, ia + 1)
+      const t = progress - ia
       const A = anchors[ia], B = anchors[ib]
 
       easedX += (pointerX - easedX) * 0.05
@@ -178,8 +210,9 @@ export function ScrollParticles() {
       const cTa = Math.cos(tiltA), sTa = Math.sin(tiltA)
       const cTb = Math.cos(tiltB), sTb = Math.sin(tiltB)
 
-      const explodeR = (A.shape !== 'scatter' && B.shape !== 'scatter' && ia !== ib && !reduceMotion)
-        ? Math.sin(Math.PI * t) * Math.min(A.w, A.h, 640) * 0.55
+      const solid = (k: Anchor['shape']) => k !== 'scatter' && k !== 'none'
+      const explodeR = (solid(A.shape) && solid(B.shape) && ia !== ib && !reduceMotion)
+        ? Math.min(A.w, A.h, 640) * EXPLODE
         : 0
 
       const paths: Path2D[] = Array.from({ length: PALETTE.length * ALPHA_BUCKETS.length }, () => new Path2D())
@@ -189,11 +222,15 @@ export function ScrollParticles() {
         const ax = tmp.x, ay = tmp.y, aa = tmp.a, as = tmp.s
         let x = ax, y = ay, alpha = aa, s = as
         if (ia !== ib && t > 0) {
+          // staggered, eased per-particle progress: the cloud flows instead of snapping all at once
+          let ti = Math.min(1, Math.max(0, (t - delay[i]) / (1 - STAGGER)))
+          ti = ti * ti * (3 - 2 * ti)
           place(B, i, sy, cAb, sAb, cTb, sTb)
-          x = ax + (tmp.x - ax) * t + dirX[i] * explodeR
-          y = ay + (tmp.y - ay) * t + dirY[i] * explodeR
-          alpha = aa + (tmp.a - aa) * t
-          s = as + (tmp.s - as) * t
+          const burst = explodeR * Math.sin(Math.PI * ti)
+          x = ax + (tmp.x - ax) * ti + dirX[i] * burst
+          y = ay + (tmp.y - ay) * ti + dirY[i] * burst
+          alpha = aa + (tmp.a - aa) * ti
+          s = as + (tmp.s - as) * ti
         }
         if (alpha < 0.05 || x < -12 || y < -12 || x > vw + 12 || y > vh + 12) continue
 

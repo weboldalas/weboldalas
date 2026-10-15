@@ -137,7 +137,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== SZOLGÁLTATÁSOK ===== */}
-      <section className="void-section" data-particles="scatter">
+      <section className="void-section" data-particles="none">
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg void-reveal">Egy csapat. Minden, ami online kell.</h2>
