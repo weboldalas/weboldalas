@@ -21,9 +21,9 @@ const services: { title: string; desc: string; href: string; kind: ServiceKind }
 ]
 
 const steps = [
-  { shape: 'bulb', phase: 'Konzultáció', title: 'Beszéljünk', desc: 'Egy kötetlen beszélgetés. Elmondod, mit szeretnél, mi pedig azt, mit javaslunk és miért.' },
-  { shape: 'window', phase: 'Tervezés', title: 'Megtervezzük', desc: 'Struktúra, szöveg, dizájn. Mind a márkádra és a céljaidra szabva.' },
-  { shape: 'code', phase: 'Fejlesztés', title: 'Elkészítjük', desc: 'Fejlesztés, beállítás és tesztelés telefonon, tableten és asztali gépen.' },
+  { shape: 'chat', phase: 'Konzultáció', title: 'Beszéljünk', desc: 'Egy kötetlen beszélgetés. Elmondod, mit szeretnél, mi pedig azt, mit javaslunk és miért.' },
+  { shape: 'pen', phase: 'Tervezés', title: 'Megtervezzük', desc: 'Struktúra, szöveg, dizájn. Mind a márkádra és a céljaidra szabva.' },
+  { shape: 'cubes', phase: 'Fejlesztés', title: 'Elkészítjük', desc: 'Fejlesztés, beállítás és tesztelés telefonon, tableten és asztali gépen.' },
   { shape: 'rocket', phase: 'Indulás', title: 'Élesítjük', desc: 'Indul az oldal. Mi pedig maradunk: karbantartás, módosítás, fejlesztés.' },
 ]
 
@@ -77,14 +77,14 @@ function GhostLink({ href, children }: { href: string; children: React.ReactNode
 export default function HomePage() {
   return (
     <div className={`${voidFont.variable} void-page relative overflow-x-clip bg-void font-ppneuemontreal text-bone-white [&>section]:relative [&>section]:z-10`}>
-      {/* Scroll-morphing particle cloud: globe → stardust → bulb → window → code → rocket → shield → stardust → globe */}
+      {/* Scroll-morphing particle cloud: devices → (empty behind services) → chat → pen → cubes → rocket → gears → stardust → paper plane */}
       <ScrollParticles />
 
       {/* ===== HERO ===== */}
       <section>
         <div className="mx-auto grid min-h-[100svh] max-w-[1280px] content-center gap-2 px-4 pb-14 pt-20 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-0 lg:px-8 lg:pb-24 lg:pt-24">
           {/* the globe forms here (above the copy on phones) */}
-          <div data-particles="globe" aria-hidden className="h-[38svh] min-h-[260px] lg:order-2 lg:h-[min(760px,88svh)]" />
+          <div data-particles="devices" aria-hidden className="h-[38svh] min-h-[260px] lg:order-2 lg:h-[min(760px,88svh)]" />
 
           <div className="relative lg:order-1">
             <h1 className="text-heading sm:text-heading-lg xl:text-display">
@@ -206,7 +206,7 @@ export default function HomePage() {
       {/* ===== ÜZEMELTETÉS ===== */}
       <section className="void-section">
         <div className="mx-auto grid max-w-[1280px] items-center gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:px-8">
-          <div data-particles="shield" aria-hidden className="mx-auto aspect-square w-full max-w-[420px] lg:max-w-[520px]" />
+          <div data-particles="gears" aria-hidden className="mx-auto aspect-square w-full max-w-[420px] lg:max-w-[520px]" />
           <div className="void-reveal">
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg">Te vállalkozol. Mi intézzük a többit.</h2>
             <div className="mt-8 max-w-[520px] sm:mt-10">
@@ -317,7 +317,7 @@ export default function HomePage() {
       {/* ===== CTA ===== */}
       <section className="pb-24 pt-10 sm:pb-36">
         <div className="mx-auto grid max-w-[1280px] items-center gap-2 px-4 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:gap-0 lg:px-8">
-          <div data-particles="globe" aria-hidden className="h-[34svh] min-h-[240px] lg:order-2 lg:h-[min(640px,80svh)]" />
+          <div data-particles="plane" aria-hidden className="h-[34svh] min-h-[240px] lg:order-2 lg:h-[min(640px,80svh)]" />
           <div className="lg:order-1">
             <h2 className="void-reveal text-heading sm:text-heading-lg xl:text-display">Kezdjük el.</h2>
             <p className="void-reveal text-body font-extralight mt-6 max-w-md text-silver-mist sm:mt-8">

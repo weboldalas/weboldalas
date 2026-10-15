@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { buildShape, mulberry32, type ShapeName } from './particleShapes'
+import { buildShape, mulberry32, CHAT_DOTS, CUBE_FLOAT_Y, GEARS, type ShapeName } from './particleShapes'
 
 /*
  * One fixed, full-viewport canvas of tiny outlined triangles that morphs between shapes on scroll.
  *
- * Anchors are plain elements on the page: <div data-particles="globe" />.
+ * Anchors are plain elements on the page: <div data-particles="devices" />.
  * - A shape anchor draws its shape centred on the element (so it scrolls with the layout).
  * - data-particles="scatter" dissolves the cloud into a sparse ambient field across the viewport.
  * - data-particles="none" fades the cloud out completely (sections whose own visuals need the focus).
@@ -20,7 +20,18 @@ import { buildShape, mulberry32, type ShapeName } from './particleShapes'
 const PALETTE = ['#8052ff', '#ffb829', '#15846e', '#2dd4bf', '#e879f9', '#60a5fa', '#a78bfa', '#f472b6']
 const WEIGHTS = [5, 2, 1.5, 1.5, 1.2, 1.5, 3, 1]
 const ALPHA_BUCKETS = [0.16, 0.38, 0.68, 1]
-const SHAPES: ShapeName[] = ['globe', 'bulb', 'window', 'code', 'rocket', 'shield']
+const SHAPES: ShapeName[] = ['devices', 'chat', 'pen', 'cubes', 'rocket', 'gears', 'plane']
+
+// Per-shape camera: tilt (view from above) and how it turns (continuous spin or gentle sway)
+const VIEW: Record<ShapeName, { tilt: number; spin?: number; sway: number }> = {
+  devices: { tilt: -0.3, sway: 0.45 },
+  chat: { tilt: -0.12, sway: 0.4 },
+  pen: { tilt: -0.1, sway: 0.3 },
+  cubes: { tilt: -0.4, spin: 0.00018, sway: 0 },
+  rocket: { tilt: -0.15, sway: 0.45 },
+  gears: { tilt: -0.12, sway: 0.25 },
+  plane: { tilt: -0.25, sway: 0.4 },
+}
 
 // `at` = scroll position where this state is fully reached
 type Anchor = { shape: ShapeName | 'scatter' | 'none'; top: number; left: number; w: number; h: number; at: number }
@@ -91,6 +102,21 @@ export function ScrollParticles() {
     const shapes = {} as Record<ShapeName, Float32Array>
     SHAPES.forEach((s, i) => { shapes[s] = buildShape(s, N, 100 + i * 17) })
 
+    // sub-parts that animate in place (found by position, since point order is shuffled)
+    const chatDot = new Int8Array(N).fill(-1)
+    const gearOf = new Uint8Array(N)
+    const cubeFloats = new Uint8Array(N)
+    for (let i = 0; i < N; i++) {
+      const c = shapes.chat
+      const cx = c[i * 3], cy = c[i * 3 + 1], cz = c[i * 3 + 2]
+      CHAT_DOTS.forEach(([dx, dy], k) => { if (cz > 0.13 && Math.hypot(cx - dx, cy - dy) < 0.14) chatDot[i] = k })
+      const g = shapes.gears
+      const d0 = Math.hypot(g[i * 3] - GEARS[0].cx, g[i * 3 + 1] - GEARS[0].cy) - GEARS[0].r
+      const d1 = Math.hypot(g[i * 3] - GEARS[1].cx, g[i * 3 + 1] - GEARS[1].cy) - GEARS[1].r
+      gearOf[i] = d0 <= d1 ? 0 : 1
+      cubeFloats[i] = shapes.cubes[i * 3 + 1] < CUBE_FLOAT_Y + 0.28 ? 1 : 0
+    }
+
     let anchors: Anchor[] = []
     let pageBottom = Infinity
     let dpr = 1
@@ -103,6 +129,7 @@ export function ScrollParticles() {
     let easedY = 0
     let progress = -1
     let lastTime = 0
+    let now = 0
 
     function measure() {
       const sy = window.scrollY
@@ -148,7 +175,24 @@ export function ScrollParticles() {
       const R = Math.min(anchor.w, anchor.h, 640) * 0.42
       const cx = anchor.left + anchor.w / 2
       const cy = anchor.top + anchor.h / 2 - sy
-      const x = pts[i * 3], y = pts[i * 3 + 1], z = pts[i * 3 + 2]
+      let x = pts[i * 3], y = pts[i * 3 + 1]
+      const z = pts[i * 3 + 2]
+      // living details
+      if (!reduceMotion) {
+        if (anchor.shape === 'chat' && chatDot[i] >= 0) {
+          y -= 0.07 * Math.max(0, Math.sin(now * 0.006 - chatDot[i] * 0.9))
+        } else if (anchor.shape === 'gears') {
+          const g = GEARS[gearOf[i]]
+          const a0 = now * 0.0005
+          const a = gearOf[i] === 0 ? a0 : -a0 * (GEARS[0].teeth / GEARS[1].teeth) + Math.PI / GEARS[1].teeth
+          const ca = Math.cos(a), sa = Math.sin(a)
+          const lx = x - g.cx, ly = y - g.cy
+          x = g.cx + lx * ca - ly * sa
+          y = g.cy + lx * sa + ly * ca
+        } else if (anchor.shape === 'cubes' && cubeFloats[i]) {
+          y += -0.08 + 0.12 * (0.5 + 0.5 * Math.sin(now * 0.0014))
+        }
+      }
       const x1 = x * cosA - z * sinA
       const z1 = x * sinA + z * cosA
       const y2 = y * cosT - z1 * sinT
@@ -199,12 +243,17 @@ export function ScrollParticles() {
 
       easedX += (pointerX - easedX) * 0.05
       easedY += (pointerY - easedY) * 0.05
-      const osc = reduceMotion ? 0 : Math.sin(time * 0.00025) * 0.45
-      const spinA = A.shape === 'globe' ? time * 0.00012 : osc
-      const spinB = B.shape === 'globe' ? time * 0.00012 : osc
-      // the globe is viewed slightly from above so its parallels read as ellipses
-      const tiltA = (A.shape === 'globe' ? -0.42 : -0.15) + easedY * 0.2
-      const tiltB = (B.shape === 'globe' ? -0.42 : -0.15) + easedY * 0.2
+      now = time
+      const view = (k: Anchor['shape']) => (k === 'scatter' || k === 'none') ? VIEW.rocket : VIEW[k]
+      const turn = (k: Anchor['shape']) => {
+        if (reduceMotion) return 0
+        const v = view(k)
+        return v.spin ? time * v.spin : Math.sin(time * 0.00025) * v.sway
+      }
+      const spinA = turn(A.shape)
+      const spinB = turn(B.shape)
+      const tiltA = view(A.shape).tilt + easedY * 0.2
+      const tiltB = view(B.shape).tilt + easedY * 0.2
       const cAa = Math.cos(spinA + easedX * 0.5), sAa = Math.sin(spinA + easedX * 0.5)
       const cAb = Math.cos(spinB + easedX * 0.5), sAb = Math.sin(spinB + easedX * 0.5)
       const cTa = Math.cos(tiltA), sTa = Math.sin(tiltA)
