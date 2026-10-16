@@ -152,6 +152,14 @@ export function ScrollParticles() {
           list.push({ ...a, at: a.top + a.h / 2 - vhNow / 2 })
         }
       })
+      // keep every state reachable: a shape at the very top (mobile heroes sit above the viewport centre)
+      // would otherwise get a negative `at` and start the page half-exploded; same for the bottom end
+      const maxScroll = Math.max(0, document.documentElement.scrollHeight - vhNow)
+      let prev = 0
+      for (const a of list) {
+        a.at = Math.max(prev, Math.min(maxScroll, Math.max(0, a.at)))
+        prev = a.at
+      }
       anchors = list
       const page = canvas?.closest('.void-page')
       if (page) pageBottom = page.getBoundingClientRect().bottom + sy
