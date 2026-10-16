@@ -164,7 +164,7 @@ export default function HomePage() {
                     <span className="text-body font-extralight text-silver-mist">{s.desc}</span>
                     <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-ash-gray transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
                   </span>
-                  <ServiceVisual kind={s.kind} className="h-[150px] w-full max-w-[340px] lg:max-w-none" />
+                  <ServiceVisual kind={s.kind} className="order-first h-[150px] w-full max-w-[340px] lg:order-none lg:max-w-none" />
                 </Link>
               </li>
             ))}
