@@ -3,10 +3,10 @@
  * Every shape returns exactly `n` points as a flat Float32Array [x, y, z, x, y, z, …]
  * in a normalized space roughly within [-1, 1]. Screen y grows downwards, so "up" is negative y.
  *
- * Story down the page: devices → chat → pen → cubes → rocket → gears → paper plane.
+ * Story down the page: devices → chat → pen → progress ring → rocket → gears → paper plane.
  */
 
-export type ShapeName = 'devices' | 'chat' | 'pen' | 'cubes' | 'rocket' | 'gears' | 'plane'
+export type ShapeName = 'devices' | 'chat' | 'pen' | 'progress' | 'rocket' | 'gears' | 'plane'
 
 export function mulberry32(seed: number) {
   return () => {
@@ -199,30 +199,21 @@ function pen(n: number, rand: Rand) {
   return out
 }
 
-/** Stacked 3D cubes; the top cube floats and settles (animated at runtime, see CUBE_FLOAT_Y). */
-export const CUBE_FLOAT_Y = -0.7
+/** Progress ring that fills to 100% and then shows a check mark (fill + check animate at runtime). */
+export const PROGRESS_R = 0.78
 
-function cube(out: number[], cx: number, cy: number, cz: number, s: number, count: number, rand: Rand) {
-  const h = s / 2
-  const v = (x: number, y: number, z: number): V3 => [cx + x * h, cy + y * h, cz + z * h]
-  const c = [v(-1, -1, -1), v(1, -1, -1), v(1, 1, -1), v(-1, 1, -1), v(-1, -1, 1), v(1, -1, 1), v(1, 1, 1), v(-1, 1, 1)]
-  const e = [[0, 1], [1, 2], [2, 3], [3, 0], [4, 5], [5, 6], [6, 7], [7, 4], [0, 4], [1, 5], [2, 6], [3, 7]]
-  along3D(out, e.map(([a, b]) => [...c[a], ...c[b]] as Seg3), Math.round(count * 0.96), rand, 0.004, 0.004)
-  // sparse faces
-  const faces = [[0, 1, 2, 3], [4, 5, 6, 7], [0, 1, 5, 4], [3, 2, 6, 7], [0, 3, 7, 4], [1, 2, 6, 5]]
-  const per = Math.round((count * 0.04) / (faces.length * 2))
-  faces.forEach(([a, b, d, f]) => { onTriangle(out, c[a], c[b], c[d], per, rand); onTriangle(out, c[a], c[d], c[f], per, rand) })
-}
-
-function cubes(n: number, rand: Rand) {
+function progress(n: number, rand: Rand) {
   const out: number[] = []
-  const s = 0.56
-  // small gaps between cubes keep their edges from merging when they rotate
-  cube(out, -0.34, 0.52, 0, s, Math.round(n * 0.27), rand)
-  cube(out, 0.34, 0.52, 0, s, Math.round(n * 0.27), rand)
-  cube(out, 0, -0.1, 0, s, Math.round(n * 0.24), rand)
-  // floating cube (found at runtime by y < CUBE_FLOAT_Y + its half size)
-  cube(out, 0, CUBE_FLOAT_Y, 0, s * 0.8, n - out.length / 3, rand)
+  // ring band: two edges + sparse fill, with a little depth
+  const ringCount = Math.round(n * 0.78)
+  for (let i = 0; i < ringCount; i++) {
+    const a = rand() * Math.PI * 2
+    const band = rand()
+    const r = band < 0.36 ? PROGRESS_R - 0.06 : band < 0.72 ? PROGRESS_R + 0.06 : PROGRESS_R + (rand() - 0.5) * 0.12
+    out.push(Math.cos(a) * r, Math.sin(a) * r, (rand() - 0.5) * 0.08)
+  }
+  // check mark in the middle
+  alongSegments(out, [[-0.34, 0.02, -0.08, 0.28], [-0.08, 0.28, 0.38, -0.26]], n - out.length / 3, rand, 0.03, 0.05)
   return out
 }
 
@@ -326,7 +317,7 @@ function plane(n: number, rand: Rand) {
 }
 
 const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
-  devices, chat, pen, cubes, rocket, gears, plane,
+  devices, chat, pen, progress, rocket, gears, plane,
 }
 
 export function buildShape(name: ShapeName, n: number, seed: number): Float32Array {

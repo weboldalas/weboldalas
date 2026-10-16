@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { buildShape, mulberry32, CHAT_DOTS, CUBE_FLOAT_Y, GEARS, type ShapeName } from './particleShapes'
+import { buildShape, mulberry32, CHAT_DOTS, GEARS, PROGRESS_R, type ShapeName } from './particleShapes'
 
 /*
  * One fixed, full-viewport canvas of tiny outlined triangles that morphs between shapes on scroll.
@@ -20,14 +20,14 @@ import { buildShape, mulberry32, CHAT_DOTS, CUBE_FLOAT_Y, GEARS, type ShapeName 
 const PALETTE = ['#8052ff', '#ffb829', '#15846e', '#2dd4bf', '#e879f9', '#60a5fa', '#a78bfa', '#f472b6']
 const WEIGHTS = [5, 2, 1.5, 1.5, 1.2, 1.5, 3, 1]
 const ALPHA_BUCKETS = [0.16, 0.38, 0.68, 1]
-const SHAPES: ShapeName[] = ['devices', 'chat', 'pen', 'cubes', 'rocket', 'gears', 'plane']
+const SHAPES: ShapeName[] = ['devices', 'chat', 'pen', 'progress', 'rocket', 'gears', 'plane']
 
 // Per-shape camera: tilt (view from above) and how it turns (continuous spin or gentle sway)
 const VIEW: Record<ShapeName, { tilt: number; spin?: number; sway: number }> = {
   devices: { tilt: -0.3, sway: 0.45 },
   chat: { tilt: -0.12, sway: 0.4 },
   pen: { tilt: -0.1, sway: 0.3 },
-  cubes: { tilt: -0.4, spin: 0.00018, sway: 0 },
+  progress: { tilt: -0.1, sway: 0.35 },
   rocket: { tilt: -0.15, sway: 0.45 },
   gears: { tilt: -0.12, sway: 0.25 },
   plane: { tilt: -0.25, sway: 0.4 },
@@ -105,7 +105,8 @@ export function ScrollParticles() {
     // sub-parts that animate in place (found by position, since point order is shuffled)
     const chatDot = new Int8Array(N).fill(-1)
     const gearOf = new Uint8Array(N)
-    const cubeFloats = new Uint8Array(N)
+    // progress ring: clockwise position 0..1 from 12 o'clock, or -1 for the check mark
+    const ringPos = new Float32Array(N)
     for (let i = 0; i < N; i++) {
       const c = shapes.chat
       const cx = c[i * 3], cy = c[i * 3 + 1], cz = c[i * 3 + 2]
@@ -114,7 +115,8 @@ export function ScrollParticles() {
       const d0 = Math.hypot(g[i * 3] - GEARS[0].cx, g[i * 3 + 1] - GEARS[0].cy) - GEARS[0].r
       const d1 = Math.hypot(g[i * 3] - GEARS[1].cx, g[i * 3 + 1] - GEARS[1].cy) - GEARS[1].r
       gearOf[i] = d0 <= d1 ? 0 : 1
-      cubeFloats[i] = shapes.cubes[i * 3 + 1] < CUBE_FLOAT_Y + 0.28 ? 1 : 0
+      const px = shapes.progress[i * 3], py = shapes.progress[i * 3 + 1]
+      ringPos[i] = Math.hypot(px, py) > PROGRESS_R - 0.2 ? ((Math.atan2(px, -py) + Math.PI * 2) % (Math.PI * 2)) / (Math.PI * 2) : -1
     }
 
     let anchors: Anchor[] = []
@@ -161,6 +163,17 @@ export function ScrollParticles() {
       requestDraw()
     }
 
+    // 6 s loop: fill 0→100% (eased), check fades in and holds, then everything eases back for the next run
+    const prog = { fill: 1, check: 1, glow: 1 }
+    function updateProgress() {
+      if (reduceMotion) { prog.fill = 1; prog.check = 1; prog.glow = 1; return }
+      const t = (now % 6000) / 6000
+      const f = Math.min(1, t / 0.58)
+      prog.fill = f * f * (3 - 2 * f)
+      prog.check = smoothstep(0.58, 0.66, t) * (1 - smoothstep(0.86, 0.94, t))
+      prog.glow = 1 - smoothstep(0.9, 1, t)
+    }
+
     // screen position + alpha of particle i for a given anchor
     const tmp = { x: 0, y: 0, a: 0, s: 0 }
     function place(anchor: Anchor, i: number, sy: number, cosA: number, sinA: number, cosT: number, sinT: number) {
@@ -189,8 +202,6 @@ export function ScrollParticles() {
           const lx = x - g.cx, ly = y - g.cy
           x = g.cx + lx * ca - ly * sa
           y = g.cy + lx * sa + ly * ca
-        } else if (anchor.shape === 'cubes' && cubeFloats[i]) {
-          y += -0.08 + 0.12 * (0.5 + 0.5 * Math.sin(now * 0.0014))
         }
       }
       const x1 = x * cosA - z * sinA
@@ -202,6 +213,14 @@ export function ScrollParticles() {
       tmp.y = cy + y2 * R * persp
       tmp.a = 0.16 + 0.84 * Math.min(1, Math.max(0, (z2 + 1.2) / 2.4))
       tmp.s = Math.min(1.3, Math.max(0.6, R / 230)) * (0.6 + persp * 0.5)
+      if (anchor.shape === 'progress') {
+        const rp = ringPos[i]
+        if (rp < 0) tmp.a *= prog.check
+        else if (rp <= prog.fill) {
+          tmp.a = Math.max(tmp.a, 0.75) * prog.glow + 0.18 * (1 - prog.glow)
+          if (prog.fill < 1 && prog.fill - rp < 0.025) tmp.s *= 1.7 // bright head of the fill
+        } else tmp.a = 0.18
+      }
     }
 
     function draw(time: number) {
@@ -244,6 +263,7 @@ export function ScrollParticles() {
       easedX += (pointerX - easedX) * 0.05
       easedY += (pointerY - easedY) * 0.05
       now = time
+      updateProgress()
       const view = (k: Anchor['shape']) => (k === 'scatter' || k === 'none') ? VIEW.rocket : VIEW[k]
       const turn = (k: Anchor['shape']) => {
         if (reduceMotion) return 0

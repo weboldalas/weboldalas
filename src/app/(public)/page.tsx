@@ -23,7 +23,7 @@ const services: { title: string; desc: string; href: string; kind: ServiceKind }
 const steps = [
   { shape: 'chat', phase: 'Konzultáció', title: 'Beszéljünk', desc: 'Egy kötetlen beszélgetés. Elmondod, mit szeretnél, mi pedig azt, mit javaslunk és miért.' },
   { shape: 'pen', phase: 'Tervezés', title: 'Megtervezzük', desc: 'Struktúra, szöveg, dizájn. Mind a márkádra és a céljaidra szabva.' },
-  { shape: 'cubes', phase: 'Fejlesztés', title: 'Elkészítjük', desc: 'Fejlesztés, beállítás és tesztelés telefonon, tableten és asztali gépen.' },
+  { shape: 'progress', phase: 'Fejlesztés', title: 'Elkészítjük', desc: 'Fejlesztés, beállítás és tesztelés telefonon, tableten és asztali gépen.' },
   { shape: 'rocket', phase: 'Indulás', title: 'Élesítjük', desc: 'Indul az oldal. Mi pedig maradunk: karbantartás, módosítás, fejlesztés.' },
 ]
 
@@ -77,7 +77,7 @@ function GhostLink({ href, children }: { href: string; children: React.ReactNode
 export default function HomePage() {
   return (
     <div className={`${voidFont.variable} void-page relative overflow-x-clip bg-void font-ppneuemontreal text-bone-white [&>section]:relative [&>section]:z-10`}>
-      {/* Scroll-morphing particle cloud: devices → (empty behind services) → chat → pen → cubes → rocket → gears → stardust → paper plane */}
+      {/* Scroll-morphing particle cloud: devices → (empty behind services) → chat → pen → progress ring → rocket → gears → stardust → paper plane */}
       <ScrollParticles />
 
       {/* ===== HERO ===== */}
