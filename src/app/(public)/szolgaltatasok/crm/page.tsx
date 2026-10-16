@@ -7,6 +7,8 @@ export const metadata = {
 }
 
 const data: ServicePageData = {
+  shape: 'funnel',
+  kind: 'crm',
   icon: Users,
   iconColor: 'rose',
   accentColor: '#f43f5e',

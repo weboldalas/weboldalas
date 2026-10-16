@@ -1,8 +1,10 @@
 import Link from 'next/link'
-import { Check, ArrowRight } from 'lucide-react'
-import { FadeIn } from '@/components/public/FadeIn'
+import { Check, Minus } from 'lucide-react'
 import { PricingCalculator } from '@/components/public/PricingCalculator'
-import { FaqAccordion } from '@/components/public/FaqAccordion'
+import { ParticlePage } from '@/components/public/void/ParticlePage'
+import { PageHero } from '@/components/public/void/PageHero'
+import { VoidFaq } from '@/components/public/void/VoidFaq'
+import { GhostLink, Label, SectionHead, container } from '@/components/public/void/ui'
 
 export const metadata = {
   title: 'Árak | Weboldalas',
@@ -12,127 +14,106 @@ export const metadata = {
 const faqs = [
   { q: 'Mikor kell fizetni?', a: 'Egyszeri és részletfizetésnél az első részletet az elkészítés előtt kérjük. Havidíjas konstrukciónál minden hónap elején.' },
   { q: 'Van rejtett költség?', a: 'Nincsen. Az ajánlatban szereplő összeg tartalmaz mindent, amit felsoroltunk. Nincs meglepetés.' },
-  { q: 'Mi történik ha lemondok az előfizetést?', a: 'Minimum 12 hónapos együttműködést kérünk. Utána bármikor lemondható 30 napos felmondási idővel.' },
-  { q: 'Bármikor átválthatok fizetési módot?', a: 'Igen, vedd fel velünk a kapcsolatot és megbeszéljük a lehetőségeket.' },
+  { q: 'Mi történik, ha lemondom az előfizetést?', a: 'Minimum 12 hónapos együttműködést kérünk. Utána bármikor lemondható 30 napos felmondási idővel.' },
+  { q: 'Bármikor átválthatok fizetési módot?', a: 'Igen, vedd fel velünk a kapcsolatot, és megbeszéljük a lehetőségeket.' },
 ]
 
-const tableRows = [
-  { label: 'Prémium dizájn',      vals: [true,        true,              true] },
-  { label: 'Mobilbarát',          vals: [true,        true,              true] },
-  { label: 'Foglalási rendszer',  vals: ['Opció',     'Opció',           true] },
-  { label: 'Teljes tulajdon',     vals: [true,        'Kifizetés után',  false] },
-  { label: 'Üzemeltetés',         vals: [false,       false,             true] },
-  { label: 'Havi módosítások',    vals: [false,       false,             '1 óra/hó'] },
-  { label: 'Magyar support',      vals: [false,       false,             true] },
-  { label: 'Havi díj',            vals: ['Nincs',     'Nincs',           '19.990 Ft-tól'] },
+const columns = ['Egyszeri', 'Részlet', 'Havidíj']
+const tableRows: { label: string; vals: (boolean | string)[] }[] = [
+  { label: 'Egyedi dizájn',       vals: [true,    true,             true] },
+  { label: 'Mobilbarát',          vals: [true,    true,             true] },
+  { label: 'Foglalási rendszer',  vals: ['Opció', 'Opció',          true] },
+  { label: 'Teljes tulajdon',     vals: [true,    'Kifizetés után', false] },
+  { label: 'Üzemeltetés',         vals: [false,   false,            true] },
+  { label: 'Havi módosítások',    vals: [false,   false,            '1 óra/hó'] },
+  { label: 'Magyar support',      vals: [false,   false,            true] },
+  { label: 'Havi díj',            vals: ['Nincs', 'Nincs',          '19 990 Ft-tól'] },
 ]
+
+function Cell({ v }: { v: boolean | string }) {
+  if (v === true) return <Check className="mx-auto h-4 w-4 text-electric-iris" strokeWidth={2.5} aria-label="Igen" />
+  if (v === false) return <Minus className="mx-auto h-4 w-4 text-white/20" aria-label="Nem" />
+  return <span className="text-xs text-silver-mist sm:text-sm">{v}</span>
+}
 
 export default function ArakPage() {
   return (
-    <div className="pt-16">
-      {/* Hero */}
-      <section className="py-28 relative">
-        <div className="absolute inset-0 pointer-events-none opacity-15"
-          style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%, #0ea5e9, transparent)' }} />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <FadeIn>
-            <p className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: '#38bdf8' }}>
-              Rugalmas konstrukciók
-            </p>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
-              Válaszd ki a{' '}
-              <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(135deg, #38bdf8, #06b6d4)' }}>
-                számodra legjobbat
-              </span>
-            </h1>
-            <p className="text-lg max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.45)' }}>
-              Egyszeri befektetés, kényelmes részletek vagy minden benne lévő havidíj — a döntés a tied.
-            </p>
-          </FadeIn>
+    <ParticlePage>
+      <PageHero
+        label="Árak"
+        title="Három út. Egy minőség."
+        shape="tag"
+        actions={<>
+          <a href="#kalkulator" className="void-button">Kalkulátor</a>
+          <GhostLink href="/kapcsolat">Egyedi ajánlat</GhostLink>
+        </>}
+      >
+        Egyszeri díj, kamatmentes részlet vagy minden benne lévő havidíj. Te döntöd el, mi a kényelmes.
+      </PageHero>
+
+      {/* calculator */}
+      <section id="kalkulator" className="void-section scroll-mt-20" data-particles="none">
+        <div className={container}>
+          <Label>Kalkulátor</Label>
+          <h2 className="void-reveal mt-5 mb-12 text-heading-sm sm:text-heading lg:text-heading-lg">Számold ki.</h2>
+          <PricingCalculator />
         </div>
       </section>
 
-      {/* Comparison table */}
-      <section className="py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-3">Miben különböznek?</h2>
-            <p style={{ color: 'rgba(255,255,255,0.4)' }}>Összehasonlítás egy táblázatban.</p>
-          </FadeIn>
-          <FadeIn>
-            <div className="overflow-x-auto rounded-2xl" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
-              <table className="w-full text-sm">
-                <thead>
-                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                    <th className="px-6 py-4 text-left text-sm font-medium" style={{ color: 'rgba(255,255,255,0.35)' }}>Jellemző</th>
-                    <th className="px-6 py-4 text-center text-sm font-bold" style={{ color: '#38bdf8' }}>Egyszeri</th>
-                    <th className="px-6 py-4 text-center text-sm font-bold" style={{ color: '#a855f7', background: 'rgba(168,85,247,0.05)' }}>Részlet</th>
-                    <th className="px-6 py-4 text-center text-sm font-bold" style={{ color: '#34d399', background: 'rgba(16,185,129,0.06)' }}>
-                      <div className="flex flex-col items-center gap-1">
-                        <span>Előfizetés</span>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: '#10b981', color: '#fff' }}>Ajánlott</span>
-                      </div>
+      {/* comparison */}
+      <section className="void-section" data-particles="none">
+        <div className={container}>
+          <SectionHead title="Miben különböznek?" label="Összehasonlítás">
+            Egy pillantással, mit tartalmaz az egyes konstrukció.
+          </SectionHead>
+          <div className="void-reveal mt-12 sm:mt-16">
+            <table className="w-full text-left">
+              <thead>
+                <tr>
+                  <th className="pb-6 pr-2 text-caption font-normal text-ash-gray sm:pr-4">Jellemző</th>
+                  {columns.map((c, i) => (
+                    <th key={c} className={`pb-6 text-center text-[15px] font-normal sm:text-heading-2xs ${i === 2 ? 'text-white' : 'text-silver-mist'}`}>
+                      {c}
+                      {i === 2 && <span className="mt-1 block text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">Ajánlott</span>}
                     </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tableRows.map((row, i) => (
-                    <tr key={i} style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-                      <td className="px-6 py-4 font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>{row.label}</td>
-                      {row.vals.map((v, j) => (
-                        <td key={j} className="px-6 py-4 text-center"
-                          style={j === 1 ? { background: 'rgba(168,85,247,0.04)' } : j === 2 ? { background: 'rgba(16,185,129,0.04)' } : {}}>
-                          {v === true ? (
-                            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full"
-                              style={{ background: 'rgba(52,211,153,0.15)' }}>
-                              <Check className="h-3.5 w-3.5" style={{ color: '#34d399' }} strokeWidth={2.5} />
-                            </span>
-                          ) : v === false ? (
-                            <span style={{ color: 'rgba(255,255,255,0.15)' }}>—</span>
-                          ) : (
-                            <span className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>{v}</span>
-                          )}
-                        </td>
-                      ))}
-                    </tr>
                   ))}
-                </tbody>
-              </table>
-            </div>
-          </FadeIn>
+                </tr>
+              </thead>
+              <tbody>
+                {tableRows.map(row => (
+                  <tr key={row.label} className="transition-colors hover:bg-white/[0.03]">
+                    <td className="py-4 pr-2 text-sm sm:pr-4 sm:text-[15px]">{row.label}</td>
+                    {row.vals.map((v, j) => <td key={j} className="px-1 py-4 text-center"><Cell v={v} /></td>)}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
-      {/* Calculator + FAQ */}
-      <section className="py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <PricingCalculator sidebar={
-            <div>
-              <h2 className="text-2xl font-bold text-white mb-6">Kérdések az árakról</h2>
-              <FaqAccordion faqs={faqs} />
-            </div>
-          } />
+      {/* faq */}
+      <section className="void-section" data-particles="scatter">
+        <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-24`}>
+          <div className="void-reveal lg:sticky lg:top-28 lg:self-start">
+            <h2 className="text-heading-sm lg:text-heading">Kérdések az árakról.</h2>
+            <p className="text-body font-extralight mt-5 max-w-sm text-silver-mist">Az árak tájékoztató jellegűek; pontos ajánlatot a projekt ismeretében adunk.</p>
+          </div>
+          <div className="void-reveal"><VoidFaq faqs={faqs} /></div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <FadeIn>
-            <div className="rounded-3xl p-12" style={{ background: 'rgba(14,165,233,0.06)', border: '1px solid rgba(14,165,233,0.2)' }}>
-              <h2 className="text-3xl font-bold text-white mb-4">Kérj személyre szabott ajánlatot!</h2>
-              <p className="text-lg mb-8" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                Az árak tájékoztató jellegűek. Pontos ajánlatért vedd fel velünk a kapcsolatot.
-              </p>
-              <Link href="/kapcsolat"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-bold text-white transition-all hover:opacity-90"
-                style={{ background: 'linear-gradient(135deg, #0284c7, #0ea5e9, #06b6d4)' }}>
-                Ajánlatot kérek <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </FadeIn>
+      {/* cta */}
+      <section className="void-section">
+        <div className={`${container} grid items-center gap-8 lg:grid-cols-[1.15fr_1fr]`}>
+          <div data-particles="chat" aria-hidden className="h-[30svh] min-h-[220px] lg:order-2 lg:h-[min(520px,66svh)]" />
+          <div className="lg:order-1">
+            <h2 className="void-reveal text-heading sm:text-heading-lg xl:text-display">Kérj ajánlatot.</h2>
+            <p className="text-body font-extralight mt-6 max-w-md text-silver-mist">Pontos árat a projekt ismeretében adunk, kötelezettség nélkül.</p>
+            <div className="mt-8"><Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link></div>
+          </div>
         </div>
       </section>
-    </div>
+    </ParticlePage>
   )
 }

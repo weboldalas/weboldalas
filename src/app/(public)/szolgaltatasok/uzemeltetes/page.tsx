@@ -7,6 +7,8 @@ export const metadata = {
 }
 
 const data: ServicePageData = {
+  shape: 'gears',
+  kind: 'ops',
   icon: Wrench,
   iconColor: 'slate',
   accentColor: '#64748b',

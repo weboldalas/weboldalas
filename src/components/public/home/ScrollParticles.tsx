@@ -20,7 +20,7 @@ import { buildShape, mulberry32, CHAT_DOTS, GEARS, PROGRESS_R, type ShapeName } 
 const PALETTE = ['#8052ff', '#ffb829', '#15846e', '#2dd4bf', '#e879f9', '#60a5fa', '#a78bfa', '#f472b6']
 const WEIGHTS = [5, 2, 1.5, 1.5, 1.2, 1.5, 3, 1]
 const ALPHA_BUCKETS = [0.16, 0.38, 0.68, 1]
-const SHAPES: ShapeName[] = ['devices', 'chat', 'pen', 'progress', 'rocket', 'gears', 'plane']
+const SHAPES: ShapeName[] = ['devices', 'chat', 'pen', 'progress', 'rocket', 'gears', 'plane', 'cart', 'calendar', 'target', 'funnel', 'tag']
 
 // Per-shape camera: tilt (view from above) and how it turns (continuous spin or gentle sway)
 const VIEW: Record<ShapeName, { tilt: number; spin?: number; sway: number }> = {
@@ -31,6 +31,11 @@ const VIEW: Record<ShapeName, { tilt: number; spin?: number; sway: number }> = {
   rocket: { tilt: -0.15, sway: 0.45 },
   gears: { tilt: -0.12, sway: 0.25 },
   plane: { tilt: -0.25, sway: 0.4 },
+  cart: { tilt: -0.18, sway: 0.4 },
+  calendar: { tilt: -0.12, sway: 0.3 },
+  target: { tilt: -0.08, sway: 0.35 },
+  funnel: { tilt: -0.12, sway: 0.35 },
+  tag: { tilt: -0.1, sway: 0.4 },
 }
 
 // `at` = scroll position where this state is fully reached

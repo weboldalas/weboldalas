@@ -1,16 +1,23 @@
 import Link from 'next/link'
-import { ArrowRight, Check, type LucideIcon } from 'lucide-react'
-import { FadeIn, StaggerChildren, StaggerItem } from './FadeIn'
-import { FaqAccordion } from './FaqAccordion'
+import { type LucideIcon } from 'lucide-react'
+import type { ShapeName } from './home/particleShapes'
+import { ServiceVisual, type ServiceKind } from './home/ServiceVisual'
 import { ServiceOrderForm } from './ServiceOrderForm'
-
-const SURFACE = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }
+import { ParticlePage } from './void/ParticlePage'
+import { PageHero } from './void/PageHero'
+import { VoidFaq } from './void/VoidFaq'
+import { Label, GhostLink, TriangleBullet, SectionHead, container } from './void/ui'
 
 export type ServicePageData = {
+  /** particle shape that forms in the hero */
+  shape: ShapeName
+  /** line-art animation shown next to "what you get" */
+  kind: ServiceKind
   icon: LucideIcon
-  iconColor: string
-  accentColor: string
-  accentGradient: string
+  /** legacy colour fields, no longer used by the Void design */
+  iconColor?: string
+  accentColor?: string
+  accentGradient?: string
   title: string
   subtitle: string
   hero: {
@@ -41,223 +48,130 @@ export type ServicePageData = {
 
 export function ServicePage({ data }: { data: ServicePageData }) {
   return (
-    <div className="overflow-x-hidden pt-16">
-
+    <ParticlePage>
       {/* ===== HERO ===== */}
-      <section className="relative py-24 flex items-start">
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: `radial-gradient(ellipse 60% 50% at 50% 0%, ${data.accentColor}15, transparent)` }} />
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <FadeIn>
-            <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium mb-8"
-              style={{ background: `${data.accentColor}12`, border: `1px solid ${data.accentColor}25`, color: data.accentColor }}>
-              <data.icon className="h-3.5 w-3.5" />
-              {data.hero.badge}
-            </div>
-          </FadeIn>
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Left: content */}
+      <PageHero
+        label={data.hero.badge}
+        title={data.hero.headline}
+        shape={data.shape}
+        actions={<>
+          <Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>
+          <GhostLink href="/arak">Árak</GhostLink>
+        </>}
+      >
+        <p>{data.hero.sub}</p>
+        <ul className="mt-8 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+          {data.hero.features.map(f => (
+            <li key={f} className="flex items-center gap-3 text-[15px] font-normal text-bone-white">
+              <TriangleBullet /> {f}
+            </li>
+          ))}
+        </ul>
+      </PageHero>
+
+      {/* ===== MIT KAPSZ (no particles: the line animation keeps the focus) ===== */}
+      <section className="void-section" data-particles="none">
+        <div className={container}>
+          <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
             <div>
-              <FadeIn delay={0.05}>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6">
-                  {data.hero.headline}
-                </h1>
-              </FadeIn>
-              <FadeIn delay={0.12}>
-                <p className="text-lg leading-relaxed mb-10" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  {data.hero.sub}
-                </p>
-              </FadeIn>
-              <FadeIn delay={0.18}>
-                <div className="flex flex-col sm:flex-row gap-3 mb-10">
-                  <Link href="/kapcsolat"
-                    className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl text-base font-semibold text-white transition-all hover:opacity-90 hover:-translate-y-0.5"
-                    style={{ background: data.accentGradient, boxShadow: `0 0 30px ${data.accentColor}30` }}>
-                    Ajánlatot kérek <ArrowRight className="h-4 w-4" />
-                  </Link>
-                  <Link href="/arak"
-                    className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl text-base font-semibold transition-all hover:-translate-y-0.5"
-                    style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
-                    Árak megtekintése
-                  </Link>
-                </div>
-              </FadeIn>
-              <FadeIn delay={0.24}>
-                <div className="flex flex-col gap-2">
-                  {data.hero.features.map(f => (
-                    <div key={f} className="flex items-center gap-2.5 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                      <Check className="h-4 w-4 shrink-0" style={{ color: data.accentColor }} strokeWidth={2.5} />
-                      {f}
-                    </div>
-                  ))}
-                </div>
-              </FadeIn>
+              <Label>Tartalmazza</Label>
+              <h2 className="void-reveal mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">{data.whatYouGet.title}</h2>
             </div>
-
-            {/* Right: FAQ */}
-            <FadeIn delay={0.1} from="right">
-              <div className="rounded-2xl overflow-hidden"
-                style={{ background: 'rgba(255,255,255,0.025)', border: `1px solid ${data.accentColor}20` }}>
-                <div className="px-6 py-4 flex items-center gap-2"
-                  style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: data.accentColor }} />
-                  <p className="text-xs font-bold uppercase tracking-widest" style={{ color: data.accentColor }}>
-                    Kérdések és válaszok
-                  </p>
-                </div>
-                <div className="p-3">
-                  <FaqAccordion faqs={data.faqs} />
-                </div>
-              </div>
-            </FadeIn>
+            <ServiceVisual kind={data.kind} className="void-reveal h-[180px] w-full max-w-[420px] lg:h-[220px] lg:max-w-none" />
           </div>
+          <ul className="mt-14 grid gap-x-16 gap-y-12 sm:mt-20 md:grid-cols-2 lg:grid-cols-3">
+            {data.whatYouGet.items.map((item, i) => {
+              const Icon = item.icon
+              return (
+                <li key={item.title} className="void-reveal">
+                  <div className="flex items-center gap-4">
+                    <span className="text-caption text-ash-gray">0{i + 1}</span>
+                    <Icon className="h-5 w-5 text-electric-iris" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="mt-4 text-heading-2xs">{item.title}</h3>
+                  <p className="text-body font-extralight mt-2 text-silver-mist">{item.desc}</p>
+                </li>
+              )
+            })}
+          </ul>
         </div>
       </section>
 
-      {/* ===== MIT KAPSZ ===== */}
-      <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn className="text-center mb-16">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: data.accentColor }}>Tartalmazza</p>
-            <h2 className="text-3xl sm:text-4xl font-bold">{data.whatYouGet.title}</h2>
-          </FadeIn>
-          <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {data.whatYouGet.items.map((item, i) => (
-              <StaggerItem key={i}>
-                <div className="p-6 rounded-2xl h-full" style={SURFACE}>
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
-                    style={{ background: `${data.accentColor}15`, border: `1px solid ${data.accentColor}20` }}>
-                    <item.icon className="h-5 w-5" style={{ color: data.accentColor }} />
-                  </div>
-                  <h3 className="font-bold text-white mb-2">{item.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{item.desc}</p>
-                </div>
-              </StaggerItem>
+      {/* ===== HOGYAN ÉPÜL FEL ===== */}
+      <section className="void-section" data-particles="scatter">
+        <div className={container}>
+          <SectionHead title={data.howItWorks.title} label="Folyamat">
+            Átlátható lépések. Az ütemtervet a projekt elején közösen rögzítjük.
+          </SectionHead>
+          <ol className="mt-14 grid gap-12 sm:mt-20 md:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+            {data.howItWorks.steps.map(step => (
+              <li key={step.n} className="void-reveal">
+                <div className="text-heading-lg font-extralight leading-none text-white/90">{step.n}</div>
+                <h3 className="mt-5 text-heading-2xs">{step.title}</h3>
+                <p className="text-body font-extralight mt-2 text-silver-mist">{step.desc}</p>
+              </li>
             ))}
-          </StaggerChildren>
-        </div>
-      </section>
-
-      {/* ===== HOGYAN MŰKÖDIK ===== */}
-      <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.015)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn className="text-center mb-16">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: data.accentColor }}>Folyamat</p>
-            <h2 className="text-3xl sm:text-4xl font-bold">{data.howItWorks.title}</h2>
-          </FadeIn>
-          <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {data.howItWorks.steps.map((step, i) => (
-              <StaggerItem key={i}>
-                <div className="p-6 rounded-2xl h-full relative" style={SURFACE}>
-                  <div className="text-4xl font-black mb-4 text-transparent bg-clip-text"
-                    style={{ backgroundImage: data.accentGradient }}>
-                    {step.n}
-                  </div>
-                  <h3 className="font-bold text-white mb-2">{step.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>{step.desc}</p>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerChildren>
+          </ol>
         </div>
       </section>
 
       {/* ===== KINEK VALÓ ===== */}
-      <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn className="text-center mb-16">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: data.accentColor }}>Célcsoport</p>
-            <h2 className="text-3xl sm:text-4xl font-bold">{data.forWhom.title}</h2>
-          </FadeIn>
-          <StaggerChildren className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {data.forWhom.items.map((item, i) => (
-              <StaggerItem key={i}>
-                <div className="p-6 rounded-2xl text-center hover:-translate-y-0.5 transition-all" style={SURFACE}>
-                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3"
-                    style={{ background: `${data.accentColor}15`, border: `1px solid ${data.accentColor}20` }}>
-                    <item.icon className="h-6 w-6" style={{ color: data.accentColor }} />
-                  </div>
-                  <div className="font-bold text-white text-sm mb-1">{item.label}</div>
-                  <div className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.35)' }}>{item.desc}</div>
-                </div>
-              </StaggerItem>
+      <section className="void-section">
+        <div className={container}>
+          <SectionHead title={data.forWhom.title} label="Kinek ajánljuk" />
+          <ul className="mt-12 sm:mt-16">
+            {data.forWhom.items.map(item => (
+              <li key={item.label} className="void-reveal grid items-baseline gap-x-10 gap-y-1 py-5 sm:grid-cols-[1fr_1.2fr] lg:py-6">
+                <span className="text-subheading tracking-heading-sm sm:text-heading-sm">{item.label}</span>
+                <span className="text-body font-extralight text-silver-mist">{item.desc}</span>
+              </li>
             ))}
-          </StaggerChildren>
+          </ul>
         </div>
       </section>
 
-      {/* ===== ÁRAK ===== */}
-      <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.015)' }}>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <FadeIn>
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: data.accentColor }}>Árazás</p>
-            <h2 className="text-3xl font-bold mb-4">{data.pricing.title}</h2>
-            <p className="text-lg mb-8" style={{ color: 'rgba(255,255,255,0.4)' }}>{data.pricing.note}</p>
-            <Link href="/kapcsolat"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-bold text-white transition-all hover:opacity-90"
-              style={{ background: data.accentGradient }}>
-              {data.pricing.cta} <ArrowRight className="h-4 w-4" />
-            </Link>
-            <div className="mt-4">
-              <Link href="/arak" className="text-sm" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                Vagy nézd meg a részletes árakat →
-              </Link>
+      {/* ===== ÁR ===== */}
+      <section className="void-section">
+        <div className={container}>
+          <SectionHead title={data.pricing.title} label="Árazás">
+            {data.pricing.note}
+            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
+              <a href="#erdeklodes" className="void-button">{data.pricing.cta}</a>
+              <GhostLink href="/arak">Részletes árak és kalkulátor</GhostLink>
             </div>
-          </FadeIn>
+          </SectionHead>
         </div>
       </section>
 
-      {/* ===== ÉRDEKLŐDÉS FORM ===== */}
-      <section className="py-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <FadeIn>
-              <p className="text-sm font-bold uppercase tracking-widest mb-4" style={{ color: data.accentColor }}>
-                Foglald le a helyedet
-              </p>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-5">
-                Érdeklődsz? Írj nekünk!
-              </h2>
-              <p className="text-lg leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.45)' }}>
-                Töltsd ki az alábbi formot és 1 munkanapon belül felvesszük veled a kapcsolatot. Nincs kötelezettség, az első konzultáció ingyenes.
-              </p>
-              <div className="flex flex-col gap-3">
-                {['Ingyenes első konzultáció', 'Személyre szabott ajánlat', '1 munkanapon belüli visszajelzés', 'Nincs rejtett díj'].map(f => (
-                  <div key={f} className="flex items-center gap-2.5 text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
-                    <Check className="h-4 w-4 shrink-0" style={{ color: data.accentColor }} strokeWidth={2.5} />
-                    {f}
-                  </div>
-                ))}
-              </div>
-            </FadeIn>
-            <FadeIn from="right">
-              <div className="rounded-3xl p-7 lg:p-8"
-                style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${data.accentColor}25` }}>
-                <ServiceOrderForm
-                  serviceName={data.title}
-                  accentColor={data.accentColor}
-                  accentGradient={data.accentGradient}
-                />
-              </div>
-            </FadeIn>
+      {/* ===== GYIK ===== */}
+      <section className="void-section" data-particles="scatter">
+        <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-24`}>
+          <div className="void-reveal lg:sticky lg:top-28 lg:self-start">
+            <h2 className="text-heading-sm lg:text-heading">Kérdés? Válasz.</h2>
+            <p className="text-body font-extralight mt-5 max-w-sm text-silver-mist">Ha a tiéd nincs köztük, írj, és válaszolunk.</p>
+          </div>
+          <div className="void-reveal">
+            <VoidFaq faqs={data.faqs} />
           </div>
         </div>
       </section>
 
-      {/* ===== CTA ===== */}
-      <section className="py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <FadeIn>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-5">Kezdjük el együtt!</h2>
-            <p className="text-lg mb-8" style={{ color: 'rgba(255,255,255,0.4)' }}>Egy héten belül élőben lehet a weboldalad.</p>
-            <Link href="/kapcsolat"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-bold text-white transition-all hover:opacity-90 hover:-translate-y-0.5"
-              style={{ background: data.accentGradient, boxShadow: `0 0 30px ${data.accentColor}25` }}>
-              Ajánlatot kérek <ArrowRight className="h-4 w-4" />
-            </Link>
-          </FadeIn>
+      {/* ===== ÉRDEKLŐDÉS ===== */}
+      <section id="erdeklodes" className="void-section scroll-mt-20">
+        <div className={`${container} grid items-center gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-24`}>
+          <div data-particles="chat" aria-hidden className="order-2 h-[32svh] min-h-[220px] lg:order-1 lg:h-[min(560px,70svh)]" />
+          <div className="order-1 lg:order-2">
+            <Label>{data.title}</Label>
+            <h2 className="mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">Kezdjük el.</h2>
+            <p className="text-body font-extralight mt-5 max-w-md text-silver-mist">
+              Írj pár sort, és 1 munkanapon belül jelentkezünk. Az első konzultáció ingyenes, kötelezettség nélkül.
+            </p>
+            <div className="mt-10">
+              <ServiceOrderForm serviceName={data.title} />
+            </div>
+          </div>
         </div>
       </section>
-    </div>
+    </ParticlePage>
   )
 }

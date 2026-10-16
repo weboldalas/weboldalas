@@ -1,159 +1,109 @@
 import Link from 'next/link'
-import { Globe, ShoppingBag, Calendar, LayoutTemplate, Users, Wrench, ArrowRight, ChevronRight } from 'lucide-react'
-import { FadeIn, StaggerChildren, StaggerItem } from '@/components/public/FadeIn'
-import { AppIcon } from '@/components/public/AppIcon'
+import { ArrowUpRight } from 'lucide-react'
+import { ParticlePage } from '@/components/public/void/ParticlePage'
+import { PageHero } from '@/components/public/void/PageHero'
+import { GhostLink, Label, container } from '@/components/public/void/ui'
+import { ServiceVisual, type ServiceKind } from '@/components/public/home/ServiceVisual'
 
 export const metadata = {
   title: 'Szolgáltatások | Weboldalas',
-  description: 'Weboldal, webshop, foglalási rendszer és CRM kisvállalkozásoknak. Nem funkciókat kínálunk — eredményeket.',
+  description: 'Weboldal, webshop, foglalási rendszer, landing page, CRM és üzemeltetés kisvállalkozásoknak.',
 }
 
-const SURFACE = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }
-
-const services = [
+const services: { kind: ServiceKind; title: string; sub: string; href: string; points: string[]; from: string }[] = [
   {
-    icon: Globe, color: 'blue', accentColor: '#0ea5e9',
-    title: 'Bemutatkozó weboldal',
-    sub: 'Professzionális megjelenés, amely hitelesebbé teszi vállalkozásodat és segít meggyőzni a leendő ügyfeleket.',
-    href: '/szolgaltatasok/bemutatkozo-weboldal',
-    points: ['Egyedi prémium megjelenés', 'Mobilbarát minden eszközön', 'Google alapoptimalizálás', 'Kapcsolatfelvételi lehetőség'],
-    from: '250.000 Ft-tól',
+    kind: 'web', title: 'Bemutatkozó weboldal', href: '/szolgaltatasok/bemutatkozo-weboldal',
+    sub: 'Professzionális megjelenés, ami hitelesebbé teszi a vállalkozásodat.',
+    points: ['Egyedi megjelenés', 'Mobilbarát', 'Google alapoptimalizálás', 'Kapcsolatfelvétel'],
+    from: '250 000 Ft-tól',
   },
   {
-    icon: ShoppingBag, color: 'violet', accentColor: '#a855f7',
-    title: 'Webshop',
-    sub: 'Értékesíts online egyszerűen, biztonságosan és olyan rendszerrel, amely együtt fejlődik vállalkozásoddal.',
-    href: '/szolgaltatasok/webshop',
-    points: ['Korlátlan termék', 'Online fizetés', 'Egyszerű rendeléskezelés', 'Mobilbarát vásárlás'],
-    from: '450.000 Ft-tól',
+    kind: 'shop', title: 'Webshop', href: '/szolgaltatasok/webshop',
+    sub: 'Értékesíts online, egy rendszerrel, ami együtt nő a vállalkozásoddal.',
+    points: ['Korlátlan termék', 'Online fizetés', 'Rendeléskezelés', 'Mobilbarát vásárlás'],
+    from: '450 000 Ft-tól',
   },
   {
-    icon: Calendar, color: 'emerald', accentColor: '#10b981',
-    title: 'Foglalási rendszer',
-    sub: 'Automatizáld az időpontfoglalást — így kevesebb telefonálás, és több idő jut a valódi munkára.',
-    href: '/szolgaltatasok/foglalasi-rendszer',
+    kind: 'booking', title: 'Foglalási rendszer', href: '/szolgaltatasok/foglalasi-rendszer',
+    sub: 'Online időpontfoglalás: kevesebb telefon, több idő a valódi munkára.',
     points: ['Online foglalás', 'Google Naptár szinkron', 'Automatikus visszaigazolás', 'Kevesebb adminisztráció'],
     from: 'Ingyenes kiegészítő',
-    highlight: true,
   },
   {
-    icon: LayoutTemplate, color: 'amber', accentColor: '#f59e0b',
-    title: 'Landing Page',
-    sub: 'Kampányoldalak, amelyek egyetlen célra készülnek: minél több érdeklődőt vagy vásárlót szerezni.',
-    href: '/szolgaltatasok/landing-page',
-    points: ['Erős CTA', 'Lead gyűjtés', 'Analytics integráció', 'Gyors betöltés'],
-    from: '80.000 Ft-tól',
+    kind: 'landing', title: 'Landing page', href: '/szolgaltatasok/landing-page',
+    sub: 'Kampányoldal egyetlen céllal: érdeklődőt vagy vásárlót szerezni.',
+    points: ['Erős CTA', 'Lead gyűjtés', 'Analitika', 'Gyors betöltés'],
+    from: '80 000 Ft-tól',
   },
   {
-    icon: Users, color: 'rose', accentColor: '#f43f5e',
-    title: 'CRM',
-    sub: 'Minden ügyfeled, ajánlatod és feladatod egyetlen átlátható rendszerben — átláthatóan, naprakészen.',
-    href: '/szolgaltatasok/crm',
+    kind: 'crm', title: 'CRM rendszer', href: '/szolgaltatasok/crm',
+    sub: 'Ügyfelek, ajánlatok és feladatok egyetlen átlátható rendszerben.',
     points: ['Ügyfélkezelés', 'Ajánlatkezelés', 'Feladatok', 'Pénzügyi nyilvántartás'],
     from: 'Egyéni ajánlat',
   },
   {
-    icon: Wrench, color: 'slate', accentColor: '#64748b',
-    title: 'Üzemeltetés',
-    sub: 'Mi gondoskodunk a weboldalad technikai működéséről, hogy neked csak a vállalkozásodra kelljen koncentrálnod.',
-    href: '/szolgaltatasok/uzemeltetes',
+    kind: 'ops', title: 'Üzemeltetés', href: '/szolgaltatasok/uzemeltetes',
+    sub: 'A technikai működés a mi dolgunk, hogy neked csak a vállalkozásodra kelljen figyelned.',
     points: ['Frissítések', 'Biztonsági mentések', 'Tárhely és SSL', 'Magyar támogatás'],
-    from: '19.990 Ft/hó-tól',
+    from: '19 990 Ft/hó-tól',
   },
 ]
 
 export default function SzolgaltatasokPage() {
   return (
-    <div className="pt-16">
-      {/* Hero */}
-      <section className="py-28 relative">
-        <div className="absolute inset-0 pointer-events-none opacity-15"
-          style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%, #0ea5e9, transparent)' }} />
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <FadeIn>
-            <p className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: '#38bdf8' }}>Amit kínálunk</p>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
-              Minden, ami kell az{' '}
-              <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(135deg, #38bdf8, #06b6d4)' }}>
-                online sikerhez
-              </span>
-            </h1>
-            <p className="text-lg max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.45)' }}>
-              Nem csupán weboldalakat készítünk. Olyan online megoldásokat építünk, amelyek segítenek
-              bizalmat építeni, új ügyfeleket szerezni és növelni vállalkozásodat.
-            </p>
-          </FadeIn>
-        </div>
-      </section>
+    <ParticlePage>
+      <PageHero
+        label="Szolgáltatások"
+        title="Minden, ami online kell."
+        shape="devices"
+        actions={<>
+          <Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>
+          <GhostLink href="/arak">Árak</GhostLink>
+        </>}
+      >
+        Weboldal, webshop, foglalás, CRM és üzemeltetés. Egy csapat, egy kapcsolattartó, és olyan megoldások, amik a vállalkozásodhoz igazodnak.
+      </PageHero>
 
-      {/* Services grid */}
-      <section className="pb-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <StaggerChildren className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-12">
-            {services.map((svc, i) => (
-              <StaggerItem key={i}>
-                <Link href={svc.href}>
-                  <div
-                    className={`group p-7 rounded-3xl hover:-translate-y-0.5 relative overflow-hidden transition-all ${!svc.highlight ? 'svc-card' : ''}`}
-                    style={svc.highlight
-                      ? { background: `${svc.accentColor}10`, border: `1px solid ${svc.accentColor}30` }
-                      : { ...SURFACE }}
-                  >
-                    {svc.highlight && (
-                      <div className="absolute top-5 right-5 text-xs font-bold px-2.5 py-1 rounded-full"
-                        style={{ background: `${svc.accentColor}20`, color: svc.accentColor, border: `1px solid ${svc.accentColor}30` }}>
-                        🎁 Ingyenes kiegészítő
-                      </div>
-                    )}
-                    <div className="flex items-start gap-5 mb-5">
-                      <AppIcon icon={svc.icon} color={svc.color as any} size="md" />
-                      <div className="min-w-0">
-                        <h2 className="text-xl font-bold text-white mb-1">{svc.title}</h2>
-                        <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>{svc.sub}</p>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-2 mb-5">
-                      {svc.points.map(p => (
-                        <div key={p} className="flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                          <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: svc.accentColor }} />
-                          {p}
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                      <span className="text-sm font-semibold" style={{ color: svc.accentColor }}>{svc.from}</span>
-                      <div className="flex items-center gap-1 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity"
-                        style={{ color: svc.accentColor }}>
-                        Részletek <ChevronRight className="h-4 w-4" />
-                      </div>
-                    </div>
+      {/* service list: no particles behind the line animations */}
+      <section className="void-section" data-particles="none">
+        <div className={container}>
+          <ul>
+            {services.map((s, i) => (
+              <li key={s.href} className="void-reveal">
+                <Link href={s.href} className="group grid items-center gap-x-12 gap-y-5 py-10 lg:grid-cols-[1.25fr_1fr] lg:py-14">
+                  <ServiceVisual kind={s.kind} className="h-[160px] w-full max-w-[380px] lg:order-2 lg:h-[200px] lg:max-w-none" />
+                  <div className="lg:order-1">
+                    <span className="text-caption text-ash-gray">0{i + 1}</span>
+                    <h2 className="mt-3 flex items-start justify-between gap-6 text-heading-sm transition-colors duration-300 group-hover:text-electric-iris sm:text-heading lg:text-heading-lg">
+                      {s.title}
+                      <ArrowUpRight className="mt-2 h-6 w-6 shrink-0 text-ash-gray transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white sm:h-8 sm:w-8" />
+                    </h2>
+                    <p className="text-body font-extralight mt-4 max-w-xl text-silver-mist">{s.sub}</p>
+                    <p className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-sm text-ash-gray">
+                      {s.points.map(p => <span key={p}>{p}</span>)}
+                    </p>
+                    <p className="mt-5 text-caption font-semibold uppercase tracking-nav-label text-saffron-spark sm:text-nav-label">{s.from}</p>
                   </div>
                 </Link>
-              </StaggerItem>
+              </li>
             ))}
-          </StaggerChildren>
+          </ul>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <FadeIn>
-            <h2 className="text-3xl font-bold mb-4">Nem tudod, melyik megoldás lenne számodra a legjobb?</h2>
-            <p className="text-lg mb-8" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Mesélj a vállalkozásodról, mi pedig segítünk kiválasztani azt a megoldást,
-              amely valóban támogatja a céljaidat.
+      <section className="void-section">
+        <div className={`${container} grid items-center gap-8 lg:grid-cols-[1.15fr_1fr]`}>
+          <div data-particles="chat" aria-hidden className="h-[30svh] min-h-[220px] lg:order-2 lg:h-[min(520px,66svh)]" />
+          <div className="lg:order-1">
+            <Label>Konzultáció</Label>
+            <h2 className="void-reveal mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">Nem tudod, melyik kell?</h2>
+            <p className="text-body font-extralight mt-5 max-w-md text-silver-mist">
+              Mesélj a vállalkozásodról, és segítünk kiválasztani azt, ami tényleg támogatja a céljaidat.
             </p>
-            <Link href="/kapcsolat"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-bold text-white transition-all hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg, #0284c7, #0ea5e9, #06b6d4)' }}>
-              Ingyenes konzultáció <ArrowRight className="h-4 w-4" />
-            </Link>
-          </FadeIn>
+            <div className="mt-8"><Link href="/kapcsolat" className="void-button">Beszéljünk</Link></div>
+          </div>
         </div>
       </section>
-    </div>
+    </ParticlePage>
   )
 }

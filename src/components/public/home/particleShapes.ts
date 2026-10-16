@@ -6,7 +6,10 @@
  * Story down the page: devices → chat → pen → progress ring → rocket → gears → paper plane.
  */
 
-export type ShapeName = 'devices' | 'chat' | 'pen' | 'progress' | 'rocket' | 'gears' | 'plane'
+export type ShapeName =
+  | 'devices' | 'chat' | 'pen' | 'progress' | 'rocket' | 'gears' | 'plane'
+  // sub-page heroes
+  | 'cart' | 'calendar' | 'target' | 'funnel' | 'tag'
 
 export function mulberry32(seed: number) {
   return () => {
@@ -316,8 +319,117 @@ function plane(n: number, rand: Rand) {
   return out
 }
 
+/* ---------------------------- sub-page shapes ---------------------------- */
+
+/** Shopping cart with products dropping in (webshop). */
+function cart(n: number, rand: Rand) {
+  const out: number[] = []
+  const basket: Seg[] = [
+    [-1, -0.62, -0.78, -0.62], [-0.78, -0.62, -0.56, 0.32], [-0.56, 0.32, 0.66, 0.32], [0.66, 0.32, 0.86, -0.36], [0.86, -0.36, -0.7, -0.36],
+  ]
+  alongSegments(out, basket, Math.round(n * 0.3), rand, 0.012, 0.01, 0.12)
+  alongSegments(out, basket, Math.round(n * 0.2), rand, 0.012, 0.01, -0.12)
+  // basket grid
+  alongSegments(out, [[-0.36, -0.36, -0.28, 0.32], [0.04, -0.36, 0.04, 0.32], [0.44, -0.36, 0.36, 0.32], [-0.64, -0.02, 0.76, -0.02]], Math.round(n * 0.12), rand, 0.008, 0.1)
+  // wheels
+  alongSegments(out, [...circle(-0.42, 0.56, 0.12, 12), ...circle(0.52, 0.56, 0.12, 12)], Math.round(n * 0.12), rand, 0.01, 0.04)
+  // products hovering above the basket
+  const items: [number, number, number][] = [[-0.28, -0.82, 0.16], [0.18, -0.95, 0.13], [0.55, -0.74, 0.11]]
+  items.forEach(([cx, cy, r], k) => {
+    const take = k < 2 ? Math.round(n * 0.08) : n - out.length / 3
+    alongSegments(out, k === 1 ? circle(cx, cy, r, 10) : rect(cx - r, cy - r, cx + r, cy + r), take, rand, 0.01, 0.03)
+  })
+  return out
+}
+
+/** Month calendar with a highlighted booking (booking system). */
+function calendar(n: number, rand: Rand) {
+  const out: number[] = []
+  alongSegments(out, roundRect(-0.95, -0.78, 0.95, 0.85, 0.08), Math.round(n * 0.22), rand, 0.01, 0.02)
+  alongSegments(out, [[-0.95, -0.48, 0.95, -0.48]], Math.round(n * 0.06), rand, 0.01, 0.02)
+  // binder rings
+  alongSegments(out, [[-0.5, -0.92, -0.5, -0.64], [0.5, -0.92, 0.5, -0.64]], Math.round(n * 0.05), rand, 0.012, 0.03)
+  // day cells 7×4
+  const cells: Seg[] = []
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 7; c++) {
+    const x = -0.82 + c * 0.24, y = -0.36 + r * 0.29
+    if (r === 2 && c === 4) continue
+    cells.push(...rect(x, y, x + 0.12, y + 0.12))
+  }
+  alongSegments(out, cells, Math.round(n * 0.45), rand, 0.006, 0.02)
+  // the booked day: ring + check
+  const bx = -0.82 + 4 * 0.24 + 0.06, by = -0.36 + 2 * 0.29 + 0.06
+  alongSegments(out, [...circle(bx, by, 0.16, 14), [bx - 0.07, by, bx - 0.01, by + 0.06], [bx - 0.01, by + 0.06, bx + 0.08, by - 0.06]],
+    n - out.length / 3, rand, 0.01, 0.06)
+  return out
+}
+
+/** Bullseye with an arrow in the centre (landing page: one goal). */
+function target(n: number, rand: Rand) {
+  const out: number[] = []
+  ;[0.9, 0.64, 0.38].forEach((r, k) => alongSegments(out, circle(0, 0, r, 40), Math.round(n * [0.26, 0.2, 0.14][k]), rand, 0.012, 0.03, -0.04 * k))
+  // centre disc
+  for (let i = 0; i < Math.round(n * 0.1); i++) {
+    const a = rand() * Math.PI * 2, r = 0.12 * Math.sqrt(rand())
+    out.push(Math.cos(a) * r, Math.sin(a) * r, 0.04)
+  }
+  // arrow coming from the upper right
+  along3D(out, [
+    [0.02, -0.02, 0.06, 0.7, -0.7, 0.36],
+    // fletching
+    [0.7, -0.7, 0.36, 0.84, -0.66, 0.38], [0.7, -0.7, 0.36, 0.66, -0.84, 0.38],
+    [0.62, -0.62, 0.32, 0.76, -0.58, 0.34], [0.62, -0.62, 0.32, 0.58, -0.76, 0.34],
+  ],
+    n - out.length / 3, rand, 0.01, 0.01)
+  return out
+}
+
+/** Sales funnel chart: leads drop in on top, three narrowing stages, a won client at the bottom (CRM). */
+function funnel(n: number, rand: Rand) {
+  const out: number[] = []
+  const bands: Seg[] = [
+    ...trap(-0.62, -0.24, 0.92, 0.68),
+    ...trap(-0.14, 0.22, 0.6, 0.38),
+    ...trap(0.32, 0.62, 0.3, 0.12),
+  ]
+  alongSegments(out, bands, Math.round(n * 0.36), rand, 0.012, 0.01, 0.06)
+  alongSegments(out, bands, Math.round(n * 0.24), rand, 0.012, 0.01, -0.06)
+  // leads waiting above the funnel
+  const leads: [number, number][] = [[-0.5, -0.86], [-0.18, -0.94], [0.16, -0.84], [0.48, -0.92]]
+  leads.forEach(([x, y]) => alongSegments(out, circle(x, y, 0.055, 8), Math.round(n * 0.035), rand, 0.008, 0.03))
+  // won client: a ring with a check mark
+  alongSegments(out, circle(0, 0.84, 0.1, 12), Math.round(n * 0.07), rand, 0.008, 0.03)
+  const rest = n - out.length / 3
+  alongSegments(out, [[-0.045, 0.84, -0.01, 0.875], [-0.01, 0.875, 0.05, 0.8]], rest, rand, 0.008, 0.02)
+  return out
+}
+
+/** Trapezoid outline from y0 (half-width w0) to y1 (half-width w1). */
+function trap(y0: number, y1: number, w0: number, w1: number): Seg[] {
+  return [[-w0, y0, w0, y0], [w0, y0, w1, y1], [w1, y1, -w1, y1], [-w1, y1, -w0, y0]]
+}
+
+/** Price tag on a string (pricing). */
+function tag(n: number, rand: Rand) {
+  const out: number[] = []
+  const body: Seg[] = [[-0.55, -0.55, 0.65, -0.55], [0.65, -0.55, 0.95, 0], [0.95, 0, 0.65, 0.55], [0.65, 0.55, -0.55, 0.55], [-0.55, 0.55, -0.55, -0.55]]
+  alongSegments(out, body, Math.round(n * 0.32), rand, 0.012, 0.01, 0.06)
+  alongSegments(out, body, Math.round(n * 0.22), rand, 0.012, 0.01, -0.06)
+  alongSegments(out, circle(0.6, 0, 0.09, 12), Math.round(n * 0.08), rand, 0.008, 0.04)
+  // "Ft" lines inside
+  alongSegments(out, [[-0.36, -0.24, 0.26, -0.24], [-0.36, 0, 0.12, 0], [-0.36, 0.24, 0.3, 0.24]], Math.round(n * 0.18), rand, 0.012, 0.03)
+  // string
+  const rest = n - out.length / 3
+  for (let i = 0; i < rest; i++) {
+    const t = rand()
+    out.push(0.6 + t * 0.35 + Math.sin(t * 6) * 0.04, -t * 0.9, (rand() - 0.5) * 0.02)
+  }
+  return out
+}
+
 const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
   devices, chat, pen, progress, rocket, gears, plane,
+  cart, calendar, target, funnel, tag,
 }
 
 export function buildShape(name: ShapeName, n: number, seed: number): Float32Array {

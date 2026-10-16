@@ -7,6 +7,8 @@ export const metadata = {
 }
 
 const data: ServicePageData = {
+  shape: 'cart',
+  kind: 'shop',
   icon: ShoppingBag,
   iconColor: 'violet',
   accentColor: '#a855f7',

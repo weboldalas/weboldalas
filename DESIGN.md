@@ -1,6 +1,6 @@
 # Weboldalas — Public site design system ("Void")
 
-> Typography floating on black. One violet action, amber sparks, a particle globe.
+> Typography floating on black. One violet action, amber sparks, triangle particles that morph on scroll.
 
 Applies to the **public marketing site** (`src/app/(public)`). The admin/CRM (`src/app/(admin)`) has its own look and is out of scope.
 
@@ -76,8 +76,8 @@ Font utility: `font-ppneuemontreal` (PP Neue Montreal if licensed files are adde
 - **Accordion (FAQ):** native `<details>`, `+` icon rotating to `×`, no boxes.
 - **Carousel dots:** 8px circles, active `electric-iris`, inactive `white/20`.
 - **Service visual (`ServiceVisual`):** small inline-SVG line animations per service (wireframe drawing, cart drop, slot pick, CTA flow, kanban move, heartbeat). 1px strokes, iris/saffron accents, CSS only, paused off-screen.
-- **Scroll particles (`ScrollParticles`):** one fixed canvas; elements with `data-particles="<shape>"` are anchors where the cloud forms that shape (devices, chat, pen, progress, rocket, gears, plane — chat dots type, the progress ring fills to 100% and shows a check, gears mesh and spin); `data-particles="scatter"` dissolves it into ambient stardust. `data-particles="none"` keeps a whole section empty (used under the service animations). Morphs are time-smoothed, staggered and use a small burst so fast scrolling glides instead of jumping. Shapes live in `particleShapes.ts`.
-- **Particle globe (hero):** canvas of tiny outlined triangles (1px stroke) in the particle palette forming a slowly rotating organic sphere. Pauses off-screen / hidden tab, static frame for `prefers-reduced-motion`.
+- **Scroll particles (`ScrollParticles`):** one fixed canvas; elements with `data-particles="<shape>"` are anchors where the cloud forms that shape (devices, chat, pen, progress, rocket, gears, plane, plus the sub-page shapes cart, calendar, target, funnel, tag — chat dots type, the progress ring fills to 100% and shows a check, gears mesh and spin); `data-particles="scatter"` dissolves it into ambient stardust. `data-particles="none"` keeps a whole section empty (used under the service animations). Morphs are time-smoothed, staggered and use a small burst so fast scrolling glides instead of jumping. Shapes live in `particleShapes.ts`.
+- **Sub-page kit (`components/public/void/`):** every public page is wrapped in `ParticlePage` (fixed particle canvas + `.void-page` clip). `PageHero` = label + headline + body/actions left, a particle shape forming on the right (above the text on mobile); headlines over 28 chars stay at `heading-lg`. `ui.tsx` has `Label`, `GhostLink`, `TriangleBullet`, `SectionHead` and the `container` class; `VoidFaq` is the native `<details>` FAQ. Forms use `.void-input` (hairline bottom border) + `.void-field-label`; filters/toggles are pills (white when active). Shape per page: services overview devices, bemutatkozó devices, webshop cart, foglalás calendar, landing target, CRM funnel, üzemeltetés gears, árak tag, kapcsolat plane, referenciák rocket, dizájnok pen, closing CTAs chat.
 - **Ambient field:** sparse static outlined triangles (SVG) at low opacity across black sections.
 
 Particle palette: `#8052ff`, `#ffb829`, `#15846e`, `#2dd4bf`, `#e879f9`, `#60a5fa`, `#a78bfa`, `#f472b6`.

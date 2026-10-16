@@ -1,14 +1,15 @@
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
-import { FadeIn } from '@/components/public/FadeIn'
-import { DesignFilter } from '@/components/public/DesignFilter'
+import { DesignFilter, type Design } from '@/components/public/DesignFilter'
+import { ParticlePage } from '@/components/public/void/ParticlePage'
+import { PageHero } from '@/components/public/void/PageHero'
+import { GhostLink, container } from '@/components/public/void/ui'
 
 export const metadata = {
   title: 'Dizájnok | Weboldalas',
-  description: 'Prémium weboldal sablonok szállásadóknak, éttermeknek, szépségszalonoknak és kisebb vállalkozásoknak.',
+  description: 'Weboldal sablonok szállásadóknak, éttermeknek, szépségszalonoknak és kisebb vállalkozásoknak.',
 }
 
-export const designs = [
+const designs: Design[] = [
   {
     id: 'szallas-1',
     name: 'Azure Stay',
@@ -16,8 +17,6 @@ export const designs = [
     categoryLabel: 'Szállás',
     desc: 'Modern panzió és szállásadó sablon beépített foglalási rendszerrel.',
     tags: ['foglalas'],
-    color: 'from-sky-400 to-blue-600',
-    emoji: '🏡',
     features: ['Foglalási naptár', 'Szobabemutatás', 'Árlista', 'Értékelések'],
   },
   {
@@ -27,8 +26,6 @@ export const designs = [
     categoryLabel: 'Étterem',
     desc: 'Elegáns étterem sablon online asztalfoglalással és menü megjelenítéssel.',
     tags: ['foglalas'],
-    color: 'from-amber-400 to-orange-600',
-    emoji: '🍽️',
     features: ['Online foglalás', 'Menükártya', 'Nyitvatartás', 'Galéria'],
   },
   {
@@ -38,8 +35,6 @@ export const designs = [
     categoryLabel: 'Szépségipar',
     desc: 'Prémium szalon sablon időpontfoglalással és szolgáltatás bemutatóval.',
     tags: ['foglalas'],
-    color: 'from-rose-400 to-pink-600',
-    emoji: '✂️',
     features: ['Időpontfoglalás', 'Szolgáltatások', 'Csapat bemutató', 'Árlista'],
   },
   {
@@ -49,8 +44,6 @@ export const designs = [
     categoryLabel: 'Egészségügy',
     desc: 'Bizalomépítő egészségügyi sablon online időpontfoglalással.',
     tags: ['foglalas'],
-    color: 'from-emerald-400 to-teal-600',
-    emoji: '🏥',
     features: ['Orvos profilok', 'Időpontfoglalás', 'Szolgáltatások', 'ÁSZF'],
   },
   {
@@ -60,8 +53,6 @@ export const designs = [
     categoryLabel: 'Szakember',
     desc: 'Referenciákra építő szakember portfolio oldal ajánlatkérővel.',
     tags: ['ajanlatkero'],
-    color: 'from-slate-500 to-gray-700',
-    emoji: '🔧',
     features: ['Referenciák', 'Ajánlatkérő', 'Önéletrajz', 'Elérhetőség'],
   },
   {
@@ -71,8 +62,6 @@ export const designs = [
     categoryLabel: 'Vállalkozás',
     desc: 'Modern business sablon CRM integrációval és ajánlatkérő rendszerrel.',
     tags: ['ajanlatkero', 'crm'],
-    color: 'from-violet-400 to-purple-600',
-    emoji: '🏢',
     features: ['Szolgáltatások', 'Csapat', 'Ajánlatkérő', 'Blog'],
   },
   {
@@ -82,8 +71,6 @@ export const designs = [
     categoryLabel: 'Webshop',
     desc: 'Teljes körű webáruház sablon kosárral, fizetéssel és rendeléskövetéssel.',
     tags: ['webshop'],
-    color: 'from-cyan-400 to-sky-600',
-    emoji: '🛍️',
     features: ['Termékkatalógus', 'Kosár & Fizetés', 'Rendeléskövetés', 'Admin'],
   },
   {
@@ -93,61 +80,41 @@ export const designs = [
     categoryLabel: 'Landing Page',
     desc: 'Konverzióra optimalizált landing page kampányokhoz és termékbevezetőkhöz.',
     tags: ['ajanlatkero'],
-    color: 'from-orange-400 to-red-500',
-    emoji: '🚀',
     features: ['Hero section', 'Funkciók', 'Árak', 'CTA'],
   },
 ]
 
 export default function DizajnokPage() {
   return (
-    <div className="pt-16">
-      {/* Hero */}
-      <section className="py-28 relative">
-        <div className="absolute inset-0 pointer-events-none opacity-15"
-          style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%, #0ea5e9, transparent)' }} />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <FadeIn>
-            <p className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: '#38bdf8' }}>Prémium sablonok</p>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
-              Válassz{' '}
-              <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(135deg, #38bdf8, #06b6d4)' }}>
-                dizájnt
-              </span>
-            </h1>
-            <p className="text-lg max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.45)' }}>
-              Minden sablon mobilbarát, gyors és konverzióra optimalizált. Válaszd ki a számodra legmegfelelőbbet — mi testre szabjuk a márkádhoz.
-            </p>
-          </FadeIn>
-        </div>
-      </section>
+    <ParticlePage>
+      <PageHero
+        label="Dizájnok"
+        title="Válassz kiindulópontot."
+        shape="pen"
+        actions={<>
+          <a href="#dizajnok" className="void-button">Dizájnok</a>
+          <GhostLink href="/kapcsolat">Egyedi dizájnt kérek</GhostLink>
+        </>}
+      >
+        Mobilbarát, gyors sablonok iparáganként. Kiválasztod, mi pedig a márkádra szabjuk.
+      </PageHero>
 
-      {/* Filterable grid */}
-      <section className="pb-24" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
+      <section id="dizajnok" className="void-section scroll-mt-20" data-particles="none">
+        <div className={container}>
           <DesignFilter designs={designs} />
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <FadeIn>
-            <div className="rounded-3xl p-12" style={{ background: 'rgba(14,165,233,0.06)', border: '1px solid rgba(14,165,233,0.2)' }}>
-              <div className="text-4xl mb-6">🎨</div>
-              <h2 className="text-3xl font-bold text-white mb-4">Nem találtad meg a tökéleteset?</h2>
-              <p className="text-lg mb-8" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                Vedd fel velünk a kapcsolatot és egyedi dizájnt készítünk a vállalkozásodhoz.
-              </p>
-              <Link href="/kapcsolat"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-bold text-white transition-all hover:opacity-90"
-                style={{ background: 'linear-gradient(135deg, #0284c7, #0ea5e9, #06b6d4)' }}>
-                Egyedi dizájnt kérek <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </FadeIn>
+      <section className="void-section">
+        <div className={`${container} grid items-center gap-8 lg:grid-cols-[1.15fr_1fr]`}>
+          <div data-particles="chat" aria-hidden className="h-[30svh] min-h-[220px] lg:order-2 lg:h-[min(520px,66svh)]" />
+          <div className="lg:order-1">
+            <h2 className="void-reveal text-heading sm:text-heading-lg xl:text-display">Egyedit szeretnél?</h2>
+            <p className="text-body font-extralight mt-6 max-w-md text-silver-mist">Ha egyik sem az igazi, a vállalkozásodhoz tervezünk egyedi dizájnt.</p>
+            <div className="mt-8"><Link href="/kapcsolat" className="void-button">Beszéljünk</Link></div>
+          </div>
         </div>
       </section>
-    </div>
+    </ParticlePage>
   )
 }

@@ -48,15 +48,6 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Public site service cards: hover border glow */
-.svc-card {
-  border-color: rgba(255,255,255,0.07);
-  transition: border-color 0.35s ease, transform 0.35s ease;
-}
-.svc-card:hover {
-  border-color: rgba(14,165,233,0.25);
-}
-
 /* Footer nav links hover */
 .footer-link {
   color: rgba(255,255,255,0.4);
@@ -383,11 +374,50 @@ a, button, [role="button"] {
   --font-ppneuemontreal: 'PPNeueMontreal', var(--font-void), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-.void-page {
+.void-site {
   font-feature-settings: "ss01" on;
   font-weight: 400;
 }
-.void-page ::selection { background: var(--color-electric-iris); color: var(--color-bone-white); }
+.void-site ::selection { background: var(--color-electric-iris); color: var(--color-bone-white); }
+
+/* Form fields: a single hairline, no boxes (overrides the admin .dark input rules) */
+/* public tables: no admin-style header band; let utility colours through */
+.void-site th { background: transparent !important; color: inherit !important; letter-spacing: inherit; }
+.void-site td { color: inherit !important; }
+.void-site tbody tr:hover td { background: transparent !important; }
+
+.void-site .void-input {
+  display: block;
+  width: 100%;
+  padding: 14px 0;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22) !important;
+  border-radius: 0;
+  box-shadow: none !important;
+  color: var(--color-bone-white);
+  font-size: 18px;
+  font-weight: 300;
+  outline: none;
+  transition: border-color 0.25s ease;
+}
+.void-site .void-input::placeholder { color: rgba(255, 255, 255, 0.28); }
+.void-site .void-input:focus { border-bottom-color: var(--color-electric-iris) !important; }
+.void-site select.void-input { appearance: none; cursor: pointer; }
+.void-site select.void-input option { background: #000; color: #fff; }
+/* Range slider (pricing calculator) */
+.void-range { -webkit-appearance: none; appearance: none; height: 2px; border-radius: 2px; cursor: pointer; }
+.void-range::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 4px solid var(--color-electric-iris); }
+.void-range::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 4px solid var(--color-electric-iris); }
+
+.void-field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  color: var(--color-ash-gray);
+}
 
 .void-section { padding-block: 80px; }
 @media (min-width: 640px) { .void-section { padding-block: 96px; } }
@@ -427,9 +457,9 @@ a, button, [role="button"] {
 }
 .void-button:hover { background: color-mix(in oklab, var(--color-electric-iris), white 14%); transform: translateY(-1px); }
 .void-button:focus-visible { outline: 2px solid var(--color-saffron-spark); outline-offset: 3px; }
-.void-page a:focus-visible,
-.void-page summary:focus-visible,
-.void-page button:focus-visible { outline: 2px solid var(--color-saffron-spark); outline-offset: 4px; border-radius: 6px; }
+.void-site a:focus-visible,
+.void-site summary:focus-visible,
+.void-site button:focus-visible { outline: 2px solid var(--color-saffron-spark); outline-offset: 4px; border-radius: 6px; }
 
 /* FAQ (native <details>) */
 .void-faq summary::-webkit-details-marker { display: none; }

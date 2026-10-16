@@ -1,10 +1,11 @@
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight, Plus } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { LogoCarousel } from '@/components/public/LogoCarousel'
-import { ScrollParticles } from '@/components/public/home/ScrollParticles'
 import { ReviewCarousel } from '@/components/public/home/ReviewCarousel'
 import { ServiceVisual, type ServiceKind } from '@/components/public/home/ServiceVisual'
-import { voidFont } from '@/components/public/home/fonts'
+import { ParticlePage } from '@/components/public/void/ParticlePage'
+import { Label, GhostLink, TriangleBullet } from '@/components/public/void/ui'
+import { VoidFaq } from '@/components/public/void/VoidFaq'
 
 export const metadata = {
   title: 'Weboldalas – Weboldalak, webshopok és rendszerek kisvállalkozásoknak',
@@ -61,24 +62,10 @@ const faqs = [
   { q: 'Segítetek a Google-ben is megjelenni?', a: 'Igen. Minden weboldalt alapszintű keresőoptimalizálással adunk át: gyors betöltés, strukturált adatok, mobilbarát kialakítás és megfelelő meta beállítások.' },
 ]
 
-function Label({ children }: { children: React.ReactNode }) {
-  return <p className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark sm:text-nav-label">{children}</p>
-}
-
-function GhostLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link href={href} className="group inline-flex min-h-11 items-center gap-2 text-sm text-ash-gray transition-colors hover:text-white">
-      {children}
-      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-    </Link>
-  )
-}
-
 export default function HomePage() {
   return (
-    <div className={`${voidFont.variable} void-page relative overflow-x-clip bg-void font-ppneuemontreal text-bone-white [&>section]:relative [&>section]:z-10`}>
+    <ParticlePage>
       {/* Scroll-morphing particle cloud: devices → (empty behind services) → chat → pen → progress ring → rocket → gears → stardust → paper plane */}
-      <ScrollParticles />
 
       {/* ===== HERO ===== */}
       <section>
@@ -217,7 +204,7 @@ export default function HomePage() {
               <ul className="mt-8 grid gap-x-8 gap-y-3 sm:grid-cols-2">
                 {included.map(item => (
                   <li key={item} className="flex items-center gap-3 text-[15px] text-bone-white">
-                    <svg aria-hidden viewBox="0 0 10 10" className="h-2.5 w-2.5 shrink-0"><polygon points="5,1 9,9 1,9" fill="none" stroke="var(--color-electric-iris)" strokeWidth="1.3" /></svg>
+                    <TriangleBullet />
                     {item}
                   </li>
                 ))}
@@ -301,15 +288,7 @@ export default function HomePage() {
             <div className="mt-6"><GhostLink href="/kapcsolat">Kérdezz tőlünk</GhostLink></div>
           </div>
           <div className="void-reveal">
-            {faqs.map((f, i) => (
-              <details key={f.q} name="faq" open={i === 0} className="void-faq group py-5 sm:py-6">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-xl leading-snug tracking-[-0.02em] text-white sm:text-heading-2xs">
-                  {f.q}
-                  <Plus className="mt-1 h-5 w-5 shrink-0 text-ash-gray transition-transform duration-300 group-open:rotate-45 group-open:text-saffron-spark" />
-                </summary>
-                <p className="text-body font-extralight mt-4 max-w-2xl text-silver-mist">{f.a}</p>
-              </details>
-            ))}
+            <VoidFaq faqs={faqs} />
           </div>
         </div>
       </section>
@@ -329,6 +308,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-    </div>
+    </ParticlePage>
   )
 }

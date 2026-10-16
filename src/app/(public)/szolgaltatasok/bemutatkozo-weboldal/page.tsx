@@ -7,6 +7,8 @@ export const metadata = {
 }
 
 const data: ServicePageData = {
+  shape: 'devices',
+  kind: 'web',
   icon: Globe,
   iconColor: 'blue',
   accentColor: '#0ea5e9',
@@ -43,7 +45,7 @@ const data: ServicePageData = {
       { n: '01', title: 'Konzultáció',  desc: 'Megbeszéljük az igényeket, a márkád stílusát és a weboldalad céljait.' },
       { n: '02', title: 'Dizájn',       desc: 'Kiválasztasz egy sablont, amit testre szabunk a márkád szín- és képi világához.' },
       { n: '03', title: 'Fejlesztés',   desc: 'Elkészítjük a weboldalt, feltöltjük a tartalmakat és beállítjuk a funkciókat.' },
-      { n: '04', title: 'Átadás',       desc: '5–10 munkanap után élőben van a weboldal. Betanítunk a kezelésére.' },
+      { n: '04', title: 'Átadás',       desc: 'Élesítjük a weboldalt, és megmutatjuk, hogyan kezeld.' },
     ],
   },
   forWhom: {
@@ -61,7 +63,7 @@ const data: ServicePageData = {
     cta: 'Ingyenes ajánlatot kérek',
   },
   faqs: [
-    { q: 'Mennyi idő alatt készül el a weboldal?', a: 'Általában 5–10 munkanap alatt. Egyedi, összetettebb megrendeléseknél kicsit több időre lehet szükség.' },
+    { q: 'Mennyi idő alatt készül el a weboldal?', a: 'A projekt méretétől függ. A pontos ütemtervet az elején közösen rögzítjük, így mindig tudod, hol tartunk.' },
     { q: 'Szükségem van tartalomra (szöveg, kép)?', a: 'Ha van, kiindulunk abból. Ha nincs, segítünk a szövegek és képek összeállításában.' },
     { q: 'Mi van ha változtatni akarok később?', a: 'Bármikor. Havidíjas ügyfeleinknél ez a csomag részét képezi. Egyszeri vásárlásnál külön díjas karbantartás érhető el.' },
     { q: 'Van foglalási rendszer?', a: 'Igen, opcionálisan beépítjük az online időpontfoglalást is — külön havidíj nélkül.' },

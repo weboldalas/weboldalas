@@ -7,6 +7,8 @@ export const metadata = {
 }
 
 const data: ServicePageData = {
+  shape: 'target',
+  kind: 'landing',
   icon: LayoutTemplate,
   iconColor: 'amber',
   accentColor: '#f59e0b',
@@ -61,7 +63,7 @@ const data: ServicePageData = {
     cta: 'Landing page ajánlatot kérek',
   },
   faqs: [
-    { q: 'Mennyi ideig tart elkészíteni?', a: 'Általában 3–5 munkanap. Ha sürgős, gyorsabb átfutást is tudunk vállalni.' },
+    { q: 'Mennyi ideig tart elkészíteni?', a: 'A tartalomtól és a funkcióktól függ. A pontos ütemtervet az elején közösen rögzítjük; sürgős kampánynál erről is egyeztetünk.' },
     { q: 'Kell hozzá teljes weboldal?', a: 'Nem. A landing page önálló oldal lehet, nem kell hozzá meglévő weboldal.' },
     { q: 'Beállítjátok a Meta és Google Pixelt is?', a: 'Igen, kérésre beállítjuk a szükséges tracking kódokat.' },
     { q: 'Az érdeklődők adatai hova kerülnek?', a: 'A form kitöltői automatikusan bekerülnek a CRM rendszerbe, ahol nyomon követheted őket.' },

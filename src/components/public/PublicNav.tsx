@@ -44,15 +44,19 @@ export function PublicNav() {
     return () => window.removeEventListener('scroll', fn)
   }, [])
 
-  // Close menu on route change
-  useEffect(() => { setOpen(false) }, [pathname])
+  // Close menu on route change (render-time state adjustment instead of an effect)
+  const [lastPath, setLastPath] = useState(pathname)
+  if (pathname !== lastPath) {
+    setLastPath(pathname)
+    setOpen(false)
+  }
 
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
       style={{
         // Void design: solid black, no blur, no border
-        background: open ? '#000' : scrolled ? 'rgba(0,0,0,0.92)' : 'transparent',
+        background: open ? '#000' : scrolled ? '#000' : 'transparent',
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

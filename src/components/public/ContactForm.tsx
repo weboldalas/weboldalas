@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Check, Loader2, Send } from 'lucide-react'
+import { Check, ChevronDown, Loader2 } from 'lucide-react'
 
 const INTEREST_OPTIONS = [
   'Bemutatkozó weboldal',
@@ -12,18 +12,6 @@ const INTEREST_OPTIONS = [
   'Üzemeltetés',
   'Egyéb',
 ]
-
-const inputStyle = {
-  background: 'rgba(255,255,255,0.05)',
-  border: '1px solid rgba(255,255,255,0.1)',
-  color: '#fff',
-  borderRadius: '0.75rem',
-  padding: '0.75rem 1rem',
-  fontSize: '0.875rem',
-  width: '100%',
-  outline: 'none',
-  transition: 'border-color 0.15s',
-}
 
 export function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -57,128 +45,68 @@ export function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
-        <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
-          style={{ background: 'rgba(52,211,153,0.15)', border: '1px solid rgba(52,211,153,0.3)' }}>
-          <Check className="h-8 w-8" style={{ color: '#34d399' }} strokeWidth={2.5} />
-        </div>
-        <h3 className="text-2xl font-bold text-white mb-3">Köszönjük!</h3>
-        <p className="max-w-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
-          Megkaptuk az üzenetét. Munkatársaink hamarosan felveszik Önnel a kapcsolatot.
+      <div className="void-fade py-6">
+        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-electric-iris">
+          <Check className="h-6 w-6 text-white" strokeWidth={2.5} />
+        </span>
+        <h3 className="mt-6 text-heading-sm">Köszönjük!</h3>
+        <p className="text-body font-extralight mt-3 max-w-sm text-silver-mist">
+          Megkaptuk az üzenetedet. Általában 1 munkanapon belül jelentkezünk.
         </p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div>
-          <label className="block text-sm font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.55)' }}>Név *</label>
-          <input
-            type="text"
-            value={form.name}
-            onChange={set('name')}
-            placeholder="Kovács Péter"
-            required
-            style={inputStyle}
-            onFocus={e => (e.target.style.borderColor = 'rgba(14,165,233,0.6)')}
-            onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.55)' }}>Telefon</label>
-          <input
-            type="tel"
-            value={form.phone}
-            onChange={set('phone')}
-            placeholder="+36 30 123 4567"
-            style={inputStyle}
-            onFocus={e => (e.target.style.borderColor = 'rgba(14,165,233,0.6)')}
-            onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
-          />
-        </div>
+    <form onSubmit={handleSubmit} className="space-y-8">
+      <div className="grid gap-8 sm:grid-cols-2">
+        <label className="block">
+          <span className="void-field-label">Név *</span>
+          <input type="text" value={form.name} onChange={set('name')} placeholder="Kovács Péter" required autoComplete="name" className="void-input" />
+        </label>
+        <label className="block">
+          <span className="void-field-label">Telefon</span>
+          <input type="tel" value={form.phone} onChange={set('phone')} placeholder="+36 30 123 4567" autoComplete="tel" className="void-input" />
+        </label>
       </div>
 
-      <div>
-        <label className="block text-sm font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.55)' }}>Email *</label>
-        <input
-          type="email"
-          value={form.email}
-          onChange={set('email')}
-          placeholder="pelda@valalkozas.hu"
-          required
-          style={inputStyle}
-          onFocus={e => (e.target.style.borderColor = 'rgba(14,165,233,0.6)')}
-          onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
-        />
+      <div className="grid gap-8 sm:grid-cols-2">
+        <label className="block">
+          <span className="void-field-label">Email *</span>
+          <input type="email" value={form.email} onChange={set('email')} placeholder="pelda@vallalkozas.hu" required autoComplete="email" className="void-input" />
+        </label>
+        <label className="block">
+          <span className="void-field-label">Vállalkozás neve</span>
+          <input type="text" value={form.business} onChange={set('business')} placeholder="pl. Kovács Fodrászat" autoComplete="organization" className="void-input" />
+        </label>
       </div>
 
-      <div>
-        <label className="block text-sm font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.55)' }}>Vállalkozás neve</label>
-        <input
-          type="text"
-          value={form.business}
-          onChange={set('business')}
-          placeholder="pl. Kovács Fodrászat"
-          style={inputStyle}
-          onFocus={e => (e.target.style.borderColor = 'rgba(14,165,233,0.6)')}
-          onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
-        />
-      </div>
+      <label className="block">
+        <span className="void-field-label">Miben érdeklődsz?</span>
+        <span className="relative block">
+          <select value={form.interest} onChange={set('interest')} className="void-input pr-8">
+            <option value="">Válassz…</option>
+            {INTEREST_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
+          </select>
+          <ChevronDown className="pointer-events-none absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-ash-gray" />
+        </span>
+      </label>
 
-      <div>
-        <label className="block text-sm font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.55)' }}>Miben érdeklődsz?</label>
-        <select
-          value={form.interest}
-          onChange={set('interest')}
-          style={{ ...inputStyle, appearance: 'none' as any }}
-          onFocus={e => (e.target.style.borderColor = 'rgba(14,165,233,0.6)')}
-          onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
-        >
-          <option value="" style={{ background: '#0f0f1a' }}>Válassz...</option>
-          {INTEREST_OPTIONS.map(o => (
-            <option key={o} value={o} style={{ background: '#0f0f1a' }}>{o}</option>
-          ))}
-        </select>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium mb-1.5" style={{ color: 'rgba(255,255,255,0.55)' }}>Megjegyzés</label>
-        <textarea
-          value={form.message}
-          onChange={set('message')}
-          placeholder="Írj pár szót a vállalkozásodról, igényeidről..."
-          rows={4}
-          style={{ ...inputStyle, resize: 'none' }}
-          onFocus={e => (e.target.style.borderColor = 'rgba(14,165,233,0.6)')}
-          onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
-        />
-      </div>
+      <label className="block">
+        <span className="void-field-label">Üzenet</span>
+        <textarea value={form.message} onChange={set('message')} placeholder="Írj pár szót a vállalkozásodról, igényeidről…" rows={4} className="void-input resize-none" />
+      </label>
 
       {status === 'error' && (
-        <p className="text-sm rounded-xl px-4 py-3"
-          style={{ color: '#fca5a5', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)' }}>
-          Hiba történt a küldés során. Kérjük próbálja újra, vagy hívjon minket.
-        </p>
+        <p className="text-sm text-[#fca5a5]">Hiba történt a küldés során. Kérjük, próbáld újra, vagy hívj minket.</p>
       )}
 
-      <button
-        type="submit"
-        disabled={status === 'loading'}
-        className="w-full flex items-center justify-center gap-2 px-7 py-4 rounded-2xl text-base font-bold text-white transition-all hover:opacity-90 disabled:opacity-60"
-        style={{ background: 'linear-gradient(135deg, #0284c7, #0ea5e9, #06b6d4)' }}
-      >
-        {status === 'loading' ? (
-          <><Loader2 className="h-5 w-5 animate-spin" /> Küldés...</>
-        ) : (
-          <><Send className="h-5 w-5" /> Üzenet küldése</>
-        )}
-      </button>
-
-      <p className="text-xs text-center" style={{ color: 'rgba(255,255,255,0.25)' }}>
-        Általában 1 munkanapon belül visszajelzünk.
-      </p>
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-2">
+        <button type="submit" disabled={status === 'loading'} className="void-button disabled:opacity-60">
+          {status === 'loading' ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Küldés…</> : 'Üzenet küldése'}
+        </button>
+        <span className="text-caption text-ash-gray">Általában 1 munkanapon belül visszajelzünk.</span>
+      </div>
     </form>
   )
 }

@@ -7,6 +7,8 @@ export const metadata = {
 }
 
 const data: ServicePageData = {
+  shape: 'calendar',
+  kind: 'booking',
   icon: Calendar,
   iconColor: 'emerald',
   accentColor: '#10b981',

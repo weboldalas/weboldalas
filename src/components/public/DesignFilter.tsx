@@ -2,8 +2,17 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+
+export type Design = {
+  id: string
+  name: string
+  category: string
+  categoryLabel: string
+  desc: string
+  tags: string[]
+  features: string[]
+}
 
 const CATEGORIES = [
   { id: 'all', label: 'Összes' },
@@ -14,116 +23,108 @@ const CATEGORIES = [
   { id: 'szakember', label: 'Szakemberek' },
   { id: 'vallalkozas', label: 'Vállalkozás' },
   { id: 'webshop', label: 'Webshop' },
+  { id: 'landing', label: 'Landing' },
 ]
 
 const TAGS = [
-  { id: 'foglalas', label: '📅 Foglalási rendszer' },
-  { id: 'webshop', label: '🛍️ Webshop' },
-  { id: 'crm', label: '👥 CRM' },
-  { id: 'ajanlatkero', label: '📝 Ajánlatkérő' },
+  { id: 'foglalas', label: 'Foglalási rendszer' },
+  { id: 'webshop', label: 'Webshop' },
+  { id: 'crm', label: 'CRM' },
+  { id: 'ajanlatkero', label: 'Ajánlatkérő' },
 ]
 
-export function DesignFilter({ designs }: { designs: any[] }) {
+// accent per category, taken from the particle palette
+const ACCENT: Record<string, string> = {
+  szallas: '#60a5fa', etterem: '#ffb829', szepseg: '#f472b6', egeszseg: '#2dd4bf',
+  szakember: '#a78bfa', vallalkozas: '#8052ff', webshop: '#e879f9', landing: '#ffb829',
+}
+
+/** Line-art wireframe preview; the layout varies a little with the design. */
+function Wireframe({ accent, variant }: { accent: string; variant: number }) {
+  const line = 'rgba(255,255,255,0.28)'
+  return (
+    <svg viewBox="0 0 320 200" className="h-full w-full" fill="none" strokeWidth="1" aria-hidden>
+      <rect x="8" y="8" width="304" height="184" rx="12" stroke={line} />
+      <path d="M8 30 H312" stroke={line} />
+      <circle cx="22" cy="19" r="3" stroke={line} /><circle cx="33" cy="19" r="3" stroke={line} /><circle cx="44" cy="19" r="3" stroke={line} />
+      {variant % 2 === 0 ? (
+        <>
+          <path d="M26 58 H150 M26 72 H128" stroke="#fff" />
+          <path d="M26 88 H140" stroke={line} />
+          <rect x="26" y="104" width="62" height="18" rx="9" stroke={accent} />
+          <rect x="176" y="46" width="118" height="84" rx="8" stroke={line} />
+          <path d="M184 120 L210 92 L228 108 L246 96 L286 120" stroke={accent} />
+        </>
+      ) : (
+        <>
+          <rect x="26" y="44" width="268" height="62" rx="8" stroke={line} />
+          <path d="M110 68 H210 M126 82 H194" stroke="#fff" />
+          <rect x="132" y="92" width="56" height="8" rx="4" stroke={accent} />
+        </>
+      )}
+      {[0, 1, 2].map(i => (
+        <g key={i}>
+          <rect x={26 + i * 92} y="146" width="80" height="30" rx="6" stroke={line} />
+          <path d={`M${34 + i * 92} 158 H${70 + i * 92}`} stroke={i === variant % 3 ? accent : line} />
+        </g>
+      ))}
+    </svg>
+  )
+}
+
+function Pill({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`min-h-11 rounded-full px-5 text-sm transition-colors ${active ? 'bg-white text-black' : 'text-ash-gray hover:text-white'}`}
+    >
+      {children}
+    </button>
+  )
+}
+
+export function DesignFilter({ designs }: { designs: Design[] }) {
   const [category, setCategory] = useState('all')
   const [tag, setTag] = useState<string | null>(null)
 
-  const filtered = designs.filter(d => {
-    const catMatch = category === 'all' || d.category === category
-    const tagMatch = !tag || d.tags.includes(tag)
-    return catMatch && tagMatch
-  })
+  const filtered = designs.filter(d => (category === 'all' || d.category === category) && (!tag || d.tags.includes(tag)))
 
   return (
     <div>
-      {/* Category filter */}
-      <div className="flex flex-wrap gap-2 mb-5 justify-center">
-        {CATEGORIES.map(c => (
-          <button
-            key={c.id}
-            onClick={() => setCategory(c.id)}
-            className="px-4 py-2 rounded-xl text-sm font-semibold transition-all"
-            style={category === c.id
-              ? { background: 'linear-gradient(135deg, #0284c7, #0ea5e9)', color: '#fff' }
-              : { background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.08)' }}
-          >
-            {c.label}
-          </button>
-        ))}
+      <div className="flex flex-wrap gap-1" role="group" aria-label="Kategória">
+        {CATEGORIES.map(c => <Pill key={c.id} active={category === c.id} onClick={() => setCategory(c.id)}>{c.label}</Pill>)}
+      </div>
+      <div className="mt-3 flex flex-wrap items-center gap-1" role="group" aria-label="Funkció">
+        <span className="mr-3 text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">Funkció</span>
+        {TAGS.map(t => <Pill key={t.id} active={tag === t.id} onClick={() => setTag(tag === t.id ? null : t.id)}>{t.label}</Pill>)}
       </div>
 
-      {/* Tag filter */}
-      <div className="flex flex-wrap gap-2 mb-10 justify-center">
-        {TAGS.map(t => (
-          <button
-            key={t.id}
-            onClick={() => setTag(tag === t.id ? null : t.id)}
-            className="px-4 py-1.5 rounded-xl text-xs font-semibold transition-all"
-            style={tag === t.id
-              ? { background: 'rgba(14,165,233,0.15)', color: '#38bdf8', border: '1px solid rgba(14,165,233,0.4)' }
-              : { background: 'transparent', color: 'rgba(255,255,255,0.35)', border: '1px solid rgba(255,255,255,0.1)' }}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <AnimatePresence mode="popLayout">
-          {filtered.map(design => (
-            <motion.div
-              key={design.id}
-              layout
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.25 }}
-              className="group rounded-2xl overflow-hidden hover:-translate-y-0.5 transition-all"
-              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
-            >
-              {/* Preview area */}
-              <div className={`h-44 bg-gradient-to-br ${design.color} flex flex-col items-center justify-center relative overflow-hidden`}>
-                <div className="absolute inset-0 opacity-10"
-                  style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, white 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-                <span className="text-5xl">{design.emoji}</span>
-                <div className="absolute bottom-3 left-3">
-                  <span className="text-xs font-semibold text-white/80 bg-black/25 px-2 py-0.5 rounded-full">
-                    {design.categoryLabel}
-                  </span>
-                </div>
+      <ul key={`${category}-${tag}`} className="void-fade mt-14 grid gap-x-12 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
+        {filtered.map((d, i) => {
+          const accent = ACCENT[d.category] ?? '#8052ff'
+          return (
+            <li key={d.id} className="group">
+              <div className="aspect-[16/10] transition-transform duration-500 group-hover:-translate-y-1">
+                <Wireframe accent={accent} variant={i} />
               </div>
-
-              {/* Info */}
-              <div className="p-4">
-                <h3 className="font-bold text-white mb-1">{design.name}</h3>
-                <p className="text-xs leading-relaxed mb-3" style={{ color: 'rgba(255,255,255,0.4)' }}>{design.desc}</p>
-
-                {/* Features */}
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {design.features.slice(0, 3).map((f: string) => (
-                    <span key={f} className="text-xs px-2 py-0.5 rounded-lg"
-                      style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.5)' }}>
-                      {f}
-                    </span>
-                  ))}
-                </div>
-
-                <Link href="/kapcsolat"
-                  className="flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-90"
-                  style={{ background: 'linear-gradient(135deg, #0284c7, #0ea5e9)' }}>
-                  Ezt kérem <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
+              <p className="mt-6 text-caption font-semibold uppercase tracking-nav-label" style={{ color: accent }}>{d.categoryLabel}</p>
+              <h3 className="mt-2 text-heading-2xs">{d.name}</h3>
+              <p className="text-body font-extralight mt-2 text-silver-mist">{d.desc}</p>
+              <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-ash-gray">
+                {d.features.map(f => <span key={f}>{f}</span>)}
+              </p>
+              <Link href="/kapcsolat" className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm text-ash-gray transition-colors hover:text-white">
+                Ezt kérem <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
 
       {filtered.length === 0 && (
-        <div className="text-center py-16" style={{ color: 'rgba(255,255,255,0.3)' }}>
-          <div className="text-4xl mb-4">🔍</div>
-          <p>Nincs ilyen szűrési feltételnek megfelelő dizájn.</p>
-        </div>
+        <p className="text-body font-extralight py-16 text-silver-mist">Nincs ilyen szűrésnek megfelelő dizájn. Egyedit is készítünk.</p>
       )}
     </div>
   )
