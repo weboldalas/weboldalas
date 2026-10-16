@@ -13,10 +13,12 @@ const INTEREST_OPTIONS = [
   'Egyéb',
 ]
 
-export function ContactForm() {
+export function ContactForm({ initialInterest = '', initialMessage = '' }: { initialInterest?: string; initialMessage?: string }) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [form, setForm] = useState({
-    name: '', phone: '', email: '', business: '', interest: '', message: '',
+    name: '', phone: '', email: '', business: '',
+    interest: INTEREST_OPTIONS.includes(initialInterest) ? initialInterest : '',
+    message: initialMessage,
   })
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>

@@ -23,7 +23,12 @@ const promises = [
   'Magyar ügyfélszolgálat',
 ]
 
-export default function KapcsolatPage() {
+export default async function KapcsolatPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  // prefill from the pricing calculator (?szolgaltatas=…&terv=…)
+  const sp = await searchParams
+  const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v)?.slice(0, 160) ?? ''
+  const interest = one(sp.szolgaltatas)
+  const plan = one(sp.terv)
   return (
     <ParticlePage>
       <PageHero
@@ -41,7 +46,7 @@ export default function KapcsolatPage() {
             <Label>Ajánlatkérés</Label>
             <h2 className="mt-5 text-heading-sm sm:text-heading">Mesélj a vállalkozásodról.</h2>
             <div className="mt-10">
-              <ContactForm />
+              <ContactForm initialInterest={interest} initialMessage={plan ? `Kalkulátor: ${plan}\n\n` : ''} />
             </div>
           </div>
 

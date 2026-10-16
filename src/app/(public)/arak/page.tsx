@@ -55,7 +55,10 @@ export default function ArakPage() {
       <section id="kalkulator" className="void-section scroll-mt-20" data-particles="none">
         <div className={container}>
           <Label>Kalkulátor</Label>
-          <h2 className="void-reveal mt-5 mb-12 text-heading-sm sm:text-heading lg:text-heading-lg">Számold ki.</h2>
+          <div className="mb-14 grid gap-6 sm:mb-16 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-24">
+            <h2 className="void-reveal mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">Számold ki.</h2>
+            <p className="text-body font-extralight max-w-md text-silver-mist">Válaszd ki, mire van szükséged és hogyan fizetnél. Az ár azonnal frissül.</p>
+          </div>
           <PricingCalculator />
         </div>
       </section>

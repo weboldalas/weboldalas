@@ -41,7 +41,9 @@ export function PublicNav() {
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 24)
     window.addEventListener('scroll', fn, { passive: true })
-    return () => window.removeEventListener('scroll', fn)
+    // a page opened mid-way (#anchor, restored scroll) needs the solid bar right away
+    const raf = requestAnimationFrame(fn)
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('scroll', fn) }
   }, [])
 
   // Close menu on route change (render-time state adjustment instead of an effect)
