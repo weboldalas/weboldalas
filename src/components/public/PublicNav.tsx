@@ -5,7 +5,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
-import { ArrowUpRight } from 'lucide-react'
 import { MenuParticles } from './MenuParticles'
 
 const EASE = [0.76, 0, 0.24, 1] as const
@@ -192,10 +191,7 @@ export function PublicNav() {
               </motion.ul>
 
               <motion.div variants={fadeVariants} className="mt-auto pt-12">
-                <Link href="/dizajnok" onClick={() => setOpen(false)} className="inline-flex min-h-11 items-center gap-2 text-sm text-ash-gray transition-colors active:text-white">
-                  Dizájnok <ArrowUpRight className="h-4 w-4" />
-                </Link>
-                <div className="mt-6 grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-2 gap-6">
                   <div>
                     <p className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">Email</p>
                     <a href="mailto:info@weboldalas.hu" className="mt-2 block text-[15px] text-white">info@weboldalas.hu</a>
