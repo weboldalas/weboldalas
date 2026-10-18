@@ -63,7 +63,7 @@ export function ServiceOrderForm({ serviceName }: { serviceName: string }) {
       </label>
       <label className="block">
         <span className="void-field-label">Megjegyzés</span>
-        <textarea value={form.message} onChange={set('message')} rows={3} placeholder="Írj pár szót a vállalkozásodról, igényeidről…" className="void-input resize-none" />
+        <textarea value={form.message} onChange={set('message')} rows={3} placeholder="Írj pár szót a cégedről és az igényeidről…" className="void-input resize-none" />
       </label>
 
       {status === 'error' && (

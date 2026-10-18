@@ -8,8 +8,8 @@ import { Label, GhostLink, TriangleBullet } from '@/components/public/void/ui'
 import { VoidFaq } from '@/components/public/void/VoidFaq'
 
 export const metadata = {
-  title: 'Weboldalas – Weboldalak, webshopok és rendszerek kisvállalkozásoknak',
-  description: 'Weboldalt, webshopot és egyedi rendszert tervezünk, fejlesztünk és üzemeltetünk kisvállalkozásoknak. Egyszeri díjjal, részletre vagy kiszámítható havidíjjal.',
+  title: 'Weboldalas – Weboldalak, webshopok és rendszerek kis-, közép- és nagyvállalatoknak',
+  description: 'Weboldalt, webshopot és egyedi rendszert tervezünk, fejlesztünk és üzemeltetünk egyéni vállalkozóknak, KKV-knak és nagyvállalatoknak. Egyszeri díjjal, részletre vagy kiszámítható havidíjjal.',
 }
 
 const services: { title: string; desc: string; href: string; kind: ServiceKind }[] = [
@@ -31,6 +31,12 @@ const steps = [
 const included = [
   'Domain és tárhely', 'Napi biztonsági mentés', 'Frissítések', 'Technikai support',
   'Alap SEO', 'Mérőkódok', 'E-mail beállítás', 'Sebesség-optimalizálás',
+]
+
+const sizes = [
+  { size: 'Kis', who: 'Egyéni és kisvállalkozások', desc: 'Átlátható indulás: bemutatkozó weboldal, foglalás vagy webshop, akár kiszámítható havidíjjal.' },
+  { size: 'Közép', who: 'KKV-k és növekvő cégek', desc: 'Webshop, CRM és automatizálás, ami a meglévő folyamataidhoz és rendszereidhez igazodik.' },
+  { size: 'Nagy', who: 'Nagyvállalatok', desc: 'Egyedi rendszerek, integrációk és hosszú távú üzemeltetés, egy kapcsolattartóval.' },
 ]
 
 const marquee = ['Weboldal', 'Webshop', 'Foglalási rendszer', 'Landing page', 'CRM', 'Üzemeltetés']
@@ -82,7 +88,7 @@ export default function HomePage() {
             <div className="void-in mt-8 max-w-[500px] sm:mt-10" style={{ animationDelay: '120ms' }}>
               <Label>Tervezés · Fejlesztés · Üzemeltetés</Label>
               <p className="text-body font-extralight mt-4">
-                Kisvállalkozásoknak tervezünk, fejlesztünk és üzemeltetünk weboldalakat, webshopokat és egyedi rendszereket.
+                Egyéni vállalkozóknak, KKV-knak és nagyvállalatoknak tervezünk, fejlesztünk és üzemeltetünk weboldalakat, webshopokat és egyedi rendszereket.
                 Egy csapattal, akár kiszámítható havidíjjal.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
@@ -159,6 +165,32 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ===== MÉRET ===== */}
+      <section className="void-section" data-particles="scatter">
+        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+            <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg void-reveal">Bármekkora cégnek.</h2>
+            <div className="void-reveal lg:pt-4">
+              <Label>Kinek dolgozunk</Label>
+              <p className="text-body font-extralight mt-4 text-silver-mist">
+                Ugyanaz a minőség és ugyanaz a csapat, a projekt méretéhez igazítva.
+              </p>
+            </div>
+          </div>
+          <ul className="mt-14 sm:mt-20">
+            {sizes.map(s => (
+              <li key={s.size} className="void-reveal grid items-baseline gap-x-10 gap-y-3 py-6 lg:grid-cols-[1.15fr_1fr] lg:py-8">
+                <span className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-5">
+                  <span className="text-heading tracking-[-0.04em] sm:text-heading-lg">{s.size}</span>
+                  <span className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">{s.who}</span>
+                </span>
+                <span className="text-body font-extralight text-silver-mist">{s.desc}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* ===== FOLYAMAT (scrollytelling: one shape per step) ===== */}
       <section className="void-section">
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
@@ -195,7 +227,7 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-[1280px] items-center gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:px-8">
           <div data-particles="gears" aria-hidden className="mx-auto aspect-square w-full max-w-[420px] lg:max-w-[520px]" />
           <div className="void-reveal">
-            <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg">Te vállalkozol. Mi intézzük a többit.</h2>
+            <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg">Te az üzletre figyelsz. Mi a többire.</h2>
             <div className="mt-8 max-w-[520px] sm:mt-10">
               <Label>Üzemeltetés</Label>
               <p className="text-body font-extralight mt-4 text-silver-mist">
@@ -224,7 +256,7 @@ export default function HomePage() {
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg void-reveal">Nem ígérjük. Megmutatjuk.</h2>
             <div className="void-reveal lg:pt-4">
               <Label>Referenciák</Label>
-              <p className="text-body font-extralight mt-4 text-silver-mist">Néhány vállalkozás, akiknek mi építettük az online jelenlétét.</p>
+              <p className="text-body font-extralight mt-4 text-silver-mist">Néhány cég, akiknek mi építettük az online jelenlétét.</p>
               <div className="mt-6"><GhostLink href="/referenciak">Összes referencia</GhostLink></div>
             </div>
           </div>

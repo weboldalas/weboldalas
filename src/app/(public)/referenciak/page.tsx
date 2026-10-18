@@ -56,7 +56,7 @@ export default function ReferenciakPage() {
           <div data-particles="chat" aria-hidden className="h-[30svh] min-h-[220px] lg:order-2 lg:h-[min(520px,66svh)]" />
           <div className="lg:order-1">
             <h2 className="void-reveal text-heading sm:text-heading-lg xl:text-display">Te jöhetsz.</h2>
-            <p className="text-body font-extralight mt-6 max-w-md text-silver-mist">Mesélj a vállalkozásodról, és megmutatjuk, mit építenénk neked.</p>
+            <p className="text-body font-extralight mt-6 max-w-md text-silver-mist">Mesélj a projektedről, és megmutatjuk, mit építenénk neked.</p>
             <div className="mt-8"><Link href="/kapcsolat" className="void-button">Beszéljünk</Link></div>
           </div>
         </div>

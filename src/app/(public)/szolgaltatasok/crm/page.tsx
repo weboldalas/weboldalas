@@ -3,7 +3,7 @@ import { ServicePage, type ServicePageData } from '@/components/public/ServicePa
 
 export const metadata = {
   title: 'CRM rendszer | Weboldalas',
-  description: 'Ügyfelek, ajánlatok, feladatok és pénzügyek egy helyen. Értékesítési pipeline kisebb vállalkozásoknak.',
+  description: 'Ügyfelek, ajánlatok, feladatok és pénzügyek egy helyen. Értékesítési pipeline kis-, közép- és nagyvállalatoknak.',
 }
 
 const data: ServicePageData = {
@@ -51,8 +51,8 @@ const data: ServicePageData = {
   forWhom: {
     title: 'Kinek ajánljuk a CRM-et?',
     items: [
-      { icon: Building2, label: 'Vállalkozásoknak', desc: 'Akiknek sok érdeklődőjük és ügyfelük van' },
-      { icon: Wrench,    label: 'Szakembereknek',   desc: 'Akik ajánlatokat adnak ki rendszeresen' },
+      { icon: Building2, label: 'KKV-knak',         desc: 'Akiknek sok érdeklődőjük és ügyfelük van' },
+      { icon: Wrench,    label: 'Nagyvállalatoknak', desc: 'Egyedi folyamatokhoz, több csapathoz' },
       { icon: Globe,     label: 'Ügynökségeknek',   desc: 'Akik projekteket kezelnek és számláznak' },
       { icon: Phone,     label: 'Sales csapatoknak',desc: 'Telefonos és emailes értékesítéshez' },
     ],

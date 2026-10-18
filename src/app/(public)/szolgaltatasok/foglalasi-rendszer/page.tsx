@@ -52,9 +52,9 @@ const data: ServicePageData = {
     title: 'Kinek a leghasznosabb?',
     items: [
       { icon: Scissors, label: 'Szépségipar', desc: 'Fodrász, körömstúdió, masszőr' },
-      { icon: Heart,    label: 'Egészségügy', desc: 'Orvos, fogorvos, fizioterapeuta' },
-      { icon: Home,     label: 'Szállásadók', desc: 'Szoba, apartman, panzió foglalás' },
-      { icon: Utensils, label: 'Éttermek',    desc: 'Asztalfoglalás vendéglátáshoz' },
+      { icon: Heart,    label: 'Egészségügy', desc: 'Magánrendelőtől a többorvosos klinikáig' },
+      { icon: Home,     label: 'Szállásadók', desc: 'Apartmantól a szállodáig' },
+      { icon: Utensils, label: 'Éttermek',    desc: 'Egy étteremtől az étteremláncig' },
     ],
   },
   pricing: {

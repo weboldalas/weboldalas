@@ -6,7 +6,7 @@ import { GhostLink, container } from '@/components/public/void/ui'
 
 export const metadata = {
   title: 'Dizájnok | Weboldalas',
-  description: 'Weboldal sablonok szállásadóknak, éttermeknek, szépségszalonoknak és kisebb vállalkozásoknak.',
+  description: 'Weboldal sablonok szállásadóknak, éttermeknek, szépségszalonoknak és bármilyen méretű cégnek.',
 }
 
 const designs: Design[] = [
@@ -110,7 +110,7 @@ export default function DizajnokPage() {
           <div data-particles="chat" aria-hidden className="h-[30svh] min-h-[220px] lg:order-2 lg:h-[min(520px,66svh)]" />
           <div className="lg:order-1">
             <h2 className="void-reveal text-heading sm:text-heading-lg xl:text-display">Egyedit szeretnél?</h2>
-            <p className="text-body font-extralight mt-6 max-w-md text-silver-mist">Ha egyik sem az igazi, a vállalkozásodhoz tervezünk egyedi dizájnt.</p>
+            <p className="text-body font-extralight mt-6 max-w-md text-silver-mist">Ha egyik sem az igazi, a cégedhez tervezünk egyedi dizájnt.</p>
             <div className="mt-8"><Link href="/kapcsolat" className="void-button">Beszéljünk</Link></div>
           </div>
         </div>

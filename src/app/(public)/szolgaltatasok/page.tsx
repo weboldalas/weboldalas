@@ -7,19 +7,19 @@ import { ServiceVisual, type ServiceKind } from '@/components/public/home/Servic
 
 export const metadata = {
   title: 'Szolgáltatások | Weboldalas',
-  description: 'Weboldal, webshop, foglalási rendszer, landing page, CRM és üzemeltetés kisvállalkozásoknak.',
+  description: 'Weboldal, webshop, foglalási rendszer, landing page, CRM és üzemeltetés kis-, közép- és nagyvállalatoknak.',
 }
 
 const services: { kind: ServiceKind; title: string; sub: string; href: string; points: string[]; from: string }[] = [
   {
     kind: 'web', title: 'Bemutatkozó weboldal', href: '/szolgaltatasok/bemutatkozo-weboldal',
-    sub: 'Professzionális megjelenés, ami hitelesebbé teszi a vállalkozásodat.',
+    sub: 'Professzionális megjelenés, ami hitelesebbé teszi a cégedet.',
     points: ['Egyedi megjelenés', 'Mobilbarát', 'Google alapoptimalizálás', 'Kapcsolatfelvétel'],
     from: '250 000 Ft-tól',
   },
   {
     kind: 'shop', title: 'Webshop', href: '/szolgaltatasok/webshop',
-    sub: 'Értékesíts online, egy rendszerrel, ami együtt nő a vállalkozásoddal.',
+    sub: 'Értékesíts online, egy rendszerrel, ami együtt nő a céggel.',
     points: ['Korlátlan termék', 'Online fizetés', 'Rendeléskezelés', 'Mobilbarát vásárlás'],
     from: '450 000 Ft-tól',
   },
@@ -43,7 +43,7 @@ const services: { kind: ServiceKind; title: string; sub: string; href: string; p
   },
   {
     kind: 'ops', title: 'Üzemeltetés', href: '/szolgaltatasok/uzemeltetes',
-    sub: 'A technikai működés a mi dolgunk, hogy neked csak a vállalkozásodra kelljen figyelned.',
+    sub: 'A technikai működés a mi dolgunk, hogy neked csak az üzletre kelljen figyelned.',
     points: ['Frissítések', 'Biztonsági mentések', 'Tárhely és SSL', 'Magyar támogatás'],
     from: '19 990 Ft/hó-tól',
   },
@@ -61,7 +61,7 @@ export default function SzolgaltatasokPage() {
           <GhostLink href="/arak">Árak</GhostLink>
         </>}
       >
-        Weboldal, webshop, foglalás, CRM és üzemeltetés. Egy csapat, egy kapcsolattartó, és olyan megoldások, amik a vállalkozásodhoz igazodnak.
+        Weboldal, webshop, foglalás, CRM és üzemeltetés. Egy csapat, egy kapcsolattartó, és olyan megoldások, amik a cégedhez igazodnak, legyen szó egyéni vállalkozásról vagy nagyvállalatról.
       </PageHero>
 
       {/* service list: no particles behind the line animations */}
@@ -98,7 +98,7 @@ export default function SzolgaltatasokPage() {
             <Label>Konzultáció</Label>
             <h2 className="void-reveal mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">Nem tudod, melyik kell?</h2>
             <p className="text-body font-extralight mt-5 max-w-md text-silver-mist">
-              Mesélj a vállalkozásodról, és segítünk kiválasztani azt, ami tényleg támogatja a céljaidat.
+              Mesélj a projektedről, és segítünk kiválasztani azt, ami tényleg támogatja a céljaidat.
             </p>
             <div className="mt-8"><Link href="/kapcsolat" className="void-button">Beszéljünk</Link></div>
           </div>

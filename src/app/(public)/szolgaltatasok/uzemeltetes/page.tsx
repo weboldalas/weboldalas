@@ -3,7 +3,7 @@ import { ServicePage, type ServicePageData } from '@/components/public/ServicePa
 
 export const metadata = {
   title: 'Üzemeltetés és karbantartás | Weboldalas',
-  description: 'Teljes weboldal üzemeltetés, karbantartás és support kisebb vállalkozásoknak. Te csak a bizniszre fókuszálj.',
+  description: 'Teljes weboldal üzemeltetés, karbantartás és support kis-, közép- és nagyvállalatoknak. Te csak a bizniszre fókuszálj.',
 }
 
 const data: ServicePageData = {
@@ -51,9 +51,9 @@ const data: ServicePageData = {
   forWhom: {
     title: 'Kinek ajánljuk?',
     items: [
-      { icon: Briefcase, label: 'Vállalkozóknak', desc: 'Akiknek nincs IT csapatuk' },
-      { icon: Home,      label: 'Szállásadóknak', desc: 'Ahol a weboldal folyamatosan kell hogy működjön' },
-      { icon: Utensils,  label: 'Éttermeknek',    desc: 'Ahol az online jelenlét üzletkritikus' },
+      { icon: Briefcase, label: 'Kisvállalkozásoknak', desc: 'Akiknek nincs IT csapatuk' },
+      { icon: Home,      label: 'Középvállalatoknak', desc: 'Ahol a weboldalnak folyamatosan működnie kell' },
+      { icon: Utensils,  label: 'Nagyvállalatoknak', desc: 'Akik tehermentesítenék a belső IT-t' },
       { icon: Wrench,    label: 'Szolgáltatóknak',desc: 'Akik nem akarnak technikával foglalkozni' },
     ],
   },

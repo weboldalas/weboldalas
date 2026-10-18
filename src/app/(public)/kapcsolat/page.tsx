@@ -44,7 +44,7 @@ export default async function KapcsolatPage({ searchParams }: { searchParams: Pr
         <div className={`${container} grid gap-16 lg:grid-cols-[1.3fr_1fr] lg:gap-24`}>
           <div className="void-reveal">
             <Label>Ajánlatkérés</Label>
-            <h2 className="mt-5 text-heading-sm sm:text-heading">Mesélj a vállalkozásodról.</h2>
+            <h2 className="mt-5 text-heading-sm sm:text-heading">Mesélj a projektedről.</h2>
             <div className="mt-10">
               <ContactForm initialInterest={interest} initialMessage={plan ? `Kalkulátor: ${plan}\n\n` : ''} />
             </div>

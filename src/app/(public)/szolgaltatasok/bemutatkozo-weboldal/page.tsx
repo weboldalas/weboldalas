@@ -3,7 +3,7 @@ import { ServicePage, type ServicePageData } from '@/components/public/ServicePa
 
 export const metadata = {
   title: 'Bemutatkozó weboldal | Weboldalas',
-  description: 'Prémium bemutatkozó weboldal kisebb vállalkozásoknak. Modern dizájn, mobilbarát, foglalási rendszer opcióval.',
+  description: 'Prémium bemutatkozó weboldal egyéni vállalkozóktól a nagyvállalatokig. Modern dizájn, mobilbarát, foglalási rendszer opcióval.',
 }
 
 const data: ServicePageData = {
@@ -31,7 +31,7 @@ const data: ServicePageData = {
   whatYouGet: {
     title: 'Mit kapsz a weboldallal?',
     items: [
-      { icon: Palette,    title: 'Prémium dizájn',          desc: 'Egyedi, modern megjelenés ami kiemeli a vállalkozásodat a versenytársak közül.' },
+      { icon: Palette,    title: 'Prémium dizájn',          desc: 'Egyedi, modern megjelenés ami kiemeli a cégedet a versenytársak közül.' },
       { icon: Smartphone, title: 'Mobilbarát megjelenés',   desc: 'A látogatók többsége telefonról böngészik. A weboldalad mindenhol tökéletesen néz ki.' },
       { icon: Zap,        title: 'Gyors betöltés',          desc: 'Optimalizált kód és képek — nem várakoztatod el a látogatókat.' },
       { icon: MapPin,     title: 'Google Maps integráció',  desc: 'Az ügyfeled könnyen megtalál téged a térképen is.' },
@@ -53,8 +53,8 @@ const data: ServicePageData = {
     items: [
       { icon: Scissors, label: 'Szépségipar',  desc: 'Fodrász, körömstúdió, kozmetika' },
       { icon: Heart,    label: 'Egészségügy',  desc: 'Orvos, fogorvos, fizioterapeuta' },
-      { icon: Home,     label: 'Szállásadók',  desc: 'Panzió, apartman, vendégház' },
-      { icon: Wrench,   label: 'Szakemberek',  desc: 'Villanyszerelő, vízvezeték-szerelő, festő' },
+      { icon: Home,     label: 'Szállás és vendéglátás', desc: 'Vendégháztól a szállodáig' },
+      { icon: Wrench,   label: 'Közép- és nagyvállalatok', desc: 'Céges arculat, több nyelv, karrier- és sajtóoldal' },
     ],
   },
   pricing: {

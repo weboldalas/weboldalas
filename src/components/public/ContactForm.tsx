@@ -35,7 +35,7 @@ export function ContactForm({ initialInterest = '', initialMessage = '' }: { ini
           name: form.name,
           phone: form.phone,
           email: form.email,
-          message: `Vállalkozás: ${form.business}\nÉrdeklődés: ${form.interest}\n\n${form.message}`,
+          message: `Cég: ${form.business}\nÉrdeklődés: ${form.interest}\n\n${form.message}`,
         }),
       })
       if (!res.ok) throw new Error()
@@ -78,8 +78,8 @@ export function ContactForm({ initialInterest = '', initialMessage = '' }: { ini
           <input type="email" value={form.email} onChange={set('email')} placeholder="pelda@vallalkozas.hu" required autoComplete="email" className="void-input" />
         </label>
         <label className="block">
-          <span className="void-field-label">Vállalkozás neve</span>
-          <input type="text" value={form.business} onChange={set('business')} placeholder="pl. Kovács Fodrászat" autoComplete="organization" className="void-input" />
+          <span className="void-field-label">Cég neve</span>
+          <input type="text" value={form.business} onChange={set('business')} placeholder="pl. Példa Kft." autoComplete="organization" className="void-input" />
         </label>
       </div>
 
@@ -96,7 +96,7 @@ export function ContactForm({ initialInterest = '', initialMessage = '' }: { ini
 
       <label className="block">
         <span className="void-field-label">Üzenet</span>
-        <textarea value={form.message} onChange={set('message')} placeholder="Írj pár szót a vállalkozásodról, igényeidről…" rows={4} className="void-input resize-none" />
+        <textarea value={form.message} onChange={set('message')} placeholder="Írj pár szót a cégedről és az igényeidről…" rows={4} className="void-input resize-none" />
       </label>
 
       {status === 'error' && (

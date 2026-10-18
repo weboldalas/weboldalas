@@ -3,7 +3,7 @@ import { ServicePage, type ServicePageData } from '@/components/public/ServicePa
 
 export const metadata = {
   title: 'Webshop | Weboldalas',
-  description: 'Teljes körű webáruház kisebb vállalkozásoknak. Termékkezelés, kosár, biztonságos fizetés.',
+  description: 'Teljes körű webáruház induló boltoknak, márkáknak és nagykereskedőknek. Termékkezelés, kosár, biztonságos fizetés.',
 }
 
 const data: ServicePageData = {
@@ -51,10 +51,10 @@ const data: ServicePageData = {
   forWhom: {
     title: 'Kinek való a webshop?',
     items: [
-      { icon: Gift,      label: 'Ajándékboltok', desc: 'Egyedi és kézműves termékek online értékesítése' },
-      { icon: Tag,       label: 'Ruházat',        desc: 'Ruha, kiegészítők, divatcikkek' },
-      { icon: Leaf,      label: 'Bio termékek',   desc: 'Kézműves élelmiszer, kozmetikum' },
-      { icon: Building2, label: 'Gyártók',        desc: 'Saját termék, B2B és B2C értékesítés' },
+      { icon: Gift,      label: 'Induló boltok', desc: 'Kézműves, ajándék és egyedi termékek' },
+      { icon: Tag,       label: 'Márkák',        desc: 'Divat, lifestyle, kozmetikum' },
+      { icon: Leaf,      label: 'Nagykereskedők', desc: 'Nagy termékkatalógus, B2B értékesítés' },
+      { icon: Building2, label: 'Gyártók és nagyvállalatok', desc: 'Saját termék, B2B és B2C, meglévő rendszerekhez kötve' },
     ],
   },
   pricing: {
