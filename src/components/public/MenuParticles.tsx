@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react'
 const PALETTE = ['#8052ff', '#ffb829', '#15846e', '#2dd4bf', '#e879f9', '#60a5fa', '#a78bfa', '#f472b6']
 
 /** Slowly drifting outlined triangles behind the mobile menu (runs only while mounted). */
-export function MenuParticles({ count = 70 }: { count?: number }) {
+export function MenuParticles({ count = 45 }: { count?: number }) {
   const ref = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -25,12 +25,12 @@ export function MenuParticles({ count = 70 }: { count?: number }) {
     const parts = Array.from({ length: count }, (_, i) => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      s: 3 + Math.random() * 5,
+      s: 2.5 + Math.random() * 4,
       r: Math.random() * Math.PI * 2,
       vr: (Math.random() - 0.5) * 0.004,
       vy: -(0.08 + Math.random() * 0.22),
       vx: (Math.random() - 0.5) * 0.08,
-      a: 0.25 + Math.random() * 0.5,
+      a: 0.07 + Math.random() * 0.13, // faint: the links must stay readable
       c: PALETTE[i % PALETTE.length],
     }))
 
