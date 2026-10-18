@@ -1,72 +1,67 @@
-import { Globe, Palette, Smartphone, Zap, MapPin, Mail, Search, Scissors, Heart, Home, Wrench } from 'lucide-react'
+import { Globe, Palette, Smartphone, Zap, MapPin, Mail, Search, Scissors, Heart, Home, Building2 } from 'lucide-react'
 import { ServicePage, type ServicePageData } from '@/components/public/ServicePage'
 
 export const metadata = {
   title: 'Bemutatkozó weboldal | Weboldalas',
-  description: 'Prémium bemutatkozó weboldal egyéni vállalkozóktól a nagyvállalatokig. Modern dizájn, mobilbarát, foglalási rendszer opcióval.',
+  description: 'Egyedi bemutatkozó weboldal egyéni vállalkozóktól a nagyvállalatokig: megmutatja, kik vagytok, mit csináltok, és hogyan lehet elérni benneteket.',
 }
 
 const data: ServicePageData = {
   shape: 'devices',
   kind: 'web',
   icon: Globe,
-  iconColor: 'blue',
-  accentColor: '#0ea5e9',
-  accentGradient: 'linear-gradient(135deg, #0284c7, #0ea5e9)',
   title: 'Bemutatkozó weboldal',
-  subtitle: 'A legjobb első benyomás',
   hero: {
     badge: 'Bemutatkozó weboldal',
-    headline: 'Weboldal, ami dolgozik helyetted — éjjel-nappal',
-    sub: 'Nem elég jelen lenni az interneten. Egy prémium, gyors és bizalomépítő weboldal az első lépés, hogy az online látogatókból valódi ügyfelek legyenek.',
+    headline: 'Weboldal, ami megmutatja, kik vagytok',
+    sub: 'A bemutatkozó weboldal a céged online névjegye: elmondja, mivel foglalkoztok, miért érdemes titeket választani, és hogyan lehet elérni benneteket. Megtervezzük, elkészítjük, és ha kell, a szövegekben is segítünk.',
     features: [
-      'Prémium, egyedi dizájn',
-      'Tökéletes mobilon és tableten',
-      'Gyors betöltési idő (Google kedveli)',
-      'Beépített kapcsolati és ajánlatkérő form',
-      'SEO alapok beállítva',
-      'Ingyenes foglalási rendszer opció',
+      'Egyedi, a cégedre szabott dizájn',
+      'Telefonon, tableten és gépen is jól működik',
+      'Gyors betöltés',
+      'Kapcsolatfelvételi és ajánlatkérő űrlap',
+      'Alap keresőoptimalizálás (Google)',
+      'Igény szerint több nyelven',
     ],
   },
   whatYouGet: {
     title: 'Mit kapsz a weboldallal?',
     items: [
-      { icon: Palette,    title: 'Prémium dizájn',          desc: 'Egyedi, modern megjelenés ami kiemeli a cégedet a versenytársak közül.' },
-      { icon: Smartphone, title: 'Mobilbarát megjelenés',   desc: 'A látogatók többsége telefonról böngészik. A weboldalad mindenhol tökéletesen néz ki.' },
-      { icon: Zap,        title: 'Gyors betöltés',          desc: 'Optimalizált kód és képek — nem várakoztatod el a látogatókat.' },
-      { icon: MapPin,     title: 'Google Maps integráció',  desc: 'Az ügyfeled könnyen megtalál téged a térképen is.' },
-      { icon: Mail,       title: 'Kapcsolati form',         desc: 'Minden érdeklődő üzenete egyenesen a postaládádba érkezik.' },
-      { icon: Search,     title: 'SEO alap beállítás',      desc: 'Megfelelő meta adatok, sitemap és strukturált adatok a jobb keresési pozícióhoz.' },
+      { icon: Palette,    title: 'Egyedi dizájn',             desc: 'Nem sablon: a megjelenést a céged arculatához és a célközönségedhez tervezzük.' },
+      { icon: Smartphone, title: 'Minden eszközön jól néz ki', desc: 'A látogatók nagy része telefonról érkezik, ezért az oldal mobilon, tableten és számítógépen is kényelmesen használható.' },
+      { icon: Zap,        title: 'Gyors betöltés',            desc: 'Optimalizált képek és kód, hogy a látogatónak ne kelljen várnia.' },
+      { icon: Mail,       title: 'Űrlapok',                   desc: 'Az érdeklődők üzenete egyenesen az e-mail-fiókodba érkezik.' },
+      { icon: MapPin,     title: 'Térkép és elérhetőség',     desc: 'Cím, nyitvatartás és Google Térkép, hogy könnyen megtaláljanak.' },
+      { icon: Search,     title: 'Alap keresőoptimalizálás',  desc: 'Beállítjuk, ami ahhoz kell, hogy a Google megfelelően megtalálja és megjelenítse az oldalt.' },
     ],
   },
   howItWorks: {
     title: 'Hogyan készül el?',
     steps: [
-      { n: '01', title: 'Konzultáció',  desc: 'Megbeszéljük az igényeket, a márkád stílusát és a weboldalad céljait.' },
-      { n: '02', title: 'Dizájn',       desc: 'Kiválasztasz egy sablont, amit testre szabunk a márkád szín- és képi világához.' },
-      { n: '03', title: 'Fejlesztés',   desc: 'Elkészítjük a weboldalt, feltöltjük a tartalmakat és beállítjuk a funkciókat.' },
-      { n: '04', title: 'Átadás',       desc: 'Élesítjük a weboldalt, és megmutatjuk, hogyan kezeld.' },
+      { n: '01', title: 'Megismerünk',  desc: 'Megbeszéljük, mivel foglalkoztok, kiknek szól az oldal, és mit szeretnél elérni vele.' },
+      { n: '02', title: 'Megtervezzük', desc: 'Elkészítjük az oldal felépítését és dizájnját, amit közösen véglegesítünk.' },
+      { n: '03', title: 'Elkészítjük',  desc: 'Megépítjük az oldalt, feltöltjük a tartalmat, és több eszközön is teszteljük.' },
+      { n: '04', title: 'Átadjuk',      desc: 'Élesítjük a weboldalt, és megmutatjuk, hogyan tudod kezelni.' },
     ],
   },
   forWhom: {
     title: 'Kinek való?',
     items: [
-      { icon: Scissors, label: 'Szépségipar',  desc: 'Fodrász, körömstúdió, kozmetika' },
-      { icon: Heart,    label: 'Egészségügy',  desc: 'Orvos, fogorvos, fizioterapeuta' },
-      { icon: Home,     label: 'Szállás és vendéglátás', desc: 'Vendégháztól a szállodáig' },
-      { icon: Wrench,   label: 'Közép- és nagyvállalatok', desc: 'Céges arculat, több nyelv, karrier- és sajtóoldal' },
+      { icon: Scissors,  label: 'Szolgáltatóknak',          desc: 'Szépségipar, szakemberek, tanácsadók' },
+      { icon: Heart,     label: 'Egészségügynek',           desc: 'Magánrendelőtől a klinikáig' },
+      { icon: Home,      label: 'Szállás és vendéglátás',   desc: 'Vendégháztól a szállodáig' },
+      { icon: Building2, label: 'Közép- és nagyvállalatoknak', desc: 'Céges arculat, több nyelv, karrier- és sajtóoldal' },
     ],
   },
   pricing: {
-    title: 'Rugalmas fizetési lehetőségek',
-    note: '250.000 Ft-tól egyszeri fizetéssel, vagy havi 19.990 Ft-tól előfizetéssel. Részletfizetés is elérhető.',
-    cta: 'Ingyenes ajánlatot kérek',
+    note: 'Az ár elsősorban az oldalak számától, a tartalomtól és a szükséges funkcióktól függ. Egy rövid konzultáció után pontos, kötelezettségmentes ajánlatot küldünk.',
+    cta: 'Ajánlatot kérek',
   },
   faqs: [
     { q: 'Mennyi idő alatt készül el a weboldal?', a: 'A projekt méretétől függ. A pontos ütemtervet az elején közösen rögzítjük, így mindig tudod, hol tartunk.' },
-    { q: 'Szükségem van tartalomra (szöveg, kép)?', a: 'Ha van, kiindulunk abból. Ha nincs, segítünk a szövegek és képek összeállításában.' },
-    { q: 'Mi van ha változtatni akarok később?', a: 'Bármikor. Havidíjas ügyfeleinknél ez a csomag részét képezi. Egyszeri vásárlásnál külön díjas karbantartás érhető el.' },
-    { q: 'Van foglalási rendszer?', a: 'Igen, opcionálisan beépítjük az online időpontfoglalást is — külön havidíj nélkül.' },
+    { q: 'Kell, hogy legyen szövegem és képem?', a: 'Ha van, abból indulunk ki. Ha nincs, segítünk a szövegek és a képek összeállításában.' },
+    { q: 'Később is lehet módosítani?', a: 'Igen. A módosításokat elvégezzük, vagy ha kezelőfelületet kérsz, a tartalmat te is szerkesztheted.' },
+    { q: 'Bővíthető később foglalással vagy webshoppal?', a: 'Igen, a weboldal később is kiegészíthető online foglalással, webshoppal vagy más funkciókkal.' },
   ],
 }
 

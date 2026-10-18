@@ -9,6 +9,7 @@ const INTEREST_OPTIONS = [
   'Landing Page',
   'Foglalási rendszer',
   'CRM rendszer',
+  'ERP rendszer',
   'Üzemeltetés',
   'Egyéb',
 ]

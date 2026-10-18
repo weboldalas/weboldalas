@@ -2,50 +2,46 @@ import { Calendar, Mail, Bell, RefreshCw, Clock, BarChart2, Scissors, Heart, Hom
 import { ServicePage, type ServicePageData } from '@/components/public/ServicePage'
 
 export const metadata = {
-  title: 'Ingyenes foglalási rendszer | Weboldalas',
-  description: 'Online időpontfoglalás ingyenesen minden weboldalhoz. Automatikus visszaigazolás, naptár szinkron.',
+  title: 'Online foglalási rendszer | Weboldalas',
+  description: 'Online időpont-, asztal- és szobafoglalás a weboldaladba építve: automatikus visszaigazolás, emlékeztető és naptár-összekötés.',
 }
 
 const data: ServicePageData = {
   shape: 'calendar',
   kind: 'booking',
   icon: Calendar,
-  iconColor: 'emerald',
-  accentColor: '#10b981',
-  accentGradient: 'linear-gradient(135deg, #059669, #10b981)',
   title: 'Foglalási rendszer',
-  subtitle: 'Automatikus időpontkezelés',
   hero: {
-    badge: 'Ingyenes foglalási rendszer',
+    badge: 'Foglalási rendszer',
     headline: 'Kevesebb telefonhívás, több lefoglalt időpont',
-    sub: 'Az online foglalási rendszer automatikusan kezeli az egyeztetést. Az ügyfeleid bármikor, bárhonnan foglalhatnak — te pedig a munkádra koncentrálhatsz.',
+    sub: 'Az online foglalási rendszerrel az ügyfeleid maguk választanak szabad időpontot a weboldaladon, bármikor. A rendszer visszaigazolja a foglalást és emlékeztetőt küld, így kevesebb időt visz el az egyeztetés.',
     features: [
-      '0 Ft extra havidíj — minden weboldalhoz jár',
-      'Automatikus visszaigazolás emailben',
-      'Emlékeztető email/SMS az ügyfélnek',
-      'Naptár szinkronizáció (Google Naptár)',
-      'Mobilbarát foglalási felület',
-      'Saját rendelkezési időkorlátok beállítása',
+      'Szabad időpontok valós időben',
+      'Automatikus visszaigazolás e-mailben',
+      'Emlékeztető az ügyfélnek',
+      'Összekötés a Google Naptárral',
+      'Telefonon is kényelmes',
+      'Saját nyitvatartás és szünetek',
     ],
   },
   whatYouGet: {
     title: 'Mire képes a foglalási rendszer?',
     items: [
-      { icon: Calendar,   title: 'Online naptár',              desc: 'Az ügyfeleid valós időben látják a szabad időpontokat és rögtön foglalhatnak.' },
-      { icon: Mail,       title: 'Automatikus visszaigazolás', desc: 'Minden foglalás után azonnal küldünk visszaigazolót az ügyfélnek és neked.' },
-      { icon: Bell,       title: 'Emlékeztető értesítések',    desc: 'Automatikus emlékeztető SMS/email, hogy ne feledkezzenek el a foglalásukról.' },
-      { icon: RefreshCw,  title: 'Google Naptár szinkron',     desc: 'A foglalások automatikusan megjelennek a naptáradban.' },
-      { icon: Clock,      title: 'Nyitvatartás kezelés',       desc: 'Beállíthatod a munkaidődet, szabadnapjaidat és szüneteket.' },
-      { icon: BarChart2,  title: 'Foglalás statisztikák',      desc: 'Lásd hány foglalásod volt, mikor a csúcsidő és ki volt a legtöbbször.' },
+      { icon: Calendar,  title: 'Online naptár',              desc: 'Az ügyfeleid látják a szabad időpontokat, és azonnal foglalhatnak.' },
+      { icon: Mail,      title: 'Automatikus visszaigazolás', desc: 'Minden foglalás után e-mailt kap az ügyfél, és értesítést kapsz te is.' },
+      { icon: Bell,      title: 'Emlékeztető',                desc: 'A rendszer a foglalás előtt emlékeztetőt küld, így kevesebb a kimaradó ügyfél.' },
+      { icon: RefreshCw, title: 'Naptár-összekötés',          desc: 'A foglalások automatikusan megjelennek a Google Naptáradban.' },
+      { icon: Clock,     title: 'Saját beosztás',             desc: 'Beállíthatod a nyitvatartást, a szabadnapokat és a szüneteket.' },
+      { icon: BarChart2, title: 'Kimutatások',                desc: 'Látod, mennyi foglalásod volt, és melyek a legforgalmasabb időszakok.' },
     ],
   },
   howItWorks: {
     title: 'Hogyan foglal az ügyfeled?',
     steps: [
-      { n: '01', title: 'Megnyitja a weboldalad', desc: 'Az ügyfeled rátalál a weboldaladra — Google, közösségi média, ajánlás alapján.' },
-      { n: '02', title: 'Kiválaszt időpontot',    desc: 'Megnézi a szabad időpontokat és kiválasztja ami neki megfelel.' },
-      { n: '03', title: 'Megadja adatait',         desc: 'Nevet, emailt, telefont ad meg és elküldi a foglalást.' },
-      { n: '04', title: 'Kap visszaigazolást',     desc: 'Automatikusan kap visszaigazolót és emlékeztetőt. Te is értesülsz.' },
+      { n: '01', title: 'Megnyitja az oldalt',   desc: 'Rátalál a weboldaladra a Google-ből, a közösségi médiából vagy ajánlás alapján.' },
+      { n: '02', title: 'Időpontot választ',     desc: 'Megnézi a szabad időpontokat, és kiválasztja a neki megfelelőt.' },
+      { n: '03', title: 'Megadja az adatait',    desc: 'Nevet, e-mail-címet és telefonszámot ad meg, majd elküldi a foglalást.' },
+      { n: '04', title: 'Visszaigazolást kap',   desc: 'Automatikusan megkapja a visszaigazolást és később az emlékeztetőt. Te is értesülsz.' },
     ],
   },
   forWhom: {
@@ -58,15 +54,14 @@ const data: ServicePageData = {
     ],
   },
   pricing: {
-    title: 'Ingyenes — minden weboldalhoz',
-    note: 'A foglalási rendszer 0 Ft extra havidíjjal jár minden csomagunkhoz. Nem kell külön fizetni érte.',
-    cta: 'Kérem a foglalási rendszert',
+    note: 'Új és meglévő weboldalba is beépíthető. Az ár attól függ, hány szolgáltatást, munkatársat vagy helyszínt kell kezelnie a rendszernek.',
+    cta: 'Ajánlatot kérek',
   },
   faqs: [
-    { q: 'Valóban ingyenes a foglalási rendszer?', a: 'Igen, minden weboldalhoz díjmentesen adjuk. Nem kell külön szoftvert előfizetni, mi integráljuk.' },
-    { q: 'Tud SMS emlékeztetőt küldeni?', a: 'Igen, SMS és email emlékeztetőt is tud küldeni az ügyfélnek a foglalás előtt.' },
-    { q: 'Össze lehet kötni a Google Naptárral?', a: 'Igen, a foglalások automatikusan szinkronizálódnak a Google Naptárral.' },
-    { q: 'Mi van ha le kell mondani egy foglalást?', a: 'Az ügyfél lemondhat online, te is törölheted az adminból. Mindkét fél kap értesítést.' },
+    { q: 'Meglévő weboldalba is beépíthető?', a: 'Igen, új és meglévő weboldalhoz is hozzáadható.' },
+    { q: 'Tud SMS-emlékeztetőt küldeni?', a: 'Az emlékeztető e-mailben megy ki; igény szerint SMS-ben is beállítható.' },
+    { q: 'Össze lehet kötni a Google Naptárral?', a: 'Igen, a foglalások automatikusan megjelennek a Google Naptárban.' },
+    { q: 'Mi történik, ha le kell mondani egy foglalást?', a: 'Az ügyfél online lemondhatja, te pedig a kezelőfelületen törölheted. Mindkét fél értesítést kap.' },
   ],
 }
 

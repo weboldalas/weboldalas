@@ -9,7 +9,7 @@ import { useEffect, useRef } from 'react'
  * and prefers-reduced-motion shows the static, fully drawn frame.
  */
 
-export type ServiceKind = 'web' | 'shop' | 'booking' | 'landing' | 'crm' | 'ops'
+export type ServiceKind = 'web' | 'shop' | 'booking' | 'landing' | 'crm' | 'ops' | 'erp'
 
 const LINE = 'rgba(255,255,255,0.28)'
 const IRIS = 'var(--color-electric-iris)'
@@ -111,8 +111,34 @@ function Ops() {
   )
 }
 
+function Erp() {
+  // departments around one shared core; data keeps flowing between them
+  const mods = [
+    { x: 30, y: 22, t: 'Pénzügy' }, { x: 30, y: 68, t: 'Raktár' }, { x: 30, y: 114, t: 'Beszerzés' },
+    { x: 190, y: 22, t: 'Értékesítés' }, { x: 190, y: 68, t: 'Gyártás' }, { x: 190, y: 114, t: 'HR' },
+  ]
+  return (
+    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1">
+      {mods.map((m, i) => {
+        const left = m.x < 140
+        const d = `M${left ? m.x + 60 : m.x} ${m.y + 12} C ${left ? 112 : 168} ${m.y + 12}, ${left ? 104 : 176} 80, ${left ? 112 : 168} 80`
+        return (
+          <g key={m.t}>
+            <path d={d} stroke="rgba(255,255,255,0.1)" />
+            <path className="sv-flow" style={{ animationDelay: `${i * 0.27}s`, animationDirection: i % 2 ? 'reverse' : 'normal' }} d={d} stroke={[IRIS, SAFFRON, VERDANT][i % 3]} strokeDasharray="4 12" />
+            <rect x={m.x} y={m.y} width="60" height="24" rx="6" stroke={LINE} />
+            <text x={m.x + 30} y={m.y + 15.5} textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="9" fontFamily="inherit">{m.t}</text>
+          </g>
+        )
+      })}
+      <rect className="sv-pulse" x="112" y="62" width="56" height="36" rx="9" stroke={IRIS} strokeWidth="1.5" />
+      <text x="140" y="84" textAnchor="middle" fill="#fff" fontSize="11" fontFamily="inherit" letterSpacing="1">ERP</text>
+    </svg>
+  )
+}
+
 const visuals: Record<ServiceKind, () => React.ReactElement> = {
-  web: Web, shop: Shop, booking: Booking, landing: Landing, crm: Crm, ops: Ops,
+  web: Web, shop: Shop, booking: Booking, landing: Landing, crm: Crm, ops: Ops, erp: Erp,
 }
 
 export function ServiceVisual({ kind, className = '' }: { kind: ServiceKind; className?: string }) {

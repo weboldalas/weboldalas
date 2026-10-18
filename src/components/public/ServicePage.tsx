@@ -6,6 +6,7 @@ import { ServiceOrderForm } from './ServiceOrderForm'
 import { ParticlePage } from './void/ParticlePage'
 import { PageHero } from './void/PageHero'
 import { VoidFaq } from './void/VoidFaq'
+import { PaymentOptions } from './void/PaymentOptions'
 import { Label, GhostLink, TriangleBullet, SectionHead, container } from './void/ui'
 
 export type ServicePageData = {
@@ -14,12 +15,7 @@ export type ServicePageData = {
   /** line-art animation shown next to "what you get" */
   kind: ServiceKind
   icon: LucideIcon
-  /** legacy colour fields, no longer used by the Void design */
-  iconColor?: string
-  accentColor?: string
-  accentGradient?: string
   title: string
-  subtitle: string
   hero: {
     badge: string
     headline: string
@@ -38,8 +34,8 @@ export type ServicePageData = {
     title: string
     items: { icon: LucideIcon; label: string; desc: string }[]
   }
+  /** what the price depends on (no amounts) + the payment block's button */
   pricing: {
-    title: string
     note: string
     cta: string
   }
@@ -56,7 +52,7 @@ export function ServicePage({ data }: { data: ServicePageData }) {
         shape={data.shape}
         actions={<>
           <Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>
-          <GhostLink href="/arak">Árak</GhostLink>
+          <GhostLink href="#fizetes">Fizetési lehetőségek</GhostLink>
         </>}
       >
         <p>{data.hero.sub}</p>
@@ -130,18 +126,11 @@ export function ServicePage({ data }: { data: ServicePageData }) {
         </div>
       </section>
 
-      {/* ===== ÁR ===== */}
-      <section className="void-section">
-        <div className={container}>
-          <SectionHead title={data.pricing.title} label="Árazás">
-            {data.pricing.note}
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
-              <a href="#erdeklodes" className="void-button">{data.pricing.cta}</a>
-              <GhostLink href="/arak">Részletes árak és kalkulátor</GhostLink>
-            </div>
-          </SectionHead>
-        </div>
-      </section>
+      {/* ===== FIZETÉS ===== */}
+      <PaymentOptions
+        note={data.pricing.note}
+        action={<a href="#erdeklodes" className="void-button">{data.pricing.cta}</a>}
+      />
 
       {/* ===== GYIK ===== */}
       <section className="void-section" data-particles="scatter">

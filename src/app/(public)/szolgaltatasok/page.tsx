@@ -4,48 +4,48 @@ import { ParticlePage } from '@/components/public/void/ParticlePage'
 import { PageHero } from '@/components/public/void/PageHero'
 import { GhostLink, Label, container } from '@/components/public/void/ui'
 import { ServiceVisual, type ServiceKind } from '@/components/public/home/ServiceVisual'
+import { PaymentOptions } from '@/components/public/void/PaymentOptions'
 
 export const metadata = {
   title: 'Szolgáltatások | Weboldalas',
-  description: 'Weboldal, webshop, foglalási rendszer, landing page, CRM és üzemeltetés kis-, közép- és nagyvállalatoknak.',
+  description: 'Weboldal, webshop, foglalási rendszer, landing page, CRM, ERP és üzemeltetés kis-, közép- és nagyvállalatoknak.',
 }
 
-const services: { kind: ServiceKind; title: string; sub: string; href: string; points: string[]; from: string }[] = [
+const services: { kind: ServiceKind; title: string; sub: string; href: string; points: string[] }[] = [
   {
     kind: 'web', title: 'Bemutatkozó weboldal', href: '/szolgaltatasok/bemutatkozo-weboldal',
-    sub: 'Professzionális megjelenés, ami hitelesebbé teszi a cégedet.',
-    points: ['Egyedi megjelenés', 'Mobilbarát', 'Google alapoptimalizálás', 'Kapcsolatfelvétel'],
-    from: '250 000 Ft-tól',
+    sub: 'A céged online névjegye: megmutatja, mivel foglalkoztok, miért érdemes titeket választani, és hogyan lehet elérni benneteket.',
+    points: ['Egyedi dizájn', 'Mobilbarát', 'Alap keresőoptimalizálás', 'Kapcsolatfelvételi űrlap'],
   },
   {
     kind: 'shop', title: 'Webshop', href: '/szolgaltatasok/webshop',
-    sub: 'Értékesíts online, egy rendszerrel, ami együtt nő a céggel.',
-    points: ['Korlátlan termék', 'Online fizetés', 'Rendeléskezelés', 'Mobilbarát vásárlás'],
-    from: '450 000 Ft-tól',
+    sub: 'Online bolt: a vásárlók kosárba teszik és kifizetik a termékeidet, te pedig egy felületen intézed a rendeléseket.',
+    points: ['Online fizetés', 'Rendeléskezelés', 'Készletnyilvántartás', 'Automatikus e-mailek'],
   },
   {
     kind: 'booking', title: 'Foglalási rendszer', href: '/szolgaltatasok/foglalasi-rendszer',
-    sub: 'Online időpontfoglalás: kevesebb telefon, több idő a valódi munkára.',
-    points: ['Online foglalás', 'Google Naptár szinkron', 'Automatikus visszaigazolás', 'Kevesebb adminisztráció'],
-    from: 'Ingyenes kiegészítő',
+    sub: 'Az ügyfeleid maguk foglalnak szabad időpontot a weboldaladon; a visszaigazolást és az emlékeztetőt a rendszer küldi.',
+    points: ['Online időpontfoglalás', 'Google Naptár', 'Automatikus visszaigazolás', 'Emlékeztető'],
   },
   {
     kind: 'landing', title: 'Landing page', href: '/szolgaltatasok/landing-page',
-    sub: 'Kampányoldal egyetlen céllal: érdeklődőt vagy vásárlót szerezni.',
-    points: ['Erős CTA', 'Lead gyűjtés', 'Analitika', 'Gyors betöltés'],
-    from: '80 000 Ft-tól',
+    sub: 'Egyetlen célra épített oldal hirdetésekhez és kampányokhoz: ajánlatkérés, feliratkozás vagy vásárlás.',
+    points: ['Egy cél', 'Űrlap', 'Mérőkódok', 'Gyors betöltés'],
   },
   {
     kind: 'crm', title: 'CRM rendszer', href: '/szolgaltatasok/crm',
-    sub: 'Ügyfelek, ajánlatok és feladatok egyetlen átlátható rendszerben.',
-    points: ['Ügyfélkezelés', 'Ajánlatkezelés', 'Feladatok', 'Pénzügyi nyilvántartás'],
-    from: 'Egyéni ajánlat',
+    sub: 'Ügyfélkezelő rendszer: érdeklődők, ajánlatok, ügyfelek és teendők egy helyen, hogy semmi ne csússzon el.',
+    points: ['Értékesítési tábla', 'Ajánlatok', 'Feladatok', 'Hívásnapló'],
+  },
+  {
+    kind: 'erp', title: 'ERP rendszer', href: '/szolgaltatasok/erp',
+    sub: 'Vállalatirányítási rendszer: összeköti a pénzügyet, a raktárat, a beszerzést, a gyártást és a munkatársakat.',
+    points: ['Raktár és készlet', 'Beszerzés', 'Pénzügy', 'Összekötések'],
   },
   {
     kind: 'ops', title: 'Üzemeltetés', href: '/szolgaltatasok/uzemeltetes',
-    sub: 'A technikai működés a mi dolgunk, hogy neked csak az üzletre kelljen figyelned.',
-    points: ['Frissítések', 'Biztonsági mentések', 'Tárhely és SSL', 'Magyar támogatás'],
-    from: '19 990 Ft/hó-tól',
+    sub: 'Átvállaljuk a weboldalad vagy rendszered technikai gondozását: tárhely, frissítések, mentések és módosítások.',
+    points: ['Tárhely és domain', 'Frissítések', 'Napi mentés', 'Magyar ügyfélszolgálat'],
   },
 ]
 
@@ -58,10 +58,10 @@ export default function SzolgaltatasokPage() {
         shape="devices"
         actions={<>
           <Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>
-          <GhostLink href="/arak">Árak</GhostLink>
+          <GhostLink href="#fizetes">Fizetési lehetőségek</GhostLink>
         </>}
       >
-        Weboldal, webshop, foglalás, CRM és üzemeltetés. Egy csapat, egy kapcsolattartó, és olyan megoldások, amik a cégedhez igazodnak, legyen szó egyéni vállalkozásról vagy nagyvállalatról.
+        Weboldal, webshop, foglalás, CRM, ERP és üzemeltetés. Egy csapat, egy kapcsolattartó, és olyan megoldások, amik a cégedhez igazodnak, legyen szó egyéni vállalkozásról vagy nagyvállalatról.
       </PageHero>
 
       {/* service list: no particles behind the line animations */}
@@ -82,7 +82,6 @@ export default function SzolgaltatasokPage() {
                     <p className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-sm text-ash-gray">
                       {s.points.map(p => <span key={p}>{p}</span>)}
                     </p>
-                    <p className="mt-5 text-caption font-semibold uppercase tracking-nav-label text-saffron-spark sm:text-nav-label">{s.from}</p>
                   </div>
                 </Link>
               </li>
@@ -90,6 +89,8 @@ export default function SzolgaltatasokPage() {
           </ul>
         </div>
       </section>
+
+      <PaymentOptions action={<Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>} />
 
       <section className="void-section">
         <div className={`${container} grid items-center gap-8 lg:grid-cols-[1.15fr_1fr]`}>

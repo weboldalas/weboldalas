@@ -7,6 +7,7 @@ const services = [
   { label: 'Landing Page', href: '/szolgaltatasok/landing-page' },
   { label: 'Foglalási rendszer', href: '/szolgaltatasok/foglalasi-rendszer' },
   { label: 'CRM', href: '/szolgaltatasok/crm' },
+  { label: 'ERP', href: '/szolgaltatasok/erp' },
   { label: 'Üzemeltetés', href: '/szolgaltatasok/uzemeltetes' },
 ]
 
@@ -14,7 +15,6 @@ const pages = [
   { href: '/', label: 'Főoldal' },
   { href: '/szolgaltatasok', label: 'Szolgáltatások' },
   { href: '/referenciak', label: 'Referenciák' },
-  { href: '/arak', label: 'Árak' },
   { href: '/kapcsolat', label: 'Kapcsolat' },
 ]
 

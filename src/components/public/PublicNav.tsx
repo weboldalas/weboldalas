@@ -14,7 +14,6 @@ const links = [
   { href: '/', label: 'Főoldal' },
   { href: '/szolgaltatasok', label: 'Szolgáltatások' },
   { href: '/referenciak', label: 'Referenciák' },
-  { href: '/arak', label: 'Árak' },
   { href: '/kapcsolat', label: 'Kapcsolat' },
 ]
 

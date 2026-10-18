@@ -9,7 +9,7 @@
 export type ShapeName =
   | 'devices' | 'chat' | 'pen' | 'progress' | 'rocket' | 'gears' | 'plane'
   // sub-page heroes
-  | 'cart' | 'calendar' | 'target' | 'funnel' | 'tag'
+  | 'cart' | 'calendar' | 'target' | 'funnel' | 'tag' | 'hub'
 
 export function mulberry32(seed: number) {
   return () => {
@@ -427,9 +427,32 @@ function tag(n: number, rand: Rand) {
   return out
 }
 
+/** ERP: a central core connected to the company's departments (modules around it). */
+function hub(n: number, rand: Rand) {
+  const out: number[] = []
+  // core
+  alongSegments(out, roundRect(-0.26, -0.2, 0.26, 0.2, 0.06), Math.round(n * 0.16), rand, 0.01, 0.01, 0.05)
+  alongSegments(out, roundRect(-0.26, -0.2, 0.26, 0.2, 0.06), Math.round(n * 0.08), rand, 0.01, 0.01, -0.05)
+  alongSegments(out, [[-0.14, -0.06, 0.14, -0.06], [-0.14, 0.06, 0.06, 0.06]], Math.round(n * 0.06), rand, 0.01, 0.02)
+  // six modules on a hexagon, each linked to the core
+  const mods: Seg[] = []
+  const links: Seg[] = []
+  for (let k = 0; k < 6; k++) {
+    const a = -Math.PI / 2 + (k * Math.PI) / 3
+    const cx = Math.cos(a) * 0.78, cy = Math.sin(a) * 0.66
+    mods.push(...roundRect(cx - 0.15, cy - 0.1, cx + 0.15, cy + 0.1, 0.04, 3))
+    const sx = Math.cos(a) * 0.3, sy = Math.sin(a) * 0.24
+    links.push([sx, sy, cx - Math.cos(a) * 0.17, cy - Math.sin(a) * 0.12])
+  }
+  alongSegments(out, mods, Math.round(n * 0.44), rand, 0.01, 0.02)
+  const rest = n - out.length / 3
+  alongSegments(out, links, rest, rand, 0.006, 0.01)
+  return out
+}
+
 const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
   devices, chat, pen, progress, rocket, gears, plane,
-  cart, calendar, target, funnel, tag,
+  cart, calendar, target, funnel, tag, hub,
 }
 
 export function buildShape(name: ShapeName, n: number, seed: number): Float32Array {

@@ -6,19 +6,21 @@ import { ServiceVisual, type ServiceKind } from '@/components/public/home/Servic
 import { ParticlePage } from '@/components/public/void/ParticlePage'
 import { Label, GhostLink, TriangleBullet } from '@/components/public/void/ui'
 import { VoidFaq } from '@/components/public/void/VoidFaq'
+import { PaymentOptions } from '@/components/public/void/PaymentOptions'
 
 export const metadata = {
   title: 'Weboldalas – Weboldalak, webshopok és rendszerek kis-, közép- és nagyvállalatoknak',
-  description: 'Weboldalt, webshopot és egyedi rendszert tervezünk, fejlesztünk és üzemeltetünk egyéni vállalkozóknak, KKV-knak és nagyvállalatoknak. Egyszeri díjjal, részletre vagy kiszámítható havidíjjal.',
+  description: 'Weboldalt, webshopot és egyedi rendszert tervezünk, fejlesztünk és üzemeltetünk egyéni vállalkozóknak, KKV-knak és nagyvállalatoknak. Egy összegben vagy részletekben fizetve.',
 }
 
 const services: { title: string; desc: string; href: string; kind: ServiceKind }[] = [
-  { kind: 'web', title: 'Bemutatkozó weboldal', desc: 'Modern, mobilbarát oldal, ami bemutatja, kik vagytok és mit csináltok.', href: '/szolgaltatasok/bemutatkozo-weboldal' },
-  { kind: 'shop', title: 'Webshop', desc: 'Termékek, kosár, online fizetés és rendeléskezelés egy rendszerben.', href: '/szolgaltatasok/webshop' },
-  { kind: 'booking', title: 'Foglalási rendszer', desc: 'Időpont-, asztal- vagy szobafoglalás online, éjjel-nappal.', href: '/szolgaltatasok/foglalasi-rendszer' },
-  { kind: 'landing', title: 'Landing page', desc: 'Egy oldal, egy cél: kampányokra és hirdetésekre szabva.', href: '/szolgaltatasok/landing-page' },
-  { kind: 'crm', title: 'CRM rendszer', desc: 'Érdeklődők, ajánlatok és ügyfelek egy átlátható felületen.', href: '/szolgaltatasok/crm' },
-  { kind: 'ops', title: 'Üzemeltetés', desc: 'Frissítések, mentések, biztonság és support, hogy neked ne kelljen.', href: '/szolgaltatasok/uzemeltetes' },
+  { kind: 'web', title: 'Bemutatkozó weboldal', desc: 'A céged online névjegye: kik vagytok, mit csináltok, és hogyan lehet elérni benneteket.', href: '/szolgaltatasok/bemutatkozo-weboldal' },
+  { kind: 'shop', title: 'Webshop', desc: 'Online bolt termékekkel, kosárral, online fizetéssel és rendeléskezeléssel.', href: '/szolgaltatasok/webshop' },
+  { kind: 'booking', title: 'Foglalási rendszer', desc: 'Az ügyfeleid maguk foglalnak időpontot, asztalt vagy szobát a weboldaladon.', href: '/szolgaltatasok/foglalasi-rendszer' },
+  { kind: 'landing', title: 'Landing page', desc: 'Egyetlen célra épített oldal hirdetésekhez és kampányokhoz.', href: '/szolgaltatasok/landing-page' },
+  { kind: 'crm', title: 'CRM rendszer', desc: 'Ügyfélkezelés: érdeklődők, ajánlatok és ügyfelek egy átlátható felületen.', href: '/szolgaltatasok/crm' },
+  { kind: 'erp', title: 'ERP rendszer', desc: 'Vállalatirányítás: pénzügy, raktár, beszerzés, gyártás és munkatársak egy rendszerben.', href: '/szolgaltatasok/erp' },
+  { kind: 'ops', title: 'Üzemeltetés', desc: 'Tárhely, frissítések, mentések és módosítások, hogy neked ne kelljen ezekkel foglalkoznod.', href: '/szolgaltatasok/uzemeltetes' },
 ]
 
 const steps = [
@@ -34,12 +36,12 @@ const included = [
 ]
 
 const sizes = [
-  { size: 'Kis', who: 'Egyéni és kisvállalkozások', desc: 'Átlátható indulás: bemutatkozó weboldal, foglalás vagy webshop, akár kiszámítható havidíjjal.' },
-  { size: 'Közép', who: 'KKV-k és növekvő cégek', desc: 'Webshop, CRM és automatizálás, ami a meglévő folyamataidhoz és rendszereidhez igazodik.' },
-  { size: 'Nagy', who: 'Nagyvállalatok', desc: 'Egyedi rendszerek, integrációk és hosszú távú üzemeltetés, egy kapcsolattartóval.' },
+  { size: 'Kis', who: 'Egyéni és kisvállalkozások', desc: 'Egyszerű indulás: bemutatkozó weboldal, online foglalás vagy webshop.' },
+  { size: 'Közép', who: 'KKV-k és növekvő cégek', desc: 'Webshop, CRM és automatizálás, ami a meglévő folyamataitokhoz és rendszereitekhez igazodik.' },
+  { size: 'Nagy', who: 'Nagyvállalatok', desc: 'ERP és egyedi rendszerek, összekötések és hosszú távú üzemeltetés, egy kapcsolattartóval.' },
 ]
 
-const marquee = ['Weboldal', 'Webshop', 'Foglalási rendszer', 'Landing page', 'CRM', 'Üzemeltetés']
+const marquee = ['Weboldal', 'Webshop', 'Foglalási rendszer', 'Landing page', 'CRM', 'ERP', 'Üzemeltetés']
 
 const references = [
   { slug: 'helkem', name: 'Helkem', type: 'Szálláshely' },
@@ -47,24 +49,17 @@ const references = [
   { slug: 'visitkigyos', name: 'VisitKígyós', type: 'Turizmus' },
 ]
 
-const plans = [
-  { title: 'Egyszeri díj', price: '150 000 Ft-tól', note: 'Teljes tulajdonjog, előre egyeztetett ár.' },
-  { title: 'Részletfizetés', price: '3–24 hónap', note: 'Kamatmentes részletek, kifizetés után a tiéd.' },
-  { title: 'Havidíj', price: '19 990 Ft/hó-tól', note: 'Tárhely, domain, karbantartás és módosítások benne.' },
-]
-
 const reviews = [
   { name: 'Kis Péter', role: 'Panzió tulajdonos', text: 'Az online foglalásaim száma megduplázódott az új weboldal óta. Profi csapat, gyors munka!' },
   { name: 'Nagy Éva', role: 'Fodrászat', text: 'Végre van egy oldalunk ami nem szégyenítő. Az ügyfelek mindig megdicsérik, és sokkal több visszaigazolt foglalásunk van.' },
-  { name: 'Takács András', role: 'Étterem', text: 'A havidíjas modell tökéletes. Nem kellett nagy összeget kiadni egyszerre, és minden benne van.' },
 ]
 
 const faqs = [
   { q: 'Mennyi idő alatt készül el?', a: 'A projekt méretétől függ: egy bemutatkozó oldal hamarabb elkészül, mint egy webshop vagy egy egyedi rendszer. A pontos ütemtervet az elején közösen rögzítjük, így mindig tudod, hol tartunk.' },
-  { q: 'Tényleg nincs nagy kezdő költség?', a: 'Havidíjas csomagunknál valóban nincs nagy egyszeri beruházás. Kiszámítható havi díjért profi weboldalt kapsz teljes üzemeltetéssel. Az egyszeri megoldásoknál az árat előre egyeztetjük.' },
+  { q: 'Mennyibe kerül?', a: 'A projekt méretétől és a szükséges funkcióktól függ, ezért nem dolgozunk sablonárakkal. Egy rövid konzultáció után pontos, kötelezettségmentes ajánlatot küldünk.' },
+  { q: 'Hogyan lehet fizetni?', a: 'Egy összegben vagy részletekben. A pontos összeget és a fizetési ütemezést előre, az ajánlatban rögzítjük.' },
   { q: 'Később bővíthető a weboldal?', a: 'Igen, a weboldaladat bármikor bővíthetjük új aloldalakkal, funkciókkal vagy integrációkkal. A fejlesztések mindig az igényeidhez igazodnak.' },
   { q: 'Én is tudom majd szerkeszteni?', a: 'Attól függ, milyen rendszert választasz. Kezelőfelületes megoldásoknál lehetséges az önálló szerkesztés. Egyébként a módosításokat mi végezzük el a megállapodott kereten belül.' },
-  { q: 'Mi történik, ha lemondom a havidíjas csomagot?', a: 'A weboldal üzemeltetését leállítjuk, de minden tartalom elérhető marad számodra. Az együttműködés minimuma 12 hónap, ezt követően bármikor felmondható.' },
   { q: 'Segítetek a Google-ben is megjelenni?', a: 'Igen. Minden weboldalt alapszintű keresőoptimalizálással adunk át: gyors betöltés, strukturált adatok, mobilbarát kialakítás és megfelelő meta beállítások.' },
 ]
 
@@ -89,15 +84,12 @@ export default function HomePage() {
               <Label>Tervezés · Fejlesztés · Üzemeltetés</Label>
               <p className="text-body font-extralight mt-4">
                 Egyéni vállalkozóknak, KKV-knak és nagyvállalatoknak tervezünk, fejlesztünk és üzemeltetünk weboldalakat, webshopokat és egyedi rendszereket.
-                Egy csapattal, akár kiszámítható havidíjjal.
+                Egy csapattal, egy összegben vagy részletekben fizetve.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
                 <Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>
                 <GhostLink href="/referenciak">Munkáink</GhostLink>
               </div>
-              <p className="mt-8 text-nav-label font-normal tracking-normal text-silver-mist">
-                Havidíjas csomag <span className="text-white">19 990 Ft</span>/hó-tól
-              </p>
             </div>
           </div>
         </div>
@@ -137,7 +129,7 @@ export default function HomePage() {
             <div className="void-reveal lg:pt-4">
               <Label>Szolgáltatások</Label>
               <p className="text-body font-extralight mt-4 text-silver-mist">
-                Weboldal, webshop, foglalás, CRM, üzemeltetés. Egy kézben, egy kapcsolattartóval.
+                Weboldal, webshop, foglalás, CRM, ERP, üzemeltetés. Egy kézben, egy kapcsolattartóval.
               </p>
             </div>
           </div>
@@ -288,28 +280,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== ÁRAK ===== */}
-      <section className="void-section">
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
-            <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg void-reveal">Három út. Egy minőség.</h2>
-            <div className="void-reveal lg:pt-4">
-              <Label>Árak</Label>
-              <p className="text-body font-extralight mt-4 text-silver-mist">Egyszeri díj, kamatmentes részlet vagy havidíj. Te döntöd el, mi kényelmes.</p>
-              <div className="mt-6"><GhostLink href="/arak">Részletes árak és kalkulátor</GhostLink></div>
-            </div>
-          </div>
-          <div className="mt-12 grid gap-10 sm:mt-20 md:grid-cols-3">
-            {plans.map(p => (
-              <div key={p.title} className="void-reveal">
-                <Label>{p.title}</Label>
-                <div className="mt-3 text-subheading tracking-heading-sm sm:text-heading-sm">{p.price}</div>
-                <p className="text-body font-extralight mt-3 text-silver-mist">{p.note}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ===== FIZETÉS ===== */}
+      <PaymentOptions action={<Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>} />
 
       {/* ===== GYIK ===== */}
       <section className="void-section" data-particles="scatter">

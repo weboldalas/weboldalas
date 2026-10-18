@@ -1,72 +1,67 @@
-import { Wrench, Server, Shield, HardDrive, Settings, Pencil, Phone, Briefcase, Home, Utensils } from 'lucide-react'
+import { Wrench, Server, Shield, HardDrive, Settings, Pencil, Phone, Briefcase, Building2, Factory } from 'lucide-react'
 import { ServicePage, type ServicePageData } from '@/components/public/ServicePage'
 
 export const metadata = {
-  title: 'Üzemeltetés és karbantartás | Weboldalas',
-  description: 'Teljes weboldal üzemeltetés, karbantartás és support kis-, közép- és nagyvállalatoknak. Te csak a bizniszre fókuszálj.',
+  title: 'Weboldal üzemeltetés | Weboldalas',
+  description: 'Átvállaljuk a weboldalad vagy rendszered technikai gondozását: tárhely, frissítések, mentések, hibajavítás és módosítások.',
 }
 
 const data: ServicePageData = {
   shape: 'gears',
   kind: 'ops',
   icon: Wrench,
-  iconColor: 'slate',
-  accentColor: '#64748b',
-  accentGradient: 'linear-gradient(135deg, #475569, #64748b)',
   title: 'Üzemeltetés',
-  subtitle: 'Gondtalan weboldal kezelés',
   hero: {
     badge: 'Üzemeltetés és karbantartás',
-    headline: 'Te a bizniszedre fókuszálj — mi a technikára',
-    sub: 'Nem kell értened a szerverekhöz, frissítésekhez és hibakereséshez. Mi gondoskodunk arról, hogy a weboldalad mindig tökéletesen működjön.',
+    headline: 'Te az üzletre figyelsz, mi a technikára',
+    sub: 'Az üzemeltetés azt jelenti, hogy átvállaljuk a weboldalad vagy rendszered technikai gondozását: tárhely, frissítések, biztonsági mentések, hibajavítás és kisebb módosítások. Neked nem kell értened hozzá.',
     features: [
-      'Tárhely és domain kezelés',
-      'SSL tanúsítvány (https)',
-      'Szoftverfrissítések és biztonság',
+      'Tárhely és domain',
+      'SSL tanúsítvány (biztonságos https)',
+      'Rendszeres frissítések',
       'Napi automatikus mentés',
-      'Képcsere, szövegcsere (1 óra/hó)',
+      'Tartalmi módosítások',
       'Magyar ügyfélszolgálat munkaidőben',
     ],
   },
   whatYouGet: {
     title: 'Mit tartalmaz az üzemeltetés?',
     items: [
-      { icon: Server,    title: 'Tárhely és domain',    desc: 'Gyors, megbízható szerver és domain névkezelés — minden egy helyen.' },
-      { icon: Shield,    title: 'SSL és biztonság',     desc: 'HTTPS tanúsítvány, biztonsági frissítések és vírusvédelem.' },
-      { icon: HardDrive, title: 'Napi mentés',          desc: 'Automatikusan minden nap mentjük a weboldalad — adatvesztés ellen védve.' },
-      { icon: Settings,  title: 'Frissítések',          desc: 'Az összes szoftver naprakészen tartva, hogy ne legyenek biztonsági rések.' },
-      { icon: Pencil,    title: 'Tartalomfrissítés',    desc: 'Havi 1 óra módosítási keret — képcsere, szövegfrissítés, apró változtatások.' },
-      { icon: Phone,     title: 'Magyar support',       desc: 'Ha valami nem stimmel, elérhető vagy. Nem kell ticket rendszerben bolyongani.' },
+      { icon: Server,    title: 'Tárhely és domain', desc: 'Megbízható szerver és domainkezelés, egy helyen intézve.' },
+      { icon: Shield,    title: 'Biztonság',         desc: 'SSL tanúsítvány és rendszeres biztonsági frissítések.' },
+      { icon: HardDrive, title: 'Napi mentés',       desc: 'Minden nap automatikusan mentjük az oldalt, hogy baj esetén vissza lehessen állítani.' },
+      { icon: Settings,  title: 'Frissítések',       desc: 'A használt szoftvereket naprakészen tartjuk, hogy ne maradjanak biztonsági rések.' },
+      { icon: Pencil,    title: 'Módosítások',       desc: 'Képcsere, szövegfrissítés, kisebb változtatások: szólsz, és elvégezzük.' },
+      { icon: Phone,     title: 'Elérhető segítség', desc: 'Ha kérdésed van vagy valami nem működik, magyarul, közvetlenül elérsz minket.' },
     ],
   },
   howItWorks: {
-    title: 'Hogyan működik a karbantartás?',
+    title: 'Hogyan működik?',
     steps: [
-      { n: '01', title: 'Átvesszük a weboldalt',  desc: 'Áthelyezzük a weboldalad a mi szerverünkre, beállítjuk a monitoringot.' },
-      { n: '02', title: 'Folyamatos felügyelet',  desc: 'Automatikus monitoringgal figyeljük — ha leáll, azonnal értesülünk.' },
-      { n: '03', title: 'Havi karbantartás',      desc: 'Minden hónapban elvégezzük a szükséges frissítéseket és ellenőrzéseket.' },
-      { n: '04', title: 'Te csak szólsz',         desc: 'Ha változtatni szeretnél valamit, jelzed nekünk — mi elvégezzük.' },
+      { n: '01', title: 'Átvesszük',      desc: 'Átnézzük és átvesszük a weboldalt vagy rendszert, és beállítjuk a felügyeletet.' },
+      { n: '02', title: 'Felügyeljük',    desc: 'Automatikusan figyeljük, hogy az oldal elérhető-e és rendben működik-e.' },
+      { n: '03', title: 'Karbantartjuk',  desc: 'Rendszeresen elvégezzük a frissítéseket és az ellenőrzéseket.' },
+      { n: '04', title: 'Te csak szólsz', desc: 'Ha változtatni szeretnél valamin, jelzed nekünk, és elvégezzük.' },
     ],
   },
   forWhom: {
     title: 'Kinek ajánljuk?',
     items: [
-      { icon: Briefcase, label: 'Kisvállalkozásoknak', desc: 'Akiknek nincs IT csapatuk' },
-      { icon: Home,      label: 'Középvállalatoknak', desc: 'Ahol a weboldalnak folyamatosan működnie kell' },
-      { icon: Utensils,  label: 'Nagyvállalatoknak', desc: 'Akik tehermentesítenék a belső IT-t' },
-      { icon: Wrench,    label: 'Szolgáltatóknak',desc: 'Akik nem akarnak technikával foglalkozni' },
+      { icon: Briefcase, label: 'Kisvállalkozásoknak', desc: 'Akiknek nincs saját informatikusuk' },
+      { icon: Building2, label: 'Középvállalatoknak',  desc: 'Ahol a weboldalnak folyamatosan működnie kell' },
+      { icon: Factory,   label: 'Nagyvállalatoknak',   desc: 'Akik tehermentesítenék a belső IT-t' },
+      { icon: Wrench,    label: 'Bárkinek',            desc: 'Aki nem szeretne technikával foglalkozni' },
     ],
   },
   pricing: {
-    title: 'Üzemeltetési díj',
-    note: '19.990 Ft/hó-tól. Minimum 12 hónapos együttműködéssel. Tartalmaz mindent — nincs rejtett díj.',
-    cta: 'Üzemeltetési ajánlatot kérek',
+    note: 'Az üzemeltetés folyamatos szolgáltatás. A díját a weboldal vagy rendszer méretétől és a kért szolgáltatásoktól függően, az ajánlatban rögzítjük.',
+    cta: 'Ajánlatot kérek',
   },
   faqs: [
-    { q: 'Minimum mennyi ideig kell vállalni?', a: 'Minimum 12 hónap az együttműködés. Utána havi szinten mondható le 30 napos felmondási idővel.' },
-    { q: 'Mi van ha többet változtatni szeretnék mint 1 óra/hó?', a: 'A havi kereten felüli módosítások óradíj alapján kerülnek számlázásra. Erről előre tájékoztatunk.' },
-    { q: 'Ha valami elromlik éjszaka, mit csinálok?', a: 'Az automatikus monitoringunk azonnal jelez nekünk. Kritikus hibáknál este és hétvégén is reagálunk.' },
-    { q: 'Tudtok átvenni meglévő weboldalt?', a: 'Igen, bármilyen meglévő weboldalt átveszünk üzemeltetésre. Előbb ingyenesen megvizsgáljuk.' },
+    { q: 'Más által készített oldalt is átvesztek?', a: 'Igen. Előbb átnézzük, milyen állapotban van, és csak utána adunk ajánlatot.' },
+    { q: 'Mi történik, ha hiba van az oldalon?', a: 'Az automatikus felügyelet jelez nekünk, ha az oldal nem érhető el, és a hibát a lehető leghamarabb javítjuk.' },
+    { q: 'Mennyi módosítás fér bele?', a: 'Ezt az ajánlatban rögzítjük. Nagyobb fejlesztésekre külön ajánlatot adunk.' },
+    { q: 'Nekem kell bármit csinálnom?', a: 'Nem. Elég szólnod, ha módosítást szeretnél, a technikai részt mi intézzük.' },
   ],
 }
 
