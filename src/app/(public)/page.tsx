@@ -186,7 +186,7 @@ export default function HomePage() {
             </div>
           </div>
           <ul className="mt-14 grid gap-4 sm:mt-20 md:grid-cols-3 lg:gap-5">
-            {sizes.map((s, i) => (
+            {sizes.map(s => (
               <li key={s.size} className="void-reveal">
                 <BentoCard className="h-full p-6 sm:p-8">
                   <span className="void-chip self-start">{s.who}</span>
