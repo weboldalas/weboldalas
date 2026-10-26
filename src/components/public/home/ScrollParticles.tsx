@@ -294,6 +294,22 @@ export function ScrollParticles() {
       const cTb = Math.cos(tiltB), sTb = Math.sin(tiltB)
 
       const solid = (k: Anchor['shape']) => k !== 'scatter' && k !== 'none'
+
+      // soft violet halo behind a formed shape: it follows the morph and fades out for "scatter"/"none"
+      const ge = t * t * (3 - 2 * t)
+      const gs = (solid(A.shape) ? 1 - ge : 0) + (solid(B.shape) ? ge : 0)
+      if (gs > 0.01) {
+        const gx = (A.left + A.w / 2) * (1 - ge) + (B.left + B.w / 2) * ge
+        const gy = (A.top + A.h / 2) * (1 - ge) + (B.top + B.h / 2) * ge - sy
+        const gr = (Math.min(A.w, A.h, 640) * (1 - ge) + Math.min(B.w, B.h, 640) * ge) * 0.78
+        const breathe = reduceMotion ? 1 : 0.85 + 0.15 * Math.sin(time * 0.0007)
+        const g = ctx.createRadialGradient(gx, gy, 0, gx, gy, gr)
+        g.addColorStop(0, `rgba(128,82,255,${0.22 * gs * breathe})`)
+        g.addColorStop(0.45, `rgba(128,82,255,${0.08 * gs * breathe})`)
+        g.addColorStop(1, 'rgba(128,82,255,0)')
+        ctx.fillStyle = g
+        ctx.fillRect(gx - gr, gy - gr, gr * 2, gr * 2)
+      }
       const explodeR = (solid(A.shape) && solid(B.shape) && ia !== ib && !reduceMotion)
         ? Math.min(A.w, A.h, 640) * EXPLODE
         : 0

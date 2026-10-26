@@ -570,3 +570,66 @@ a, button, [role="button"] {
   .sv [class^="sv-"] { animation: none !important; opacity: 1 !important; }
   .sv .sv-count:not(:first-of-type), .sv .sv-cursor { opacity: 0 !important; }
 }
+
+/* ============================================
+   Startup accents (gradient word, announcement pill, bento cards); the glow behind shapes is drawn by ScrollParticles
+   ============================================ */
+/* one accent word per page: violet → pink → saffron */
+.void-gradient-text {
+  background: linear-gradient(92deg, #8052ff 0%, #e879f9 55%, #ffb829 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-bottom: 0.08em; /* keep descenders inside the clip */
+}
+
+/* announcement pill above the hero headline */
+.void-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  padding: 4px 14px 4px 4px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 13px;
+  color: var(--color-silver-mist);
+  transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+}
+.void-pill:hover { border-color: rgba(128, 82, 255, 0.6); background: rgba(128, 82, 255, 0.08); color: #fff; }
+.void-pill-tag {
+  border-radius: 9999px;
+  background: var(--color-electric-iris);
+  color: #fff;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* bento card with a cursor-following spotlight (--mx/--my set by BentoCard) */
+.void-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.025);
+  transition: border-color 0.4s, background-color 0.4s, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.void-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(128, 82, 255, 0.16), transparent 45%);
+  transition: opacity 0.4s;
+}
+.void-card:hover { border-color: rgba(128, 82, 255, 0.45); background: rgba(255, 255, 255, 0.04); transform: translateY(-3px); }
+.void-card:hover::before { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .void-card, .void-card:hover { transform: none; }
+}

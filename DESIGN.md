@@ -82,6 +82,13 @@ Font utility: `font-ppneuemontreal` (PP Neue Montreal if licensed files are adde
 
 Particle palette: `#8052ff`, `#ffb829`, `#15846e`, `#2dd4bf`, `#e879f9`, `#60a5fa`, `#a78bfa`, `#f472b6`.
 
+## Startup accents (the only allowed exceptions)
+
+- **Bento cards (`void/BentoCard` + `.void-card`):** homepage service grid only. 28px radius, hairline `white/9%` border, `white/2.5%` fill, violet border + cursor-following spotlight on hover.
+- **Shape glow:** `ScrollParticles` paints a soft violet radial halo behind every formed shape; it fades out for `scatter`/`none`. No other glows.
+- **Gradient word (`.void-gradient-text`):** one accent word per page (homepage: "Rendszerek."), violet → pink → saffron.
+- **Announcement pill (`.void-pill`):** at most one, above the hero headline, linking to something new.
+
 ## Do / Don't
 
 **Do**
@@ -91,7 +98,7 @@ Particle palette: `#8052ff`, `#ffb829`, `#15846e`, `#2dd4bf`, `#e879f9`, `#60a5f
 - Keep copy short and confident (Hungarian, tegező).
 
 **Don't**
-- Cards, borders, dividers, shadows, glassmorphism.
+- Cards, borders, dividers, shadows, glassmorphism — except the startup accents below.
 - Gradients on buttons, text or panels.
 - More than one filled button in a view.
 - Fake product screenshots or stock photos in the hero.

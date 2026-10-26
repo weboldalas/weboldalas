@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { LogoCarousel } from '@/components/public/LogoCarousel'
 import { ReviewCarousel } from '@/components/public/home/ReviewCarousel'
 import { ServiceVisual, type ServiceKind } from '@/components/public/home/ServiceVisual'
@@ -7,6 +7,7 @@ import { ParticlePage } from '@/components/public/void/ParticlePage'
 import { Label, GhostLink, TriangleBullet } from '@/components/public/void/ui'
 import { VoidFaq } from '@/components/public/void/VoidFaq'
 import { PaymentOptions } from '@/components/public/void/PaymentOptions'
+import { BentoCard } from '@/components/public/void/BentoCard'
 
 export const metadata = {
   title: 'Weboldalas – Weboldalak, webshopok és rendszerek kis-, közép- és nagyvállalatoknak',
@@ -40,6 +41,8 @@ const sizes = [
   { size: 'Közép', who: 'KKV-k és növekvő cégek', desc: 'Webshop, CRM és automatizálás, ami a meglévő folyamataitokhoz és rendszereitekhez igazodik.' },
   { size: 'Nagy', who: 'Nagyvállalatok', desc: 'ERP és egyedi rendszerek, összekötések és hosszú távú üzemeltetés, egy kapcsolattartóval.' },
 ]
+
+const stack = ['Next.js', 'React', 'TypeScript', 'Supabase', 'Vercel', 'Resend', 'WordPress', 'WooCommerce']
 
 const marquee = ['Weboldal', 'Webshop', 'Foglalási rendszer', 'Landing page', 'CRM', 'ERP', 'Üzemeltetés']
 
@@ -75,10 +78,15 @@ export default function HomePage() {
           <div data-particles="devices" aria-hidden className="h-[38svh] min-h-[260px] lg:order-2 lg:h-[min(760px,88svh)]" />
 
           <div className="relative lg:order-1">
+            <Link href="/szolgaltatasok/erp" className="void-pill void-in mb-6 sm:mb-8">
+              <span className="void-pill-tag">Új</span>
+              ERP rendszerek
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
             <h1 className="text-heading sm:text-heading-lg xl:text-display">
               <span className="block">Weboldalak.</span>
               <span className="block">Webshopok.</span>
-              <span className="block text-ash-gray">Rendszerek.</span>
+              <span className="block"><span className="void-gradient-text">Rendszerek.</span></span>
             </h1>
             <div className="void-in mt-8 max-w-[500px] sm:mt-10" style={{ animationDelay: '120ms' }}>
               <Label>Tervezés · Fejlesztés · Üzemeltetés</Label>
@@ -134,26 +142,34 @@ export default function HomePage() {
             </div>
           </div>
 
-          <ul className="mt-14 space-y-4 sm:mt-20 lg:space-y-2">
-            {services.map((s, i) => (
-              <li key={s.href} className="void-reveal">
-                <Link href={s.href} className="group grid items-center gap-x-10 gap-y-4 py-6 lg:grid-cols-[3rem_1fr_1fr_400px] lg:py-8">
-                  <span className="hidden text-sm text-ash-gray lg:block">0{i + 1}</span>
-                  <div>
-                    <span className="mb-2 block text-caption text-ash-gray lg:hidden">0{i + 1}</span>
-                    <span className="block text-subheading tracking-heading-sm transition-[color,transform] duration-300 group-hover:translate-x-2 group-hover:text-electric-iris sm:text-heading-sm">
-                      {s.title}
-                    </span>
-                  </div>
-                  <span className="flex items-start justify-between gap-6">
-                    <span className="text-body font-extralight text-silver-mist">{s.desc}</span>
-                    <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-ash-gray transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
-                  </span>
-                  <ServiceVisual kind={s.kind} className="order-first h-[190px] w-full max-w-[400px] lg:order-none lg:h-[220px] lg:max-w-none" />
-                </Link>
-              </li>
-            ))}
+          <ul className="mt-14 grid gap-4 sm:mt-20 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+            {services.map((s, i) => {
+              // bento: web spans two columns from tablet up, ops from desktop up (keeps every row full)
+              const wide = s.kind === 'web' || s.kind === 'ops'
+              const span = s.kind === 'web' ? 'sm:col-span-2' : s.kind === 'ops' ? 'lg:col-span-2' : ''
+              return (
+                <li key={s.href} className={`void-reveal ${span}`}>
+                  <BentoCard href={s.href} className="h-full p-6 sm:p-8">
+                    <div className="flex items-center justify-between">
+                      <span className="text-caption text-ash-gray">0{i + 1}</span>
+                      <ArrowUpRight className="h-5 w-5 text-ash-gray transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
+                    </div>
+                    <ServiceVisual kind={s.kind} className={`my-6 w-full ${wide ? 'h-[190px] lg:h-[230px]' : 'h-[170px] lg:h-[190px]'}`} />
+                    <h3 className="mt-auto text-heading-2xs sm:text-subheading sm:tracking-heading-sm">{s.title}</h3>
+                    <p className="text-body font-extralight mt-2 text-silver-mist">{s.desc}</p>
+                  </BentoCard>
+                </li>
+              )
+            })}
           </ul>
+
+          {/* stack */}
+          <div className="void-reveal mt-16 flex flex-col gap-5 sm:mt-20 lg:flex-row lg:items-center lg:gap-12">
+            <Label className="shrink-0">Amire építünk</Label>
+            <ul className="flex flex-wrap gap-x-8 gap-y-3 text-[15px] text-silver-mist sm:text-heading-2xs">
+              {stack.map(t => <li key={t} className="transition-colors hover:text-white">{t}</li>)}
+            </ul>
+          </div>
         </div>
       </section>
 
