@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight, ExternalLink } from 'lucide-react'
 import { ParticlePage } from '@/components/public/void/ParticlePage'
 import { PageHero } from '@/components/public/void/PageHero'
-import { Label, TriangleBullet, container } from '@/components/public/void/ui'
+import { BentoCard } from '@/components/public/void/BentoCard'
+import { Label, container } from '@/components/public/void/ui'
 import type { ShapeName } from '@/components/public/home/particleShapes'
 import { REFERENCES } from '../references'
 
@@ -64,10 +65,8 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
             <Label>A kihívás</Label>
             <p className="text-body font-extralight mt-6 text-silver-mist">{ref.challenge}</p>
             <Label className="mt-12">Amit csináltunk</Label>
-            <ul className="mt-6 space-y-3">
-              {ref.services.map(s => (
-                <li key={s.label} className="flex items-center gap-3 text-[15px]"><TriangleBullet /> {s.label}</li>
-              ))}
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {ref.services.map(s => <li key={s.label} className="void-chip">{s.label}</li>)}
             </ul>
           </div>
         </div>
@@ -77,7 +76,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
       {ref.testimonial && (
         <section className="void-section">
           <div className={container}>
-            <figure className="void-reveal">
+            <figure className="void-reveal void-card p-6 sm:p-10 lg:p-14">
               <blockquote className="max-w-4xl text-heading-2xs font-extralight sm:text-subheading lg:text-heading-sm lg:tracking-normal">
                 „{ref.testimonial.text}”
               </blockquote>
@@ -96,17 +95,16 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
           <div className={container}>
             <Label>Funkciók</Label>
             <h2 className="void-reveal mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">Főbb funkciók.</h2>
-            <ul className="mt-14 grid gap-x-16 gap-y-12 sm:mt-16 md:grid-cols-2 lg:grid-cols-3">
-              {ref.features.map((f, i) => {
+            <ul className="mt-14 grid gap-4 sm:mt-16 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+              {ref.features.map(f => {
                 const Icon = f.icon
                 return (
                   <li key={f.title} className="void-reveal">
-                    <div className="flex items-center gap-4">
-                      <span className="text-caption text-ash-gray">{String(i + 1).padStart(2, '0')}</span>
-                      <Icon className="h-5 w-5 text-electric-iris" strokeWidth={1.5} />
-                    </div>
-                    <h3 className="mt-4 text-heading-2xs">{f.title}</h3>
-                    <p className="text-body font-extralight mt-2 text-silver-mist">{f.description}</p>
+                    <BentoCard className="h-full p-6 sm:p-7">
+                      <span className="void-icon"><Icon className="h-5 w-5" strokeWidth={1.6} /></span>
+                      <h3 className="mt-6 text-heading-2xs">{f.title}</h3>
+                      <p className="text-body font-extralight mt-2 text-silver-mist">{f.description}</p>
+                    </BentoCard>
                   </li>
                 )
               })}
@@ -120,7 +118,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
         <section className="void-section">
           <div className={container}>
             <Label>Eredmény</Label>
-            <p className="void-reveal mt-6 max-w-5xl text-heading-sm sm:text-heading">{ref.outcome}</p>
+            <p className="void-reveal mt-6 max-w-5xl text-heading-sm sm:text-heading"><span className="void-gradient-text">{ref.outcome}</span></p>
           </div>
         </section>
       )}
@@ -129,13 +127,13 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
       <section className="void-section" data-particles="scatter">
         <div className={container}>
           <Label>Következő projekt</Label>
-          <Link href={`/referenciak/${next.slug}`} className="group mt-6 block">
+          <BentoCard href={`/referenciak/${next.slug}`} className="mt-6 p-6 sm:p-10 lg:p-14">
             <span className="flex items-start gap-5 text-heading text-white/90 transition-colors duration-300 group-hover:text-white sm:text-heading-lg xl:text-display">
               {next.name}
               <ArrowUpRight className="mt-3 h-8 w-8 shrink-0 text-ash-gray transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-electric-iris sm:h-10 sm:w-10" />
             </span>
             <span className="text-body font-extralight mt-4 block text-silver-mist">{next.tagline}</span>
-          </Link>
+          </BentoCard>
         </div>
       </section>
     </ParticlePage>

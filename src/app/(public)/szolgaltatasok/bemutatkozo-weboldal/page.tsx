@@ -14,6 +14,7 @@ const data: ServicePageData = {
   hero: {
     badge: 'Bemutatkozó weboldal',
     headline: 'Weboldal, ami megmutatja, kik vagytok',
+    accent: 'kik vagytok',
     sub: 'A bemutatkozó weboldal a céged online névjegye: elmondja, mivel foglalkoztok, miért érdemes titeket választani, és hogyan lehet elérni benneteket. Megtervezzük, elkészítjük, és ha kell, a szövegekben is segítünk.',
     features: [
       'Egyedi, a cégedre szabott dizájn',

@@ -14,6 +14,7 @@ const data: ServicePageData = {
   hero: {
     badge: 'Üzemeltetés és karbantartás',
     headline: 'Te az üzletre figyelsz, mi a technikára',
+    accent: 'mi a technikára',
     sub: 'Az üzemeltetés azt jelenti, hogy átvállaljuk a weboldalad vagy rendszered technikai gondozását: tárhely, frissítések, biztonsági mentések, hibajavítás és kisebb módosítások. Neked nem kell értened hozzá.',
     features: [
       'Tárhely és domain',

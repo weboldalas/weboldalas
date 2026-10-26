@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { ParticlePage } from '@/components/public/void/ParticlePage'
 import { PageHero } from '@/components/public/void/PageHero'
+import { BentoCard } from '@/components/public/void/BentoCard'
 import { GhostLink, container } from '@/components/public/void/ui'
 import { REFERENCES } from './references'
 
@@ -16,6 +17,7 @@ export default function ReferenciakPage() {
       <PageHero
         label="Referenciák"
         title="Nem ígérjük. Megmutatjuk."
+        accent="Megmutatjuk."
         shape="rocket"
         actions={<>
           <a href="#projektek" className="void-button">Projektek</a>
@@ -27,24 +29,20 @@ export default function ReferenciakPage() {
 
       <section id="projektek" className="void-section scroll-mt-20" data-particles="scatter">
         <div className={container}>
-          <ul>
+          <ul className="grid gap-4 md:grid-cols-2 lg:gap-5">
             {REFERENCES.map((ref, i) => (
-              <li key={ref.slug} className="void-reveal">
-                <Link href={`/referenciak/${ref.slug}`} className="group grid gap-x-12 gap-y-4 py-10 lg:grid-cols-[1.2fr_1fr] lg:py-14">
-                  <div>
-                    <span className="text-caption text-ash-gray">0{i + 1} · {ref.category} · {ref.year}</span>
-                    <h2 className="mt-3 flex items-start gap-5 text-heading text-white/90 transition-colors duration-300 group-hover:text-white sm:text-heading-lg xl:text-display">
-                      {ref.name}
-                      <ArrowUpRight className="mt-3 h-7 w-7 shrink-0 text-ash-gray transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-electric-iris sm:h-9 sm:w-9" />
-                    </h2>
+              <li key={ref.slug} className={`void-reveal ${i === 0 ? 'md:col-span-2' : ''}`}>
+                <BentoCard href={`/referenciak/${ref.slug}`} className="h-full p-6 sm:p-8 lg:p-10">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="void-chip">{ref.category} · {ref.year}</span>
+                    <ArrowUpRight className="h-6 w-6 shrink-0 text-ash-gray transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white" />
                   </div>
-                  <div className="lg:pt-10">
-                    <p className="text-body font-extralight text-silver-mist">{ref.tagline}</p>
-                    <p className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-sm text-ash-gray">
-                      {ref.services.map(s => <span key={s.label}>{s.label}</span>)}
-                    </p>
-                  </div>
-                </Link>
+                  <h2 className={`mt-10 text-heading sm:text-heading-lg ${i === 0 ? 'xl:text-display' : ''}`}>{ref.name}</h2>
+                  <p className="text-body font-extralight mt-4 max-w-xl text-silver-mist">{ref.tagline}</p>
+                  <ul className="mt-6 flex flex-wrap gap-2">
+                    {ref.services.map(s => <li key={s.label} className="void-chip">{s.label}</li>)}
+                  </ul>
+                </BentoCard>
               </li>
             ))}
           </ul>

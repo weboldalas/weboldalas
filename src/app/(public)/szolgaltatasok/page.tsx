@@ -5,6 +5,7 @@ import { PageHero } from '@/components/public/void/PageHero'
 import { GhostLink, Label, container } from '@/components/public/void/ui'
 import { ServiceVisual, type ServiceKind } from '@/components/public/home/ServiceVisual'
 import { PaymentOptions } from '@/components/public/void/PaymentOptions'
+import { BentoCard } from '@/components/public/void/BentoCard'
 
 export const metadata = {
   title: 'Szolgáltatások | Weboldalas',
@@ -55,6 +56,7 @@ export default function SzolgaltatasokPage() {
       <PageHero
         label="Szolgáltatások"
         title="Minden, ami online kell."
+        accent="online"
         shape="devices"
         actions={<>
           <Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>
@@ -67,23 +69,28 @@ export default function SzolgaltatasokPage() {
       {/* service list: no particles behind the line animations */}
       <section className="void-section" data-particles="none">
         <div className={container}>
-          <ul>
+          <ul className="grid gap-4 lg:gap-5">
             {services.map((s, i) => (
               <li key={s.href} className="void-reveal">
-                <Link href={s.href} className="group grid items-center gap-x-12 gap-y-5 py-10 lg:grid-cols-[1.25fr_1fr] lg:py-14">
-                  <ServiceVisual kind={s.kind} className="h-[200px] w-full max-w-[420px] lg:order-2 lg:h-[250px] lg:max-w-none" />
-                  <div className="lg:order-1">
-                    <span className="text-caption text-ash-gray">0{i + 1}</span>
-                    <h2 className="mt-3 flex items-start justify-between gap-6 text-heading-sm transition-colors duration-300 group-hover:text-electric-iris sm:text-heading lg:text-heading-lg">
-                      {s.title}
-                      <ArrowUpRight className="mt-2 h-6 w-6 shrink-0 text-ash-gray transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white sm:h-8 sm:w-8" />
-                    </h2>
-                    <p className="text-body font-extralight mt-4 max-w-xl text-silver-mist">{s.sub}</p>
-                    <p className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-sm text-ash-gray">
-                      {s.points.map(p => <span key={p}>{p}</span>)}
-                    </p>
+                <BentoCard href={s.href} className="p-6 sm:p-8 lg:p-10">
+                  <div className="grid items-center gap-x-12 gap-y-6 lg:grid-cols-[1.2fr_1fr]">
+                    <ServiceVisual kind={s.kind} className="h-[180px] w-full lg:order-2 lg:h-[230px]" />
+                    <div className="lg:order-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-caption text-ash-gray">0{i + 1}</span>
+                        <ArrowUpRight className="h-6 w-6 text-ash-gray transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white lg:hidden" />
+                      </div>
+                      <h2 className="mt-3 flex items-start justify-between gap-6 text-heading-sm sm:text-heading">
+                        {s.title}
+                        <ArrowUpRight className="mt-2 hidden h-8 w-8 shrink-0 text-ash-gray transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white lg:block" />
+                      </h2>
+                      <p className="text-body font-extralight mt-4 max-w-xl text-silver-mist">{s.sub}</p>
+                      <ul className="mt-6 flex flex-wrap gap-2">
+                        {s.points.map(p => <li key={p} className="void-chip">{p}</li>)}
+                      </ul>
+                    </div>
                   </div>
-                </Link>
+                </BentoCard>
               </li>
             ))}
           </ul>

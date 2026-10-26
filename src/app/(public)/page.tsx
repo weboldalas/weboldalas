@@ -4,7 +4,7 @@ import { LogoCarousel } from '@/components/public/LogoCarousel'
 import { ReviewCarousel } from '@/components/public/home/ReviewCarousel'
 import { ServiceVisual, type ServiceKind } from '@/components/public/home/ServiceVisual'
 import { ParticlePage } from '@/components/public/void/ParticlePage'
-import { Label, GhostLink, TriangleBullet } from '@/components/public/void/ui'
+import { Label, GhostLink } from '@/components/public/void/ui'
 import { VoidFaq } from '@/components/public/void/VoidFaq'
 import { PaymentOptions } from '@/components/public/void/PaymentOptions'
 import { BentoCard } from '@/components/public/void/BentoCard'
@@ -185,14 +185,14 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-          <ul className="mt-14 sm:mt-20">
-            {sizes.map(s => (
-              <li key={s.size} className="void-reveal grid items-baseline gap-x-10 gap-y-3 py-6 lg:grid-cols-[1.15fr_1fr] lg:py-8">
-                <span className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-5">
-                  <span className="text-heading tracking-[-0.04em] sm:text-heading-lg">{s.size}</span>
-                  <span className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">{s.who}</span>
-                </span>
-                <span className="text-body font-extralight text-silver-mist">{s.desc}</span>
+          <ul className="mt-14 grid gap-4 sm:mt-20 md:grid-cols-3 lg:gap-5">
+            {sizes.map((s, i) => (
+              <li key={s.size} className="void-reveal">
+                <BentoCard className="h-full p-6 sm:p-8">
+                  <span className="void-chip self-start">{s.who}</span>
+                  <span className={`mt-10 text-heading-lg tracking-[-0.04em] ${i === 2 ? 'void-gradient-text' : ''}`}>{s.size}</span>
+                  <span className="text-body font-extralight mt-3 text-silver-mist">{s.desc}</span>
+                </BentoCard>
               </li>
             ))}
           </ul>
@@ -241,13 +241,8 @@ export default function HomePage() {
               <p className="text-body font-extralight mt-4 text-silver-mist">
                 Domain, tárhely, mentések, frissítések, support. Egy helyen, egy kapcsolattartóval. Neked semmit nem kell értened hozzá.
               </p>
-              <ul className="mt-8 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-                {included.map(item => (
-                  <li key={item} className="flex items-center gap-3 text-[15px] text-bone-white">
-                    <TriangleBullet />
-                    {item}
-                  </li>
-                ))}
+              <ul className="mt-8 flex flex-wrap gap-2">
+                {included.map(item => <li key={item} className="void-chip">{item}</li>)}
               </ul>
               <div className="mt-8">
                 <GhostLink href="/szolgaltatasok/uzemeltetes">Mit tartalmaz pontosan?</GhostLink>
@@ -268,18 +263,16 @@ export default function HomePage() {
               <div className="mt-6"><GhostLink href="/referenciak">Összes referencia</GhostLink></div>
             </div>
           </div>
-          <ul className="mt-12 sm:mt-20">
+          <ul className="mt-12 grid gap-4 sm:mt-20 md:grid-cols-3 lg:gap-5">
             {references.map(r => (
               <li key={r.slug} className="void-reveal">
-                <Link href={`/referenciak/${r.slug}`} className="group flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1 py-4 lg:py-7">
-                  <span className="text-heading text-white/90 transition-colors duration-300 group-hover:text-white sm:text-heading-lg xl:text-display">
-                    {r.name}
-                  </span>
-                  <span className="flex items-center gap-4 text-sm text-ash-gray transition-colors group-hover:text-white">
-                    {r.type}
-                    <ArrowUpRight className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-electric-iris" />
-                  </span>
-                </Link>
+                <BentoCard href={`/referenciak/${r.slug}`} className="h-full p-6 sm:p-8">
+                  <div className="flex items-center justify-between">
+                    <span className="void-chip">{r.type}</span>
+                    <ArrowUpRight className="h-5 w-5 text-ash-gray transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-white" />
+                  </div>
+                  <span className="mt-16 text-heading sm:text-heading-lg">{r.name}</span>
+                </BentoCard>
               </li>
             ))}
           </ul>

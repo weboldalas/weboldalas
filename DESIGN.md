@@ -82,12 +82,13 @@ Font utility: `font-ppneuemontreal` (PP Neue Montreal if licensed files are adde
 
 Particle palette: `#8052ff`, `#ffb829`, `#15846e`, `#2dd4bf`, `#e879f9`, `#60a5fa`, `#a78bfa`, `#f472b6`.
 
-## Startup accents (the only allowed exceptions)
+## Startup accents
 
-- **Bento cards (`void/BentoCard` + `.void-card`):** homepage service grid only. 28px radius, hairline `white/9%` border, `white/2.5%` fill, violet border + cursor-following spotlight on hover.
-- **Shape glow:** `ScrollParticles` paints a soft violet radial halo behind every formed shape; it fades out for `scatter`/`none`. No other glows.
-- **Gradient word (`.void-gradient-text`):** one accent word per page (homepage: "Rendszerek."), violet → pink → saffron.
-- **Announcement pill (`.void-pill`):** at most one, above the hero headline, linking to something new.
+- **Cards (`void/BentoCard` + `.void-card`):** the main content unit on every page (service grids, features, process steps, audiences, payment options, references, contact, FAQ). 28px radius, hairline `white/9%` border, opaque `#0b0b0e` fill (particles never show through text); violet border + cursor-following spotlight on hover; only link cards lift.
+- **Icon chip (`.void-icon`)** at the top of feature cards; **tag chips (`.void-chip`)** for service points, categories and stacks.
+- **Shape glow:** `ScrollParticles` paints a soft violet radial halo behind every formed shape; it fades out for `scatter`/`none`.
+- **Gradient accent (`.void-gradient-text`):** one phrase in each hero, plus "részletben." in the payment block (`PageHero accent` prop on sub-pages, "Rendszerek." on the homepage); `.void-gradient-num` for step numbers.
+- **Pills (`.void-pill`):** the homepage "Új" link pill; sub-page heroes use a non-link pill with a violet dot as their label.
 
 ## Do / Don't
 
@@ -98,7 +99,7 @@ Particle palette: `#8052ff`, `#ffb829`, `#15846e`, `#2dd4bf`, `#e879f9`, `#60a5f
 - Keep copy short and confident (Hungarian, tegező).
 
 **Don't**
-- Cards, borders, dividers, shadows, glassmorphism — except the startup accents below.
+- Borders, dividers, shadows or glassmorphism outside the card system below.
 - Gradients on buttons, text or panels.
 - More than one filled button in a view.
 - Fake product screenshots or stock photos in the hero.

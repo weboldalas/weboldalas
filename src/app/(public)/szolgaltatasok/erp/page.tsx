@@ -14,6 +14,7 @@ const data: ServicePageData = {
   hero: {
     badge: 'ERP rendszer',
     headline: 'Az egész cég egy rendszerben',
+    accent: 'egy rendszerben',
     sub: 'Az ERP (vállalatirányítási rendszer) összeköti a cég működésének részeit: pénzügy, raktár, beszerzés, értékesítés, gyártás és munkatársak. Az adatokat egyszer kell rögzíteni, és mindenki ugyanazt a naprakész információt látja.',
     features: [
       'Készlet- és raktárkezelés',

@@ -14,6 +14,7 @@ const data: ServicePageData = {
   hero: {
     badge: 'CRM rendszer',
     headline: 'Ne veszíts el egyetlen ügyfelet sem',
+    accent: 'egyetlen ügyfelet',
     sub: 'A CRM egy ügyfélkezelő rendszer: egy helyen látod az érdeklődőket, az ajánlatokat, az ügyfeleket és a teendőket. Így semmi nem csúszik el, és mindig tudod, kivel mi a következő lépés.',
     features: [
       'Az értékesítés állása egy táblán',

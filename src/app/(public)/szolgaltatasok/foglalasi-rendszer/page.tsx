@@ -14,6 +14,7 @@ const data: ServicePageData = {
   hero: {
     badge: 'Foglalási rendszer',
     headline: 'Kevesebb telefonhívás, több lefoglalt időpont',
+    accent: 'több lefoglalt időpont',
     sub: 'Az online foglalási rendszerrel az ügyfeleid maguk választanak szabad időpontot a weboldaladon, bármikor. A rendszer visszaigazolja a foglalást és emlékeztetőt küld, így kevesebb időt visz el az egyeztetés.',
     features: [
       'Szabad időpontok valós időben',

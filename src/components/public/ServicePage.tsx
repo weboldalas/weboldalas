@@ -7,6 +7,7 @@ import { ParticlePage } from './void/ParticlePage'
 import { PageHero } from './void/PageHero'
 import { VoidFaq } from './void/VoidFaq'
 import { PaymentOptions } from './void/PaymentOptions'
+import { BentoCard } from './void/BentoCard'
 import { Label, GhostLink, TriangleBullet, SectionHead, container } from './void/ui'
 
 export type ServicePageData = {
@@ -19,6 +20,8 @@ export type ServicePageData = {
   hero: {
     badge: string
     headline: string
+    /** part of the headline shown in the brand gradient */
+    accent?: string
     sub: string
     features: string[]
   }
@@ -49,6 +52,7 @@ export function ServicePage({ data }: { data: ServicePageData }) {
       <PageHero
         label={data.hero.badge}
         title={data.hero.headline}
+        accent={data.hero.accent}
         shape={data.shape}
         actions={<>
           <Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>
@@ -73,19 +77,18 @@ export function ServicePage({ data }: { data: ServicePageData }) {
               <Label>Tartalmazza</Label>
               <h2 className="void-reveal mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">{data.whatYouGet.title}</h2>
             </div>
-            <ServiceVisual kind={data.kind} className="void-reveal h-[210px] w-full max-w-[460px] lg:h-[270px] lg:max-w-none" />
+            <BentoCard className="void-reveal p-6 sm:p-8"><ServiceVisual kind={data.kind} className="h-[190px] w-full lg:h-[240px]" /></BentoCard>
           </div>
-          <ul className="mt-14 grid gap-x-16 gap-y-12 sm:mt-20 md:grid-cols-2 lg:grid-cols-3">
-            {data.whatYouGet.items.map((item, i) => {
+          <ul className="mt-14 grid gap-4 sm:mt-20 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+            {data.whatYouGet.items.map(item => {
               const Icon = item.icon
               return (
                 <li key={item.title} className="void-reveal">
-                  <div className="flex items-center gap-4">
-                    <span className="text-caption text-ash-gray">0{i + 1}</span>
-                    <Icon className="h-5 w-5 text-electric-iris" strokeWidth={1.5} />
-                  </div>
-                  <h3 className="mt-4 text-heading-2xs">{item.title}</h3>
-                  <p className="text-body font-extralight mt-2 text-silver-mist">{item.desc}</p>
+                  <BentoCard className="h-full p-6 sm:p-7">
+                    <span className="void-icon"><Icon className="h-5 w-5" strokeWidth={1.6} /></span>
+                    <h3 className="mt-6 text-heading-2xs">{item.title}</h3>
+                    <p className="text-body font-extralight mt-2 text-silver-mist">{item.desc}</p>
+                  </BentoCard>
                 </li>
               )
             })}
@@ -99,12 +102,14 @@ export function ServicePage({ data }: { data: ServicePageData }) {
           <SectionHead title={data.howItWorks.title} label="Folyamat">
             Átlátható lépések. Az ütemtervet a projekt elején közösen rögzítjük.
           </SectionHead>
-          <ol className="mt-14 grid gap-12 sm:mt-20 md:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+          <ol className="mt-14 grid gap-4 sm:mt-20 md:grid-cols-2 lg:grid-cols-4 lg:gap-5">
             {data.howItWorks.steps.map(step => (
               <li key={step.n} className="void-reveal">
-                <div className="text-heading-lg font-extralight leading-none text-white/90">{step.n}</div>
-                <h3 className="mt-5 text-heading-2xs">{step.title}</h3>
-                <p className="text-body font-extralight mt-2 text-silver-mist">{step.desc}</p>
+                <BentoCard className="h-full p-6 sm:p-7">
+                  <div className="void-gradient-num text-heading-lg font-extralight leading-none">{step.n}</div>
+                  <h3 className="mt-8 text-heading-2xs">{step.title}</h3>
+                  <p className="text-body font-extralight mt-2 text-silver-mist">{step.desc}</p>
+                </BentoCard>
               </li>
             ))}
           </ol>
@@ -115,13 +120,21 @@ export function ServicePage({ data }: { data: ServicePageData }) {
       <section className="void-section">
         <div className={container}>
           <SectionHead title={data.forWhom.title} label="Kinek ajánljuk" />
-          <ul className="mt-12 sm:mt-16">
-            {data.forWhom.items.map(item => (
-              <li key={item.label} className="void-reveal grid items-baseline gap-x-10 gap-y-1 py-5 sm:grid-cols-[1fr_1.2fr] lg:py-6">
-                <span className="text-subheading tracking-heading-sm sm:text-heading-sm">{item.label}</span>
-                <span className="text-body font-extralight text-silver-mist">{item.desc}</span>
-              </li>
-            ))}
+          <ul className="mt-12 grid gap-4 sm:mt-16 sm:grid-cols-2 lg:gap-5">
+            {data.forWhom.items.map(item => {
+              const Icon = item.icon
+              return (
+                <li key={item.label} className="void-reveal">
+                  <BentoCard className="h-full flex-row items-start gap-5 p-6 sm:p-7">
+                    <span className="void-icon shrink-0"><Icon className="h-5 w-5" strokeWidth={1.6} /></span>
+                    <span>
+                      <span className="block text-subheading tracking-heading-sm">{item.label}</span>
+                      <span className="text-body font-extralight mt-1 block text-silver-mist">{item.desc}</span>
+                    </span>
+                  </BentoCard>
+                </li>
+              )
+            })}
           </ul>
         </div>
       </section>

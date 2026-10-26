@@ -1,6 +1,7 @@
 import { ContactForm } from '@/components/public/ContactForm'
 import { ParticlePage } from '@/components/public/void/ParticlePage'
 import { PageHero } from '@/components/public/void/PageHero'
+import { BentoCard } from '@/components/public/void/BentoCard'
 import { Label, TriangleBullet, container } from '@/components/public/void/ui'
 
 export const metadata = {
@@ -34,6 +35,7 @@ export default async function KapcsolatPage({ searchParams }: { searchParams: Pr
       <PageHero
         label="Kapcsolat"
         title="Írj nekünk."
+        accent="nekünk."
         shape="plane"
         actions={<a href="#urlap" className="void-button">Üzenet küldése</a>}
       >
@@ -41,17 +43,19 @@ export default async function KapcsolatPage({ searchParams }: { searchParams: Pr
       </PageHero>
 
       <section id="urlap" className="void-section scroll-mt-20" data-particles="none">
-        <div className={`${container} grid gap-16 lg:grid-cols-[1.3fr_1fr] lg:gap-24`}>
+        <div className={`${container} grid gap-4 lg:grid-cols-[1.3fr_1fr] lg:gap-5`}>
           <div className="void-reveal">
-            <Label>Ajánlatkérés</Label>
-            <h2 className="mt-5 text-heading-sm sm:text-heading">Mesélj a projektedről.</h2>
-            <div className="mt-10">
-              <ContactForm initialInterest={interest} initialMessage={plan ? `Kalkulátor: ${plan}\n\n` : ''} />
-            </div>
+            <BentoCard className="p-6 sm:p-10">
+              <Label>Ajánlatkérés</Label>
+              <h2 className="mt-5 text-heading-sm sm:text-heading">Mesélj a projektedről.</h2>
+              <div className="mt-10">
+                <ContactForm initialInterest={interest} initialMessage={plan ? `Kalkulátor: ${plan}\n\n` : ''} />
+              </div>
+            </BentoCard>
           </div>
 
-          <div className="void-reveal space-y-14 lg:pt-4">
-            <div>
+          <div className="void-reveal space-y-4 lg:space-y-5">
+            <BentoCard className="p-6 sm:p-8">
               <Label>Elérhetőségek</Label>
               <dl className="mt-6 space-y-6">
                 {contacts.map(c => (
@@ -63,15 +67,15 @@ export default async function KapcsolatPage({ searchParams }: { searchParams: Pr
                   </div>
                 ))}
               </dl>
-            </div>
-            <div>
+            </BentoCard>
+            <BentoCard className="p-6 sm:p-8">
               <Label>Amit vállalunk</Label>
               <ul className="mt-6 space-y-3">
                 {promises.map(p => (
                   <li key={p} className="flex items-center gap-3 text-[15px] text-bone-white"><TriangleBullet /> {p}</li>
                 ))}
               </ul>
-            </div>
+            </BentoCard>
           </div>
         </div>
       </section>

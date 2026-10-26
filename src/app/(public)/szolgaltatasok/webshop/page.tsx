@@ -14,6 +14,7 @@ const data: ServicePageData = {
   hero: {
     badge: 'Webshop',
     headline: 'Árulj online, a nap bármely szakában',
+    accent: 'online',
     sub: 'A webshop egy online bolt: a vásárlók böngészik a termékeidet, kosárba teszik és kifizetik őket, te pedig egy kezelőfelületen látod és intézed a rendeléseket. Az egészet megépítjük és beállítjuk.',
     features: [
       'Termékek kategóriákkal, képekkel, változatokkal',

@@ -14,6 +14,7 @@ const data: ServicePageData = {
   hero: {
     badge: 'Landing page',
     headline: 'Egy oldal, egy cél: több érdeklődő',
+    accent: 'több érdeklődő',
     sub: 'A landing page egyetlen célra épített oldal, például ajánlatkérésre, feliratkozásra vagy egy termék megvásárlására. Leginkább hirdetésekhez és kampányokhoz használják, mert minden eleme ezt az egy lépést segíti.',
     features: [
       'Egyértelmű üzenet, jól látható gombok',
