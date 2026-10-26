@@ -42,7 +42,7 @@ const sizes = [
   { size: 'Nagy', who: 'Nagyvállalatok', desc: 'ERP és egyedi rendszerek, összekötések és hosszú távú üzemeltetés, egy kapcsolattartóval.' },
 ]
 
-const stack = ['Next.js', 'React', 'TypeScript', 'Supabase', 'Vercel', 'Resend', 'WordPress', 'WooCommerce']
+const stack = ['Next.js', 'React', 'TypeScript', 'JavaScript', 'Node.js', 'PHP', 'Tailwind CSS', 'WordPress', 'WooCommerce']
 
 const marquee = ['Weboldal', 'Webshop', 'Foglalási rendszer', 'Landing page', 'CRM', 'ERP', 'Üzemeltetés']
 
@@ -166,8 +166,8 @@ export default function HomePage() {
           {/* stack */}
           <div className="void-reveal mt-16 flex flex-col gap-5 sm:mt-20 lg:flex-row lg:items-center lg:gap-12">
             <Label className="shrink-0">Amire építünk</Label>
-            <ul className="flex flex-wrap gap-x-8 gap-y-3 text-[15px] text-silver-mist sm:text-heading-2xs">
-              {stack.map(t => <li key={t} className="transition-colors hover:text-white">{t}</li>)}
+            <ul className="flex flex-wrap gap-2 sm:gap-3">
+              {stack.map(t => <li key={t} className="void-chip min-h-10! px-4! text-[15px]! transition-colors hover:border-electric-iris/50! hover:text-white">{t}</li>)}
             </ul>
           </div>
         </div>
