@@ -572,19 +572,23 @@ a, button, [role="button"] {
 }
 
 /* ============================================
-   Startup accents (underlined accent, announcement pill, bento cards); the glow behind shapes is drawn by ScrollParticles
+   Startup accents (highlighted accent, announcement pill, bento cards); the glow behind shapes is drawn by ScrollParticles
    ============================================ */
-/* accent phrase: stays white, a violet stroke draws in underneath (works across line breaks) */
+/* accent phrase: white text on a violet highlight that sweeps in (works across line breaks) */
 .void-mark {
   background-image: linear-gradient(var(--color-electric-iris), var(--color-electric-iris));
   background-repeat: no-repeat;
-  background-position: 0 100%;
-  background-size: 100% 0.07em;
+  background-position: 0 62%;
+  background-size: 100% 82%;
+  padding: 0 0.1em;
+  margin: 0 -0.04em;
+  border-radius: 0.12em;
+  color: #fff;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
-  animation: void-mark 1.1s 0.35s cubic-bezier(0.65, 0, 0.35, 1) both;
+  animation: void-mark 1s 0.3s cubic-bezier(0.65, 0, 0.35, 1) both;
 }
-@keyframes void-mark { from { background-size: 0% 0.07em; } }
+@keyframes void-mark { from { background-size: 0% 82%; } }
 @media (prefers-reduced-motion: reduce) { .void-mark { animation: none; } }
 
 /* announcement pill above the hero headline */

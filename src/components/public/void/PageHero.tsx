@@ -1,6 +1,6 @@
 import type { ShapeName } from '@/components/public/home/particleShapes'
 
-/** Renders the title with one accent phrase underlined by an animated violet stroke (DESIGN.md). */
+/** Renders the title with one accent phrase on an animated violet highlight (DESIGN.md). */
 function Accented({ title, accent }: { title: string; accent?: string }) {
   if (!accent || !title.includes(accent)) return <>{title}</>
   const i = title.indexOf(accent)
@@ -13,7 +13,7 @@ export function PageHero({
 }: {
   label: string
   title: string
-  /** part of the title that gets the animated underline */
+  /** part of the title that gets the violet highlight */
   accent?: string
   children?: React.ReactNode
   actions?: React.ReactNode
