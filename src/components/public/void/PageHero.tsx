@@ -1,10 +1,10 @@
 import type { ShapeName } from '@/components/public/home/particleShapes'
 
-/** Renders the title with one accent phrase in the brand gradient (DESIGN.md: one accent per page). */
+/** Renders the title with one accent phrase underlined by an animated violet stroke (DESIGN.md). */
 function Accented({ title, accent }: { title: string; accent?: string }) {
   if (!accent || !title.includes(accent)) return <>{title}</>
   const i = title.indexOf(accent)
-  return <>{title.slice(0, i)}<span className="void-gradient-text">{accent}</span>{title.slice(i + accent.length)}</>
+  return <>{title.slice(0, i)}<span className="void-mark">{accent}</span>{title.slice(i + accent.length)}</>
 }
 
 /** Sub-page hero: status pill, display headline, body + actions on the left; a particle shape forms on the right. */
@@ -13,7 +13,7 @@ export function PageHero({
 }: {
   label: string
   title: string
-  /** part of the title shown in the gradient */
+  /** part of the title that gets the animated underline */
   accent?: string
   children?: React.ReactNode
   actions?: React.ReactNode

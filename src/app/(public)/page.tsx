@@ -86,7 +86,7 @@ export default function HomePage() {
             <h1 className="text-heading sm:text-heading-lg xl:text-display">
               <span className="block">Weboldalak.</span>
               <span className="block">Webshopok.</span>
-              <span className="block"><span className="void-gradient-text">Rendszerek.</span></span>
+              <span className="block"><span className="void-mark">Rendszerek.</span></span>
             </h1>
             <div className="void-in mt-8 max-w-[500px] sm:mt-10" style={{ animationDelay: '120ms' }}>
               <Label>Tervezés · Fejlesztés · Üzemeltetés</Label>
@@ -190,7 +190,7 @@ export default function HomePage() {
               <li key={s.size} className="void-reveal">
                 <BentoCard className="h-full p-6 sm:p-8">
                   <span className="void-chip self-start">{s.who}</span>
-                  <span className={`mt-10 text-heading-lg tracking-[-0.04em] ${i === 2 ? 'void-gradient-text' : ''}`}>{s.size}</span>
+                  <span className={`mt-10 text-heading-lg tracking-[-0.04em] `}>{s.size}</span>
                   <span className="text-body font-extralight mt-3 text-silver-mist">{s.desc}</span>
                 </BentoCard>
               </li>

@@ -572,16 +572,20 @@ a, button, [role="button"] {
 }
 
 /* ============================================
-   Startup accents (gradient word, announcement pill, bento cards); the glow behind shapes is drawn by ScrollParticles
+   Startup accents (underlined accent, announcement pill, bento cards); the glow behind shapes is drawn by ScrollParticles
    ============================================ */
-/* one accent word per page: violet → pink → saffron */
-.void-gradient-text {
-  background: linear-gradient(92deg, #8052ff 0%, #e879f9 55%, #ffb829 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  padding-bottom: 0.08em; /* keep descenders inside the clip */
+/* accent phrase: stays white, a violet stroke draws in underneath (works across line breaks) */
+.void-mark {
+  background-image: linear-gradient(var(--color-electric-iris), var(--color-electric-iris));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 0.07em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  animation: void-mark 1.1s 0.35s cubic-bezier(0.65, 0, 0.35, 1) both;
 }
+@keyframes void-mark { from { background-size: 0% 0.07em; } }
+@media (prefers-reduced-motion: reduce) { .void-mark { animation: none; } }
 
 /* announcement pill above the hero headline */
 .void-pill {

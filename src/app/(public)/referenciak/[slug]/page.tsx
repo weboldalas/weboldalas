@@ -118,7 +118,7 @@ export default async function ReferenceDetailPage({ params }: { params: Promise<
         <section className="void-section">
           <div className={container}>
             <Label>Eredmény</Label>
-            <p className="void-reveal mt-6 max-w-5xl text-heading-sm sm:text-heading"><span className="void-gradient-text">{ref.outcome}</span></p>
+            <p className="void-reveal mt-6 max-w-5xl text-heading-sm sm:text-heading">{ref.outcome}</p>
           </div>
         </section>
       )}

@@ -12,7 +12,7 @@ export function PaymentOptions({ note, action, id = 'fizetes' }: { note?: React.
   return (
     <section id={id} className="void-section scroll-mt-20">
       <div className={container}>
-        <SectionHead title={<>Egyben vagy <span className="void-gradient-text">részletben.</span></>} label="Fizetés">
+        <SectionHead title={<>Egyben vagy <span className="void-mark">részletben.</span></>} label="Fizetés">
           {note ?? 'Nem dolgozunk sablonárakkal, mert minden projekt más. Egy rövid konzultáció után pontos, kötelezettségmentes ajánlatot küldünk.'}
         </SectionHead>
         <ul className="mt-12 grid gap-4 sm:mt-16 md:grid-cols-2 lg:gap-5">

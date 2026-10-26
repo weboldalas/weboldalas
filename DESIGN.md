@@ -87,7 +87,7 @@ Particle palette: `#8052ff`, `#ffb829`, `#15846e`, `#2dd4bf`, `#e879f9`, `#60a5f
 - **Cards (`void/BentoCard` + `.void-card`):** the main content unit on every page (service grids, features, process steps, audiences, payment options, references, contact, FAQ). 28px radius, hairline `white/9%` border, opaque `#0b0b0e` fill (particles never show through text); violet border + cursor-following spotlight on hover; only link cards lift.
 - **Icon chip (`.void-icon`)** at the top of feature cards; **tag chips (`.void-chip`)** for service points, categories and stacks.
 - **Shape glow:** `ScrollParticles` paints a soft violet radial halo behind every formed shape; it fades out for `scatter`/`none`.
-- **Gradient accent (`.void-gradient-text`):** one phrase in each hero, plus "részletben." in the payment block (`PageHero accent` prop on sub-pages, "Rendszerek." on the homepage); `.void-gradient-num` for step numbers.
+- **Accent underline (`.void-mark`):** one phrase in each hero, plus "részletben." in the payment block (`PageHero accent` prop on sub-pages, "Rendszerek." on the homepage). The text stays white; a thin electric-iris stroke draws in underneath. No gradient-coloured text. `.void-gradient-num` (white fade) only for step numbers.
 - **Pills (`.void-pill`):** the homepage "Új" link pill; sub-page heroes use a non-link pill with a violet dot as their label.
 
 ## Do / Don't
