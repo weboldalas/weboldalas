@@ -11,14 +11,14 @@ import { useEffect, useRef } from 'react'
 
 export type ServiceKind = 'web' | 'shop' | 'booking' | 'landing' | 'crm' | 'ops' | 'erp'
 
-const LINE = 'rgba(255,255,255,0.28)'
+const LINE = 'rgba(255,255,255,0.5)'
 const IRIS = 'var(--color-electric-iris)'
 const SAFFRON = 'var(--color-saffron-spark)'
 const VERDANT = '#2dd4bf'
 
 function Web() {
   return (
-    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1">
+    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1.5" strokeLinecap="round">
       <rect x="20" y="14" width="240" height="132" rx="10" stroke={LINE} />
       <path d="M20 34 H260" stroke={LINE} />
       <circle cx="33" cy="24" r="3" stroke={LINE} /><circle cx="44" cy="24" r="3" stroke={LINE} /><circle cx="55" cy="24" r="3" stroke={LINE} />
@@ -35,7 +35,7 @@ function Web() {
 
 function Shop() {
   return (
-    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1">
+    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1.5" strokeLinecap="round">
       <path d="M86 60 H98 L112 118 H186 L198 74 H104" stroke={LINE} strokeLinejoin="round" />
       <circle cx="122" cy="132" r="6" stroke={LINE} /><circle cx="176" cy="132" r="6" stroke={LINE} />
       {[0, 1, 2].map(i => (
@@ -55,10 +55,10 @@ function Booking() {
   const cells = []
   for (let r = 0; r < 4; r++) for (let c = 0; c < 7; c++) cells.push([58 + c * 24, 40 + r * 24])
   return (
-    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1">
+    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1.5" strokeLinecap="round">
       <path d="M50 28 H230" stroke={LINE} />
       {cells.map(([x, y], i) => (
-        <rect key={i} x={x} y={y} width="16" height="16" rx="4" stroke={[3, 9, 17, 22].includes(i) ? 'rgba(255,255,255,0.1)' : LINE} />
+        <rect key={i} x={x} y={y} width="16" height="16" rx="4" stroke={[3, 9, 17, 22].includes(i) ? 'rgba(255,255,255,0.16)' : LINE} />
       ))}
       <rect className="sv-pick" x="56" y="38" width="20" height="20" rx="6" stroke={IRIS} strokeWidth="1.5" />
       <path className="sv-check" pathLength={1} d="M134 92 L139 97 L148 86" stroke={SAFFRON} strokeWidth="1.5" />
@@ -68,12 +68,12 @@ function Booking() {
 
 function Landing() {
   return (
-    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1">
+    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1.5" strokeLinecap="round">
       {[30, 56, 80, 104, 130].map((y, i) => (
         <path key={y} className="sv-flow" style={{ animationDelay: `${i * 0.35}s` }}
           d={`M18 ${y} C 110 ${y}, 120 80, 186 80`} stroke={i % 2 ? SAFFRON : IRIS} strokeDasharray="6 10" />
       ))}
-      {[30, 56, 80, 104, 130].map(y => <path key={`b${y}`} d={`M18 ${y} C 110 ${y}, 120 80, 186 80`} stroke="rgba(255,255,255,0.08)" />)}
+      {[30, 56, 80, 104, 130].map(y => <path key={`b${y}`} d={`M18 ${y} C 110 ${y}, 120 80, 186 80`} stroke="rgba(255,255,255,0.14)" />)}
       <rect className="sv-pulse" x="188" y="66" width="76" height="28" rx="14" stroke={IRIS} />
       <path d="M212 80 H236 M230 74 L236 80 L230 86" stroke="#fff" />
     </svg>
@@ -82,7 +82,7 @@ function Landing() {
 
 function Crm() {
   return (
-    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1">
+    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1.5" strokeLinecap="round">
       {[0, 1, 2].map(c => (
         <g key={c}>
           <path d={`M${30 + c * 80} 26 H${90 + c * 80}`} stroke={[IRIS, SAFFRON, VERDANT][c]} />
@@ -100,11 +100,11 @@ function Crm() {
 function Ops() {
   const beat = 'M10 96 H70 L82 96 L90 70 L100 122 L110 50 L120 104 L128 96 H190 L200 96 L208 74 L216 112 L224 96 H270'
   return (
-    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1">
-      <path d={beat} stroke="rgba(255,255,255,0.12)" />
-      <path className="sv-beat" pathLength={1} d={beat} stroke={IRIS} strokeWidth="1.5" strokeDasharray="0.22 0.78" />
+    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1.5" strokeLinecap="round">
+      <path d={beat} stroke="rgba(255,255,255,0.2)" />
+      <path className="sv-beat" pathLength={1} d={beat} stroke={IRIS} strokeWidth="2" strokeDasharray="0.22 0.78" />
       <circle className="sv-blink" cx="30" cy="34" r="4" fill={VERDANT} />
-      <text x="42" y="38" fill="rgba(255,255,255,0.6)" fontSize="11" fontFamily="inherit" letterSpacing="0.5">ONLINE</text>
+      <text x="42" y="38" fill="rgba(255,255,255,0.8)" fontSize="11" fontFamily="inherit" letterSpacing="0.5">ONLINE</text>
       <path d="M210 28 L224 34 V44 C224 52 218 56 210 60 C202 56 196 52 196 44 V34 Z" stroke={LINE} />
       <path className="sv-check" pathLength={1} d="M204 43 L209 48 L217 39" stroke={SAFFRON} />
     </svg>
@@ -118,16 +118,16 @@ function Erp() {
     { x: 190, y: 22, t: 'Értékesítés' }, { x: 190, y: 68, t: 'Gyártás' }, { x: 190, y: 114, t: 'HR' },
   ]
   return (
-    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1">
+    <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1.5" strokeLinecap="round">
       {mods.map((m, i) => {
         const left = m.x < 140
         const d = `M${left ? m.x + 60 : m.x} ${m.y + 12} C ${left ? 112 : 168} ${m.y + 12}, ${left ? 104 : 176} 80, ${left ? 112 : 168} 80`
         return (
           <g key={m.t}>
-            <path d={d} stroke="rgba(255,255,255,0.1)" />
+            <path d={d} stroke="rgba(255,255,255,0.18)" />
             <path className="sv-flow" style={{ animationDelay: `${i * 0.27}s`, animationDirection: i % 2 ? 'reverse' : 'normal' }} d={d} stroke={[IRIS, SAFFRON, VERDANT][i % 3]} strokeDasharray="4 12" />
             <rect x={m.x} y={m.y} width="60" height="24" rx="6" stroke={LINE} />
-            <text x={m.x + 30} y={m.y + 15.5} textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="9" fontFamily="inherit">{m.t}</text>
+            <text x={m.x + 30} y={m.y + 15.5} textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="9" fontFamily="inherit">{m.t}</text>
           </g>
         )
       })}

@@ -137,7 +137,7 @@ export default function HomePage() {
           <ul className="mt-14 space-y-4 sm:mt-20 lg:space-y-2">
             {services.map((s, i) => (
               <li key={s.href} className="void-reveal">
-                <Link href={s.href} className="group grid items-center gap-x-10 gap-y-4 py-6 lg:grid-cols-[3rem_1.1fr_1fr_300px] lg:py-8">
+                <Link href={s.href} className="group grid items-center gap-x-10 gap-y-4 py-6 lg:grid-cols-[3rem_1fr_1fr_400px] lg:py-8">
                   <span className="hidden text-sm text-ash-gray lg:block">0{i + 1}</span>
                   <div>
                     <span className="mb-2 block text-caption text-ash-gray lg:hidden">0{i + 1}</span>
@@ -149,7 +149,7 @@ export default function HomePage() {
                     <span className="text-body font-extralight text-silver-mist">{s.desc}</span>
                     <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-ash-gray transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
                   </span>
-                  <ServiceVisual kind={s.kind} className="order-first h-[150px] w-full max-w-[340px] lg:order-none lg:max-w-none" />
+                  <ServiceVisual kind={s.kind} className="order-first h-[190px] w-full max-w-[400px] lg:order-none lg:h-[220px] lg:max-w-none" />
                 </Link>
               </li>
             ))}

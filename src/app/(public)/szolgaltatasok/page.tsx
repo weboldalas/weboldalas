@@ -71,7 +71,7 @@ export default function SzolgaltatasokPage() {
             {services.map((s, i) => (
               <li key={s.href} className="void-reveal">
                 <Link href={s.href} className="group grid items-center gap-x-12 gap-y-5 py-10 lg:grid-cols-[1.25fr_1fr] lg:py-14">
-                  <ServiceVisual kind={s.kind} className="h-[160px] w-full max-w-[380px] lg:order-2 lg:h-[200px] lg:max-w-none" />
+                  <ServiceVisual kind={s.kind} className="h-[200px] w-full max-w-[420px] lg:order-2 lg:h-[250px] lg:max-w-none" />
                   <div className="lg:order-1">
                     <span className="text-caption text-ash-gray">0{i + 1}</span>
                     <h2 className="mt-3 flex items-start justify-between gap-6 text-heading-sm transition-colors duration-300 group-hover:text-electric-iris sm:text-heading lg:text-heading-lg">

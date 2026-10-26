@@ -73,7 +73,7 @@ export function ServicePage({ data }: { data: ServicePageData }) {
               <Label>Tartalmazza</Label>
               <h2 className="void-reveal mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">{data.whatYouGet.title}</h2>
             </div>
-            <ServiceVisual kind={data.kind} className="void-reveal h-[180px] w-full max-w-[420px] lg:h-[220px] lg:max-w-none" />
+            <ServiceVisual kind={data.kind} className="void-reveal h-[210px] w-full max-w-[460px] lg:h-[270px] lg:max-w-none" />
           </div>
           <ul className="mt-14 grid gap-x-16 gap-y-12 sm:mt-20 md:grid-cols-2 lg:grid-cols-3">
             {data.whatYouGet.items.map((item, i) => {
