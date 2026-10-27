@@ -88,7 +88,7 @@ Particle palette: `#8052ff`, `#ffb829`, `#15846e`, `#2dd4bf`, `#e879f9`, `#60a5f
 - **Icon chip (`.void-icon`)** at the top of feature cards; **tag chips (`.void-chip`)** for service points, categories and stacks.
 - **Shape glow:** `ScrollParticles` paints a soft violet radial halo behind every formed shape; it fades out for `scatter`/`none`.
 - **Accent highlight (`.void-mark`):** one phrase in each hero, plus "részletben." in the payment block (`PageHero accent` prop on sub-pages, "Rendszerek." on the homepage). The text stays white on an electric-iris highlight that sweeps in from the left. No gradient-coloured text. `.void-gradient-num` (white fade) only for step numbers.
-- **Pills (`.void-pill`):** the homepage "Új" link pill; sub-page heroes use a non-link pill with a violet dot as their label.
+- **Pills (`.void-pill`):** the homepage ERP link pill (violet dot, no "Új" tag); sub-page heroes use a non-link pill with a violet dot as their label.
 
 ## Do / Don't
 

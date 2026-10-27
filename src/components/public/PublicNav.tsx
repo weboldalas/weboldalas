@@ -202,7 +202,6 @@ export function PublicNav() {
                           <span className="min-w-0">
                             <span className="flex items-center gap-2 text-[15px] font-medium text-white">
                               {sv.label}
-                              {sv.href.endsWith('/erp') && <span className="void-pill-tag !px-2 !py-0.5 !text-[10px]">Új</span>}
                             </span>
                             <span className="mt-0.5 block text-[13px] text-ash-gray">{sv.desc}</span>
                           </span>

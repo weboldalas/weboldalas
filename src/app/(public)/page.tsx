@@ -135,7 +135,7 @@ export default function HomePage() {
 
           <div className="relative order-1 lg:pr-12">
             <Link href="/szolgaltatasok/erp" className="void-pill void-in mb-6 sm:mb-8">
-              <span className="void-pill-tag">Új</span>
+              <span className="void-pill-dot" aria-hidden />
               ERP rendszerek
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
