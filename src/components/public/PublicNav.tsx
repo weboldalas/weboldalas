@@ -1,11 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
+import { ArrowRight, ChevronDown } from 'lucide-react'
 import { MenuParticles } from './MenuParticles'
+import { SERVICES_NAV } from './servicesNav'
 
 const EASE = [0.76, 0, 0.24, 1] as const
 const EASE_OUT = [0.22, 1, 0.36, 1] as const
@@ -80,11 +82,33 @@ export function PublicNav() {
     return () => { html.style.overflow = prev; window.removeEventListener('keydown', onKey) }
   }, [open])
 
+  // desktop mega menu for "Szolgáltatások": opens on hover/focus/click, closes with a short delay
+  const [mega, setMega] = useState(false)
+  const megaTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const openMega = () => { if (megaTimer.current) clearTimeout(megaTimer.current); setMega(true) }
+  const closeMega = () => { if (megaTimer.current) clearTimeout(megaTimer.current); megaTimer.current = setTimeout(() => setMega(false), 140) }
+  useEffect(() => {
+    if (!mega) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMega(false) }
+    // a tap/click outside the trigger and the panel closes it (touch screens have no mouseleave)
+    const onDown = (e: PointerEvent) => {
+      const t = e.target as Element | null
+      if (!t?.closest('#mega-services, [aria-controls="mega-services"]')) setMega(false)
+    }
+    window.addEventListener('keydown', onKey)
+    window.addEventListener('pointerdown', onDown)
+    return () => { window.removeEventListener('keydown', onKey); window.removeEventListener('pointerdown', onDown) }
+  }, [mega])
+
+  // mobile: services sub-list
+  const [subOpen, setSubOpen] = useState(false)
+
   // Close menu on route change (render-time state adjustment instead of an effect)
   const [lastPath, setLastPath] = useState(pathname)
   if (pathname !== lastPath) {
     setLastPath(pathname)
     setOpen(false)
+    setMega(false)
   }
 
   return (
@@ -95,7 +119,7 @@ export function PublicNav() {
         background: open ? 'transparent' : scrolled ? '#000' : 'transparent',
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
@@ -106,17 +130,26 @@ export function PublicNav() {
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1">
             {links.map(l => {
-              const isActive = pathname === l.href
+              const isActive = l.href === '/' ? pathname === '/' : pathname.startsWith(l.href)
+              const base = `px-4 py-2 rounded-lg text-sm font-medium transition-colors ${isActive ? 'bg-white/[0.08] text-white' : 'text-white/50 hover:text-white/90'}`
+              if (l.href === '/szolgaltatasok') {
+                return (
+                  <div key={l.href} onMouseEnter={openMega} onMouseLeave={closeMega} onFocus={openMega} onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget as Node)) closeMega() }}>
+                    <button
+                      type="button"
+                      onClick={openMega}
+                      aria-expanded={mega}
+                      aria-controls="mega-services"
+                      className={`${base} inline-flex items-center gap-1.5 ${mega ? 'text-white' : ''}`}
+                    >
+                      {l.label}
+                      <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${mega ? 'rotate-180' : ''}`} />
+                    </button>
+                  </div>
+                )
+              }
               return (
-                <Link key={l.href} href={l.href}
-                  className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
-                  style={{
-                    color: isActive ? '#fff' : 'rgba(255,255,255,0.5)',
-                    background: isActive ? 'rgba(255,255,255,0.08)' : 'transparent',
-                  }}
-                  onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.9)' }}
-                  onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.5)' }}
-                >
+                <Link key={l.href} href={l.href} className={base}>
                   {l.label}
                 </Link>
               )
@@ -142,6 +175,61 @@ export function PublicNav() {
             <HamburgerIcon open={open} />
           </button>
         </div>
+
+        {/* Desktop mega menu */}
+        <AnimatePresence>
+          {mega && (
+            <motion.div
+              id="mega-services"
+              key="mega"
+              initial={{ opacity: 0, y: -8, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -6, scale: 0.98, transition: { duration: 0.15 } }}
+              transition={{ duration: 0.3, ease: EASE_OUT }}
+              onMouseEnter={openMega}
+              onMouseLeave={closeMega}
+              className="absolute inset-x-4 top-full hidden origin-top pt-2 sm:inset-x-6 md:block lg:inset-x-8"
+            >
+              <div className="grid grid-cols-[1fr_300px] gap-2 rounded-[28px] border border-white/10 bg-[#0b0b0e] p-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9),0_0_60px_-20px_rgba(128,82,255,0.35)]">
+                <ul className="grid grid-cols-2 gap-1 p-2">
+                  {SERVICES_NAV.map((sv, i) => {
+                    const Icon = sv.icon
+                    const active = pathname === sv.href
+                    return (
+                      <motion.li key={sv.href} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.03 * i, duration: 0.3, ease: EASE_OUT }}>
+                        <Link href={sv.href} onClick={() => setMega(false)} className={`group flex items-start gap-4 rounded-2xl p-3 transition-colors hover:bg-white/[0.05] ${active ? 'bg-white/[0.05]' : ''}`}>
+                          <span className="void-icon shrink-0 transition-colors group-hover:border-electric-iris/70 group-hover:bg-electric-iris/20"><Icon className="h-5 w-5" strokeWidth={1.6} /></span>
+                          <span className="min-w-0">
+                            <span className="flex items-center gap-2 text-[15px] font-medium text-white">
+                              {sv.label}
+                              {sv.href.endsWith('/erp') && <span className="void-pill-tag !px-2 !py-0.5 !text-[10px]">Új</span>}
+                            </span>
+                            <span className="mt-0.5 block text-[13px] text-ash-gray">{sv.desc}</span>
+                          </span>
+                        </Link>
+                      </motion.li>
+                    )
+                  })}
+                </ul>
+                <div className="flex flex-col justify-between rounded-[22px] border border-white/[0.07] bg-[#111116] p-6">
+                  <div>
+                    <p className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">Konzultáció</p>
+                    <p className="mt-3 text-heading-2xs text-white">Nem tudod, melyik kell?</p>
+                    <p className="mt-2 text-[13px] leading-relaxed text-ash-gray">Mesélj a projektedről, és segítünk kiválasztani, ami tényleg támogatja a céljaidat.</p>
+                  </div>
+                  <div className="mt-6 space-y-1">
+                    <Link href="/kapcsolat" onClick={() => setMega(false)} className="group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm text-white transition-colors hover:bg-white/[0.05]">
+                      Beszéljünk <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                    <Link href="/szolgaltatasok" onClick={() => setMega(false)} className="group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm text-ash-gray transition-colors hover:bg-white/[0.05] hover:text-white">
+                      Összes szolgáltatás <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Mobile menu: full-screen, revealed as a circle from the hamburger */}
@@ -166,7 +254,7 @@ export function PublicNav() {
                   const isActive = pathname === l.href
                   return (
                     <li key={l.href} className="overflow-hidden">
-                      <motion.div variants={itemVariants}>
+                      <motion.div variants={itemVariants} className="relative">
                         <Link
                           href={l.href}
                           onClick={() => setOpen(false)}
@@ -183,7 +271,44 @@ export function PublicNav() {
                             </svg>
                           )}
                         </Link>
+                        {l.href === '/szolgaltatasok' && (
+                          <button
+                            type="button"
+                            onClick={() => setSubOpen(v => !v)}
+                            aria-expanded={subOpen}
+                            aria-label="Szolgáltatások listája"
+                            className="absolute right-0 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 text-white/70"
+                          >
+                            <ChevronDown className={`h-5 w-5 transition-transform duration-300 ${subOpen ? 'rotate-180' : ''}`} />
+                          </button>
+                        )}
                       </motion.div>
+                      {l.href === '/szolgaltatasok' && (
+                        <AnimatePresence initial={false}>
+                          {subOpen && (
+                            <motion.ul
+                              key="sub"
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.35, ease: EASE_OUT }}
+                              className="overflow-hidden pl-10"
+                            >
+                              {SERVICES_NAV.map(sv => {
+                                const Icon = sv.icon
+                                return (
+                                  <li key={sv.href}>
+                                    <Link href={sv.href} onClick={() => setOpen(false)} className="flex items-center gap-3 py-2.5 text-[17px] text-white/70 active:text-white">
+                                      <Icon className="h-4 w-4 text-[#b9a3ff]" strokeWidth={1.6} />
+                                      {sv.label}
+                                    </Link>
+                                  </li>
+                                )
+                              })}
+                            </motion.ul>
+                          )}
+                        </AnimatePresence>
+                      )}
                     </li>
                   )
                 })}
