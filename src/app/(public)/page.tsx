@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, ArrowUpRight, Code2, Search, Smartphone } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { LogoCarousel } from '@/components/public/LogoCarousel'
 import { ReviewCarousel } from '@/components/public/home/ReviewCarousel'
 import { ServiceVisual, type ServiceKind } from '@/components/public/home/ServiceVisual'
@@ -94,23 +94,6 @@ export default function HomePage() {
                 <polygon points="5,1 9,9 1,9" fill="none" stroke={t.color} strokeWidth="1" vectorEffect="non-scaling-stroke" />
               </svg>
             ))}
-            {/* little web-dev tags floating over the frame edges */}
-            <span className="void-float void-pill absolute -left-2 -top-5 z-10 !bg-[#0b0b0e] !pl-1.5 sm:-left-6 sm:top-[14%]" style={{ animationDelay: '0s' }}>
-              <span className="void-icon !h-7 !w-7 !rounded-full"><Code2 className="h-3.5 w-3.5" strokeWidth={1.8} /></span>
-              <span className="font-mono text-[12px] text-white">&lt;Weboldal /&gt;</span>
-            </span>
-            <span className="void-float void-pill absolute -right-3 top-[44%] z-10 !bg-[#0b0b0e] !pl-1.5 sm:-right-6" style={{ animationDelay: '-2s' }}>
-              <span className="void-icon !h-7 !w-7 !rounded-full"><Smartphone className="h-3.5 w-3.5" strokeWidth={1.8} /></span>
-              Mobilbarát
-            </span>
-            <span className="void-float void-pill absolute -left-6 bottom-[16%] z-10 !hidden !bg-[#0b0b0e] !pl-1.5 sm:!inline-flex" style={{ animationDelay: '-4s' }}>
-              <span className="void-icon !h-7 !w-7 !rounded-full"><Search className="h-3.5 w-3.5" strokeWidth={1.8} /></span>
-              SEO alapok
-            </span>
-            <span className="void-float void-pill absolute -top-4 right-[12%] z-10 !hidden !bg-[#0b0b0e] sm:!inline-flex" style={{ animationDelay: '-1s' }}>
-              <span className="ml-1 h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_0_4px_rgba(52,211,153,0.2)]" aria-hidden />
-              Élesítve
-            </span>
             {/* frame with a light running around its edge */}
             <div className="hero-frame relative rounded-[30px] p-[2px]">
               <div className="relative aspect-[3/2] overflow-hidden rounded-[28px] bg-black lg:aspect-square">

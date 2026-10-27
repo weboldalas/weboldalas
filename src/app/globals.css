@@ -768,8 +768,3 @@ div.void-card:hover, li.void-card:hover, details.void-card:hover { transform: no
 @media (prefers-reduced-motion: reduce) {
   .hero-frame::before, .hero-orb, .hero-tri { animation: none; }
 }
-
-/* gentle bobbing for tags floating over the hero photo */
-.void-float { animation: void-float 6s ease-in-out infinite; }
-@keyframes void-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-@media (prefers-reduced-motion: reduce) { .void-float { animation: none; } }
