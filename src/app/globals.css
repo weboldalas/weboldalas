@@ -714,3 +714,62 @@ div.void-card:hover, li.void-card:hover, details.void-card:hover { transform: no
 .void-float { animation: void-float 6s ease-in-out infinite; }
 @keyframes void-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @media (prefers-reduced-motion: reduce) { .void-float { animation: none; } }
+
+/* ============================================
+   Homepage hero photo: running border light, orbiting glow, drifting triangles
+   (transform/opacity only)
+   ============================================ */
+.hero-frame { overflow: hidden; isolation: isolate; background: rgba(255, 255, 255, 0.08); box-shadow: 0 0 80px -18px rgba(128, 82, 255, 0.55); }
+.hero-frame::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  width: 160%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: conic-gradient(from 0deg, transparent 0deg, transparent 170deg, rgba(128, 82, 255, 0.6) 230deg, #8052ff 290deg, #e879f9 330deg, #ffb829 352deg, transparent 360deg);
+  animation: hero-spin 6s linear infinite;
+}
+@keyframes hero-spin { to { rotate: 360deg; } }
+
+.hero-orb {
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  width: 85%;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgba(128, 82, 255, 0.5), rgba(128, 82, 255, 0) 72%);
+  animation: hero-orbit 14s ease-in-out infinite;
+}
+.hero-orb-a { top: -30%; left: -30%; }
+.hero-orb-b {
+  bottom: -30%;
+  right: -26%;
+  background: radial-gradient(closest-side, rgba(232, 121, 249, 0.32), rgba(232, 121, 249, 0) 72%);
+  animation-delay: -7s;
+}
+@keyframes hero-orbit {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(18%, 10%) scale(1.08); }
+  50% { transform: translate(8%, 26%) scale(0.95); }
+  75% { transform: translate(-10%, 12%) scale(1.04); }
+}
+
+.hero-tri {
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+  opacity: 0.85;
+  animation: hero-tri 9s ease-in-out infinite;
+}
+@keyframes hero-tri {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(6px, -12px) rotate(120deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-frame::before, .hero-orb, .hero-tri { animation: none; }
+}

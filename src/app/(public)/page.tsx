@@ -43,6 +43,14 @@ const sizes = [
   { size: 'Nagy', who: 'Nagyvállalatok', desc: 'ERP és egyedi rendszerek, összekötések és hosszú távú üzemeltetés, egy kapcsolattartóval.' },
 ]
 
+// triangles floating around the hero photo (position relative to the frame)
+const HERO_TRIS: { pos: React.CSSProperties; size: number; color: string; delay: string }[] = [
+  { pos: { top: '-18px', left: '-14px' }, size: 22, color: '#8052ff', delay: '0s' },
+  { pos: { top: '18%', right: '-22px' }, size: 16, color: '#ffb829', delay: '-2s' },
+  { pos: { bottom: '-20px', right: '22%' }, size: 26, color: '#2dd4bf', delay: '-4s' },
+  { pos: { bottom: '26%', left: '-24px' }, size: 14, color: '#e879f9', delay: '-6s' },
+]
+
 const stack = ['Next.js', 'React', 'TypeScript', 'JavaScript', 'Node.js', 'PHP', 'Tailwind CSS', 'WordPress', 'WooCommerce']
 
 const marquee = ['Weboldal', 'Webshop', 'Foglalási rendszer', 'Landing page', 'CRM', 'ERP', 'Üzemeltetés']
@@ -77,15 +85,27 @@ export default function HomePage() {
         <div className="mx-auto grid min-h-[100svh] max-w-[1280px] content-center gap-2 px-4 pb-14 pt-20 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-0 lg:px-8 lg:pb-24 lg:pt-24">
           {/* team photo (no particle shape in the hero) */}
           <figure className="void-in relative order-2 mt-10 lg:mt-0" style={{ animationDelay: '200ms' }}>
-            <div className="relative aspect-[3/2] overflow-hidden rounded-[28px] border border-white/10 lg:aspect-square">
-              <Image
-                src="/images/csapat.webp"
-                alt="A Weboldalas csapata munka közben, két laptop előtt"
-                fill
-                priority
-                sizes="(min-width: 1024px) 560px, 100vw"
-                className="object-cover object-[56%_center]"
-              />
+            {/* soft violet light orbiting behind the card */}
+            <span aria-hidden className="hero-orb hero-orb-a" />
+            <span aria-hidden className="hero-orb hero-orb-b" />
+            {/* outlined triangles drifting around the frame */}
+            {HERO_TRIS.map((t, i) => (
+              <svg key={i} aria-hidden viewBox="0 0 10 10" className="hero-tri" style={{ ...t.pos, width: t.size, height: t.size, animationDelay: t.delay }}>
+                <polygon points="5,1 9,9 1,9" fill="none" stroke={t.color} strokeWidth="1" vectorEffect="non-scaling-stroke" />
+              </svg>
+            ))}
+            {/* frame with a light running around its edge */}
+            <div className="hero-frame relative rounded-[30px] p-[2px]">
+              <div className="relative aspect-[3/2] overflow-hidden rounded-[28px] bg-black lg:aspect-square">
+                <Image
+                  src="/images/csapat.webp"
+                  alt="A Weboldalas csapata munka közben, két laptop előtt"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 560px, 100vw"
+                  className="object-cover object-[56%_center]"
+                />
+              </div>
             </div>
           </figure>
 
