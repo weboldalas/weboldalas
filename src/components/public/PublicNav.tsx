@@ -67,6 +67,7 @@ export function PublicNav() {
     { href: homeHref, label: t.home },
     { href: servicesHref, label: t.services },
     { href: href(locale, 'references'), label: t.references },
+    { href: href(locale, 'pricing'), label: t.pricing },
     { href: href(locale, 'contact'), label: t.contact },
   ]
 

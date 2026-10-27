@@ -103,7 +103,7 @@ Particle palette: `#8052ff`, `#ffb829`, `#15846e`, `#2dd4bf`, `#e879f9`, `#60a5f
 - Gradients on buttons, text or panels.
 - More than one filled button in a view.
 - Fake product screenshots or stock photos in the hero.
-- Prices, price ranges or monthly fees on the public site. Payment is described only as "egyben vagy részletben" via `void/PaymentOptions`; the exact price comes in the quote.
+- Prices, price ranges or monthly fees on the public site — except the temporary pricing page (`/arak`, `/en/pricing`, content in `src/content/pricing.ts`; route key `pricing`, nav + footer link), which will be removed later. Payment is described only as "egyben vagy részletben" via `void/PaymentOptions`; the exact price comes in the quote.
 - Unverifiable claims or promises: no delivery-time promises ("10 nap"), no client counts or results the business has not confirmed. Describe what we do, not what we guarantee.
 
 ## Languages (HU / EN)
