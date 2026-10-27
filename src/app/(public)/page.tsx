@@ -123,9 +123,10 @@ export default function HomePage() {
       <section className="py-10 sm:py-14">
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
           <Label>Ők már velünk dolgoznak</Label>
-          <div className="mt-6 sm:mt-8">
-            <LogoCarousel />
-          </div>
+        </div>
+        {/* full-bleed marquee */}
+        <div className="mt-6 sm:mt-8">
+          <LogoCarousel />
         </div>
       </section>
 

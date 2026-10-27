@@ -257,31 +257,56 @@ a, button, [role="button"] {
 }
 
 /* ============================================
-   LOGO CAROUSEL
+   LOGO MARQUEE (3 rows, alternating direction)
    ============================================ */
 @keyframes logo-scroll {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-
-.logo-track { will-change: transform; }
-.logo-carousel-wrapper:hover .logo-track {
-  animation-play-state: paused;
+.logo-row {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
 }
-
-.logo-chip img {
-  transition: filter 0.4s ease;
+.logo-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: logo-scroll 60s linear infinite;
+  will-change: transform;
 }
+.logo-row:hover .logo-track { animation-play-state: paused; }
 
-/* light artwork on transparent: muted greyscale, original colours on hover */
+.logo-chip {
+  flex-shrink: 0;
+  width: 168px;
+  height: 72px;
+  padding: 16px 22px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: #0b0b0e;
+  transition: background-color 0.35s, border-color 0.35s;
+}
+@media (min-width: 640px) { .logo-chip { width: 200px; height: 84px; padding: 18px 26px; } }
+.logo-chip img { transition: filter 0.35s ease; }
+
+/* light artwork on transparent: muted greyscale */
 .logo-chip.logo-light img { filter: grayscale(1) brightness(1.5) opacity(0.8); }
-/* dark artwork (on transparent or a white box): invert to white; screen hides the inverted white box */
+/* dark artwork (transparent or on a white box): inverted to white; screen hides the inverted white box */
 .logo-chip.logo-dark img { filter: invert(1) grayscale(1) brightness(1.6) opacity(0.85); mix-blend-mode: screen; }
 /* artwork on its own coloured background */
 .logo-chip.logo-color img { filter: grayscale(1) brightness(1.15) opacity(0.8); }
+
+/* hover: original colours. Dark logos get a white card so their colours read */
+.logo-chip:hover { border-color: rgba(128, 82, 255, 0.5); }
 .logo-chip.logo-light:hover img,
 .logo-chip.logo-color:hover img { filter: none; }
-.logo-chip.logo-dark:hover img { filter: invert(1) grayscale(1) brightness(2.4); }
+.logo-chip.logo-dark:hover { background: #fff; border-color: #fff; }
+.logo-chip.logo-dark:hover img { filter: none; mix-blend-mode: normal; }
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-track { animation: none; }
+}
 
 /* ============================================
    PUBLIC HOME — "Void" design system (see DESIGN.md)
