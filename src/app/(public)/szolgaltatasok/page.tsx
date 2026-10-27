@@ -104,9 +104,9 @@ export default function SzolgaltatasokPage() {
           <div data-particles="chat" aria-hidden className="h-[30svh] min-h-[220px] lg:order-2 lg:h-[min(520px,66svh)]" />
           <div className="lg:order-1">
             <Label>Konzultáció</Label>
-            <h2 className="void-reveal mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">Nem tudod, melyik kell?</h2>
+            <h2 className="void-reveal mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">Beszéljük át.</h2>
             <p className="text-body font-extralight mt-5 max-w-md text-silver-mist">
-              Mesélj a projektedről, és segítünk kiválasztani azt, ami tényleg támogatja a céljaidat.
+              Elmondod, mit szeretnél elérni, mi pedig javaslunk hozzá egy megoldást. Az első konzultáció ingyenes.
             </p>
             <div className="mt-8"><Link href="/kapcsolat" className="void-button">Beszéljünk</Link></div>
           </div>

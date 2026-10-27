@@ -214,8 +214,8 @@ export function PublicNav() {
                 <div className="flex flex-col justify-between rounded-[22px] border border-white/[0.07] bg-[#111116] p-6">
                   <div>
                     <p className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">Konzultáció</p>
-                    <p className="mt-3 text-heading-2xs text-white">Nem tudod, melyik kell?</p>
-                    <p className="mt-2 text-[13px] leading-relaxed text-ash-gray">Mesélj a projektedről, és segítünk kiválasztani, ami tényleg támogatja a céljaidat.</p>
+                    <p className="mt-3 text-heading-2xs text-white">Beszéljük át.</p>
+                    <p className="mt-2 text-[13px] leading-relaxed text-ash-gray">Elmondod, mit szeretnél elérni, mi pedig javaslunk hozzá egy megoldást. Az első konzultáció ingyenes.</p>
                   </div>
                   <div className="mt-6 space-y-1">
                     <Link href="/kapcsolat" onClick={() => setMega(false)} className="group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm text-white transition-colors hover:bg-white/[0.05]">
