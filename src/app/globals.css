@@ -710,11 +710,6 @@ div.void-card:hover, li.void-card:hover, details.void-card:hover { transform: no
 @media (min-width: 640px) { .void-faq-card { padding: 24px 28px; } }
 .void-faq-card[open] { border-color: rgba(128, 82, 255, 0.4); background: #0f0d18; }
 
-/* gentle bobbing for chips floating over the hero photo */
-.void-float { animation: void-float 6s ease-in-out infinite; }
-@keyframes void-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-@media (prefers-reduced-motion: reduce) { .void-float { animation: none; } }
-
 /* ============================================
    Homepage hero photo: running border light, orbiting glow, drifting triangles
    (transform/opacity only)
