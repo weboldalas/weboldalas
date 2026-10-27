@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { LogoCarousel } from '@/components/public/LogoCarousel'
 import { ReviewCarousel } from '@/components/public/home/ReviewCarousel'
@@ -69,15 +70,30 @@ const faqs = [
 export default function HomePage() {
   return (
     <ParticlePage>
-      {/* Scroll-morphing particle cloud: devices → (empty behind services) → chat → pen → progress ring → rocket → gears → stardust → paper plane */}
+      {/* Scroll-morphing particle cloud: (photo hero, empty services) → chat → pen → progress ring → rocket → gears → stardust → paper plane */}
 
       {/* ===== HERO ===== */}
       <section>
         <div className="mx-auto grid min-h-[100svh] max-w-[1280px] content-center gap-2 px-4 pb-14 pt-20 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-0 lg:px-8 lg:pb-24 lg:pt-24">
-          {/* the globe forms here (above the copy on phones) */}
-          <div data-particles="devices" aria-hidden className="h-[38svh] min-h-[260px] lg:order-2 lg:h-[min(760px,88svh)]" />
+          {/* team photo (no particle shape in the hero) */}
+          <figure className="void-in relative order-2 mt-10 lg:mt-0" style={{ animationDelay: '200ms' }}>
+            <div className="relative aspect-[3/2] overflow-hidden rounded-[28px] border border-white/10 lg:aspect-square">
+              <Image
+                src="/images/csapat.webp"
+                alt="A Weboldalas csapata munka közben, két laptop előtt"
+                fill
+                priority
+                sizes="(min-width: 1024px) 560px, 100vw"
+                className="object-cover object-[56%_center]"
+              />
+            </div>
+            <figcaption className="void-pill absolute bottom-4 left-4 !bg-[#0b0b0e] sm:bottom-6 sm:left-6">
+              <span className="void-pill-dot" aria-hidden />
+              Ketten csináljuk, az elejétől a végéig
+            </figcaption>
+          </figure>
 
-          <div className="relative lg:order-1">
+          <div className="relative order-1 lg:pr-12">
             <Link href="/szolgaltatasok/erp" className="void-pill void-in mb-6 sm:mb-8">
               <span className="void-pill-tag">Új</span>
               ERP rendszerek
@@ -92,7 +108,7 @@ export default function HomePage() {
               <Label>Tervezés · Fejlesztés · Üzemeltetés</Label>
               <p className="text-body font-extralight mt-4">
                 Egyéni vállalkozóknak, KKV-knak és nagyvállalatoknak tervezünk, fejlesztünk és üzemeltetünk weboldalakat, webshopokat és egyedi rendszereket.
-                Egy csapattal, egy összegben vagy részletekben fizetve.
+                Ketten csináljuk, az első beszélgetéstől az üzemeltetésig. Egy összegben vagy részletekben fizetve.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
                 <Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>
