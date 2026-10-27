@@ -51,6 +51,16 @@ const HERO_TRIS: { pos: React.CSSProperties; size: number; color: string; delay:
   { pos: { bottom: '26%', left: '-24px' }, size: 14, color: '#e879f9', delay: '-6s' },
 ]
 
+// lines for the hero code window (n = characters, for the typing width)
+const HERO_CODE = [
+  { parts: [{ t: 'const ', c: 'text-[#b9a3ff]' }, { t: 'projekt', c: 'text-white' }, { t: ' = {', c: 'text-ash-gray' }] },
+  { parts: [{ t: '  dizajn', c: 'text-[#7dd3fc]' }, { t: ': ', c: 'text-ash-gray' }, { t: "'egyedi'", c: 'text-saffron-spark' }, { t: ',', c: 'text-ash-gray' }] },
+  { parts: [{ t: '  mobilbarát', c: 'text-[#7dd3fc]' }, { t: ': ', c: 'text-ash-gray' }, { t: 'true', c: 'text-[#b9a3ff]' }, { t: ',', c: 'text-ash-gray' }] },
+  { parts: [{ t: '  seo', c: 'text-[#7dd3fc]' }, { t: ': ', c: 'text-ash-gray' }, { t: 'true', c: 'text-[#b9a3ff]' }, { t: ',', c: 'text-ash-gray' }] },
+  { parts: [{ t: '  állapot', c: 'text-[#7dd3fc]' }, { t: ': ', c: 'text-ash-gray' }, { t: "'élesítve'", c: 'text-[#2dd4bf]' }, { t: ',', c: 'text-ash-gray' }] },
+  { parts: [{ t: '}', c: 'text-ash-gray' }] },
+].map(l => ({ ...l, n: l.parts.reduce((a, p) => a + p.t.length, 0) }))
+
 const stack = ['Next.js', 'React', 'TypeScript', 'JavaScript', 'Node.js', 'PHP', 'Tailwind CSS', 'WordPress', 'WooCommerce']
 
 const marquee = ['Weboldal', 'Webshop', 'Foglalási rendszer', 'Landing page', 'CRM', 'ERP', 'Üzemeltetés']
@@ -84,7 +94,7 @@ export default function HomePage() {
       <section>
         <div className="mx-auto grid min-h-[100svh] max-w-[1280px] content-center gap-2 px-4 pb-14 pt-20 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-0 lg:px-8 lg:pb-24 lg:pt-24">
           {/* team photo (no particle shape in the hero) */}
-          <figure className="void-in relative order-2 mt-10 lg:mt-0" style={{ animationDelay: '200ms' }}>
+          <figure className="void-in relative order-2 mb-24 mt-10 sm:mb-0 lg:mt-0" style={{ animationDelay: '200ms' }}>
             {/* soft violet light orbiting behind the card */}
             <span aria-hidden className="hero-orb hero-orb-a" />
             <span aria-hidden className="hero-orb hero-orb-b" />
@@ -94,6 +104,20 @@ export default function HomePage() {
                 <polygon points="5,1 9,9 1,9" fill="none" stroke={t.color} strokeWidth="1" vectorEffect="non-scaling-stroke" />
               </svg>
             ))}
+            {/* mini code editor that types itself on a loop */}
+            <div aria-hidden className="hero-code absolute -bottom-24 right-3 z-10 w-[200px] sm:-bottom-8 sm:-left-8 sm:right-auto sm:w-[268px]">
+              <div className="flex items-center gap-1.5 border-b border-white/10 px-3.5 py-2.5">
+                <span className="h-2 w-2 rounded-full bg-white/20" /><span className="h-2 w-2 rounded-full bg-white/20" /><span className="h-2 w-2 rounded-full bg-white/20" />
+                <span className="ml-2 text-[11px] text-ash-gray">projekt.ts</span>
+              </div>
+              <pre className="px-3.5 py-3 font-mono text-[10.5px] leading-[1.65] sm:text-[12.5px] sm:leading-[1.7]">
+                {HERO_CODE.map((line, i) => (
+                  <span key={i} className="hero-code-line" style={{ '--n': line.n, animationDelay: `${i * 0.55}s` } as React.CSSProperties}>
+                    {line.parts.map((p, j) => <span key={j} className={p.c}>{p.t}</span>)}
+                  </span>
+                ))}
+              </pre>
+            </div>
             {/* frame with a light running around its edge */}
             <div className="hero-frame relative rounded-[30px] p-[2px]">
               <div className="relative aspect-[3/2] overflow-hidden rounded-[28px] bg-black lg:aspect-square">

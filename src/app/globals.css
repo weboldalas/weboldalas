@@ -768,3 +768,41 @@ div.void-card:hover, li.void-card:hover, details.void-card:hover { transform: no
 @media (prefers-reduced-motion: reduce) {
   .hero-frame::before, .hero-orb, .hero-tri { animation: none; }
 }
+
+/* hero mini code editor: each line types in, holds, then clears; loops every 9s */
+.hero-code {
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(11, 11, 14, 0.94);
+  box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.8), 0 0 40px -16px rgba(128, 82, 255, 0.5);
+}
+.hero-code pre { margin: 0; white-space: pre; }
+.hero-code-line {
+  display: block;
+  width: 0;
+  max-width: max-content;
+  overflow: hidden;
+  animation: hero-type 9s steps(var(--n)) infinite;
+}
+.hero-code-line:last-child::after {
+  content: "";
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--color-electric-iris);
+  animation: hero-caret 1s steps(1) infinite;
+}
+@keyframes hero-type {
+  0% { width: 0; }
+  9% { width: calc(var(--n) * 1ch + 1ch); }
+  80% { width: calc(var(--n) * 1ch + 1ch); opacity: 1; }
+  88%, 100% { width: calc(var(--n) * 1ch + 1ch); opacity: 0; }
+}
+@keyframes hero-caret { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-code-line { animation: none; width: auto; }
+  .hero-code-line::after { animation: none; }
+}
