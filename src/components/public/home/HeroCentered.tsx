@@ -21,7 +21,7 @@ export function HeroCentered() {
         </Link>
 
         <h1 className="mx-auto mt-8 max-w-4xl text-heading sm:text-heading-lg">
-          Weboldalak, webshopok és <span className="void-mark">rendszerek</span>, ketten, személyesen.
+          Weboldalak, webshopok és <span className="void-mark">rendszerek</span>, az ötlettől az üzemeltetésig.
         </h1>
 
         <p className="void-in text-body font-extralight mx-auto mt-6 max-w-2xl text-silver-mist sm:mt-8" style={{ animationDelay: '120ms' }}>
@@ -50,10 +50,6 @@ export function HeroCentered() {
               {f.label}
             </span>
           ))}
-          <figcaption className="void-pill absolute bottom-4 right-4 !bg-[#0b0b0e] sm:bottom-6 sm:right-6">
-            <span className="void-pill-dot" aria-hidden />
-            Ketten csináljuk, az elejétől a végéig
-          </figcaption>
         </figure>
       </div>
     </section>

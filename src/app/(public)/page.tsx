@@ -87,10 +87,6 @@ export default function HomePage() {
                 className="object-cover object-[56%_center]"
               />
             </div>
-            <figcaption className="void-pill absolute bottom-4 left-4 !bg-[#0b0b0e] sm:bottom-6 sm:left-6">
-              <span className="void-pill-dot" aria-hidden />
-              Ketten csináljuk, az elejétől a végéig
-            </figcaption>
           </figure>
 
           <div className="relative order-1 lg:pr-12">
@@ -108,7 +104,7 @@ export default function HomePage() {
               <Label>Tervezés · Fejlesztés · Üzemeltetés</Label>
               <p className="text-body font-extralight mt-4">
                 Egyéni vállalkozóknak, KKV-knak és nagyvállalatoknak tervezünk, fejlesztünk és üzemeltetünk weboldalakat, webshopokat és egyedi rendszereket.
-                Ketten csináljuk, az első beszélgetéstől az üzemeltetésig. Egy összegben vagy részletekben fizetve.
+                Az első beszélgetéstől az üzemeltetésig, egy összegben vagy részletekben fizetve.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
                 <Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>
