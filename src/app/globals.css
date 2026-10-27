@@ -273,24 +273,15 @@ a, button, [role="button"] {
   transition: filter 0.4s ease;
 }
 
-/* White/light logo on transparent background — boost brightness */
-.logo-chip.logo-transparent img {
-  filter: brightness(1.8) opacity(0.85);
-}
-.logo-chip.logo-transparent:hover img {
-  filter: brightness(1) opacity(1);
-}
-
-/* Colored/dark logo on opaque white background
-   invert flips white bg → black, mix-blend-mode:screen makes black invisible */
-.logo-chip.logo-whitebg img {
-  filter: invert(1) grayscale(1) brightness(1.8) opacity(0.85);
-  mix-blend-mode: screen;
-}
-.logo-chip.logo-whitebg:hover img {
-  filter: invert(1) grayscale(1) brightness(3) opacity(1);
-  mix-blend-mode: screen;
-}
+/* light artwork on transparent: muted greyscale, original colours on hover */
+.logo-chip.logo-light img { filter: grayscale(1) brightness(1.5) opacity(0.8); }
+/* dark artwork (on transparent or a white box): invert to white; screen hides the inverted white box */
+.logo-chip.logo-dark img { filter: invert(1) grayscale(1) brightness(1.6) opacity(0.85); mix-blend-mode: screen; }
+/* artwork on its own coloured background */
+.logo-chip.logo-color img { filter: grayscale(1) brightness(1.15) opacity(0.8); }
+.logo-chip.logo-light:hover img,
+.logo-chip.logo-color:hover img { filter: none; }
+.logo-chip.logo-dark:hover img { filter: invert(1) grayscale(1) brightness(2.4); }
 
 /* ============================================
    PUBLIC HOME — "Void" design system (see DESIGN.md)
