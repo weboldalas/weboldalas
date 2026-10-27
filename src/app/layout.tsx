@@ -9,6 +9,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
+  // absolute base for canonical/hreflang links on the public site
+  metadataBase: new URL('https://weboldalas.hu'),
   title: "Weboldalas Admin",
   description: "CRM és projektmenedzsment rendszer webügynökségek számára",
 };

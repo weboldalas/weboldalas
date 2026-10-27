@@ -1,12 +1,19 @@
 import { Globe, ShoppingBag, Calendar, LayoutTemplate, Users, Boxes, Wrench, type LucideIcon } from 'lucide-react'
+import { href, type Locale, type RouteKey } from '@/i18n/routes'
+import { ui } from '@/i18n/ui'
 
-/** Services as shown in the navigation (desktop mega menu + mobile menu). */
-export const SERVICES_NAV: { href: string; label: string; desc: string; icon: LucideIcon }[] = [
-  { href: '/szolgaltatasok/bemutatkozo-weboldal', label: 'Bemutatkozó weboldal', desc: 'A céged online névjegye', icon: Globe },
-  { href: '/szolgaltatasok/webshop', label: 'Webshop', desc: 'Online bolt fizetéssel, rendeléskezeléssel', icon: ShoppingBag },
-  { href: '/szolgaltatasok/foglalasi-rendszer', label: 'Foglalási rendszer', desc: 'Online időpontfoglalás a weboldaladon', icon: Calendar },
-  { href: '/szolgaltatasok/landing-page', label: 'Landing page', desc: 'Egy oldal kampányokhoz, hirdetésekhez', icon: LayoutTemplate },
-  { href: '/szolgaltatasok/crm', label: 'CRM rendszer', desc: 'Érdeklődők, ajánlatok, ügyfelek egy helyen', icon: Users },
-  { href: '/szolgaltatasok/erp', label: 'ERP rendszer', desc: 'Az egész cég működése egy rendszerben', icon: Boxes },
-  { href: '/szolgaltatasok/uzemeltetes', label: 'Üzemeltetés', desc: 'Tárhely, frissítések, mentések, támogatás', icon: Wrench },
+const ITEMS: { key: RouteKey & keyof ReturnType<typeof ui>['services']; icon: LucideIcon }[] = [
+  { key: 'website', icon: Globe },
+  { key: 'webshop', icon: ShoppingBag },
+  { key: 'booking', icon: Calendar },
+  { key: 'landing', icon: LayoutTemplate },
+  { key: 'crm', icon: Users },
+  { key: 'erp', icon: Boxes },
+  { key: 'maintenance', icon: Wrench },
 ]
+
+/** Services as shown in the navigation (desktop mega menu, mobile menu, footer). */
+export function servicesNav(locale: Locale) {
+  const t = ui(locale).services
+  return ITEMS.map(i => ({ href: href(locale, i.key), label: t[i.key].label, desc: t[i.key].desc, icon: i.icon }))
+}

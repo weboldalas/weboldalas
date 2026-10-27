@@ -7,17 +7,13 @@ import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 import { MenuParticles } from './MenuParticles'
-import { SERVICES_NAV } from './servicesNav'
+import { servicesNav } from './servicesNav'
+import { LanguageSwitcher } from './LanguageSwitcher'
+import { href, localeOf } from '@/i18n/routes'
+import { ui } from '@/i18n/ui'
 
 const EASE = [0.76, 0, 0.24, 1] as const
 const EASE_OUT = [0.22, 1, 0.36, 1] as const
-
-const links = [
-  { href: '/', label: 'Főoldal' },
-  { href: '/szolgaltatasok', label: 'Szolgáltatások' },
-  { href: '/referenciak', label: 'Referenciák' },
-  { href: '/kapcsolat', label: 'Kapcsolat' },
-]
 
 /** Two lines: they slide together, then rotate into an X (and reverse on close). */
 function HamburgerIcon({ open }: { open: boolean }) {
@@ -62,6 +58,17 @@ export function PublicNav() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
+  const locale = localeOf(pathname)
+  const t = ui(locale).nav
+  const SERVICES_NAV = servicesNav(locale)
+  const servicesHref = href(locale, 'services')
+  const homeHref = href(locale, 'home')
+  const links = [
+    { href: homeHref, label: t.home },
+    { href: servicesHref, label: t.services },
+    { href: href(locale, 'references'), label: t.references },
+    { href: href(locale, 'contact'), label: t.contact },
+  ]
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 24)
@@ -123,16 +130,16 @@ export function PublicNav() {
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center shrink-0">
+          <Link href={homeHref} className="flex items-center shrink-0">
             <Image src="/weboldalas-logo.svg" alt="Weboldalas" width={160} height={22} />
           </Link>
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1">
             {links.map(l => {
-              const isActive = l.href === '/' ? pathname === '/' : pathname.startsWith(l.href)
+              const isActive = l.href === homeHref ? pathname === homeHref : pathname.startsWith(l.href)
               const base = `px-4 py-2 rounded-lg text-sm font-medium transition-colors ${isActive ? 'bg-white/[0.08] text-white' : 'text-white/50 hover:text-white/90'}`
-              if (l.href === '/szolgaltatasok') {
+              if (l.href === servicesHref) {
                 return (
                   <div key={l.href} onMouseEnter={openMega} onMouseLeave={closeMega} onFocus={openMega} onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget as Node)) closeMega() }}>
                     <button
@@ -156,24 +163,27 @@ export function PublicNav() {
             })}
           </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:block">
-            <Link href="/kapcsolat"
-              className="void-button">
-              Ajánlatot kérek
+          {/* Desktop language + CTA */}
+          <div className="hidden items-center gap-3 md:flex">
+            <LanguageSwitcher />
+            <Link href={href(locale, 'contact')} className="void-button">
+              {t.cta}
             </Link>
           </div>
 
-          {/* Hamburger */}
+          {/* Mobile: language + hamburger */}
+          <div className="flex items-center gap-2 md:hidden">
+          <LanguageSwitcher onNavigate={() => setOpen(false)} />
           <button
             className="group -mr-2 flex h-11 w-11 items-center justify-center rounded-full md:hidden"
             onClick={() => setOpen(v => !v)}
-            aria-label={open ? 'Menü bezárása' : 'Menü megnyitása'}
+            aria-label={open ? t.closeMenu : t.openMenu}
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
             <HamburgerIcon open={open} />
           </button>
+          </div>
         </div>
 
         {/* Desktop mega menu */}
@@ -212,16 +222,16 @@ export function PublicNav() {
                 </ul>
                 <div className="flex flex-col justify-between rounded-[22px] border border-white/[0.07] bg-[#111116] p-6">
                   <div>
-                    <p className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">Konzultáció</p>
-                    <p className="mt-3 text-heading-2xs text-white">Beszéljük át.</p>
-                    <p className="mt-2 text-[13px] leading-relaxed text-ash-gray">Elmondod, mit szeretnél elérni, mi pedig javaslunk hozzá egy megoldást. Az első konzultáció ingyenes.</p>
+                    <p className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">{t.consultLabel}</p>
+                    <p className="mt-3 text-heading-2xs text-white">{t.consultTitle}</p>
+                    <p className="mt-2 text-[13px] leading-relaxed text-ash-gray">{t.consultText}</p>
                   </div>
                   <div className="mt-6 space-y-1">
-                    <Link href="/kapcsolat" onClick={() => setMega(false)} className="group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm text-white transition-colors hover:bg-white/[0.05]">
-                      Beszéljünk <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <Link href={href(locale, 'contact')} onClick={() => setMega(false)} className="group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm text-white transition-colors hover:bg-white/[0.05]">
+                      {t.consultCta} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Link>
-                    <Link href="/szolgaltatasok" onClick={() => setMega(false)} className="group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm text-ash-gray transition-colors hover:bg-white/[0.05] hover:text-white">
-                      Összes szolgáltatás <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <Link href={servicesHref} onClick={() => setMega(false)} className="group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm text-ash-gray transition-colors hover:bg-white/[0.05] hover:text-white">
+                      {t.allServices} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </div>
                 </div>
@@ -239,7 +249,7 @@ export function PublicNav() {
             key="mobile-menu"
             role="dialog"
             aria-modal="true"
-            aria-label="Menü"
+            aria-label={t.menu}
             variants={menuVariants}
             initial="closed"
             animate="open"
@@ -270,19 +280,19 @@ export function PublicNav() {
                             </svg>
                           )}
                         </Link>
-                        {l.href === '/szolgaltatasok' && (
+                        {l.href === servicesHref && (
                           <button
                             type="button"
                             onClick={() => setSubOpen(v => !v)}
                             aria-expanded={subOpen}
-                            aria-label="Szolgáltatások listája"
+                            aria-label={t.servicesList}
                             className="absolute right-0 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 text-white/70"
                           >
                             <ChevronDown className={`h-5 w-5 transition-transform duration-300 ${subOpen ? 'rotate-180' : ''}`} />
                           </button>
                         )}
                       </motion.div>
-                      {l.href === '/szolgaltatasok' && (
+                      {l.href === servicesHref && (
                         <AnimatePresence initial={false}>
                           {subOpen && (
                             <motion.ul
@@ -316,16 +326,16 @@ export function PublicNav() {
               <motion.div variants={fadeVariants} className="mt-auto pt-12">
                 <div className="grid grid-cols-2 gap-6">
                   <div>
-                    <p className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">Email</p>
+                    <p className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">{t.email}</p>
                     <a href="mailto:info@weboldalas.hu" className="mt-2 block text-[15px] text-white">info@weboldalas.hu</a>
                   </div>
                   <div>
-                    <p className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">Nyitvatartás</p>
-                    <p className="mt-2 text-[15px] text-white">H–P: 9:00–18:00</p>
+                    <p className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">{t.hours}</p>
+                    <p className="mt-2 text-[15px] text-white">{t.hoursValue}</p>
                   </div>
                 </div>
-                <Link href="/kapcsolat" onClick={() => setOpen(false)} className="void-button mt-8 w-full !min-h-[56px]">
-                  Ajánlatot kérek
+                <Link href={href(locale, 'contact')} onClick={() => setOpen(false)} className="void-button mt-8 w-full !min-h-[56px]">
+                  {t.cta}
                 </Link>
               </motion.div>
             </div>

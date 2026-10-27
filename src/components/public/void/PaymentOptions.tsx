@@ -1,19 +1,21 @@
 import { Wallet, CalendarClock } from 'lucide-react'
+import type { Locale } from '@/i18n/routes'
+import { ui } from '@/i18n/ui'
 import { BentoCard } from './BentoCard'
 import { SectionHead, container } from './ui'
 
-const options = [
-  { icon: Wallet, title: 'Egyben', desc: 'A teljes összeget egyszerre fizeted, az ajánlatban rögzített feltételekkel.' },
-  { icon: CalendarClock, title: 'Részletben', desc: 'Az összeget több részletre bontjuk, a projekthez igazított ütemezéssel. A részleteket előre, az ajánlatban rögzítjük.' },
-]
-
 /** Payment block (no prices): one-off or instalments, quoted per project. */
-export function PaymentOptions({ note, action, id = 'fizetes' }: { note?: React.ReactNode; action: React.ReactNode; id?: string }) {
+export function PaymentOptions({ note, action, id = 'fizetes', locale = 'hu' }: { note?: React.ReactNode; action: React.ReactNode; id?: string; locale?: Locale }) {
+  const t = ui(locale).payment
+  const options = [
+    { icon: Wallet, title: t.oneTitle, desc: t.oneDesc },
+    { icon: CalendarClock, title: t.instTitle, desc: t.instDesc },
+  ]
   return (
     <section id={id} className="void-section scroll-mt-20">
       <div className={container}>
-        <SectionHead title={<>Egyben vagy <span className="void-mark">részletben.</span></>} label="Fizetés">
-          {note ?? 'Nem dolgozunk sablonárakkal, mert minden projekt más. Egy rövid konzultáció után pontos, kötelezettségmentes ajánlatot küldünk.'}
+        <SectionHead title={<>{t.titleStart}<span className="void-mark">{t.titleAccent}</span></>} label={t.label}>
+          {note ?? t.note}
         </SectionHead>
         <ul className="mt-12 grid gap-4 sm:mt-16 md:grid-cols-2 lg:gap-5">
           {options.map(o => (

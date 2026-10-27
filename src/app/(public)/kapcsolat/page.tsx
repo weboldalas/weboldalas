@@ -1,84 +1,12 @@
-import { ContactForm } from '@/components/public/ContactForm'
-import { ParticlePage } from '@/components/public/void/ParticlePage'
-import { PageHero } from '@/components/public/void/PageHero'
-import { BentoCard } from '@/components/public/void/BentoCard'
-import { Label, TriangleBullet, container } from '@/components/public/void/ui'
+import { ContactView } from '@/components/public/views/ContactView'
+import { CONTACT } from '@/content/contact'
+import { alternates } from '@/i18n/routes'
 
-export const metadata = {
-  title: 'Kapcsolat | Weboldalas',
-  description: 'Ajánlatot kérnél, vagy kérdésed van? Írj nekünk, szívesen segítünk.',
-}
-
-const contacts = [
-  { label: 'Telefon', value: '+36 30 123 4567', href: 'tel:+36301234567' },
-  { label: 'Email', value: 'info@weboldalas.hu', href: 'mailto:info@weboldalas.hu' },
-  { label: 'Nyitvatartás', value: 'H–P: 9:00–18:00', href: null },
-  { label: 'Régió', value: 'Magyarország', href: null },
-]
-
-const promises = [
-  '1 munkanapon belüli visszajelzés',
-  'Ingyenes konzultáció',
-  'Testre szabott ajánlat',
-  'Nincs rejtett díj',
-  'Magyar ügyfélszolgálat',
-]
+export const metadata = { ...CONTACT.hu.meta, alternates: alternates('hu', 'contact') }
 
 export default async function KapcsolatPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  // prefill from the pricing calculator (?szolgaltatas=…&terv=…)
+  // optional prefill via ?szolgaltatas=…&terv=…
   const sp = await searchParams
   const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v)?.slice(0, 160) ?? ''
-  const interest = one(sp.szolgaltatas)
-  const plan = one(sp.terv)
-  return (
-    <ParticlePage>
-      <PageHero
-        label="Kapcsolat"
-        title="Írj nekünk."
-        accent="nekünk."
-        shape="plane"
-        actions={<a href="#urlap" className="void-button">Üzenet küldése</a>}
-      >
-        Töltsd ki az űrlapot, és általában 1 munkanapon belül jelentkezünk egy konkrét javaslattal.
-      </PageHero>
-
-      <section id="urlap" className="void-section scroll-mt-20" data-particles="none">
-        <div className={`${container} grid gap-4 lg:grid-cols-[1.3fr_1fr] lg:gap-5`}>
-          <div className="void-reveal">
-            <BentoCard className="p-6 sm:p-10">
-              <Label>Ajánlatkérés</Label>
-              <h2 className="mt-5 text-heading-sm sm:text-heading">Mesélj a projektedről.</h2>
-              <div className="mt-10">
-                <ContactForm initialInterest={interest} initialMessage={plan ? `Kalkulátor: ${plan}\n\n` : ''} />
-              </div>
-            </BentoCard>
-          </div>
-
-          <div className="void-reveal space-y-4 lg:space-y-5">
-            <BentoCard className="p-6 sm:p-8">
-              <Label>Elérhetőségek</Label>
-              <dl className="mt-6 space-y-6">
-                {contacts.map(c => (
-                  <div key={c.label}>
-                    <dt className="text-caption text-ash-gray">{c.label}</dt>
-                    <dd className="mt-1 text-heading-2xs">
-                      {c.href ? <a href={c.href} className="transition-colors hover:text-electric-iris">{c.value}</a> : c.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </BentoCard>
-            <BentoCard className="p-6 sm:p-8">
-              <Label>Amit vállalunk</Label>
-              <ul className="mt-6 space-y-3">
-                {promises.map(p => (
-                  <li key={p} className="flex items-center gap-3 text-[15px] text-bone-white"><TriangleBullet /> {p}</li>
-                ))}
-              </ul>
-            </BentoCard>
-          </div>
-        </div>
-      </section>
-    </ParticlePage>
-  )
+  return <ContactView locale="hu" interest={one(sp.szolgaltatas)} plan={one(sp.terv)} />
 }

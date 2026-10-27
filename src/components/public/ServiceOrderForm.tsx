@@ -2,8 +2,11 @@
 
 import { useState } from 'react'
 import { Check, Loader2 } from 'lucide-react'
+import type { Locale } from '@/i18n/routes'
+import { ui } from '@/i18n/ui'
 
-export function ServiceOrderForm({ serviceName }: { serviceName: string }) {
+export function ServiceOrderForm({ serviceName, locale = 'hu' }: { serviceName: string; locale?: Locale }) {
+  const t = ui(locale).form
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [form, setForm] = useState({ name: '', phone: '', email: '', message: '' })
 
@@ -39,8 +42,8 @@ export function ServiceOrderForm({ serviceName }: { serviceName: string }) {
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-electric-iris">
           <Check className="h-6 w-6 text-white" strokeWidth={2.5} />
         </span>
-        <h3 className="mt-6 text-heading-2xs">Megkaptuk az érdeklődésedet!</h3>
-        <p className="text-body font-extralight mt-2 text-silver-mist">Általában 1 munkanapon belül visszajelzünk.</p>
+        <h3 className="mt-6 text-heading-2xs">{t.successInterest}</h3>
+        <p className="text-body font-extralight mt-2 text-silver-mist">{t.successText}</p>
       </div>
     )
   }
@@ -49,32 +52,32 @@ export function ServiceOrderForm({ serviceName }: { serviceName: string }) {
     <form onSubmit={handleSubmit} className="space-y-7">
       <div className="grid gap-7 sm:grid-cols-2">
         <label className="block">
-          <span className="void-field-label">Név *</span>
-          <input type="text" value={form.name} onChange={set('name')} placeholder="Kovács Péter" required autoComplete="name" className="void-input" />
+          <span className="void-field-label">{t.name} *</span>
+          <input type="text" value={form.name} onChange={set('name')} placeholder={t.namePh} required autoComplete="name" className="void-input" />
         </label>
         <label className="block">
-          <span className="void-field-label">Telefon</span>
-          <input type="tel" value={form.phone} onChange={set('phone')} placeholder="+36 30 123 4567" autoComplete="tel" className="void-input" />
+          <span className="void-field-label">{t.phone}</span>
+          <input type="tel" value={form.phone} onChange={set('phone')} placeholder={t.phonePh} autoComplete="tel" className="void-input" />
         </label>
       </div>
       <label className="block">
-        <span className="void-field-label">Email *</span>
-        <input type="email" value={form.email} onChange={set('email')} placeholder="pelda@vallalkozas.hu" required autoComplete="email" className="void-input" />
+        <span className="void-field-label">{t.email} *</span>
+        <input type="email" value={form.email} onChange={set('email')} placeholder={t.emailPh} required autoComplete="email" className="void-input" />
       </label>
       <label className="block">
-        <span className="void-field-label">Megjegyzés</span>
-        <textarea value={form.message} onChange={set('message')} rows={3} placeholder="Írj pár szót a cégedről és az igényeidről…" className="void-input resize-none" />
+        <span className="void-field-label">{t.note}</span>
+        <textarea value={form.message} onChange={set('message')} rows={3} placeholder={t.messagePh} className="void-input resize-none" />
       </label>
 
       {status === 'error' && (
-        <p className="text-sm text-[#fca5a5]">Hiba történt a küldés során. Kérjük, próbáld újra.</p>
+        <p className="text-sm text-[#fca5a5]">{t.error}</p>
       )}
 
       <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-2">
         <button type="submit" disabled={status === 'loading'} className="void-button disabled:opacity-60">
-          {status === 'loading' ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Küldés…</> : 'Érdeklődöm'}
+          {status === 'loading' ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> {t.sending}</> : t.interestSend}
         </button>
-        <span className="text-caption text-ash-gray">Nincs kötelezettség.</span>
+        <span className="text-caption text-ash-gray">{t.noObligation}</span>
       </div>
     </form>
   )

@@ -9,6 +9,8 @@ import { VoidFaq } from './void/VoidFaq'
 import { PaymentOptions } from './void/PaymentOptions'
 import { BentoCard } from './void/BentoCard'
 import { Label, GhostLink, TriangleBullet, SectionHead, container } from './void/ui'
+import { href, type Locale } from '@/i18n/routes'
+import { ui } from '@/i18n/ui'
 
 export type ServicePageData = {
   /** particle shape that forms in the hero */
@@ -45,7 +47,8 @@ export type ServicePageData = {
   faqs: { q: string; a: string }[]
 }
 
-export function ServicePage({ data }: { data: ServicePageData }) {
+export function ServicePage({ data, locale = 'hu' }: { data: ServicePageData; locale?: Locale }) {
+  const t = ui(locale).servicePage
   return (
     <ParticlePage>
       {/* ===== HERO ===== */}
@@ -55,8 +58,8 @@ export function ServicePage({ data }: { data: ServicePageData }) {
         accent={data.hero.accent}
         shape={data.shape}
         actions={<>
-          <Link href="/kapcsolat" className="void-button">Ajánlatot kérek</Link>
-          <GhostLink href="#fizetes">Fizetési lehetőségek</GhostLink>
+          <Link href={href(locale, 'contact')} className="void-button">{t.cta}</Link>
+          <GhostLink href="#fizetes">{t.paymentLink}</GhostLink>
         </>}
       >
         <p>{data.hero.sub}</p>
@@ -74,10 +77,10 @@ export function ServicePage({ data }: { data: ServicePageData }) {
         <div className={container}>
           <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
             <div>
-              <Label>Tartalmazza</Label>
+              <Label>{t.includes}</Label>
               <h2 className="void-reveal mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">{data.whatYouGet.title}</h2>
             </div>
-            <BentoCard className="void-reveal p-6 sm:p-8"><ServiceVisual kind={data.kind} className="h-[190px] w-full lg:h-[240px]" /></BentoCard>
+            <BentoCard className="void-reveal p-6 sm:p-8"><ServiceVisual kind={data.kind} locale={locale} className="h-[190px] w-full lg:h-[240px]" /></BentoCard>
           </div>
           <ul className="mt-14 grid gap-4 sm:mt-20 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
             {data.whatYouGet.items.map(item => {
@@ -99,8 +102,8 @@ export function ServicePage({ data }: { data: ServicePageData }) {
       {/* ===== HOGYAN ÉPÜL FEL ===== */}
       <section className="void-section" data-particles="scatter">
         <div className={container}>
-          <SectionHead title={data.howItWorks.title} label="Folyamat">
-            Átlátható lépések. Az ütemtervet a projekt elején közösen rögzítjük.
+          <SectionHead title={data.howItWorks.title} label={t.process}>
+            {t.processNote}
           </SectionHead>
           <ol className="mt-14 grid gap-4 sm:mt-20 md:grid-cols-2 lg:grid-cols-4 lg:gap-5">
             {data.howItWorks.steps.map(step => (
@@ -119,7 +122,7 @@ export function ServicePage({ data }: { data: ServicePageData }) {
       {/* ===== KINEK VALÓ ===== */}
       <section className="void-section">
         <div className={container}>
-          <SectionHead title={data.forWhom.title} label="Kinek ajánljuk" />
+          <SectionHead title={data.forWhom.title} label={t.forWhom} />
           <ul className="mt-12 grid gap-4 sm:mt-16 sm:grid-cols-2 lg:gap-5">
             {data.forWhom.items.map(item => {
               const Icon = item.icon
@@ -141,6 +144,7 @@ export function ServicePage({ data }: { data: ServicePageData }) {
 
       {/* ===== FIZETÉS ===== */}
       <PaymentOptions
+        locale={locale}
         note={data.pricing.note}
         action={<a href="#erdeklodes" className="void-button">{data.pricing.cta}</a>}
       />
@@ -149,8 +153,8 @@ export function ServicePage({ data }: { data: ServicePageData }) {
       <section className="void-section" data-particles="scatter">
         <div className={`${container} grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-24`}>
           <div className="void-reveal lg:sticky lg:top-28 lg:self-start">
-            <h2 className="text-heading-sm lg:text-heading">Kérdés? Válasz.</h2>
-            <p className="text-body font-extralight mt-5 max-w-sm text-silver-mist">Ha a tiéd nincs köztük, írj, és válaszolunk.</p>
+            <h2 className="text-heading-sm lg:text-heading">{t.faqTitle}</h2>
+            <p className="text-body font-extralight mt-5 max-w-sm text-silver-mist">{t.faqText}</p>
           </div>
           <div className="void-reveal">
             <VoidFaq faqs={data.faqs} />
@@ -164,12 +168,12 @@ export function ServicePage({ data }: { data: ServicePageData }) {
           <div data-particles="chat" aria-hidden className="order-2 h-[32svh] min-h-[220px] lg:order-1 lg:h-[min(560px,70svh)]" />
           <div className="order-1 lg:order-2">
             <Label>{data.title}</Label>
-            <h2 className="mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">Kezdjük el.</h2>
+            <h2 className="mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">{t.startTitle}</h2>
             <p className="text-body font-extralight mt-5 max-w-md text-silver-mist">
-              Írj pár sort, és 1 munkanapon belül jelentkezünk. Az első konzultáció ingyenes, kötelezettség nélkül.
+              {t.startText}
             </p>
             <div className="mt-10">
-              <ServiceOrderForm serviceName={data.title} />
+              <ServiceOrderForm serviceName={data.title} locale={locale} />
             </div>
           </div>
         </div>

@@ -105,3 +105,11 @@ Particle palette: `#8052ff`, `#ffb829`, `#15846e`, `#2dd4bf`, `#e879f9`, `#60a5f
 - Fake product screenshots or stock photos in the hero.
 - Prices, price ranges or monthly fees on the public site. Payment is described only as "egyben vagy részletben" via `void/PaymentOptions`; the exact price comes in the quote.
 - Unverifiable claims or promises: no delivery-time promises ("10 nap"), no client counts or results the business has not confirmed. Describe what we do, not what we guarantee.
+
+## Languages (HU / EN)
+
+- Hungarian stays at the root (`/`, `/szolgaltatasok/…`); English lives under `/en` with English slugs (`/en/services/…`, `/en/references/…`, `/en/contact`). The route map is `src/i18n/routes.ts` — add every new public page there in both languages.
+- Shared interface copy (nav, footer, forms, payment block, service-page labels) is in `src/i18n/ui.ts`. Page copy lives in `src/content/*` with a `hu` and an `en` version (`home.ts`, `servicesOverview.ts`, `contact.ts`, `referencesPage.ts`, `services/<key>.ts`, `references.en.ts`).
+- Pages render a shared view from `src/components/public/views/*` with a `locale` prop; `(public)` and `(public-en)` route groups only pick the language and set metadata (`alternates()` adds canonical + hreflang).
+- The header shows a HU | EN switcher (`LanguageSwitcher`) that links to the same page in the other language.
+- English copy follows the same rules as Hungarian: no prices, no delivery-time promises, no invented results.

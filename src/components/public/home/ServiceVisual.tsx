@@ -111,11 +111,17 @@ function Ops() {
   )
 }
 
-function Erp() {
+const ERP_LABELS = {
+  hu: ['Pénzügy', 'Raktár', 'Beszerzés', 'Értékesítés', 'Gyártás', 'HR'],
+  en: ['Finance', 'Stock', 'Purchasing', 'Sales', 'Production', 'HR'],
+}
+
+function Erp({ locale = 'hu' }: { locale?: 'hu' | 'en' }) {
+  const L = ERP_LABELS[locale]
   // departments around one shared core; data keeps flowing between them
   const mods = [
-    { x: 30, y: 22, t: 'Pénzügy' }, { x: 30, y: 68, t: 'Raktár' }, { x: 30, y: 114, t: 'Beszerzés' },
-    { x: 190, y: 22, t: 'Értékesítés' }, { x: 190, y: 68, t: 'Gyártás' }, { x: 190, y: 114, t: 'HR' },
+    { x: 30, y: 22, t: L[0] }, { x: 30, y: 68, t: L[1] }, { x: 30, y: 114, t: L[2] },
+    { x: 190, y: 22, t: L[3] }, { x: 190, y: 68, t: L[4] }, { x: 190, y: 114, t: L[5] },
   ]
   return (
     <svg viewBox="0 0 280 160" className="h-full w-full" fill="none" strokeWidth="1.5" strokeLinecap="round">
@@ -137,11 +143,11 @@ function Erp() {
   )
 }
 
-const visuals: Record<ServiceKind, () => React.ReactElement> = {
+const visuals: Record<ServiceKind, (p: { locale?: 'hu' | 'en' }) => React.ReactElement> = {
   web: Web, shop: Shop, booking: Booking, landing: Landing, crm: Crm, ops: Ops, erp: Erp,
 }
 
-export function ServiceVisual({ kind, className = '' }: { kind: ServiceKind; className?: string }) {
+export function ServiceVisual({ kind, className = '', locale = 'hu' }: { kind: ServiceKind; className?: string; locale?: 'hu' | 'en' }) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -157,7 +163,7 @@ export function ServiceVisual({ kind, className = '' }: { kind: ServiceKind; cla
   const Visual = visuals[kind]
   return (
     <div ref={ref} aria-hidden className={`sv ${className}`}>
-      <Visual />
+      <Visual locale={locale} />
     </div>
   )
 }

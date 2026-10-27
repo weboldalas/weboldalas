@@ -6,7 +6,7 @@ type Review = { name: string; role: string; text: string }
 
 const AUTO_MS = 8000
 
-export function ReviewCarousel({ reviews }: { reviews: Review[] }) {
+export function ReviewCarousel({ reviews, locale = 'hu' }: { reviews: Review[]; locale?: 'hu' | 'en' }) {
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
 
@@ -30,13 +30,13 @@ export function ReviewCarousel({ reviews }: { reviews: Review[] }) {
         </figcaption>
       </figure>
 
-      <div className="mt-10 flex items-center gap-3" role="tablist" aria-label="Vélemények">
+      <div className="mt-10 flex items-center gap-3" role="tablist" aria-label={locale === 'en' ? 'Reviews' : 'Vélemények'}>
         {reviews.map((rv, i) => (
           <button
             key={rv.name}
             role="tab"
             aria-selected={i === index}
-            aria-label={`${i + 1}. vélemény: ${rv.name}`}
+            aria-label={locale === 'en' ? `Review ${i + 1}: ${rv.name}` : `${i + 1}. vélemény: ${rv.name}`}
             onClick={() => { setIndex(i); setPaused(true) }}
             className="group flex h-6 w-6 items-center justify-center"
           >
