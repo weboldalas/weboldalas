@@ -11,7 +11,6 @@ export function PublicFooter({ locale = 'hu' }: { locale?: Locale }) {
     { href: href(locale, 'home'), label: t.nav.home },
     { href: href(locale, 'services'), label: t.nav.services },
     { href: href(locale, 'references'), label: t.nav.references },
-    { href: href(locale, 'pricing'), label: t.nav.pricing },
     { href: href(locale, 'contact'), label: t.nav.contact },
   ]
   return (

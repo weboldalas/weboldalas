@@ -17,7 +17,6 @@ export const ROUTES = {
   erp: { hu: '/szolgaltatasok/erp', en: '/en/services/erp' },
   maintenance: { hu: '/szolgaltatasok/uzemeltetes', en: '/en/services/maintenance' },
   references: { hu: '/referenciak', en: '/en/references' },
-  pricing: { hu: '/arak', en: '/en/pricing' },
   contact: { hu: '/kapcsolat', en: '/en/contact' },
 } as const satisfies Record<string, Record<Locale, string>>
 
