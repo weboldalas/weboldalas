@@ -3,8 +3,6 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -49,6 +47,8 @@ export async function POST(
   const fileName = `${title.replace(/[^a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s-]/g, '').trim()}.pdf`
 
   try {
+    // created per request: at module scope it throws during `next build` when the key is not set (e.g. Vercel previews)
+    const resend = new Resend(process.env.RESEND_API_KEY)
     const { error: sendError } = await resend.emails.send({
       from: 'Weboldalas.hu <info@weboldalas.hu>',
       to: recipientEmail,
