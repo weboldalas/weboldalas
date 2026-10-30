@@ -3,7 +3,8 @@ import { ArrowUpRight } from 'lucide-react'
 import { ParticlePage } from '@/components/public/void/ParticlePage'
 import { PageHero } from '@/components/public/void/PageHero'
 import { BentoCard } from '@/components/public/void/BentoCard'
-import { GhostLink, container } from '@/components/public/void/ui'
+import { ClientGrid } from '@/components/public/ClientGrid'
+import { GhostLink, SectionHead, container } from '@/components/public/void/ui'
 import { getReferences } from '@/content/references'
 import { REFERENCES_PAGE } from '@/content/referencesPage'
 import { href, referenceHref, type Locale } from '@/i18n/routes'
@@ -45,6 +46,15 @@ export function ReferencesView({ locale }: { locale: Locale }) {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      <section id="ugyfelek" className="void-section scroll-mt-20" data-particles="scatter">
+        <div className={container}>
+          <SectionHead title={c.clientsTitle} label={c.clientsLabel}>{c.clientsText}</SectionHead>
+          <div className="mt-12 sm:mt-16">
+            <ClientGrid locale={locale} caseStudy={c.caseStudy} />
+          </div>
         </div>
       </section>
 
