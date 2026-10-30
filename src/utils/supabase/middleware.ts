@@ -42,7 +42,8 @@ export async function updateSession(request: NextRequest) {
     pathname.startsWith('/tasks') ||
     pathname.startsWith('/settings') ||
     (pathname.startsWith('/offers') && !pathname.startsWith('/offers/view/')) ||
-    pathname.startsWith('/contracts')
+    // public share links (/offers/view/…, /contracts/view/…) open without login; they are token-protected
+    (pathname.startsWith('/contracts') && !pathname.startsWith('/contracts/view/'))
   const isPublic = !isAdminRoute
 
   if (!user && !isPublic) {
