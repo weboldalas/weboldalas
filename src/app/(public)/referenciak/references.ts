@@ -7,7 +7,7 @@ import {
   Newspaper, Users, Tag, Info,
   Briefcase, Sparkles, MousePointerClick,
   Languages, ShieldCheck, Truck, Receipt, LayoutDashboard,
-  Mic, RotateCcw, PackagePlus, ChefHat,
+  Mic, RotateCcw, PackagePlus, ChefHat, Waves, Pencil, Accessibility,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { ShapeName } from '@/components/public/home/particleShapes'
@@ -453,6 +453,84 @@ export const REFERENCES: Reference[] = [
     ],
     outcome:
       'A Csabai Piac látogatói pár koppintással megtalálják, kinél és hol vehetnek csabai kolbászt vagy bármi mást, a piac üzemeltetői pedig maguk tartják naprakészen az árusokat, a híreket és a programokat.',
+  },
+  {
+    slug: 'arpad-furdo',
+    name: 'Árpád Gyógy- és Strandfürdő',
+    tagline: 'Háromnyelvű weboldal élő pályafoglaltsággal és a fürdő saját szerkesztőfelületével',
+    category: 'Weboldal és admin',
+    year: '2026',
+    shape: 'pool',
+    url: 'https://arpadfurdo.hu',
+    accentColor: '#1bb3c4',
+    gradient: 'linear-gradient(135deg, #0f8796, #1bb3c4, #6fd6e0)',
+    gradientFrom: '#0c2830',
+    gradientTo: '#14404a',
+    description:
+      'Az Árpád Gyógy- és Strandfürdő 1922 óta Békéscsaba egyik legkedveltebb fürdője: termálvíz, uszoda, strand és szauna egy helyen. Új, háromnyelvű weboldalt építettünk nekik, amelyen a látogató egy pillantással látja az uszoda heti pályabeosztását, az árakat, a nyitvatartást és a híreket, a fürdő munkatársai pedig maguk szerkesztik az oldal tartalmát.',
+    challenge:
+      'A fürdőt a gyerekes családoktól az idősebb gyógyvendégekig mindenki használja, ezért az oldalnak mindenkinek könnyen olvashatónak kell lennie, magyarul, románul és angolul is. Az úszók leggyakoribb kérdése, hogy mikor van szabad pálya, a munkatársaknak pedig fejlesztő nélkül kell tudniuk frissíteni a híreket, az árakat és a pályabeosztást.',
+    services: [
+      { icon: Globe,           label: 'Egyedi weboldal fejlesztés' },
+      { icon: Languages,       label: 'Háromnyelvű tartalom' },
+      { icon: LayoutDashboard, label: 'Admin felület' },
+      { icon: Accessibility,   label: 'Akadálymentesítés' },
+    ],
+    features: [
+      {
+        icon: Waves,
+        title: 'Élő pályafoglaltság',
+        description: 'Az uszoda 8 pályájának heti beosztása óránként: szabad pálya az 50 és a 21 méteres medencében, úszóklub és vízilabda. Az admin módosítása azonnal megjelenik minden látogatónál, újratöltés nélkül.',
+      },
+      {
+        icon: Pencil,
+        title: 'Szerkesztés közvetlenül az oldalon',
+        description: 'Bejelentkezve a munkatárs szerkesztő módban magán az oldalon írja át a szövegeket és cseréli a képeket, nyelvenként külön.',
+      },
+      {
+        icon: Languages,
+        title: 'Magyar, román és angol',
+        description: 'A teljes oldal és az adminban rögzített hírek, események három nyelven. Ha egy fordítás hiányzik, a magyar szöveg jelenik meg.',
+      },
+      {
+        icon: Accessibility,
+        title: 'Akadálymentesítési panel',
+        description: 'Betűméret négy fokozatban, magas kontraszt, szürkeárnyalat, linkek kiemelése, animációk leállítása és olvasható betűtípus. A böngésző megjegyzi a beállításokat.',
+      },
+      {
+        icon: LayoutDashboard,
+        title: 'Admin felület',
+        description: 'Hírek szövegszerkesztővel, események, árlista, galéria és pályabeosztás kezelése egy helyen.',
+      },
+      {
+        icon: UserCheck,
+        title: 'Felhasználók és jogosultságok',
+        description: 'Szuperadmin, admin és szerkesztő szerepkör, a munkatársak fiókjait a fürdő maga kezeli.',
+      },
+      {
+        icon: Newspaper,
+        title: 'Hírek megosztásra készen',
+        description: 'Minden hír saját képpel, címmel és leírással jelenik meg, ha Facebookon vagy más közösségi oldalon megosztják.',
+      },
+      {
+        icon: Receipt,
+        title: 'Árak és nyitvatartás',
+        description: 'Jegyárak, Csaba Kártyás és közgyógyellátási árak, szolgáltatások és nyitvatartás, mindig naprakészen.',
+      },
+      {
+        icon: Landmark,
+        title: 'Történet és házirend',
+        description: 'A fürdő története archív fotókkal, a házirend és a szolgáltatások részletes bemutatása.',
+      },
+    ],
+    images: [
+      { src: '/references/arpad-furdo/palyafoglaltsag.webp', alt: 'Árpád Fürdő – élő pályafoglaltság', caption: 'Élő pályafoglaltság: az uszoda 8 pályájának beosztása óránként, naponként.' },
+      { src: '/references/arpad-furdo/fooldal.webp', alt: 'Árpád Fürdő – főoldal', caption: 'A főoldal.' },
+      { src: '/references/arpad-furdo/szerkeszto-mod.webp', alt: 'Árpád Fürdő – szerkesztő mód', caption: 'Szerkesztő mód: a szövegek és képek közvetlenül az oldalon írhatók át, nyelvenként.' },
+      { src: '/references/arpad-furdo/akadalymentesites.webp', alt: 'Árpád Fürdő – akadálymentesítés', caption: 'Akadálymentesítési panel.' },
+    ],
+    outcome:
+      'Az Árpád Fürdő látogatói három nyelven, a saját igényeikre állítható felületen tájékozódnak, az úszók előre látják, mikor van szabad pálya, a fürdő munkatársai pedig fejlesztő nélkül tartják naprakészen az oldalt.',
   },
   {
     slug: 'hello-roar',

@@ -7,7 +7,7 @@ import {
   Newspaper, Users, Tag, Info,
   Briefcase, Sparkles, MousePointerClick,
   Languages, ShieldCheck, Truck, Receipt, LayoutDashboard,
-  Mic, RotateCcw, PackagePlus, ChefHat,
+  Mic, RotateCcw, PackagePlus, ChefHat, Waves, Pencil, Accessibility,
 } from 'lucide-react'
 import type { Reference } from '@/app/(public)/referenciak/references'
 
@@ -429,6 +429,84 @@ export const REFERENCES_EN: Reference[] = [
     ],
     outcome:
       'Csabai Piac visitors find who sells Csabai sausage, or anything else, and where, in a few taps, while the market’s staff keep vendors, news and events up to date themselves.',
+  },
+  {
+    slug: 'arpad-furdo',
+    name: 'Árpád Thermal Bath and Lido',
+    tagline: 'A three-language website with live lane occupancy and the bath’s own on-page editing',
+    category: 'Website and admin',
+    year: '2026',
+    shape: 'pool',
+    url: 'https://arpadfurdo.hu',
+    accentColor: '#1bb3c4',
+    gradient: 'linear-gradient(135deg, #0f8796, #1bb3c4, #6fd6e0)',
+    gradientFrom: '#0c2830',
+    gradientTo: '#14404a',
+    description:
+      'Árpád Thermal Bath and Lido has been one of the best-loved baths in Békéscsaba, Hungary, since 1922: thermal water, a swimming pool, an outdoor lido and saunas in one place. We built them a new three-language website where visitors see the weekly lane schedule of the pool, prices, opening hours and news at a glance, and the staff edit the site’s content themselves.',
+    challenge:
+      'The bath is used by everyone from young families to older spa guests, so the site has to be easy to read for all of them, in Hungarian, Romanian and English. The question swimmers ask most is when a lane is free, and the staff need to update news, prices and the lane schedule without a developer.',
+    services: [
+      { icon: Globe,           label: 'Custom website development' },
+      { icon: Languages,       label: 'Three-language content' },
+      { icon: LayoutDashboard, label: 'Admin panel' },
+      { icon: Accessibility,   label: 'Accessibility' },
+    ],
+    features: [
+      {
+        icon: Waves,
+        title: 'Live lane occupancy',
+        description: 'The weekly schedule of the pool’s 8 lanes, hour by hour: free lanes in the 50 m and 21 m pools, swim club and water polo. A change in the admin shows up for every visitor instantly, without reloading.',
+      },
+      {
+        icon: Pencil,
+        title: 'Editing right on the page',
+        description: 'Once signed in, staff switch on edit mode and change texts and images on the page itself, separately for each language.',
+      },
+      {
+        icon: Languages,
+        title: 'Hungarian, Romanian and English',
+        description: 'The whole site, plus the news and events entered in the admin, in three languages. Where a translation is missing, the Hungarian text is shown.',
+      },
+      {
+        icon: Accessibility,
+        title: 'Accessibility panel',
+        description: 'Four font sizes, high contrast, grayscale, highlighted links, reduced motion and a readable font. The browser remembers the settings.',
+      },
+      {
+        icon: LayoutDashboard,
+        title: 'Admin panel',
+        description: 'News with a rich text editor, events, price list, gallery and lane schedule, all in one place.',
+      },
+      {
+        icon: UserCheck,
+        title: 'Users and permissions',
+        description: 'Super admin, admin and editor roles, with staff accounts managed by the bath itself.',
+      },
+      {
+        icon: Newspaper,
+        title: 'News ready to share',
+        description: 'Every news item shows its own image, title and description when shared on Facebook or other social networks.',
+      },
+      {
+        icon: Receipt,
+        title: 'Prices and opening hours',
+        description: 'Ticket prices, Csaba Card and subsidised healthcare prices, services and opening hours, always up to date.',
+      },
+      {
+        icon: Landmark,
+        title: 'History and house rules',
+        description: 'The bath’s history with archive photos, the house rules and a detailed look at its services.',
+      },
+    ],
+    images: [
+      { src: '/references/arpad-furdo/palyafoglaltsag.webp', alt: 'Árpád Bath – live lane occupancy', caption: 'Live lane occupancy: the schedule of the pool’s 8 lanes by hour and day.' },
+      { src: '/references/arpad-furdo/fooldal.webp', alt: 'Árpád Bath – homepage', caption: 'The homepage.' },
+      { src: '/references/arpad-furdo/szerkeszto-mod.webp', alt: 'Árpád Bath – edit mode', caption: 'Edit mode: texts and images are changed right on the page, per language.' },
+      { src: '/references/arpad-furdo/akadalymentesites.webp', alt: 'Árpád Bath – accessibility', caption: 'The accessibility panel.' },
+    ],
+    outcome:
+      'Visitors to Árpád Bath find their way in three languages on a site they can adjust to their own needs, swimmers see in advance when a lane is free, and the staff keep the site up to date without a developer.',
   },
   {
     slug: 'hello-roar',

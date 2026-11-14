@@ -37,7 +37,7 @@ export const LOGOS: PartnerLogo[] = [
   { src: '/logos/galeriainvest-logo.png', alt: 'Galéria Invest', tone: 'color' },
   { src: '/logos/helkem_logo2.png', alt: 'Helkem', tone: 'light', reference: 'helkem' },
   { src: '/logos/home-logo-1.svg', alt: 'roa.r', tone: 'dark', reference: 'hello-roar' },
-  { src: '/logos/logo-BBLUr7dk.jpg', alt: 'Árpád Strandfürdő', tone: 'dark', scale: 1.5 },
+  { src: '/logos/logo-BBLUr7dk.jpg', alt: 'Árpád Strandfürdő', tone: 'dark', scale: 1.5, reference: 'arpad-furdo' },
   { src: '/logos/logo-transparent-DBnOkuss.png', alt: 'Visit Kígyós', tone: 'dark', scale: 1.5, reference: 'visitkigyos' },
   { src: '/logos/logo.png', alt: 'Csabai Piac', tone: 'dark', reference: 'csabai-piac' },
   { src: '/logos/logo_black.png', alt: 'Biro David Films', tone: 'dark' },
