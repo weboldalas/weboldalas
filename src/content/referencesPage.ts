@@ -19,8 +19,13 @@ const hu = {
   whatWeDid: 'Amit csináltunk',
   features: 'Funkciók',
   featuresTitle: 'Főbb funkciók.',
+  gallery: 'Képernyőképek',
   outcome: 'Eredmény',
   next: 'Következő projekt',
+  clientsLabel: 'Ügyfeleink',
+  clientsTitle: 'Akiknek már dolgoztunk.',
+  clientsText: 'Webshopok, vállalati oldalak, turisztikai portálok és egyedi rendszerek. Néhányukról részletes esettanulmányt is írtunk.',
+  caseStudy: 'Esettanulmány',
 }
 
 type Strings = typeof hu
@@ -44,8 +49,13 @@ const en: Strings = {
   whatWeDid: 'What we did',
   features: 'Features',
   featuresTitle: 'Key features.',
+  gallery: 'Screenshots',
   outcome: 'Outcome',
   next: 'Next project',
+  clientsLabel: 'Clients',
+  clientsTitle: 'Who we have worked with.',
+  clientsText: 'Webshops, company websites, tourism portals and custom systems. For some of them we have written a detailed case study.',
+  caseStudy: 'Case study',
 }
 
 export const REFERENCES_PAGE: Record<Locale, Strings> = { hu, en }

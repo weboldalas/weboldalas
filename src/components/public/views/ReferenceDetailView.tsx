@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight, ExternalLink } from 'lucide-react'
 import { ParticlePage } from '@/components/public/void/ParticlePage'
@@ -62,6 +63,34 @@ export function ReferenceDetailView({ locale, slug }: { locale: Locale; slug: st
           </div>
         </div>
       </section>
+
+      {/* screenshots */}
+      {ref.images && ref.images.length > 0 && (
+        <section className="void-section" data-particles="none">
+          <div className={container}>
+            <Label>{c.gallery}</Label>
+            <ul className="mt-8 grid gap-4 md:grid-cols-2 lg:gap-5">
+              {ref.images.map((img, i) => (
+                <li key={img.src} className={`void-reveal ${i === 0 ? 'md:col-span-2' : ''}`}>
+                  <figure>
+                    <div className="void-card relative aspect-[16/10] overflow-hidden">
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        fill
+                        sizes={i === 0 ? '(min-width: 1280px) 1216px, 100vw' : '(min-width: 768px) 50vw, 100vw'}
+                        className="object-cover object-top"
+                        priority={i === 0}
+                      />
+                    </div>
+                    {img.caption && <figcaption className="mt-3 px-1 text-sm font-extralight text-silver-mist">{img.caption}</figcaption>}
+                  </figure>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* testimonial */}
       {ref.testimonial && (
