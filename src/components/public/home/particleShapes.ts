@@ -11,7 +11,7 @@ export type ShapeName =
   // sub-page heroes
   | 'cart' | 'calendar' | 'target' | 'funnel' | 'tag' | 'hub'
   // case-study heroes
-  | 'cartridge'
+  | 'cartridge' | 'log'
 
 export function mulberry32(seed: number) {
   return () => {
@@ -498,10 +498,46 @@ function cartridge(n: number, rand: Rand) {
   return out
 }
 
+/** Timber log with end-grain rings on its cut face, lying diagonally (Sztanfa case study). */
+function log(n: number, rand: Rand) {
+  const out: number[] = []
+  const R = 0.4, y0 = -0.85, y1 = 0.85
+  // bark: slightly wavy cylinder surface
+  for (let i = 0, m = Math.round(n * 0.3); i < m; i++) {
+    const t = rand() * Math.PI * 2, y = y0 + rand() * (y1 - y0)
+    const r = R * (1 + 0.035 * Math.sin(t * 7 + y * 5))
+    out.push(Math.cos(t) * r, y, Math.sin(t) * r)
+  }
+  // front cut face: concentric growth rings, slightly off-centre
+  for (let k = 1; k <= 7; k++) {
+    const r = (k / 7) * R * 0.98
+    const ring = circle(0.02, 0.015, r, 40).map(([x1, z1, x2, z2]) => [x1, y0, z1, x2, y0, z2] as Seg3)
+    along3D(out, ring, Math.round(n * (0.035 + k * 0.011)), rand, 0.006, 0.006)
+  }
+  for (let i = 0, m = Math.round(n * 0.06); i < m; i++) {
+    const r = Math.sqrt(rand()) * R, t = rand() * Math.PI * 2
+    out.push(Math.cos(t) * r, y0, Math.sin(t) * r)
+  }
+  // back face rim
+  const rim = circle(0, 0, R, 40).map(([x1, z1, x2, z2]) => [x1, y1, z1, x2, y1, z2] as Seg3)
+  along3D(out, rim, Math.round(n * 0.05), rand, 0.008, 0.008)
+  // tip the cut face toward the viewer, then lay diagonally
+  const b = -0.6, cb = Math.cos(b), sb = Math.sin(b), a = 0.85, ca = Math.cos(a), sa = Math.sin(a)
+  for (let i = 0; i < out.length; i += 3) {
+    const x = out[i], y = out[i + 1], z = out[i + 2]
+    const y2 = y * cb - z * sb, z2 = y * sb + z * cb
+    out[i] = x * ca - y2 * sa
+    out[i + 1] = x * sa + y2 * ca
+    out[i + 2] = z2
+  }
+  return out
+}
+
 const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
   devices, chat, pen, progress, rocket, gears, plane,
   cart, calendar, target, funnel, tag, hub,
   cartridge,
+  log,
 }
 
 export function buildShape(name: ShapeName, n: number, seed: number): Float32Array {
