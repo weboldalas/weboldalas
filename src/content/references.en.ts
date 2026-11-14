@@ -7,7 +7,7 @@ import {
   Newspaper, Users, Tag, Info,
   Briefcase, Sparkles, MousePointerClick,
   Languages, ShieldCheck, Truck, Receipt, LayoutDashboard,
-  Mic, RotateCcw, PackagePlus,
+  Mic, RotateCcw, PackagePlus, ChefHat, Waves, Pencil, Accessibility,
 } from 'lucide-react'
 import type { Reference } from '@/app/(public)/referenciak/references'
 
@@ -349,86 +349,164 @@ export const REFERENCES_EN: Reference[] = [
   {
     slug: 'csabai-piac',
     name: 'Csabai Piac',
-    tagline: 'A modern website and information system',
-    category: 'Website',
+    tagline: 'A website with an interactive market map, vendor profiles and recipes for the market of Békéscsaba',
+    category: 'Website and market map',
     year: '2025',
-    accentColor: '#f97316',
-    gradient: 'linear-gradient(135deg, #ea580c, #f97316, #fb923c)',
-    gradientFrom: '#7c2d12',
-    gradientTo: '#9a3412',
+    shape: 'market',
+    url: 'https://csabaipiac.hu',
+    accentColor: '#e8813a',
+    gradient: 'linear-gradient(135deg, #d9692a, #e8813a, #7aa97c)',
+    gradientFrom: '#13231a',
+    gradientTo: '#2a3f2e',
     description:
-      'We built Csabai Piac a modern, easy-to-manage website that keeps visitors informed quickly and makes content management simple for the market operators.',
+      'Csabai Piac is one of the liveliest spots in Békéscsaba, Hungary: farmers, craftspeople, food stalls and the makers of the famous Csabai sausage in one place. We built them a new website centred on an interactive market map. Visitors search for a vendor or a product, filter by category, and see straight away which stall has what they are looking for.',
     challenge:
-      'The website pairs a modern look with an easy-to-use admin system, so the operators can update content without needing a developer.',
+      'A large market spread over several halls and pavilions is hard to find your way around, and the question visitors ask most is who sells Csabai sausage and where. The goal was a site that answers this in a few taps, on mobile too, while the market’s staff update vendors, news and events without a developer.',
     services: [
       { icon: Globe,    label: 'Custom website development' },
+      { icon: Map,      label: 'Interactive market map' },
       { icon: Settings, label: 'Content management system' },
       { icon: Wrench,   label: 'Maintenance and support' },
     ],
     features: [
       {
-        icon: Globe,
-        title: 'Custom web design',
-        description: "A fully custom look that matches the market's identity, not a template-based solution.",
+        icon: Map,
+        title: 'Interactive market map',
+        description: 'The full market layout on a zoomable, searchable map. Vendor or product search and category filters highlight the results on the map and in the vendor list beside it at the same time.',
       },
       {
-        icon: Newspaper,
-        title: 'News and announcements',
-        description: 'An easy-to-manage news section for current information and announcements.',
-      },
-      {
-        icon: Calendar,
-        title: 'Programmes and events',
-        description: "The market's events are managed and displayed in date order.",
+        icon: Store,
+        title: 'Where to buy Csabai sausage?',
+        description: 'A dedicated page for the sausage makers, with an expandable card for each. On the map, sausage vendors and tasting spots are highlighted in their own colours.',
       },
       {
         icon: Users,
         title: 'Vendor profiles',
-        description: 'Detailed vendor profiles with contact details, products and photos.',
+        description: 'Every vendor gets a profile with a photo, their range and contact details, and the map and list work from the same data.',
       },
       {
-        icon: Tag,
-        title: 'Categories and search',
-        description: 'Quick browsing and searching of vendors and products by category.',
+        icon: ChefHat,
+        title: 'Recipes',
+        description: 'A recipe collection built on the market’s produce, with tags and search by recipe or ingredient.',
+      },
+      {
+        icon: Newspaper,
+        title: 'News and events',
+        description: 'Announcements, events and programmes, easy to update from the admin.',
       },
       {
         icon: Info,
-        title: 'Opening hours and visitor info',
-        description: 'Up-to-date opening hours and visitor information, all in one place.',
+        title: 'Opening hours always in view',
+        description: 'Opening hours by day, the phone number and the e-mail address sit at the top of every page.',
       },
       {
         icon: Images,
         title: 'Gallery',
-        description: "An attractive photo gallery of the market's daily life, atmosphere and events.",
-      },
-      {
-        icon: Mail,
-        title: 'Contact form',
-        description: 'A simple, spam-protected way for visitors to get in touch.',
+        description: 'Photos of the market’s life, atmosphere and events.',
       },
       {
         icon: Settings,
         title: 'Admin panel',
-        description: 'Content is easy to manage and update without bringing in a developer.',
+        description: 'Vendors, news, events and recipes are managed without a developer.',
       },
       {
         icon: Smartphone,
         title: 'Responsive design',
-        description: 'A great user experience on phones, tablets and desktops alike.',
+        description: 'The map and search work comfortably on mobile, right where visitors are walking around the market.',
       },
       {
         icon: Search,
         title: 'SEO-optimised structure',
-        description: 'A search-friendly technical foundation and metadata for better online visibility.',
-      },
-      {
-        icon: Zap,
-        title: 'Fast and secure',
-        description: 'Optimised performance, a stable system and regular security updates.',
+        description: 'Search-friendly technical foundations and metadata for better online visibility.',
       },
     ],
+    images: [
+      { src: '/references/csabai-piac/piacterkep.webp', alt: 'Csabai Piac – interactive market map', caption: 'Interactive market map with search, category filters and a vendor list.' },
+      { src: '/references/csabai-piac/kolbasz-arusok.webp', alt: 'Csabai Piac – where to buy Csabai sausage', caption: 'The Csabai sausage makers on one page.' },
+      { src: '/references/csabai-piac/fooldal.webp', alt: 'Csabai Piac – homepage', caption: 'The homepage, with opening hours at the top.' },
+      { src: '/references/csabai-piac/receptek.webp', alt: 'Csabai Piac – recipes', caption: 'Recipes with tags and search.' },
+      { src: '/references/csabai-piac/a-piacrol.webp', alt: 'Csabai Piac – about the market', caption: 'About the market.' },
+    ],
     outcome:
-      "Csabai Piac's new website makes it faster and easier for visitors to find what they need, and has made managing and updating content significantly simpler for the administrators.",
+      'Csabai Piac visitors find who sells Csabai sausage, or anything else, and where, in a few taps, while the market’s staff keep vendors, news and events up to date themselves.',
+  },
+  {
+    slug: 'arpad-furdo',
+    name: 'Árpád Thermal Bath and Lido',
+    tagline: 'A three-language website with live lane occupancy and the bath’s own on-page editing',
+    category: 'Website and admin',
+    year: '2026',
+    shape: 'sunrise',
+    url: 'https://arpadfurdo.hu',
+    accentColor: '#1bb3c4',
+    gradient: 'linear-gradient(135deg, #0f8796, #1bb3c4, #6fd6e0)',
+    gradientFrom: '#0c2830',
+    gradientTo: '#14404a',
+    description:
+      'Árpád Thermal Bath and Lido has been one of the best-loved baths in Békéscsaba, Hungary, since 1922: thermal water, a swimming pool, an outdoor lido and saunas in one place. We built them a new three-language website where visitors see the weekly lane schedule of the pool, prices, opening hours and news at a glance, and the staff edit the site’s content themselves.',
+    challenge:
+      'The bath is used by everyone from young families to older spa guests, so the site has to be easy to read for all of them, in Hungarian, Romanian and English. The question swimmers ask most is when a lane is free, and the staff need to update news, prices and the lane schedule without a developer.',
+    services: [
+      { icon: Globe,           label: 'Custom website development' },
+      { icon: Languages,       label: 'Three-language content' },
+      { icon: LayoutDashboard, label: 'Admin panel' },
+      { icon: Accessibility,   label: 'Accessibility' },
+    ],
+    features: [
+      {
+        icon: Waves,
+        title: 'Live lane occupancy',
+        description: 'The weekly schedule of the pool’s 8 lanes, hour by hour: free lanes in the 50 m and 21 m pools, swim club and water polo. A change in the admin shows up for every visitor instantly, without reloading.',
+      },
+      {
+        icon: Pencil,
+        title: 'Editing right on the page',
+        description: 'Once signed in, staff switch on edit mode and change texts and images on the page itself, separately for each language.',
+      },
+      {
+        icon: Languages,
+        title: 'Hungarian, Romanian and English',
+        description: 'The whole site, plus the news and events entered in the admin, in three languages. Where a translation is missing, the Hungarian text is shown.',
+      },
+      {
+        icon: Accessibility,
+        title: 'Accessibility panel',
+        description: 'Four font sizes, high contrast, grayscale, highlighted links, reduced motion and a readable font. The browser remembers the settings.',
+      },
+      {
+        icon: LayoutDashboard,
+        title: 'Admin panel',
+        description: 'News with a rich text editor, events, price list, gallery and lane schedule, all in one place.',
+      },
+      {
+        icon: UserCheck,
+        title: 'Users and permissions',
+        description: 'Super admin, admin and editor roles, with staff accounts managed by the bath itself.',
+      },
+      {
+        icon: Newspaper,
+        title: 'News ready to share',
+        description: 'Every news item shows its own image, title and description when shared on Facebook or other social networks.',
+      },
+      {
+        icon: Receipt,
+        title: 'Prices and opening hours',
+        description: 'Ticket prices, Csaba Card and subsidised healthcare prices, services and opening hours, always up to date.',
+      },
+      {
+        icon: Landmark,
+        title: 'History and house rules',
+        description: 'The bath’s history with archive photos, the house rules and a detailed look at its services.',
+      },
+    ],
+    images: [
+      { src: '/references/arpad-furdo/palyafoglaltsag.webp', alt: 'Árpád Bath – live lane occupancy', caption: 'Live lane occupancy: the schedule of the pool’s 8 lanes by hour and day.' },
+      { src: '/references/arpad-furdo/fooldal.webp', alt: 'Árpád Bath – homepage', caption: 'The homepage.' },
+      { src: '/references/arpad-furdo/szerkeszto-mod.webp', alt: 'Árpád Bath – edit mode', caption: 'Edit mode: texts and images are changed right on the page, per language.' },
+      { src: '/references/arpad-furdo/akadalymentesites.webp', alt: 'Árpád Bath – accessibility', caption: 'The accessibility panel.' },
+    ],
+    outcome:
+      'Visitors to Árpád Bath find their way in three languages on a site they can adjust to their own needs, swimmers see in advance when a lane is free, and the staff keep the site up to date without a developer.',
   },
   {
     slug: 'hello-roar',
