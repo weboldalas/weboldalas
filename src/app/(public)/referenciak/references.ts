@@ -26,6 +26,8 @@ export type Reference = {
   features?: { icon: LucideIcon; title: string; description: string }[]
   outcome?: string
   testimonial?: { text: string; author: string; role: string }
+  /** Screenshots under /public/references/<slug>/; the first one is shown large. */
+  images?: { src: string; alt: string; caption?: string }[]
   url?: string
 }
 
