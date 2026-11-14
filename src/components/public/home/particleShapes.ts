@@ -11,7 +11,7 @@ export type ShapeName =
   // sub-page heroes
   | 'cart' | 'calendar' | 'target' | 'funnel' | 'tag' | 'hub'
   // case-study heroes
-  | 'cartridge' | 'log'
+  | 'cartridge' | 'log' | 'padel'
 
 export function mulberry32(seed: number) {
   return () => {
@@ -533,11 +533,56 @@ function log(n: number, rand: Rand) {
   return out
 }
 
+/** Perforated padel racket with a ball (Nádas Padel Club case study). */
+function padel(n: number, rand: Rand) {
+  const out: number[] = []
+  const cy = 0.32, rx = 0.46, ry = 0.52
+  // head outline (thick rim on both faces)
+  const head: Seg[] = []
+  for (let i = 0; i < 48; i++) {
+    const a1 = (i / 48) * Math.PI * 2, a2 = ((i + 1) / 48) * Math.PI * 2
+    head.push([Math.cos(a1) * rx, cy + Math.sin(a1) * ry, Math.cos(a2) * rx, cy + Math.sin(a2) * ry])
+  }
+  alongSegments(out, head, Math.round(n * 0.2), rand, 0.014, 0.05)
+  // face: sparse fill + perforation holes in a grid
+  for (let i = 0, m = Math.round(n * 0.16); i < m; i++) {
+    const a = rand() * Math.PI * 2, r = Math.sqrt(rand()) * 0.94
+    out.push(Math.cos(a) * rx * r, cy + Math.sin(a) * ry * r, (rand() - 0.5) * 0.02)
+  }
+  const holes: Seg[] = []
+  for (let gx = -3; gx <= 3; gx++) {
+    for (let gy = -3; gy <= 3; gy++) {
+      const x = gx * 0.11 + (gy % 2 ? 0.055 : 0), y = cy + gy * 0.11
+      if ((x / (rx * 0.8)) ** 2 + ((y - cy) / (ry * 0.8)) ** 2 > 1) continue
+      holes.push(...circle(x, y, 0.028, 8))
+    }
+  }
+  alongSegments(out, holes, Math.round(n * 0.26), rand, 0.004, 0.012)
+  // throat and handle
+  alongSegments(out, [[-0.16, cy - ry * 0.93, -0.05, -0.38], [0.16, cy - ry * 0.93, 0.05, -0.38]], Math.round(n * 0.06), rand, 0.012, 0.04)
+  revolution(out, () => 0.055, -0.95, -0.38, Math.round(n * 0.12), rand, 0.055)
+  // ball, beside the racket head
+  const bx = 0.62, by = 0.78, br = 0.12
+  for (let i = 0, m = Math.round(n * 0.1); i < m; i++) {
+    const u = rand() * 2 - 1, t = rand() * Math.PI * 2, s = Math.sqrt(1 - u * u)
+    out.push(bx + Math.cos(t) * s * br, by + u * br, Math.sin(t) * s * br)
+  }
+  // lean the racket diagonally and recentre
+  const a = -0.5, c = Math.cos(a), sn = Math.sin(a)
+  for (let i = 0; i < out.length; i += 3) {
+    const x = out[i] - 0.1, y = out[i + 1] - 0.05
+    out[i] = x * c - y * sn
+    out[i + 1] = x * sn + y * c
+  }
+  return out
+}
+
 const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
   devices, chat, pen, progress, rocket, gears, plane,
   cart, calendar, target, funnel, tag, hub,
   cartridge,
   log,
+  padel,
 }
 
 export function buildShape(name: ShapeName, n: number, seed: number): Float32Array {

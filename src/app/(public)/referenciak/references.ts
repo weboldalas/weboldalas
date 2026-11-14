@@ -213,6 +213,80 @@ export const REFERENCES: Reference[] = [
       'A termékadatok karbantartása ma a csapat telefonján történik: egy mondat a telepről, egy jóváhagyás az irodából, és a változás kint van a magyar vagy a román webshopban. A WordPress admin a jóváhagyónak marad.',
   },
   {
+    slug: 'nadas-padel',
+    name: 'Nádas Padel Club',
+    tagline: 'Weboldal és saját online pályafoglaló rendszer egy békéscsabai padelklubnak',
+    category: 'Foglalási rendszer',
+    year: '2026',
+    shape: 'padel',
+    url: 'https://nadaspadel.hu',
+    accentColor: '#add636',
+    gradient: 'linear-gradient(135deg, #7fa31f, #add636, #d4f07a)',
+    gradientFrom: '#0b0b0b',
+    gradientTo: '#2c3a0c',
+    description:
+      'A Nádas Padel Club négy szabadtéri padelpályát üzemeltet Békéscsabán. Új weboldalt és saját online pályafoglaló rendszert építettünk nekik: a játékos pár koppintással kiválasztja a napot, a pályát és az órákat, a foglalás azonnal érvényes, a visszaigazolás e-mailben érkezik, a klub pedig egy admin felületen kezeli a foglalásokat, a nyitvatartást és az árakat.',
+    challenge:
+      'A cél egy olyan foglalási rendszer volt, ahol a játékos regisztráció nélkül, percek alatt foglal, a szabad időpontok mindig naprakészek, dupla foglalás nem fordulhat elő, és a lemondás is önkiszolgáló. A klubnak közben fejlesztő nélkül kell tudnia állítani a nyitvatartást, az árakat és a lezárt sávokat.',
+    services: [
+      { icon: Globe,           label: 'Weboldal' },
+      { icon: Calendar,        label: 'Online foglalási rendszer' },
+      { icon: LayoutDashboard, label: 'Admin felület' },
+      { icon: Mail,            label: 'E-mail automatizálás' },
+    ],
+    features: [
+      {
+        icon: Calendar,
+        title: 'Online pályafoglalás',
+        description: 'Nap, pálya és órák kiválasztása egy oldalon, egyszerre több órára is. Single (2 fő) és standard (4 fő) pályák, élő összesítő a fizetendő összeggel, regisztráció nélkül.',
+      },
+      {
+        icon: ShieldCheck,
+        title: 'Dupla foglalás kizárva',
+        description: 'A foglalást az adatbázis egy lépésben ellenőrzi és rögzíti. Foglalt, elmúlt vagy nyitvatartáson kívüli időpontot nem enged, akkor sem, ha ketten egyszerre kattintanak.',
+      },
+      {
+        icon: Mail,
+        title: 'Automatikus e-mailek',
+        description: 'Visszaigazolás útvonaltervezővel és lemondó gombbal, emlékeztető a játék előtti napon, és értesítés a klubnak minden új foglalásról és lemondásról.',
+      },
+      {
+        icon: RotateCcw,
+        title: 'Önkiszolgáló lemondás',
+        description: 'A játékos az e-mailben kapott egyedi linkkel mondja le a foglalását, az időpont azonnal felszabadul, és a klub is értesítést kap.',
+      },
+      {
+        icon: LayoutDashboard,
+        title: 'Admin felület',
+        description: 'Napi nézet pályánként, a közelgő foglalások listája, lemondás értesítéssel, és egyes sávok lezárása, például edzésre vagy karbantartásra.',
+      },
+      {
+        icon: Settings,
+        title: 'Nyitvatartás és árak adminból',
+        description: 'Alap nyitvatartás, napi, heti vagy havi eltérések és zárva tartás, valamint a pályadíjak, az ütő- és a labdabérlés ára, mind a klub kezében.',
+      },
+      {
+        icon: Package,
+        title: 'Felszerelésbérlés a foglalásban',
+        description: 'Ütő és labda már a foglaláskor kérhető, az ára benne van az összesítőben, a fizetés a helyszínen történik.',
+      },
+      {
+        icon: Images,
+        title: 'Klubos weboldal',
+        description: 'Pályák és díjak, galéria a klub saját fotóival, foglalási útmutató és kapcsolat, mobilra tervezve.',
+      },
+    ],
+    images: [
+      { src: '/references/nadas-padel/foglalas.webp', alt: 'Nádas Padel Club – online foglalás', caption: 'Online foglalás: nap, pálya és órák kiválasztása, élő összesítővel.' },
+      { src: '/references/nadas-padel/fooldal.webp', alt: 'Nádas Padel Club – főoldal', caption: 'A weboldal főoldala.' },
+      { src: '/references/nadas-padel/email-visszaigazolas.webp', alt: 'Nádas Padel Club – visszaigazoló e-mail', caption: 'A visszaigazoló e-mail útvonaltervezővel és lemondó gombbal (demó adatokkal).' },
+      { src: '/references/nadas-padel/foglalas-lepesek.webp', alt: 'Nádas Padel Club – foglalási útmutató', caption: 'Foglalási útmutató három lépésben.' },
+      { src: '/references/nadas-padel/palyak.webp', alt: 'Nádas Padel Club – pályák', caption: 'Pályák, díjak és felszerelésbérlés.' },
+    ],
+    outcome:
+      'A Nádas Padel Club játékosai a nap bármely szakában percek alatt foglalnak pályát, a klub pedig minden foglalásról azonnal értesül, és egy felületen látja a napját. Nyitvatartást, árat és lezárt sávot a klub maga állít.',
+  },
+  {
     slug: 'visitkigyos',
     name: 'VisitKígyós',
     tagline: 'Modern turisztikai weboldal a település bemutatására',

@@ -189,6 +189,80 @@ export const REFERENCES_EN: Reference[] = [
       "Product data is now maintained from the team's phones: one sentence from the yard, one approval from the office, and the change is live in the Hungarian or the Romanian webshop. The WordPress admin stays with the approver.",
   },
   {
+    slug: 'nadas-padel',
+    name: 'Nádas Padel Club',
+    tagline: 'A website and custom online court booking system for a padel club in Békéscsaba',
+    category: 'Booking system',
+    year: '2026',
+    shape: 'padel',
+    url: 'https://nadaspadel.hu',
+    accentColor: '#add636',
+    gradient: 'linear-gradient(135deg, #7fa31f, #add636, #d4f07a)',
+    gradientFrom: '#0b0b0b',
+    gradientTo: '#2c3a0c',
+    description:
+      'Nádas Padel Club runs four outdoor padel courts in Békéscsaba, Hungary. We built them a new website and a custom online court booking system: players pick the day, the court and the hours in a few taps, the booking is confirmed instantly by e-mail, and the club manages bookings, opening hours and prices in an admin panel.',
+    challenge:
+      'The goal was a booking system where players book in minutes without signing up, free slots are always up to date, double bookings cannot happen and cancelling is self-service, while the club can change opening hours, prices and blocked slots without a developer.',
+    services: [
+      { icon: Globe,           label: 'Website' },
+      { icon: Calendar,        label: 'Online booking system' },
+      { icon: LayoutDashboard, label: 'Admin panel' },
+      { icon: Mail,            label: 'E-mail automation' },
+    ],
+    features: [
+      {
+        icon: Calendar,
+        title: 'Online court booking',
+        description: 'Day, court and hours on one page, several hours at once. Single (2 players) and standard (4 players) courts, a live summary with the total, and no sign-up needed.',
+      },
+      {
+        icon: ShieldCheck,
+        title: 'No double bookings',
+        description: 'The database checks and records each booking in one step. Taken, past or out-of-hours slots are refused, even when two people click at the same moment.',
+      },
+      {
+        icon: Mail,
+        title: 'Automatic e-mails',
+        description: 'Confirmation with directions and a cancel button, a reminder the day before, and a notification to the club for every new booking and cancellation.',
+      },
+      {
+        icon: RotateCcw,
+        title: 'Self-service cancellation',
+        description: 'Players cancel with the unique link in their e-mail, the slot is freed instantly, and the club is notified.',
+      },
+      {
+        icon: LayoutDashboard,
+        title: 'Admin panel',
+        description: 'A daily view per court, a list of upcoming bookings, cancellation with notification, and blocking individual slots, for example for training or maintenance.',
+      },
+      {
+        icon: Settings,
+        title: 'Opening hours and prices in the admin',
+        description: 'Default opening hours, daily, weekly or monthly exceptions and closures, plus court fees and racket and ball rental prices, all in the club’s hands.',
+      },
+      {
+        icon: Package,
+        title: 'Equipment rental in the booking',
+        description: 'Rackets and balls can be requested while booking, they are included in the summary, and payment is made on site.',
+      },
+      {
+        icon: Images,
+        title: 'Club website',
+        description: 'Courts and fees, a gallery with the club’s own photos, a booking guide and contact details, designed for mobile.',
+      },
+    ],
+    images: [
+      { src: '/references/nadas-padel/foglalas.webp', alt: 'Nádas Padel Club – online booking', caption: 'Online booking: day, court and hours, with a live summary.' },
+      { src: '/references/nadas-padel/fooldal.webp', alt: 'Nádas Padel Club – homepage', caption: 'The website homepage.' },
+      { src: '/references/nadas-padel/email-visszaigazolas.webp', alt: 'Nádas Padel Club – confirmation e-mail', caption: 'The confirmation e-mail with directions and a cancel button (demo data).' },
+      { src: '/references/nadas-padel/foglalas-lepesek.webp', alt: 'Nádas Padel Club – booking guide', caption: 'A three-step booking guide.' },
+      { src: '/references/nadas-padel/palyak.webp', alt: 'Nádas Padel Club – courts', caption: 'Courts, fees and equipment rental.' },
+    ],
+    outcome:
+      'Nádas Padel Club players book a court in minutes at any time of day, the club is notified of every booking instantly and sees its whole day in one place. Opening hours, prices and blocked slots are set by the club itself.',
+  },
+  {
     slug: 'visitkigyos',
     name: 'VisitKígyós',
     tagline: 'A modern tourism website showcasing the town',
