@@ -6,6 +6,7 @@ import {
   Map, PartyPopper, Landmark, BedDouble, Store, Images, Mail, Settings,
   Newspaper, Users, Tag, Info,
   Briefcase, Sparkles, MousePointerClick,
+  Languages, ShieldCheck, Truck, Receipt, LayoutDashboard,
 } from 'lucide-react'
 import type { Reference } from '@/app/(public)/referenciak/references'
 
@@ -98,6 +99,91 @@ export const REFERENCES_EN: Reference[] = [
     ],
     outcome:
       "Helkem's webshop is now far more than an online store: it is a complete B2B sales system that has made the company's online sales and partner management faster, clearer and more efficient.",
+  },
+  {
+    slug: 'helkem-b2b',
+    name: 'Helkem B2B platform',
+    tagline: 'A custom-built, multi-country B2B e-commerce system',
+    category: 'Custom system',
+    year: '2026',
+    accentColor: '#84cc16',
+    gradient: 'linear-gradient(135deg, #65a30d, #84cc16, #a3e635)',
+    gradientFrom: '#1a2e05',
+    gradientTo: '#365314',
+    description:
+      'Helkem is a wholesaler of construction adhesives and sealants. Alongside their existing webshop we built a completely new, custom B2B platform that serves several countries from one system. The first market is Slovakia (helkem.sk); further countries are built on the same foundation.',
+    challenge:
+      'The previous WooCommerce setup was held together by nearly 80 custom plugins. The goal was one platform where partner management, a multilingual catalogue, country-specific VAT rules, invoicing and shipping work in one place, automatically, and where launching a new country does not mean building a new webshop.',
+    services: [
+      { icon: Layers,          label: 'Custom B2B platform' },
+      { icon: LayoutDashboard, label: 'Admin and order management' },
+      { icon: ShoppingCart,    label: 'Multilingual webshop' },
+      { icon: Wrench,          label: 'Ongoing development' },
+    ],
+    features: [
+      {
+        icon: Languages,
+        title: 'Many countries, many languages',
+        description: 'One system with a webshop per country. Products, categories and attributes are translatable; a new country gets its own language, price list and currency.',
+      },
+      {
+        icon: UserCheck,
+        title: 'Partner management with approval',
+        description: 'Business sign-ups need admin approval. Partners can have several users tied to their sites, with their own payment methods and terms.',
+      },
+      {
+        icon: Percent,
+        title: 'Three-level discount system',
+        description: 'Category, product and payment-method discounts with an expiry date. Discounts never stack: the system always applies the one that is better for the customer.',
+      },
+      {
+        icon: ShieldCheck,
+        title: 'Automatic VAT handling',
+        description: 'VIES VAT number checks, reverse charge for EU businesses and OSS for consumers. Every order records the VAT decision and what it was based on.',
+      },
+      {
+        icon: Banknote,
+        title: 'Multiple currencies, daily rates',
+        description: 'HUF and EUR invoicing with the daily central bank rate synced automatically. The rate is locked in when the order is placed.',
+      },
+      {
+        icon: SlidersHorizontal,
+        title: 'Faceted catalogue and variations',
+        description: 'Filters by brand, product type and application, generated colour × size variations, a RAL colour picker and per-variation images.',
+      },
+      {
+        icon: CreditCard,
+        title: 'Checkout and online payment',
+        description: 'Card payment (Barion), cash on delivery with fee bands, prepayment with a discount and deferred payment enabled per partner.',
+      },
+      {
+        icon: Truck,
+        title: 'Shipping with GLS',
+        description: 'Parcel-point selection at checkout, saved labels and proof of delivery, postcode validation and city lookup per country.',
+      },
+      {
+        icon: Receipt,
+        title: 'Automatic invoicing',
+        description: 'Billingo integration: invoices at the right order status, cancellations, proforma → advance → final invoice, and two-way payment sync.',
+      },
+      {
+        icon: Package,
+        title: 'Order workflow',
+        description: 'Statuses with a mandatory review step, barcode-scanned picking lists, delivery notes, automatic stock deduction and emails in the order’s language.',
+      },
+      {
+        icon: FileText,
+        title: 'Partner portal and document library',
+        description: 'Orders and invoice downloads, favourites, and technical and safety data sheets shown only to partners with the right access level.',
+      },
+      {
+        icon: BarChart2,
+        title: 'Management dashboard and exports',
+        description: 'KPIs, a to-do list, a per-country overview, accounting exports (domestic, OSS) to Excel, GA4 e-commerce tracking and Consent Mode v2 cookies.',
+      },
+    ],
+    outcome:
+      'Helkem’s partners, orders, invoicing and shipping now run on their own extensible system, and the Slovak webshop is the first country in line. Opening a new market is a matter of translation and configuration, not another webshop.',
   },
   {
     slug: 'sztanfa',
