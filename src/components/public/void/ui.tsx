@@ -38,4 +38,4 @@ export function SectionHead({ title, label, children }: { title: React.ReactNode
   )
 }
 
-export const container = 'mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8'
+export const container = 'mx-auto max-w-[80rem] px-4 sm:px-6 lg:px-8'

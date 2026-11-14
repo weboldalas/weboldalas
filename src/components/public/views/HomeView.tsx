@@ -35,7 +35,7 @@ export function HomeView({ locale }: { locale: Locale }) {
 
       {/* ===== HERO ===== */}
       <section>
-        <div className="mx-auto grid min-h-[100svh] max-w-[1280px] content-center gap-2 px-4 pb-14 pt-20 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-0 lg:px-8 lg:pb-24 lg:pt-24">
+        <div className="mx-auto grid min-h-[100svh] max-w-[80rem] content-center gap-2 px-4 pb-14 pt-20 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-0 lg:px-8 lg:pb-24 lg:pt-24">
           {/* team photo (no particle shape in the hero) */}
           <figure className="void-in relative order-2 mb-24 mt-10 sm:mb-0 lg:mt-0" style={{ animationDelay: '200ms' }}>
             {/* soft violet light orbiting behind the card */}
@@ -48,12 +48,12 @@ export function HomeView({ locale }: { locale: Locale }) {
               </svg>
             ))}
             {/* mini code editor that types itself on a loop */}
-            <div aria-hidden className="hero-code absolute -bottom-24 right-3 z-10 w-[200px] sm:-bottom-8 sm:-left-8 sm:right-auto sm:w-[268px]">
+            <div aria-hidden className="hero-code absolute -bottom-24 right-3 z-10 w-[12.5rem] sm:-bottom-8 sm:-left-8 sm:right-auto sm:w-[16.75rem]">
               <div className="flex items-center gap-1.5 border-b border-white/10 px-3.5 py-2.5">
                 <span className="h-2 w-2 rounded-full bg-white/20" /><span className="h-2 w-2 rounded-full bg-white/20" /><span className="h-2 w-2 rounded-full bg-white/20" />
-                <span className="ml-2 text-[11px] text-ash-gray">{c.codeFile}</span>
+                <span className="ml-2 text-[0.6875rem] text-ash-gray">{c.codeFile}</span>
               </div>
-              <pre className="px-3.5 py-3 font-mono text-[10.5px] leading-[1.65] sm:text-[12.5px] sm:leading-[1.7]">
+              <pre className="px-3.5 py-3 font-mono text-[0.6562rem] leading-[1.65] sm:text-[0.7812rem] sm:leading-[1.7]">
                 {code.map((line, i) => (
                   <span key={i} className="hero-code-line" style={{ '--n': line.n, animationDelay: `${i * 0.55}s` } as React.CSSProperties}>
                     {line.parts.map((p, j) => <span key={j} className={p.c}>{p.t}</span>)}
@@ -62,8 +62,8 @@ export function HomeView({ locale }: { locale: Locale }) {
               </pre>
             </div>
             {/* frame with a light running around its edge */}
-            <div className="hero-frame relative rounded-[30px] p-[2px]">
-              <div className="relative aspect-[3/2] overflow-hidden rounded-[28px] bg-black lg:aspect-square">
+            <div className="hero-frame relative rounded-[1.875rem] p-[2px]">
+              <div className="relative aspect-[3/2] overflow-hidden rounded-[1.75rem] bg-black lg:aspect-square">
                 <Image
                   src="/images/csapat.webp"
                   alt={c.photoAlt}
@@ -87,7 +87,7 @@ export function HomeView({ locale }: { locale: Locale }) {
               <span className="block">{c.h1[1]}</span>
               <span className="block"><span className="void-mark">{c.h1[2]}</span></span>
             </h1>
-            <div className="void-in mt-8 max-w-[500px] sm:mt-10" style={{ animationDelay: '120ms' }}>
+            <div className="void-in mt-8 max-w-[31.25rem] sm:mt-10" style={{ animationDelay: '120ms' }}>
               <Label>{c.heroLabel}</Label>
               <p className="text-body font-extralight mt-4">
                 {c.heroText}
@@ -119,7 +119,7 @@ export function HomeView({ locale }: { locale: Locale }) {
 
       {/* ===== LOGÓK ===== */}
       <section className="py-10 sm:py-14">
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[80rem] px-4 sm:px-6 lg:px-8">
           <Label>{c.logosLabel}</Label>
         </div>
         {/* full-bleed marquee */}
@@ -130,7 +130,7 @@ export function HomeView({ locale }: { locale: Locale }) {
 
       {/* ===== SZOLGÁLTATÁSOK ===== */}
       <section className="void-section" data-particles="none">
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[80rem] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg void-reveal">{c.servicesTitle}</h2>
             <div className="void-reveal lg:pt-4">
@@ -153,7 +153,7 @@ export function HomeView({ locale }: { locale: Locale }) {
                       <span className="text-caption text-ash-gray">0{i + 1}</span>
                       <ArrowUpRight className="h-5 w-5 text-ash-gray transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
                     </div>
-                    <ServiceVisual kind={s.kind} locale={locale} className={`my-6 w-full ${wide ? 'h-[190px] lg:h-[230px]' : 'h-[170px] lg:h-[190px]'}`} />
+                    <ServiceVisual kind={s.kind} locale={locale} className={`my-6 w-full ${wide ? 'h-[11.875rem] lg:h-[14.375rem]' : 'h-[10.625rem] lg:h-[11.875rem]'}`} />
                     <h3 className="mt-auto text-heading-2xs sm:text-subheading sm:tracking-heading-sm">{s.title}</h3>
                     <p className="text-body font-extralight mt-2 text-silver-mist">{s.desc}</p>
                   </BentoCard>
@@ -166,7 +166,7 @@ export function HomeView({ locale }: { locale: Locale }) {
           <div className="void-reveal mt-16 flex flex-col gap-5 sm:mt-20 lg:flex-row lg:items-center lg:gap-12">
             <Label className="shrink-0">{c.stackLabel}</Label>
             <ul className="flex flex-wrap gap-2 sm:gap-3">
-              {stack.map(t => <li key={t} className="void-chip min-h-10! px-4! text-[15px]! transition-colors hover:border-electric-iris/50! hover:text-white">{t}</li>)}
+              {stack.map(t => <li key={t} className="void-chip min-h-10! px-4! text-[0.9375rem]! transition-colors hover:border-electric-iris/50! hover:text-white">{t}</li>)}
             </ul>
           </div>
         </div>
@@ -174,7 +174,7 @@ export function HomeView({ locale }: { locale: Locale }) {
 
       {/* ===== MÉRET ===== */}
       <section className="void-section" data-particles="scatter">
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[80rem] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg void-reveal">{c.sizesTitle}</h2>
             <div className="void-reveal lg:pt-4">
@@ -200,7 +200,7 @@ export function HomeView({ locale }: { locale: Locale }) {
 
       {/* ===== FOLYAMAT (scrollytelling: one shape per step) ===== */}
       <section className="void-section">
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[80rem] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-[1fr_1.15fr] lg:items-end lg:gap-24">
             <div className="void-reveal">
               <Label>{c.processLabel}</Label>
@@ -216,7 +216,7 @@ export function HomeView({ locale }: { locale: Locale }) {
           <ol className="mt-8 lg:mt-0">
             {c.steps.map((s, i) => (
               <li key={s.title} className="grid min-h-[72svh] content-center gap-4 lg:min-h-[100svh] lg:grid-cols-[1fr_1.15fr] lg:items-center lg:gap-24">
-                <div data-particles={s.shape} aria-hidden className="h-[38svh] min-h-[240px] lg:order-2 lg:h-[72svh]" />
+                <div data-particles={s.shape} aria-hidden className="h-[38svh] min-h-[15rem] lg:order-2 lg:h-[72svh]" />
                 <div className="lg:order-1">
                   <span className="text-caption text-ash-gray">0{i + 1} / 0{c.steps.length}</span>
                   <div className="mt-5"><Label>{s.phase}</Label></div>
@@ -231,11 +231,11 @@ export function HomeView({ locale }: { locale: Locale }) {
 
       {/* ===== ÜZEMELTETÉS ===== */}
       <section className="void-section">
-        <div className="mx-auto grid max-w-[1280px] items-center gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:px-8">
-          <div data-particles="gears" aria-hidden className="mx-auto aspect-square w-full max-w-[420px] lg:max-w-[520px]" />
+        <div className="mx-auto grid max-w-[80rem] items-center gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:px-8">
+          <div data-particles="gears" aria-hidden className="mx-auto aspect-square w-full max-w-[26.25rem] lg:max-w-[32.5rem]" />
           <div className="void-reveal">
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg">{c.opsTitle}</h2>
-            <div className="mt-8 max-w-[520px] sm:mt-10">
+            <div className="mt-8 max-w-[32.5rem] sm:mt-10">
               <Label>{c.opsLabel}</Label>
               <p className="text-body font-extralight mt-4 text-silver-mist">
                 {c.opsText}
@@ -253,7 +253,7 @@ export function HomeView({ locale }: { locale: Locale }) {
 
       {/* ===== REFERENCIÁK ===== */}
       <section className="void-section" data-particles="scatter">
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[80rem] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
             <h2 className="text-heading-sm sm:text-heading lg:text-heading-lg void-reveal">{c.refsTitle}</h2>
             <div className="void-reveal lg:pt-4">
@@ -280,7 +280,7 @@ export function HomeView({ locale }: { locale: Locale }) {
 
       {/* ===== VÉLEMÉNYEK ===== */}
       <section className="void-section">
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[80rem] px-4 sm:px-6 lg:px-8">
           <Label>{c.reviewsLabel}</Label>
           <div className="mt-8">
             <ReviewCarousel reviews={c.reviews} locale={locale} />
@@ -293,7 +293,7 @@ export function HomeView({ locale }: { locale: Locale }) {
 
       {/* ===== GYIK ===== */}
       <section className="void-section" data-particles="scatter">
-        <div className="mx-auto grid max-w-[1280px] gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-24 lg:px-8">
+        <div className="mx-auto grid max-w-[80rem] gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-24 lg:px-8">
           <div className="void-reveal lg:sticky lg:top-28 lg:self-start">
             <h2 className="text-heading-sm lg:text-heading">{c.faqTitle}</h2>
             <p className="text-body font-extralight mt-5 max-w-sm text-silver-mist">{c.faqText}</p>
@@ -307,8 +307,8 @@ export function HomeView({ locale }: { locale: Locale }) {
 
       {/* ===== CTA ===== */}
       <section className="pb-24 pt-10 sm:pb-36">
-        <div className="mx-auto grid max-w-[1280px] items-center gap-2 px-4 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:gap-0 lg:px-8">
-          <div data-particles="plane" aria-hidden className="h-[34svh] min-h-[240px] lg:order-2 lg:h-[min(640px,80svh)]" />
+        <div className="mx-auto grid max-w-[80rem] items-center gap-2 px-4 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:gap-0 lg:px-8">
+          <div data-particles="plane" aria-hidden className="h-[34svh] min-h-[15rem] lg:order-2 lg:h-[min(40rem,80svh)]" />
           <div className="lg:order-1">
             <h2 className="void-reveal text-heading sm:text-heading-lg xl:text-display">{c.ctaTitle}</h2>
             <p className="void-reveal text-body font-extralight mt-6 max-w-md text-silver-mist sm:mt-8">

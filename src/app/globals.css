@@ -270,7 +270,7 @@ a, button, [role="button"] {
 }
 .logo-track {
   display: flex;
-  gap: 12px;
+  gap: 0.75rem;
   width: max-content;
   animation: logo-scroll 60s linear infinite;
   will-change: transform;
@@ -279,15 +279,15 @@ a, button, [role="button"] {
 
 .logo-chip {
   flex-shrink: 0;
-  width: 168px;
-  height: 72px;
-  padding: 16px 22px;
-  border-radius: 18px;
+  width: 10.5rem;
+  height: 4.5rem;
+  padding: 1rem 1.375rem;
+  border-radius: 1.125rem;
   border: 1px solid rgba(255, 255, 255, 0.07);
   background: #0b0b0e;
   transition: background-color 0.35s, border-color 0.35s;
 }
-@media (min-width: 640px) { .logo-chip { width: 200px; height: 84px; padding: 18px 26px; } }
+@media (min-width: 640px) { .logo-chip { width: 12.5rem; height: 5.25rem; padding: 1.125rem 1.625rem; } }
 .logo-chip img { transition: filter 0.35s ease; }
 
 /* light artwork on transparent: muted greyscale */
@@ -336,30 +336,30 @@ a, button, [role="button"] {
 
   /* Type scale: each size carries its own line-height + letter-spacing.
      Tracking is in em (same value as the px tokens at the nominal size) so it scales responsively. */
-  --text-caption: 12px;
+  --text-caption: 0.75rem;
   --text-caption--line-height: 1.5;
-  --text-nav-label: 14px;
+  --text-nav-label: 0.875rem;
   --text-nav-label--line-height: 1.2;
   --text-nav-label--letter-spacing: 0.025em;
-  --text-body: 18px;
+  --text-body: 1.125rem;
   --text-body--line-height: 1.5;
-  --text-heading-2xs: 24px;
+  --text-heading-2xs: 1.5rem;
   --text-heading-2xs--line-height: 1.25;
   --text-heading-2xs--letter-spacing: -0.02em;
-  --text-heading-xs: 27px;
+  --text-heading-xs: 1.6875rem;
   --text-heading-xs--line-height: 1;
-  --text-subheading: 36px;
+  --text-subheading: 2.25rem;
   --text-subheading--line-height: 1.2;
-  --text-heading-sm: 42px;
+  --text-heading-sm: 2.625rem;
   --text-heading-sm--line-height: 1.2;
   --text-heading-sm--letter-spacing: -0.04em;
-  --text-heading: 48px;
+  --text-heading: 3rem;
   --text-heading--line-height: 1.1;
   --text-heading--letter-spacing: -0.035em;
-  --text-heading-lg: 78px;
+  --text-heading-lg: 4.875rem;
   --text-heading-lg--line-height: 1.1;
   --text-heading-lg--letter-spacing: -0.04em;
-  --text-display: 113px;
+  --text-display: 7.0625rem;
   --text-display--line-height: 1.1;
   --text-display--letter-spacing: -0.04em;
 
@@ -388,10 +388,10 @@ a, button, [role="button"] {
   --font-weight-bold: 700;
 
   /* Named radii (rounded-nav, rounded-tags, rounded-cards, rounded-buttons) */
-  --radius-nav: 24px;
+  --radius-nav: 1.5rem;
   --radius-tags: 9999px;
-  --radius-cards: 24px;
-  --radius-buttons: 24px;
+  --radius-cards: 1.5rem;
+  --radius-buttons: 1.5rem;
 }
 
 /* Font token is inlined so it can reference the next/font variable set on the page wrapper.
@@ -399,6 +399,12 @@ a, button, [role="button"] {
 @theme inline {
   --font-ppneuemontreal: 'PPNeueMontreal', var(--font-void), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
+
+/* Global UI scale for the public site: every rem-based size (type tokens, Tailwind spacing,
+   max-w-*, components) follows the root font-size. 90% = the whole site ~10% smaller.
+   A percentage keeps the visitor's browser font-size preference; media queries use the
+   browser default, so breakpoints stay where they are. The admin has no .void-site and keeps 100%. */
+:root:has(.void-site) { font-size: 90%; }
 
 .void-site {
   font-feature-settings: "ss01" on;
@@ -415,14 +421,14 @@ a, button, [role="button"] {
 .void-site .void-input {
   display: block;
   width: 100%;
-  padding: 14px 0;
+  padding: 0.875rem 0;
   background: transparent !important;
   border: 0 !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.22) !important;
   border-radius: 0;
   box-shadow: none !important;
   color: var(--color-bone-white);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 300;
   outline: none;
   transition: border-color 0.25s ease;
@@ -433,21 +439,21 @@ a, button, [role="button"] {
 .void-site select.void-input option { background: #000; color: #fff; }
 /* Range slider (pricing calculator) */
 .void-range { -webkit-appearance: none; appearance: none; height: 2px; border-radius: 2px; cursor: pointer; }
-.void-range::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 4px solid var(--color-electric-iris); }
-.void-range::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 4px solid var(--color-electric-iris); }
+.void-range::-webkit-slider-thumb { -webkit-appearance: none; width: 1.375rem; height: 1.375rem; border-radius: 50%; background: #fff; border: 4px solid var(--color-electric-iris); }
+.void-range::-moz-range-thumb { width: 0.875rem; height: 0.875rem; border-radius: 50%; background: #fff; border: 4px solid var(--color-electric-iris); }
 
 .void-field-label {
   display: block;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.025em;
   text-transform: uppercase;
   color: var(--color-ash-gray);
 }
 
-.void-section { padding-block: 80px; }
-@media (min-width: 640px) { .void-section { padding-block: 96px; } }
-@media (min-width: 1024px) { .void-section { padding-block: 120px; } }
+.void-section { padding-block: 5rem; }
+@media (min-width: 640px) { .void-section { padding-block: 6rem; } }
+@media (min-width: 1024px) { .void-section { padding-block: 7.5rem; } }
 
 /* Oversized numeral (beyond the token scale, used once) */
 .void-mega {
@@ -469,12 +475,12 @@ a, button, [role="button"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 46px;
-  padding: 14px 26px;
+  min-height: 2.875rem;
+  padding: 0.875rem 1.625rem;
   border-radius: var(--radius-buttons);
   background: var(--color-electric-iris);
   color: #fff;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.025em;
   text-transform: uppercase;
@@ -485,7 +491,7 @@ a, button, [role="button"] {
 .void-button:focus-visible { outline: 2px solid var(--color-saffron-spark); outline-offset: 3px; }
 .void-site a:focus-visible,
 .void-site summary:focus-visible,
-.void-site button:focus-visible { outline: 2px solid var(--color-saffron-spark); outline-offset: 4px; border-radius: 6px; }
+.void-site button:focus-visible { outline: 2px solid var(--color-saffron-spark); outline-offset: 4px; border-radius: 0.375rem; }
 
 /* FAQ (native <details>) */
 .void-faq summary::-webkit-details-marker { display: none; }
@@ -621,13 +627,13 @@ a, button, [role="button"] {
 .void-pill {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  min-height: 36px;
-  padding: 4px 14px 4px 4px;
+  gap: 0.625rem;
+  min-height: 2.25rem;
+  padding: 0.25rem 0.875rem 0.25rem 0.25rem;
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.04);
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-silver-mist);
   transition: border-color 0.3s, background-color 0.3s, color 0.3s;
 }
@@ -636,8 +642,8 @@ a, button, [role="button"] {
   border-radius: 9999px;
   background: var(--color-electric-iris);
   color: #fff;
-  padding: 3px 10px;
-  font-size: 11px;
+  padding: 0.1875rem 0.625rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -647,7 +653,7 @@ a, button, [role="button"] {
 .void-card {
   position: relative;
   overflow: hidden;
-  border-radius: 28px;
+  border-radius: 1.75rem;
   border: 1px solid rgba(255, 255, 255, 0.09);
   background: #0b0b0e; /* opaque: the scattered particles must not show through text */
   transition: border-color 0.4s, background-color 0.4s, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
@@ -674,11 +680,11 @@ div.void-card:hover, li.void-card:hover, details.void-card:hover { transform: no
 /* icon chip inside cards */
 .void-icon {
   display: inline-flex;
-  height: 44px;
-  width: 44px;
+  height: 2.75rem;
+  width: 2.75rem;
   align-items: center;
   justify-content: center;
-  border-radius: 14px;
+  border-radius: 0.875rem;
   border: 1px solid rgba(128, 82, 255, 0.35);
   background: rgba(128, 82, 255, 0.12);
   color: #b9a3ff;
@@ -688,20 +694,20 @@ div.void-card:hover, li.void-card:hover, details.void-card:hover { transform: no
 .void-chip {
   display: inline-flex;
   align-items: center;
-  min-height: 28px;
-  padding: 2px 12px;
+  min-height: 1.75rem;
+  padding: 2px 0.75rem;
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: #0b0b0e;
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-silver-mist);
 }
 
 /* status dot inside a non-link pill */
 .void-pill-dot {
-  height: 6px;
-  width: 6px;
-  margin-left: 10px;
+  height: 0.375rem;
+  width: 0.375rem;
+  margin-left: 0.625rem;
   border-radius: 9999px;
   background: var(--color-electric-iris);
   box-shadow: 0 0 0 4px rgba(128, 82, 255, 0.2);
@@ -716,8 +722,8 @@ div.void-card:hover, li.void-card:hover, details.void-card:hover { transform: no
 }
 
 /* FAQ items as cards */
-.void-faq-card { border-radius: 20px; padding: 20px 22px; }
-@media (min-width: 640px) { .void-faq-card { padding: 24px 28px; } }
+.void-faq-card { border-radius: 1.25rem; padding: 1.25rem 1.375rem; }
+@media (min-width: 640px) { .void-faq-card { padding: 1.5rem 1.75rem; } }
 .void-faq-card[open] { border-color: rgba(128, 82, 255, 0.4); background: #0f0d18; }
 
 /* ============================================
@@ -782,7 +788,7 @@ div.void-card:hover, li.void-card:hover, details.void-card:hover { transform: no
 /* hero mini code editor: each line types in, holds, then clears; loops every 9s */
 .hero-code {
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(11, 11, 14, 0.94);
   box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.8), 0 0 40px -16px rgba(128, 82, 255, 0.5);

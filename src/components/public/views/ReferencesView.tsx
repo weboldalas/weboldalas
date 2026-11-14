@@ -60,7 +60,7 @@ export function ReferencesView({ locale }: { locale: Locale }) {
 
       <section className="void-section">
         <div className={`${container} grid items-center gap-8 lg:grid-cols-[1.15fr_1fr]`}>
-          <div data-particles="chat" aria-hidden className="h-[30svh] min-h-[220px] lg:order-2 lg:h-[min(520px,66svh)]" />
+          <div data-particles="chat" aria-hidden className="h-[30svh] min-h-[13.75rem] lg:order-2 lg:h-[min(32.5rem,66svh)]" />
           <div className="lg:order-1">
             <h2 className="void-reveal text-heading sm:text-heading-lg xl:text-display">{c.ctaTitle}</h2>
             <p className="text-body font-extralight mt-6 max-w-md text-silver-mist">{c.ctaText}</p>
