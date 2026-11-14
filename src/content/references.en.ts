@@ -1,7 +1,7 @@
 import {
   Globe, Calendar, Wrench, Search, BarChart2, Smartphone,
   ShoppingCart, Percent, UserCheck, Building2, CreditCard,
-  Clock, Banknote, SlidersHorizontal, FileText, Calculator,
+  Banknote, SlidersHorizontal, FileText,
   Layers, ShoppingBag, Zap, Package,
   Map, PartyPopper, Landmark, BedDouble, Store, Images, Mail, Settings,
   Newspaper, Users, Tag, Info,
@@ -14,104 +14,16 @@ export const REFERENCES_EN: Reference[] = [
   {
     slug: 'helkem',
     name: 'Helkem',
-    tagline: 'Custom B2B/B2C webshop with partner management',
-    category: 'Webshop',
-    year: '2025',
-    accentColor: '#0ea5e9',
-    gradient: 'linear-gradient(135deg, #0284c7, #0ea5e9, #06b6d4)',
-    gradientFrom: '#0c4a6e',
-    gradientTo: '#0369a1',
-    description:
-      'We built Helkem a fully custom B2B/B2C webshop that serves both consumers and business customers. The goal was a fast, modern system that can grow with the company over the long term and fits the way the business actually works.',
-    challenge:
-      'The webshop is more than a place to sell online: its automated features support partner management, order handling and day-to-day administration.',
-    services: [
-      { icon: ShoppingCart, label: 'Custom webshop development' },
-      { icon: Building2,    label: 'B2B partner management' },
-      { icon: Wrench,       label: 'Ongoing maintenance' },
-    ],
-    features: [
-      {
-        icon: ShoppingCart,
-        title: 'Custom B2B/B2C webshop',
-        description: 'Consumers and business customers are handled in one system, each with their own permissions and completely separate logic.',
-      },
-      {
-        icon: Percent,
-        title: 'Partner-specific pricing',
-        description: 'Every partner gets their own prices and discounts, applied automatically at checkout with no manual work.',
-      },
-      {
-        icon: UserCheck,
-        title: 'Business sign-up with approval',
-        description: 'New business accounts need administrator approval, so no one gets access to B2B prices automatically.',
-      },
-      {
-        icon: Building2,
-        title: 'Business customer management',
-        description: 'Partner details, sites, discounts and permissions are managed in one place, in a clear structure.',
-      },
-      {
-        icon: CreditCard,
-        title: 'Tailored checkout',
-        description: "A fully custom WooCommerce ordering and payment flow, built around Helkem's internal processes.",
-      },
-      {
-        icon: Clock,
-        title: 'Deferred payment options',
-        description: '8, 15 and 30-day payment terms, configurable per partner and tracked automatically.',
-      },
-      {
-        icon: Banknote,
-        title: 'Multiple currencies, net/gross prices',
-        description: 'HUF and EUR support, with switchable net/gross price display on the site and on invoices.',
-      },
-      {
-        icon: SlidersHorizontal,
-        title: 'Smart product filters',
-        description: 'Fast search and filtering by product attributes, even across a large catalogue.',
-      },
-      {
-        icon: FileText,
-        title: 'Technical document library',
-        description: 'Technical data sheets, safety data sheets and other documents available directly on the product pages.',
-      },
-      {
-        icon: Calculator,
-        title: 'Material calculators',
-        description: 'Built-in calculators work out the quantity needed, cutting down on returns and wrong orders.',
-      },
-      {
-        icon: BarChart2,
-        title: 'Analytics and Ads integration',
-        description: 'Google Analytics and Google Ads conversion tracking, marketing event tracking and remarketing list management.',
-      },
-      {
-        icon: Smartphone,
-        title: 'Responsive, fast, SEO-optimised',
-        description: 'A modern technical foundation, Core Web Vitals-optimised performance and search optimisation on every device.',
-      },
-      {
-        icon: Wrench,
-        title: 'Ongoing development and maintenance',
-        description: 'The system keeps improving after launch, with regular new features, automations and security updates.',
-      },
-    ],
-    outcome:
-      "Helkem's webshop is now far more than an online store: it is a complete B2B sales system that has made the company's online sales and partner management faster, clearer and more efficient.",
-  },
-  {
-    slug: 'helkem-b2b',
-    name: 'Helkem B2B platform',
-    tagline: 'A custom-built, multi-country B2B e-commerce system',
-    category: 'Custom system',
+    tagline: 'A custom-built, multi-country B2B e-commerce platform',
+    category: 'B2B e-commerce',
     year: '2026',
+    shape: 'cartridge',
     accentColor: '#84cc16',
     gradient: 'linear-gradient(135deg, #65a30d, #84cc16, #a3e635)',
     gradientFrom: '#1a2e05',
     gradientTo: '#365314',
     description:
-      'Helkem is a wholesaler of construction adhesives and sealants. Alongside their existing webshop we built a completely new, custom B2B platform that serves several countries from one system. The first market is Slovakia (helkem.sk); further countries are built on the same foundation.',
+      'Helkem is a wholesaler of construction adhesives and sealants. We built them a completely new, custom e-commerce platform that serves several countries from one system. Business partners (B2B) are the main audience, but the webshop also serves consumers, with their own pricing and VAT handling. The first market is Slovakia (helkem.sk); further countries are built on the same foundation.',
     challenge:
       'The previous WooCommerce setup was held together by nearly 80 custom plugins. The goal was one platform where partner management, a multilingual catalogue, country-specific VAT rules, invoicing and shipping work in one place, automatically, and where launching a new country does not mean building a new webshop.',
     services: [
@@ -183,11 +95,11 @@ export const REFERENCES_EN: Reference[] = [
       },
     ],
     images: [
-      { src: '/references/helkem-b2b/webshop-termekoldal.webp', alt: 'Helkem webshop – product page', caption: 'The Slovak webshop’s product page: price with or without VAT, stock and expected delivery.' },
-      { src: '/references/helkem-b2b/admin-attekintes.webp', alt: 'Helkem admin – overview', caption: 'The admin overview: KPIs, revenue trend, to-dos and the daily central bank rate.' },
-      { src: '/references/helkem-b2b/admin-rendeles.webp', alt: 'Helkem admin – order detail', caption: 'Order detail with a progress tracker, next step, invoicing and GLS label.' },
-      { src: '/references/helkem-b2b/admin-rendelesek.webp', alt: 'Helkem admin – orders', caption: 'Orders with workflow tabs plus region and status filters.' },
-      { src: '/references/helkem-b2b/webshop-felhasznalasi-teruletek.webp', alt: 'Helkem webshop – application areas', caption: 'Application areas on the webshop homepage.' },
+      { src: '/references/helkem/webshop-termekoldal.webp', alt: 'Helkem webshop – product page', caption: 'The Slovak webshop’s product page: price with or without VAT, stock and expected delivery.' },
+      { src: '/references/helkem/admin-attekintes.webp', alt: 'Helkem admin – overview', caption: 'The admin overview: KPIs, revenue trend, to-dos and the daily central bank rate.' },
+      { src: '/references/helkem/admin-rendeles.webp', alt: 'Helkem admin – order detail', caption: 'Order detail with a progress tracker, next step, invoicing and GLS label.' },
+      { src: '/references/helkem/admin-rendelesek.webp', alt: 'Helkem admin – orders', caption: 'Orders with workflow tabs plus region and status filters.' },
+      { src: '/references/helkem/webshop-felhasznalasi-teruletek.webp', alt: 'Helkem webshop – application areas', caption: 'Application areas on the webshop homepage.' },
     ],
     outcome:
       'Helkem’s partners, orders, invoicing and shipping now run on their own extensible system, and the Slovak webshop is the first country in line. Opening a new market is a matter of translation and configuration, not another webshop.',

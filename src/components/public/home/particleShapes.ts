@@ -10,6 +10,8 @@ export type ShapeName =
   | 'devices' | 'chat' | 'pen' | 'progress' | 'rocket' | 'gears' | 'plane'
   // sub-page heroes
   | 'cart' | 'calendar' | 'target' | 'funnel' | 'tag' | 'hub'
+  // case-study heroes
+  | 'cartridge'
 
 export function mulberry32(seed: number) {
   return () => {
@@ -450,9 +452,56 @@ function hub(n: number, rand: Rand) {
   return out
 }
 
+/** Sealant cartridge loaded in a caulking gun, lying diagonally (Helkem case study). */
+function cartridge(n: number, rand: Rand) {
+  const out: number[] = []
+  const R = 0.27
+  // cartridge: body, back cap, shoulder and tapered nozzle
+  revolution(out, (y) => (y >= -0.42 ? R : 0), -0.42, 0.85, Math.round(n * 0.28), rand, R)
+  for (let i = 0, m = Math.round(n * 0.04); i < m; i++) {
+    const r = 0.07 + Math.sqrt(rand()) * (R - 0.07), t = rand() * Math.PI * 2
+    out.push(Math.cos(t) * r, -0.42, Math.sin(t) * r)
+  }
+  revolution(out, () => 0.07, -0.56, -0.42, Math.round(n * 0.03), rand, 0.07)
+  revolution(out, (y) => 0.016 + ((y + 1.12) / 0.56) * 0.05, -1.12, -0.56, Math.round(n * 0.09), rand, 0.066)
+  for (const y of [-0.1, 0.5]) {
+    const ring = circle(0, 0, R + 0.005, 28).map(([x1, z1, x2, z2]) => [x1, y, z1, x2, y, z2] as Seg3)
+    along3D(out, ring, Math.round(n * 0.035), rand, 0.006, 0.006)
+  }
+  // gun: front and rear plates
+  for (const [y, r0, m] of [[-0.47, 0.08, 0.05], [0.9, 0, 0.05]] as const) {
+    for (let i = 0, k = Math.round(n * m); i < k; i++) {
+      const r = r0 + Math.sqrt(rand()) * (0.33 - r0), t = rand() * Math.PI * 2
+      out.push(Math.cos(t) * r, y + (rand() - 0.5) * 0.02, Math.sin(t) * r)
+    }
+  }
+  // open half-tube cradle on the handle side
+  for (let i = 0, k = Math.round(n * 0.12); i < k; i++) {
+    const t = (rand() - 0.5) * Math.PI, r = 0.315
+    out.push(Math.cos(t) * r, -0.47 + rand() * 1.37, Math.sin(t) * r)
+  }
+  // plunger rod with its pull ring
+  alongSegments(out, [[0.1, 0.9, 0.1, 1.55]], Math.round(n * 0.05), rand, 0.012, 0.012)
+  alongSegments(out, circle(0.1, 1.63, 0.08, 14), Math.round(n * 0.03), rand, 0.01, 0.012)
+  // pistol grip and trigger
+  const quad = (pts: [number, number][]): Seg[] => pts.map(([x, y], i) => { const [x2, y2] = pts[(i + 1) % pts.length]; return [x, y, x2, y2] })
+  alongSegments(out, quad([[0.32, 0.84], [1.02, 1.04], [0.98, 1.2], [0.32, 1.0]]), Math.round(n * 0.08), rand, 0.01, 0.06)
+  alongSegments(out, quad([[0.32, 0.64], [1.0, 0.82], [0.96, 0.93], [0.32, 0.76]]), Math.round(n * 0.06), rand, 0.01, 0.05)
+  // centre, shrink to fit, lay diagonally
+  const a = 0.75, c = Math.cos(a), sn = Math.sin(a), k = 0.86
+  for (let i = 0; i < out.length; i += 3) {
+    const x = (out[i] - 0.35) * k, y = (out[i + 1] - 0.26) * k
+    out[i] = x * c - y * sn
+    out[i + 1] = x * sn + y * c
+    out[i + 2] *= k
+  }
+  return out
+}
+
 const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
   devices, chat, pen, progress, rocket, gears, plane,
   cart, calendar, target, funnel, tag, hub,
+  cartridge,
 }
 
 export function buildShape(name: ShapeName, n: number, seed: number): Float32Array {

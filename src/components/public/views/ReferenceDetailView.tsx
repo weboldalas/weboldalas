@@ -21,7 +21,7 @@ export function ReferenceDetailView({ locale, slug }: { locale: Locale; slug: st
 
   const currentIndex = REFERENCES.findIndex(r => r.slug === slug)
   const next = REFERENCES[(currentIndex + 1) % REFERENCES.length]
-  const shape: ShapeName = /webshop/i.test(ref.category) ? 'cart' : 'devices'
+  const shape: ShapeName = ref.shape ?? (/webshop/i.test(ref.category) ? 'cart' : 'devices')
 
   return (
     <ParticlePage>
