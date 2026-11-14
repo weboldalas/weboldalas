@@ -460,7 +460,7 @@ export const REFERENCES: Reference[] = [
     tagline: 'Háromnyelvű weboldal élő pályafoglaltsággal és a fürdő saját szerkesztőfelületével',
     category: 'Weboldal és admin',
     year: '2026',
-    shape: 'pool',
+    shape: 'sunrise',
     url: 'https://arpadfurdo.hu',
     accentColor: '#1bb3c4',
     gradient: 'linear-gradient(135deg, #0f8796, #1bb3c4, #6fd6e0)',

@@ -11,7 +11,7 @@ export type ShapeName =
   // sub-page heroes
   | 'cart' | 'calendar' | 'target' | 'funnel' | 'tag' | 'hub'
   // case-study heroes
-  | 'cartridge' | 'log' | 'padel' | 'market' | 'pool'
+  | 'cartridge' | 'log' | 'padel' | 'market' | 'sunrise'
 
 export function mulberry32(seed: number) {
   return () => {
@@ -624,50 +624,36 @@ function market(n: number, rand: Rand) {
   return out
 }
 
-/** Swimming pool basin with lane ropes and a ladder (Árpád Fürdő case study). Screen y points down. */
-function pool(n: number, rand: Rand) {
+/** Sun rising over waves, after the bath's logo (Árpád Fürdő case study). Screen y points down. */
+function sunrise(n: number, rand: Rand) {
   const out: number[] = []
-  const x0 = -0.95, x1 = 0.95, z0 = -0.55, z1 = 0.55, d = 0.28
-  // rim and basin walls
-  const rim: Seg3[] = [[x0, 0, z0, x1, 0, z0], [x0, 0, z1, x1, 0, z1], [x0, 0, z0, x0, 0, z1], [x1, 0, z0, x1, 0, z1]]
-  along3D(out, rim, Math.round(n * 0.2), rand, 0.012, 0.012)
-  const walls: Seg3[] = [[x0, d, z1, x1, d, z1], [x0, 0, z1, x0, d, z1], [x1, 0, z1, x1, d, z1], [x1, d, z0, x1, d, z1], [x1, 0, z0, x1, d, z0]]
-  along3D(out, walls, Math.round(n * 0.08), rand, 0.006, 0.006)
-  // water surface: faint ripples
-  for (let i = 0, m = Math.round(n * 0.08); i < m; i++) {
-    const x = x0 + rand() * (x1 - x0), z = z0 + rand() * (z1 - z0)
-    out.push(x, 0.02 + 0.015 * Math.sin(x * 9 + z * 5), z)
+  // sun: glowing disc with a crisp rim, sitting on the waterline
+  const cx = 0, cy = -0.18, R = 0.42
+  const rim = circle(cx, cy, R, 60).filter(([, y1, , y2]) => y1 < 0.17 && y2 < 0.17)
+  alongSegments(out, rim, Math.round(n * 0.16), rand, 0.01, 0.05)
+  for (let i = 0, m = Math.round(n * 0.22); i < m; i++) {
+    const a = rand() * Math.PI * 2, r = Math.sqrt(rand()) * R * 0.94
+    const y = cy + Math.sin(a) * r
+    if (y > 0.16) continue // the sea hides the bottom of the sun
+    out.push(cx + Math.cos(a) * r, y, (rand() - 0.5) * 0.06)
   }
-  // 7 lane ropes as beaded lines
-  for (let k = 1; k < 8; k++) {
-    const z = z0 + (k / 8) * (z1 - z0)
-    for (let i = 0, m = Math.round(n * 0.055); i < m; i++) {
-      const x = x0 + 0.06 + (Math.floor(rand() * 34) / 33) * (x1 - x0 - 0.12)
-      out.push(x + (rand() - 0.5) * 0.012, (rand() - 0.5) * 0.012, z + (rand() - 0.5) * 0.012)
+  // short rays around the upper half
+  const rays: Seg[] = []
+  for (let k = 0; k < 9; k++) {
+    const a = Math.PI + (k / 8) * Math.PI
+    rays.push([cx + Math.cos(a) * (R + 0.08), cy + Math.sin(a) * (R + 0.08), cx + Math.cos(a) * (R + 0.2), cy + Math.sin(a) * (R + 0.2)])
+  }
+  alongSegments(out, rays, Math.round(n * 0.1), rand, 0.008, 0.03)
+  // three rolling waves in front of the sun, each a little deeper and wider
+  for (let w = 0; w < 3; w++) {
+    const y0 = 0.2 + w * 0.2, amp = 0.06, half = 0.85 + w * 0.08, z = 0.12 + w * 0.12
+    const segs: Seg3[] = []
+    for (let i = 0; i < 40; i++) {
+      const x1 = -half + (i / 40) * 2 * half, x2 = -half + ((i + 1) / 40) * 2 * half
+      const f = (x: number) => y0 - amp * Math.sin(x * 6.5 + w * 1.3)
+      segs.push([x1, f(x1), z, x2, f(x2), z])
     }
-  }
-  // ladder at the near-left corner: two curved rails and rungs
-  const lx = -0.55, lz = z1
-  const ladder: Seg3[] = []
-  for (const off of [-0.07, 0.07]) {
-    const pts: V3[] = []
-    for (let t = 0; t <= 8; t++) {
-      const a = (t / 8) * Math.PI
-      pts.push([lx + off, -0.16 * Math.sin(a), lz + 0.06 - 0.06 * Math.cos(a) - 0.06])
-    }
-    pts.push([lx + off, d * 0.9, lz])
-    for (let t = 0; t < pts.length - 1; t++) ladder.push([...pts[t], ...pts[t + 1]] as Seg3)
-  }
-  for (const y of [0.08, 0.16, 0.24]) ladder.push([lx - 0.07, y, lz, lx + 0.07, y, lz])
-  along3D(out, ladder, Math.round(n * 0.1), rand, 0.005, 0.005)
-  // turn three-quarter and look down onto the water
-  const a = -0.45, ca = Math.cos(a), sa = Math.sin(a), b = 0.75, cb = Math.cos(b), sb = Math.sin(b)
-  for (let i = 0; i < out.length; i += 3) {
-    const x = out[i], y = out[i + 1], z = out[i + 2]
-    const x2 = x * ca + z * sa, z2 = -x * sa + z * ca
-    out[i] = x2
-    out[i + 1] = y * cb + z2 * sb
-    out[i + 2] = -y * sb + z2 * cb
+    along3D(out, segs, Math.round(n * (0.15 - w * 0.01)), rand, 0.014, 0.03)
   }
   return out
 }
@@ -679,7 +665,7 @@ const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
   log,
   padel,
   market,
-  pool,
+  sunrise,
 }
 
 export function buildShape(name: ShapeName, n: number, seed: number): Float32Array {

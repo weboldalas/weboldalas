@@ -436,7 +436,7 @@ export const REFERENCES_EN: Reference[] = [
     tagline: 'A three-language website with live lane occupancy and the bath’s own on-page editing',
     category: 'Website and admin',
     year: '2026',
-    shape: 'pool',
+    shape: 'sunrise',
     url: 'https://arpadfurdo.hu',
     accentColor: '#1bb3c4',
     gradient: 'linear-gradient(135deg, #0f8796, #1bb3c4, #6fd6e0)',
