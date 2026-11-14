@@ -1,7 +1,7 @@
 import {
   Globe, Calendar, Wrench, Search, BarChart2, Smartphone,
   ShoppingCart, Percent, UserCheck, Building2, CreditCard,
-  Clock, Banknote, SlidersHorizontal, FileText, Calculator,
+  Banknote, SlidersHorizontal, FileText,
   Layers, ShoppingBag, Zap, Package,
   Map, PartyPopper, Landmark, BedDouble, Store, Images, Mail, Shield, Settings,
   Newspaper, Users, Tag, Info,
@@ -9,6 +9,7 @@ import {
   Languages, ShieldCheck, Truck, Receipt, LayoutDashboard,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import type { ShapeName } from '@/components/public/home/particleShapes'
 
 export type Reference = {
   slug: string
@@ -16,6 +17,8 @@ export type Reference = {
   tagline: string
   category: string
   year: string
+  /** Particle shape in the detail hero; defaults to cart for webshops, devices otherwise. */
+  shape?: ShapeName
   accentColor: string
   gradient: string
   gradientFrom: string
@@ -35,104 +38,16 @@ export const REFERENCES: Reference[] = [
   {
     slug: 'helkem',
     name: 'Helkem',
-    tagline: 'Egyedi B2B/B2C webshop partnerkezeléssel',
-    category: 'Webshop',
-    year: '2025',
-    accentColor: '#0ea5e9',
-    gradient: 'linear-gradient(135deg, #0284c7, #0ea5e9, #06b6d4)',
-    gradientFrom: '#0c4a6e',
-    gradientTo: '#0369a1',
-    description:
-      'A Helkem számára egy teljesen egyedi B2B/B2C webshopot fejlesztettünk, amely egyszerre szolgálja ki a lakossági és céges vásárlókat. A projekt célja egy gyors, modern és hosszú távon bővíthető rendszer létrehozása volt, amely alkalmazkodik a vállalkozás egyedi működéséhez.',
-    challenge:
-      'A webshop nem csupán online értékesítési felületként működik, hanem automatizált funkciókkal támogatja a partnerkezelést, a rendelési folyamatokat és a napi adminisztrációt.',
-    services: [
-      { icon: ShoppingCart, label: 'Egyedi webshop fejlesztés' },
-      { icon: Building2,    label: 'B2B partnerkezelés' },
-      { icon: Wrench,       label: 'Folyamatos üzemeltetés' },
-    ],
-    features: [
-      {
-        icon: ShoppingCart,
-        title: 'Egyedi B2B/B2C webshop',
-        description: 'Egy rendszerben kezeli a lakossági és céges vásárlókat, eltérő jogosultságokkal és teljesen különálló működési logikával.',
-      },
-      {
-        icon: Percent,
-        title: 'Partnerenként eltérő árak',
-        description: 'Minden partner saját árakat és kedvezményeket kap, amelyek automatikusan érvényesülnek rendeléskor, manuális beavatkozás nélkül.',
-      },
-      {
-        icon: UserCheck,
-        title: 'Céges regisztráció jóváhagyással',
-        description: 'Az új céges partnerek regisztrációja adminisztrátori jóváhagyáshoz kötött — nincs automatikus hozzáférés B2B árakhoz.',
-      },
-      {
-        icon: Building2,
-        title: 'Céges ügyfélkezelés',
-        description: 'Partneradatok, telephelyek, kedvezmények és jogosultságok kezelése egy helyen, strukturáltan.',
-      },
-      {
-        icon: CreditCard,
-        title: 'Testreszabott checkout',
-        description: 'Teljesen egyedi WooCommerce rendelési és fizetési folyamat, a Helkem belső működésére szabva.',
-      },
-      {
-        icon: Clock,
-        title: 'Halasztott fizetési lehetőségek',
-        description: '8, 15 és 30 napos fizetési határidő partnerenként szabályozható módon, automatikus nyomon követéssel.',
-      },
-      {
-        icon: Banknote,
-        title: 'Több pénznem, nettó/bruttó ár',
-        description: 'HUF és EUR támogatás, valamint váltható nettó/bruttó ármegjelenítés mind a felületen, mind a számlázásban.',
-      },
-      {
-        icon: SlidersHorizontal,
-        title: 'Intelligens termékszűrők',
-        description: 'Gyors keresés és szűrés különböző terméktulajdonságok alapján, nagy termékkatalógus esetén is.',
-      },
-      {
-        icon: FileText,
-        title: 'Műszaki dokumentumtár',
-        description: 'Technikai adatlapok, biztonsági adatlapok és egyéb dokumentumok kezelése közvetlenül a termékoldalakon.',
-      },
-      {
-        icon: Calculator,
-        title: 'Anyagszükséglet kalkulátorok',
-        description: 'Beépített kalkulátorok a szükséges termékmennyiség kiszámításához — csökkentik a visszáru és a félrerendelés arányát.',
-      },
-      {
-        icon: BarChart2,
-        title: 'Analytics és Ads integráció',
-        description: 'Google Analytics és Google Ads konverziómérés, marketing esemény követés és remarketing listák kezelése.',
-      },
-      {
-        icon: Smartphone,
-        title: 'Reszponzív, gyors, SEO-optimalizált',
-        description: 'Modern technikai háttér, Core Web Vitals-optimalizált teljesítmény és keresőoptimalizálás minden eszközön.',
-      },
-      {
-        icon: Wrench,
-        title: 'Folyamatos fejlesztés és üzemeltetés',
-        description: 'A rendszer az indulás után is folyamatosan fejlődik — új funkciók, automatizációk és biztonsági frissítések rendszeresen.',
-      },
-    ],
-    outcome:
-      'A Helkem webshopja ma már nem csupán egy webáruház, hanem egy összetett B2B értékesítési rendszer, amely gyorsabbá, átláthatóbbá és hatékonyabbá tette a vállalat online értékesítését és partnerkezelését.',
-  },
-  {
-    slug: 'helkem-b2b',
-    name: 'Helkem B2B platform',
-    tagline: 'Saját fejlesztésű, több országot kiszolgáló B2B e-commerce rendszer',
-    category: 'Egyedi rendszer',
+    tagline: 'Saját fejlesztésű, több országot kiszolgáló B2B e-commerce platform',
+    category: 'B2B e-commerce',
     year: '2026',
+    shape: 'cartridge',
     accentColor: '#84cc16',
     gradient: 'linear-gradient(135deg, #65a30d, #84cc16, #a3e635)',
     gradientFrom: '#1a2e05',
     gradientTo: '#365314',
     description:
-      'A Helkem építőipari ragasztó- és tömítőanyag-nagykereskedés. A meglévő webshopjuk mellé egy teljesen új, saját fejlesztésű B2B platformot építettünk, amely egy rendszerből szolgál ki több országot. Az első piac Szlovákia (helkem.sk), a további országok ugyanerre az alapra épülnek.',
+      'A Helkem építőipari ragasztó- és tömítőanyag-nagykereskedés. Egy teljesen új, saját fejlesztésű e-commerce platformot építettünk nekik, amely egy rendszerből szolgál ki több országot. A célközönség a céges partnerek köre (B2B), de a webshop magánszemélyeket is kiszolgál, saját árazással és ÁFA-kezeléssel. Az első piac Szlovákia (helkem.sk), a további országok ugyanerre az alapra épülnek.',
     challenge:
       'A korábbi WooCommerce rendszert közel 80 egyedi bővítmény tartotta össze. A cél egy egységes platform volt, ahol a partnerkezelés, a többnyelvű katalógus, az országonként eltérő ÁFA-szabályok, a számlázás és a szállítás egy helyen, automatizáltan működik, és egy új ország bevezetése nem egy új webshop építését jelenti.',
     services: [
@@ -204,11 +119,11 @@ export const REFERENCES: Reference[] = [
       },
     ],
     images: [
-      { src: '/references/helkem-b2b/webshop-termekoldal.webp', alt: 'Helkem webshop – termékoldal', caption: 'A szlovák webshop termékoldala: ár ÁFÁ-val vagy anélkül, készlet, várható kiszállítás.' },
-      { src: '/references/helkem-b2b/admin-attekintes.webp', alt: 'Helkem admin – áttekintés', caption: 'Az admin áttekintése: KPI-k, forgalmi trend, teendők és a napi MNB-árfolyam.' },
-      { src: '/references/helkem-b2b/admin-rendeles.webp', alt: 'Helkem admin – rendelés adatlap', caption: 'Rendelés adatlap folyamatjelzővel, következő lépéssel, számlázással és GLS-címkével.' },
-      { src: '/references/helkem-b2b/admin-rendelesek.webp', alt: 'Helkem admin – rendelések', caption: 'Rendelések munkafolyamat-fülekkel, régió- és státuszszűrővel.' },
-      { src: '/references/helkem-b2b/webshop-felhasznalasi-teruletek.webp', alt: 'Helkem webshop – felhasználási területek', caption: 'Felhasználási területek a webshop főoldalán.' },
+      { src: '/references/helkem/webshop-termekoldal.webp', alt: 'Helkem webshop – termékoldal', caption: 'A szlovák webshop termékoldala: ár ÁFÁ-val vagy anélkül, készlet, várható kiszállítás.' },
+      { src: '/references/helkem/admin-attekintes.webp', alt: 'Helkem admin – áttekintés', caption: 'Az admin áttekintése: KPI-k, forgalmi trend, teendők és a napi MNB-árfolyam.' },
+      { src: '/references/helkem/admin-rendeles.webp', alt: 'Helkem admin – rendelés adatlap', caption: 'Rendelés adatlap folyamatjelzővel, következő lépéssel, számlázással és GLS-címkével.' },
+      { src: '/references/helkem/admin-rendelesek.webp', alt: 'Helkem admin – rendelések', caption: 'Rendelések munkafolyamat-fülekkel, régió- és státuszszűrővel.' },
+      { src: '/references/helkem/webshop-felhasznalasi-teruletek.webp', alt: 'Helkem webshop – felhasználási területek', caption: 'Felhasználási területek a webshop főoldalán.' },
     ],
     outcome:
       'A Helkem partnerei, rendelései, számlázása és szállítása ma egy saját, bővíthető rendszerben fut, a szlovák webshop pedig az első ország a sorban. Egy új piac bevezetése fordítás és beállítás kérdése, nem egy újabb webshopé.',

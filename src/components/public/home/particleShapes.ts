@@ -10,6 +10,8 @@ export type ShapeName =
   | 'devices' | 'chat' | 'pen' | 'progress' | 'rocket' | 'gears' | 'plane'
   // sub-page heroes
   | 'cart' | 'calendar' | 'target' | 'funnel' | 'tag' | 'hub'
+  // case-study heroes
+  | 'cartridge'
 
 export function mulberry32(seed: number) {
   return () => {
@@ -450,9 +452,39 @@ function hub(n: number, rand: Rand) {
   return out
 }
 
+/** Sealant cartridge with its long nozzle, lying diagonally (Helkem case study). */
+function cartridge(n: number, rand: Rand) {
+  const out: number[] = []
+  const R = 0.27
+  // body: a plain cylinder with a flat front face
+  revolution(out, (y) => (y >= -0.42 ? R : 0), -0.42, 0.85, Math.round(n * 0.46), rand, R)
+  // front face (disc) and threaded neck
+  for (let i = 0, m = Math.round(n * 0.08); i < m; i++) {
+    const r = 0.07 + Math.sqrt(rand()) * (R - 0.07), t = rand() * Math.PI * 2
+    out.push(Math.cos(t) * r, -0.42, Math.sin(t) * r)
+  }
+  revolution(out, () => 0.07, -0.54, -0.42, Math.round(n * 0.05), rand, 0.07)
+  // long tapered nozzle
+  revolution(out, (y) => 0.016 + ((y + 1.12) / 0.58) * 0.05, -1.12, -0.54, Math.round(n * 0.13), rand, 0.066)
+  // label band edges and the plunger rim at the back: rings in the x/z plane
+  for (const [y, r] of [[-0.1, R + 0.005], [0.5, R + 0.005], [0.85, R], [0.85, R * 0.7]] as const) {
+    const ring = circle(0, 0, r, 28).map(([x1, z1, x2, z2]) => [x1, y, z1, x2, y, z2] as Seg3)
+    along3D(out, ring, Math.round(n * 0.07), rand, 0.006, 0.006)
+  }
+  // lay it diagonally, nozzle up and to the right, centred
+  const a = 0.75, c = Math.cos(a), sn = Math.sin(a)
+  for (let i = 0; i < out.length; i += 3) {
+    const x = out[i], y = out[i + 1] + 0.13
+    out[i] = x * c - y * sn
+    out[i + 1] = x * sn + y * c
+  }
+  return out
+}
+
 const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
   devices, chat, pen, progress, rocket, gears, plane,
   cart, calendar, target, funnel, tag, hub,
+  cartridge,
 }
 
 export function buildShape(name: ShapeName, n: number, seed: number): Float32Array {
