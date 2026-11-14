@@ -20,7 +20,7 @@ export function LanguageSwitcher({ className = '', onNavigate }: { className?: s
             lang={l}
             onClick={onNavigate}
             aria-current={active ? 'true' : undefined}
-            className={`flex h-8 min-w-10 items-center justify-center rounded-full px-2.5 text-[12px] font-semibold uppercase tracking-wide transition-colors ${active ? 'bg-white text-black' : 'text-white/55 hover:text-white'}`}
+            className={`flex h-8 min-w-10 items-center justify-center rounded-full px-2.5 text-[0.75rem] font-semibold uppercase tracking-wide transition-colors ${active ? 'bg-white text-black' : 'text-white/55 hover:text-white'}`}
           >
             {l}
           </Link>

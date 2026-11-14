@@ -50,7 +50,7 @@ export function ContactView({ locale, interest = '', plan = '' }: { locale: Loca
               <Label>{c.promisesLabel}</Label>
               <ul className="mt-6 space-y-3">
                 {c.promises.map(p => (
-                  <li key={p} className="flex items-center gap-3 text-[15px] text-bone-white"><TriangleBullet /> {p}</li>
+                  <li key={p} className="flex items-center gap-3 text-[0.9375rem] text-bone-white"><TriangleBullet /> {p}</li>
                 ))}
               </ul>
             </BentoCard>

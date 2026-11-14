@@ -24,8 +24,8 @@ export function PageHero({
   const long = title.length > 28
   return (
     <section>
-      <div className="mx-auto grid min-h-[86svh] max-w-[1280px] content-center gap-2 px-4 pb-12 pt-20 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-0 lg:px-8 lg:pb-20 lg:pt-24">
-        <div data-particles={shape} aria-hidden className="h-[34svh] min-h-[230px] lg:order-2 lg:h-[min(680px,78svh)]" />
+      <div className="mx-auto grid min-h-[86svh] max-w-[80rem] content-center gap-2 px-4 pb-12 pt-20 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-0 lg:px-8 lg:pb-20 lg:pt-24">
+        <div data-particles={shape} aria-hidden className="h-[34svh] min-h-[14.375rem] lg:order-2 lg:h-[min(42.5rem,78svh)]" />
         <div className="lg:order-1">
           {back && <div className="mb-6">{back}</div>}
           <span className="void-pill void-in">
@@ -35,7 +35,7 @@ export function PageHero({
           <h1 className={`mt-6 text-heading sm:text-heading-lg ${long ? '' : 'xl:text-display'}`}>
             <Accented title={title} accent={accent} />
           </h1>
-          {children && <div className="void-in text-body font-extralight mt-6 max-w-[520px] text-silver-mist" style={{ animationDelay: '100ms' }}>{children}</div>}
+          {children && <div className="void-in text-body font-extralight mt-6 max-w-[32.5rem] text-silver-mist" style={{ animationDelay: '100ms' }}>{children}</div>}
           {actions && <div className="void-in mt-8 flex flex-wrap items-center gap-x-8 gap-y-3" style={{ animationDelay: '160ms' }}>{actions}</div>}
         </div>
       </div>

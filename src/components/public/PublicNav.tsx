@@ -200,7 +200,7 @@ export function PublicNav() {
               onMouseLeave={closeMega}
               className="absolute inset-x-4 top-full hidden origin-top pt-2 sm:inset-x-6 md:block lg:inset-x-8"
             >
-              <div className="grid grid-cols-[1fr_300px] gap-2 rounded-[28px] border border-white/10 bg-[#0b0b0e] p-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9),0_0_60px_-20px_rgba(128,82,255,0.35)]">
+              <div className="grid grid-cols-[1fr_18.75rem] gap-2 rounded-[1.75rem] border border-white/10 bg-[#0b0b0e] p-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9),0_0_60px_-20px_rgba(128,82,255,0.35)]">
                 <ul className="grid grid-cols-2 gap-1 p-2">
                   {SERVICES_NAV.map((sv, i) => {
                     const Icon = sv.icon
@@ -210,21 +210,21 @@ export function PublicNav() {
                         <Link href={sv.href} onClick={() => setMega(false)} className={`group flex items-start gap-4 rounded-2xl p-3 transition-colors hover:bg-white/[0.05] ${active ? 'bg-white/[0.05]' : ''}`}>
                           <span className="void-icon shrink-0 transition-colors group-hover:border-electric-iris/70 group-hover:bg-electric-iris/20"><Icon className="h-5 w-5" strokeWidth={1.6} /></span>
                           <span className="min-w-0">
-                            <span className="flex items-center gap-2 text-[15px] font-medium text-white">
+                            <span className="flex items-center gap-2 text-[0.9375rem] font-medium text-white">
                               {sv.label}
                             </span>
-                            <span className="mt-0.5 block text-[13px] text-ash-gray">{sv.desc}</span>
+                            <span className="mt-0.5 block text-[0.8125rem] text-ash-gray">{sv.desc}</span>
                           </span>
                         </Link>
                       </motion.li>
                     )
                   })}
                 </ul>
-                <div className="flex flex-col justify-between rounded-[22px] border border-white/[0.07] bg-[#111116] p-6">
+                <div className="flex flex-col justify-between rounded-[1.375rem] border border-white/[0.07] bg-[#111116] p-6">
                   <div>
                     <p className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">{t.consultLabel}</p>
                     <p className="mt-3 text-heading-2xs text-white">{t.consultTitle}</p>
-                    <p className="mt-2 text-[13px] leading-relaxed text-ash-gray">{t.consultText}</p>
+                    <p className="mt-2 text-[0.8125rem] leading-relaxed text-ash-gray">{t.consultText}</p>
                   </div>
                   <div className="mt-6 space-y-1">
                     <Link href={href(locale, 'contact')} onClick={() => setMega(false)} className="group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm text-white transition-colors hover:bg-white/[0.05]">
@@ -257,7 +257,7 @@ export function PublicNav() {
             className="fixed inset-0 -z-10 overflow-y-auto bg-black md:hidden"
           >
             <MenuParticles />
-            <div className="relative mx-auto flex min-h-full max-w-7xl flex-col px-4 pb-[max(24px,env(safe-area-inset-bottom))] pt-24 sm:px-6">
+            <div className="relative mx-auto flex min-h-full max-w-7xl flex-col px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-24 sm:px-6">
               <motion.ul variants={listVariants} className="space-y-1">
                 {links.map((l, i) => {
                   const isActive = pathname === l.href
@@ -271,7 +271,7 @@ export function PublicNav() {
                           className="group flex items-baseline gap-4 py-2"
                         >
                           <span className="w-6 text-caption tabular-nums text-ash-gray">0{i + 1}</span>
-                          <span className={`text-[44px] leading-[1.1] tracking-[-0.04em] transition-colors duration-300 ${isActive ? 'text-white' : 'text-white/45 group-active:text-white'}`}>
+                          <span className={`text-[2.75rem] leading-[1.1] tracking-[-0.04em] transition-colors duration-300 ${isActive ? 'text-white' : 'text-white/45 group-active:text-white'}`}>
                             {l.label}
                           </span>
                           {isActive && (
@@ -307,7 +307,7 @@ export function PublicNav() {
                                 const Icon = sv.icon
                                 return (
                                   <li key={sv.href}>
-                                    <Link href={sv.href} onClick={() => setOpen(false)} className="flex items-center gap-3 py-2.5 text-[17px] text-white/70 active:text-white">
+                                    <Link href={sv.href} onClick={() => setOpen(false)} className="flex items-center gap-3 py-2.5 text-[1.0625rem] text-white/70 active:text-white">
                                       <Icon className="h-4 w-4 text-[#b9a3ff]" strokeWidth={1.6} />
                                       {sv.label}
                                     </Link>
@@ -327,14 +327,14 @@ export function PublicNav() {
                 <div className="grid grid-cols-2 gap-6">
                   <div>
                     <p className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">{t.email}</p>
-                    <a href="mailto:info@weboldalas.hu" className="mt-2 block text-[15px] text-white">info@weboldalas.hu</a>
+                    <a href="mailto:info@weboldalas.hu" className="mt-2 block text-[0.9375rem] text-white">info@weboldalas.hu</a>
                   </div>
                   <div>
                     <p className="text-caption font-semibold uppercase tracking-nav-label text-saffron-spark">{t.hours}</p>
-                    <p className="mt-2 text-[15px] text-white">{t.hoursValue}</p>
+                    <p className="mt-2 text-[0.9375rem] text-white">{t.hoursValue}</p>
                   </div>
                 </div>
-                <Link href={href(locale, 'contact')} onClick={() => setOpen(false)} className="void-button mt-8 w-full !min-h-[56px]">
+                <Link href={href(locale, 'contact')} onClick={() => setOpen(false)} className="void-button mt-8 w-full !min-h-[3.5rem]">
                   {t.cta}
                 </Link>
               </motion.div>

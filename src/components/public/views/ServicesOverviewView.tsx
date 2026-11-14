@@ -37,7 +37,7 @@ export function ServicesOverviewView({ locale }: { locale: Locale }) {
               <li key={s.route} className="void-reveal">
                 <BentoCard href={href(locale, s.route)} className="p-6 sm:p-8 lg:p-10">
                   <div className="grid items-center gap-x-12 gap-y-6 lg:grid-cols-[1.2fr_1fr]">
-                    <ServiceVisual kind={s.kind} locale={locale} className="h-[180px] w-full lg:order-2 lg:h-[230px]" />
+                    <ServiceVisual kind={s.kind} locale={locale} className="h-[11.25rem] w-full lg:order-2 lg:h-[14.375rem]" />
                     <div className="lg:order-1">
                       <div className="flex items-center justify-between">
                         <span className="text-caption text-ash-gray">0{i + 1}</span>
@@ -64,7 +64,7 @@ export function ServicesOverviewView({ locale }: { locale: Locale }) {
 
       <section className="void-section">
         <div className={`${container} grid items-center gap-8 lg:grid-cols-[1.15fr_1fr]`}>
-          <div data-particles="chat" aria-hidden className="h-[30svh] min-h-[220px] lg:order-2 lg:h-[min(520px,66svh)]" />
+          <div data-particles="chat" aria-hidden className="h-[30svh] min-h-[13.75rem] lg:order-2 lg:h-[min(32.5rem,66svh)]" />
           <div className="lg:order-1">
             <Label>{t.nav.consultLabel}</Label>
             <h2 className="void-reveal mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">{t.nav.consultTitle}</h2>
