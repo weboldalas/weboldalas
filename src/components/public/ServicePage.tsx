@@ -65,7 +65,7 @@ export function ServicePage({ data, locale = 'hu' }: { data: ServicePageData; lo
         <p>{data.hero.sub}</p>
         <ul className="mt-8 grid gap-x-8 gap-y-3 sm:grid-cols-2">
           {data.hero.features.map(f => (
-            <li key={f} className="flex items-center gap-3 text-[15px] font-normal text-bone-white">
+            <li key={f} className="flex items-center gap-3 text-[0.9375rem] font-normal text-bone-white">
               <TriangleBullet /> {f}
             </li>
           ))}
@@ -80,7 +80,7 @@ export function ServicePage({ data, locale = 'hu' }: { data: ServicePageData; lo
               <Label>{t.includes}</Label>
               <h2 className="void-reveal mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">{data.whatYouGet.title}</h2>
             </div>
-            <BentoCard className="void-reveal p-6 sm:p-8"><ServiceVisual kind={data.kind} locale={locale} className="h-[190px] w-full lg:h-[240px]" /></BentoCard>
+            <BentoCard className="void-reveal p-6 sm:p-8"><ServiceVisual kind={data.kind} locale={locale} className="h-[11.875rem] w-full lg:h-[15rem]" /></BentoCard>
           </div>
           <ul className="mt-14 grid gap-4 sm:mt-20 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
             {data.whatYouGet.items.map(item => {
@@ -165,7 +165,7 @@ export function ServicePage({ data, locale = 'hu' }: { data: ServicePageData; lo
       {/* ===== ÉRDEKLŐDÉS ===== */}
       <section id="erdeklodes" className="void-section scroll-mt-20">
         <div className={`${container} grid items-center gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-24`}>
-          <div data-particles="chat" aria-hidden className="order-2 h-[32svh] min-h-[220px] lg:order-1 lg:h-[min(560px,70svh)]" />
+          <div data-particles="chat" aria-hidden className="order-2 h-[32svh] min-h-[13.75rem] lg:order-1 lg:h-[min(35rem,70svh)]" />
           <div className="order-1 lg:order-2">
             <Label>{data.title}</Label>
             <h2 className="mt-5 text-heading-sm sm:text-heading lg:text-heading-lg">{t.startTitle}</h2>

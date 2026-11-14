@@ -3,7 +3,6 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(
   request: Request,
@@ -47,6 +46,14 @@ export async function POST(
   }
 
   const fileName = `${title.replace(/[^a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s-]/g, '').trim()}.pdf`
+
+  // Created per request, not at module load: a missing key must not break `next build`
+  // (e.g. preview deployments without RESEND_API_KEY), only this endpoint.
+  if (!process.env.RESEND_API_KEY) {
+    console.error('RESEND_API_KEY is not set')
+    return NextResponse.json({ error: 'Az email küldés nincs beállítva (RESEND_API_KEY hiányzik).' }, { status: 500 })
+  }
+  const resend = new Resend(process.env.RESEND_API_KEY)
 
   try {
     const { error: sendError } = await resend.emails.send({

@@ -33,6 +33,10 @@ Inspired by a dark-void SaaS style reference (Linear / Vercel / Runway family). 
 
 Never use default link blue. Links are white, ash-gray or saffron-spark.
 
+### Global scale
+
+The public site renders at **90% of the browser's root font-size** (`:root:has(.void-site) { font-size: 90% }` in `globals.css`). Every size token below is stored in `rem`, so the px values in the tables are the *nominal* (100%) sizes; on screen they appear 10% smaller (e.g. body 18px → 16.2px, max content width 1280px → 1152px). Change that one percentage to rescale the whole public site. Write new sizes in `rem` (or Tailwind's rem-based utilities) so they follow it; keep px only for hairlines (1–2px borders). Breakpoints are unaffected (media queries use the browser default). The admin keeps 100%.
+
 ### Typography
 
 - **Family:** Inter Tight (`next/font/google`, free substitute for PP Neue Montreal), `font-feature-settings: "ss01"`.
