@@ -182,6 +182,13 @@ export const REFERENCES_EN: Reference[] = [
         description: 'KPIs, a to-do list, a per-country overview, accounting exports (domestic, OSS) to Excel, GA4 e-commerce tracking and Consent Mode v2 cookies.',
       },
     ],
+    images: [
+      { src: '/references/helkem-b2b/webshop-termekoldal.webp', alt: 'Helkem webshop – product page', caption: 'The Slovak webshop’s product page: price with or without VAT, stock and expected delivery.' },
+      { src: '/references/helkem-b2b/admin-attekintes.webp', alt: 'Helkem admin – overview', caption: 'The admin overview: KPIs, revenue trend, to-dos and the daily central bank rate.' },
+      { src: '/references/helkem-b2b/admin-rendeles.webp', alt: 'Helkem admin – order detail', caption: 'Order detail with a progress tracker, next step, invoicing and GLS label.' },
+      { src: '/references/helkem-b2b/admin-rendelesek.webp', alt: 'Helkem admin – orders', caption: 'Orders with workflow tabs plus region and status filters.' },
+      { src: '/references/helkem-b2b/webshop-felhasznalasi-teruletek.webp', alt: 'Helkem webshop – application areas', caption: 'Application areas on the webshop homepage.' },
+    ],
     outcome:
       'Helkem’s partners, orders, invoicing and shipping now run on their own extensible system, and the Slovak webshop is the first country in line. Opening a new market is a matter of translation and configuration, not another webshop.',
   },
