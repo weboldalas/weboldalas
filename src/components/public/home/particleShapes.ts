@@ -6,12 +6,14 @@
  * Story down the page: devices → chat → pen → progress ring → rocket → gears → paper plane.
  */
 
+import { LION } from './lionPath'
+
 export type ShapeName =
   | 'devices' | 'chat' | 'pen' | 'progress' | 'rocket' | 'gears' | 'plane'
   // sub-page heroes
   | 'cart' | 'calendar' | 'target' | 'funnel' | 'tag' | 'hub'
   // case-study heroes
-  | 'cartridge' | 'log' | 'padel' | 'market' | 'sunrise'
+  | 'cartridge' | 'log' | 'padel' | 'market' | 'sunrise' | 'lion'
 
 export function mulberry32(seed: number) {
   return () => {
@@ -658,6 +660,18 @@ function sunrise(n: number, rand: Rand) {
   return out
 }
 
+/** Roar's geometric lion head: the logo's line art, with the muzzle pushed toward the viewer. */
+function lion(n: number, rand: Rand) {
+  const out: number[] = []
+  const segs: Seg[] = LION.map(([x1, y1, x2, y2]) => [x1 * 1.02, y1 * 1.02 + 0.02, x2 * 1.02, y2 * 1.02 + 0.02])
+  alongSegments(out, segs, n, rand, 0.006, 0.006)
+  for (let i = 0; i < out.length; i += 3) {
+    const x = out[i], y = out[i + 1]
+    out[i + 2] += 0.14 * Math.max(0, 1 - (x * x) / 0.55 - ((y - 0.15) * (y - 0.15)) / 0.9)
+  }
+  return out
+}
+
 const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
   devices, chat, pen, progress, rocket, gears, plane,
   cart, calendar, target, funnel, tag, hub,
@@ -666,6 +680,7 @@ const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
   padel,
   market,
   sunrise,
+  lion,
 }
 
 export function buildShape(name: ShapeName, n: number, seed: number): Float32Array {
