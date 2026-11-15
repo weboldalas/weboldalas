@@ -510,7 +510,7 @@ export const REFERENCES_EN: Reference[] = [
   },
   {
     slug: 'hello-roar',
-    name: 'Hello Roar',
+    name: 'ROAR.',
     tagline: 'A bold corporate website for a new generation of insurance and financial advisers',
     category: 'Corporate website',
     year: '2025',
@@ -521,9 +521,9 @@ export const REFERENCES_EN: Reference[] = [
     gradientFrom: '#0e2a1f',
     gradientTo: '#173f2e',
     description:
-      'Roar is a new generation of insurance and financial advisers, part of Palm Group. We built them a custom corporate website around the brand’s bold low-poly lion identity, serving brand building, client acquisition and adviser recruitment at the same time.',
+      'ROAR. is a new generation of insurance and financial advisers, part of Palm Group. We built them a custom corporate website around the brand’s bold low-poly lion identity, serving brand building, client acquisition and adviser recruitment at the same time.',
     challenge:
-      'Insurance is a dry topic for many people, but Roar speaks in a young, direct voice. The goal was a site that starts from life situations (a home, a car, a new job, starting a family), explains the solutions clearly and keeps the free consultation within reach on every page, while the careers page speaks to new colleagues.',
+      'Insurance is a dry topic for many people, but ROAR. speaks in a young, direct voice. The goal was a site that starts from life situations (a home, a car, a new job, starting a family), explains the solutions clearly and keeps the free consultation within reach on every page, while the careers page speaks to new colleagues.',
     services: [
       { icon: Globe,     label: 'Custom corporate website' },
       { icon: Sparkles,  label: 'Brand-led web design' },
@@ -583,12 +583,12 @@ export const REFERENCES_EN: Reference[] = [
       },
     ],
     images: [
-      { src: '/references/hello-roar/fooldal.webp', alt: 'Roar – homepage', caption: 'The homepage with the brand’s lion-mask identity.' },
-      { src: '/references/hello-roar/megoldasok.webp', alt: 'Roar – solutions', caption: 'Solutions by life situation.' },
-      { src: '/references/hello-roar/ongondoskodas.webp', alt: 'Roar – self-provision', caption: 'Self-provision: savings, health insurance, pensions.' },
-      { src: '/references/hello-roar/jarmu.webp', alt: 'Roar – vehicles', caption: 'Vehicle and bicycle insurance.' },
+      { src: '/references/hello-roar/fooldal.webp', alt: 'ROAR. – homepage', caption: 'The homepage with the brand’s lion-mask identity.' },
+      { src: '/references/hello-roar/megoldasok.webp', alt: 'ROAR. – solutions', caption: 'Solutions by life situation.' },
+      { src: '/references/hello-roar/ongondoskodas.webp', alt: 'ROAR. – self-provision', caption: 'Self-provision: savings, health insurance, pensions.' },
+      { src: '/references/hello-roar/jarmu.webp', alt: 'ROAR. – vehicles', caption: 'Vehicle and bicycle insurance.' },
     ],
     outcome:
-      'Roar’s website is as bold and direct as the brand itself: visitors start from their own life situation, reach the right solution and the free consultation, and the careers page speaks to new advisers too.',
+      'ROAR.’s website is as bold and direct as the brand itself: visitors start from their own life situation, reach the right solution and the free consultation, and the careers page speaks to new advisers too.',
   },
 ]

@@ -534,7 +534,7 @@ export const REFERENCES: Reference[] = [
   },
   {
     slug: 'hello-roar',
-    name: 'Hello Roar',
+    name: 'ROAR.',
     tagline: 'Karakteres vállalati weboldal a biztosítási és pénzügyi tanácsadók új generációjának',
     category: 'Vállalati weboldal',
     year: '2025',
@@ -545,9 +545,9 @@ export const REFERENCES: Reference[] = [
     gradientFrom: '#0e2a1f',
     gradientTo: '#173f2e',
     description:
-      'A Roar a biztosítási és pénzügyi tanácsadók új generációja, a Palm Group csapata. Egyedi vállalati weboldalt készítettünk nekik, amely a márka bátor, low-poly oroszlános arculatára épül, és egyszerre szolgálja a márkaépítést, az ügyfélszerzést és az új tanácsadók toborzását.',
+      'A ROAR. a biztosítási és pénzügyi tanácsadók új generációja, a Palm Group csapata. Egyedi vállalati weboldalt készítettünk nekik, amely a márka bátor, low-poly oroszlános arculatára épül, és egyszerre szolgálja a márkaépítést, az ügyfélszerzést és az új tanácsadók toborzását.',
     challenge:
-      'A biztosítás sokaknak száraz téma, a Roar viszont fiatalos és közvetlen hangon szól. A cél egy olyan oldal volt, amely élethelyzetekből indul ki (lakás, autó, munkahelyváltás, gyermekvállalás), érthetően mutatja be a megoldásokat, és minden oldalon kéznél van az ingyenes tanácsadás, közben pedig a karrieroldalon az új kollégákat is megszólítja.',
+      'A biztosítás sokaknak száraz téma, a ROAR. viszont fiatalos és közvetlen hangon szól. A cél egy olyan oldal volt, amely élethelyzetekből indul ki (lakás, autó, munkahelyváltás, gyermekvállalás), érthetően mutatja be a megoldásokat, és minden oldalon kéznél van az ingyenes tanácsadás, közben pedig a karrieroldalon az új kollégákat is megszólítja.',
     services: [
       { icon: Globe,     label: 'Egyedi vállalati weboldal' },
       { icon: Sparkles,  label: 'Arculatra épülő webdesign' },
@@ -607,12 +607,12 @@ export const REFERENCES: Reference[] = [
       },
     ],
     images: [
-      { src: '/references/hello-roar/fooldal.webp', alt: 'Roar – főoldal', caption: 'A főoldal a márka oroszlánmaszkos arculatával.' },
-      { src: '/references/hello-roar/megoldasok.webp', alt: 'Roar – megoldások', caption: 'Megoldások élethelyzetek szerint.' },
-      { src: '/references/hello-roar/ongondoskodas.webp', alt: 'Roar – öngondoskodás', caption: 'Öngondoskodás: megtakarítás, egészségbiztosítás, nyugdíj.' },
-      { src: '/references/hello-roar/jarmu.webp', alt: 'Roar – jármű', caption: 'Jármű- és kerékpárbiztosítás.' },
+      { src: '/references/hello-roar/fooldal.webp', alt: 'ROAR. – főoldal', caption: 'A főoldal a márka oroszlánmaszkos arculatával.' },
+      { src: '/references/hello-roar/megoldasok.webp', alt: 'ROAR. – megoldások', caption: 'Megoldások élethelyzetek szerint.' },
+      { src: '/references/hello-roar/ongondoskodas.webp', alt: 'ROAR. – öngondoskodás', caption: 'Öngondoskodás: megtakarítás, egészségbiztosítás, nyugdíj.' },
+      { src: '/references/hello-roar/jarmu.webp', alt: 'ROAR. – jármű', caption: 'Jármű- és kerékpárbiztosítás.' },
     ],
     outcome:
-      'A Roar weboldala ugyanolyan bátor és közvetlen lett, mint maga a márka: a látogató a saját élethelyzetéből indulva jut el a megfelelő megoldáshoz és az ingyenes tanácsadáshoz, a karrieroldal pedig az új tanácsadókat is megszólítja.',
+      'A ROAR. weboldala ugyanolyan bátor és közvetlen lett, mint maga a márka: a látogató a saját élethelyzetéből indulva jut el a megfelelő megoldáshoz és az ingyenes tanácsadáshoz, a karrieroldal pedig az új tanácsadókat is megszólítja.',
   },
 ]

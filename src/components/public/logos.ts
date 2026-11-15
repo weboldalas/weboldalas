@@ -36,7 +36,7 @@ export const LOGOS: PartnerLogo[] = [
   { src: '/logos/g_logo_fekvo_white.png', alt: 'Galéria Chemical', tone: 'light' },
   { src: '/logos/galeriainvest-logo.png', alt: 'Galéria Invest', tone: 'color' },
   { src: '/logos/helkem_logo2.png', alt: 'Helkem', tone: 'light', reference: 'helkem' },
-  { src: '/logos/home-logo-1.svg', alt: 'roa.r', tone: 'dark', reference: 'hello-roar' },
+  { src: '/logos/home-logo-1.svg', alt: 'ROAR.', tone: 'dark', reference: 'hello-roar' },
   { src: '/logos/logo-BBLUr7dk.jpg', alt: 'Árpád Strandfürdő', tone: 'dark', scale: 1.5, reference: 'arpad-furdo' },
   { src: '/logos/logo-transparent-DBnOkuss.png', alt: 'Visit Kígyós', tone: 'dark', scale: 1.5, reference: 'visitkigyos' },
   { src: '/logos/logo.png', alt: 'Csabai Piac', tone: 'dark', reference: 'csabai-piac' },
