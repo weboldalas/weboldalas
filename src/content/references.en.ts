@@ -710,7 +710,7 @@ export const REFERENCES_EN: Reference[] = [
       {
         icon: Landmark,
         title: 'Project list',
-        description: 'Completed projects with location, type of work, client and year of handover, from smaller renovations to public buildings.',
+        description: 'Completed projects with location, type of work, client and year of handover, plus a photo slideshow on the homepage.',
       },
       {
         icon: Newspaper,
@@ -742,6 +742,11 @@ export const REFERENCES_EN: Reference[] = [
         title: 'Cookie consent',
         description: 'A consent bar: analytics load only with the visitor’s permission.',
       },
+    ],
+    images: [
+      { src: '/references/galeria-invest/fooldal.webp', alt: 'Galéria Invest – homepage', caption: 'The homepage with a slideshow of completed projects.' },
+      { src: '/references/galeria-invest/szolgaltatasok.webp', alt: 'Galéria Invest – services', caption: 'Construction services by category.' },
+      { src: '/references/galeria-invest/hirek.webp', alt: 'Galéria Invest – news', caption: 'News from ongoing work.' },
     ],
     outcome:
       'On the Galéria Invest website the three business lines are clearly separated: clients see the company’s work in the project list and the news, partners delivering waste know in advance what is accepted and on what terms, and job seekers reach the careers page in one click.',

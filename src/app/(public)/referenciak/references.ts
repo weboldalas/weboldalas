@@ -734,7 +734,7 @@ export const REFERENCES: Reference[] = [
       {
         icon: Landmark,
         title: 'Referencialista',
-        description: 'A befejezett munkák helyszínnel, a munka típusával, a megrendelővel és az átadás évével, a kisebb felújításoktól a középületekig.',
+        description: 'A befejezett munkák helyszínnel, a munka típusával, a megrendelővel és az átadás évével, a főoldalon pedig lapozható fotókkal.',
       },
       {
         icon: Newspaper,
@@ -766,6 +766,11 @@ export const REFERENCES: Reference[] = [
         title: 'Sütikezelés',
         description: 'Hozzájárulás-kezelő sáv: a látogatottsági statisztika csak a látogató engedélyével töltődik be.',
       },
+    ],
+    images: [
+      { src: '/references/galeria-invest/fooldal.webp', alt: 'Galéria Invest – főoldal', caption: 'A főoldal a referenciák lapozható fotóival.' },
+      { src: '/references/galeria-invest/szolgaltatasok.webp', alt: 'Galéria Invest – szolgáltatások', caption: 'Az építőipari szolgáltatások kategóriánként.' },
+      { src: '/references/galeria-invest/hirek.webp', alt: 'Galéria Invest – hírek', caption: 'Hírek a futó munkákról.' },
     ],
     outcome:
       'A Galéria Invest weboldalán a három üzletág külön-külön, világosan látszik: a megrendelő a referencialistában és a hírekben látja a cég munkáit, a hulladékot szállító partner előre tudja, mit vesznek át és milyen feltételekkel, az álláskereső pedig egy kattintással eléri a karrieroldalt.',
