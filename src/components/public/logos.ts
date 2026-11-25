@@ -42,6 +42,7 @@ export const LOGOS: PartnerLogo[] = [
   { src: '/logos/logo.png', alt: 'Csabai Piac', tone: 'dark', reference: 'csabai-piac' },
   { src: '/logos/logo_black.png', alt: 'Biro David Films', tone: 'dark' },
   { src: '/logos/logo_nav.png', alt: 'Szemüvegek Háza', tone: 'dark' },
+  { src: '/logos/most-koltozom-logo.png', alt: 'Most Költözöm', tone: 'dark', reference: 'most-koltozom' },
   { src: '/logos/neos-logo-feher.png', alt: 'NEOS', tone: 'light' },
   { src: '/logos/ps-logo-2048x400.webp', alt: 'Phonestrap', tone: 'dark' },
 ]

@@ -591,4 +591,87 @@ export const REFERENCES_EN: Reference[] = [
     outcome:
       'ROAR.’s website is as bold and direct as the brand itself: visitors start from their own life situation, reach the right solution and the free consultation, and the careers page speaks to new advisers too.',
   },
+  {
+    slug: 'most-koltozom',
+    name: 'Most Költözöm',
+    tagline: 'A clean, photo-led website for lightweight timber-frame family homes, with a home configurator and an interactive wall section',
+    category: 'Corporate website',
+    year: '2026',
+    shape: 'house',
+    url: 'https://mostkoltozombe.hu',
+    accentColor: '#ef8a1e',
+    gradient: 'linear-gradient(135deg, #3f9b3a, #ef8a1e, #f7b25a)',
+    gradientFrom: '#132416',
+    gradientTo: '#25391f',
+    description:
+      'Most Költözöm Kft. designs and builds lightweight timber-frame family homes, delivered turnkey, in Békéscsaba, Hungary. We built them a new website that presents the planned home with large renders, a floor plan and a room list, explains the wall construction on an interactive diagram, and guides the first enquiry through a five-step configurator.',
+    challenge:
+      'Having a family home built is a big decision, and buyers want to know what is inside the walls and exactly what they get for their money. The goal was a site that explains the structure and the agreed scope clearly, promises nothing beyond what goes into the contract, and leads visitors to a first meeting in simple steps.',
+    services: [
+      { icon: Globe, label: 'Custom website development' },
+      { icon: Sparkles, label: 'Clean, photo-led web design' },
+      { icon: SlidersHorizontal, label: 'Home configurator' },
+      { icon: Wrench, label: 'Maintenance and support' },
+    ],
+    features: [
+      {
+        icon: Sparkles,
+        title: 'Photo-led homepage',
+        description: 'Large renders that change slowly, with thumbnails. The slideshow pauses when the visitor hovers over it, and never starts for visitors who prefer reduced motion.',
+      },
+      {
+        icon: SlidersHorizontal,
+        title: 'Five-step home configurator',
+        description: 'Plot and town, floor area, bedrooms and rooms, extras, timing. At the end a summary and an e-mail pre-filled with the choices, sent in one click.',
+      },
+      {
+        icon: Layers,
+        title: 'Interactive wall section',
+        description: 'The ten layers of the external wall on a clickable diagram, each with a sentence on what it is for. Keyboard accessible too.',
+      },
+      {
+        icon: FileText,
+        title: 'Floor plan and room list',
+        description: 'A zoomable preliminary floor plan, a downloadable PDF and the area of every room in a clear table.',
+      },
+      {
+        icon: ShieldCheck,
+        title: 'Turnkey scope made clear',
+        description: 'Two columns show what is included and what has to be agreed separately.',
+      },
+      {
+        icon: Images,
+        title: 'Project gallery',
+        description: 'A mosaic of past work with full-screen zoom, browsing by arrows, keyboard and swipe on mobile.',
+      },
+      {
+        icon: Info,
+        title: 'Precise, unambiguous copy',
+        description: 'Every render is marked as a preliminary design, and the FAQ answers questions about the plot, the turnkey state and the warranty directly.',
+      },
+      {
+        icon: Accessibility,
+        title: 'Accessible controls',
+        description: 'Gallery, wall section and configurator all work with the keyboard, with a clear focus ring and respect for the reduced-motion setting.',
+      },
+      {
+        icon: Smartphone,
+        title: 'Responsive design',
+        description: 'On mobile, a menu that floats over the content, rearranged images and explanations set in cards.',
+      },
+      {
+        icon: Search,
+        title: 'SEO and sharing',
+        description: 'Each page has its own title, description and share image, so it looks right on social networks.',
+      },
+    ],
+    images: [
+      { src: '/references/most-koltozom/fooldal.webp', alt: 'Most Költözöm – homepage', caption: 'The photo-led homepage with renders of the house.' },
+      { src: '/references/most-koltozom/konfigurator.webp', alt: 'Most Költözöm – home configurator', caption: 'Step two of the five-step home configurator.' },
+      { src: '/references/most-koltozom/falretegek.webp', alt: 'Most Költözöm – interactive wall section', caption: 'The layers of the external wall, each explained.' },
+      { src: '/references/most-koltozom/kulcsrakesz.webp', alt: 'Most Költözöm – turnkey scope', caption: 'What is included, and how a client gets from the first meeting to handover.' },
+    ],
+    outcome:
+      'The Most Költözöm website presents the planned home and the construction method openly: visitors see what the wall is made of and what the turnkey scope includes, and use the configurator to put together the home they want before they get in touch.',
+  },
 ]
