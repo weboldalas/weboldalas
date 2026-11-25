@@ -615,4 +615,87 @@ export const REFERENCES: Reference[] = [
     outcome:
       'A ROAR. weboldala ugyanolyan bátor és közvetlen lett, mint maga a márka: a látogató a saját élethelyzetéből indulva jut el a megfelelő megoldáshoz és az ingyenes tanácsadáshoz, a karrieroldal pedig az új tanácsadókat is megszólítja.',
   },
+  {
+    slug: 'most-koltozom',
+    name: 'Most Költözöm',
+    tagline: 'Letisztult, fotós weboldal könnyűszerkezetes családi házakhoz, házkonfigurátorral és interaktív falrétegrenddel',
+    category: 'Vállalati weboldal',
+    year: '2026',
+    shape: 'house',
+    url: 'https://mostkoltozombe.hu',
+    accentColor: '#ef8a1e',
+    gradient: 'linear-gradient(135deg, #3f9b3a, #ef8a1e, #f7b25a)',
+    gradientFrom: '#132416',
+    gradientTo: '#25391f',
+    description:
+      'A Most Költözöm Kft. könnyűszerkezetes családi házakat tervez és épít kulcsrakészre Békéscsabán. Új weboldalt készítettünk nekik, amely nagy látványtervekkel, alaprajzzal és helyiséglistával mutatja be a tervezett otthont, interaktív ábrán magyarázza el a falszerkezetet, és egy ötlépéses konfigurátorral segíti az első ajánlatkérést.',
+    challenge:
+      'Egy családi ház megépíttetése nagy döntés, és a vevő tudni szeretné, mi van a falakban, és pontosan mit kap a pénzéért. A cél egy olyan oldal volt, amely érthetően mutatja be a szerkezetet és a vállalt tartalmat, nem ígér többet, mint ami a szerződésbe kerül, és az érdeklődőt egyszerű lépésekben vezeti el az első egyeztetésig.',
+    services: [
+      { icon: Globe, label: 'Egyedi weboldal fejlesztés' },
+      { icon: Sparkles, label: 'Fotós, letisztult webdesign' },
+      { icon: SlidersHorizontal, label: 'Házkonfigurátor' },
+      { icon: Wrench, label: 'Üzemeltetés és támogatás' },
+    ],
+    features: [
+      {
+        icon: Sparkles,
+        title: 'Fotós nyitóoldal',
+        description: 'Nagy, lassan váltakozó látványtervek bélyegképekkel. Ha a látogató a kép fölé visz az egérrel, a váltás megáll, csökkentett mozgás beállításnál pedig nem is indul el.',
+      },
+      {
+        icon: SlidersHorizontal,
+        title: 'Ötlépéses házkonfigurátor',
+        description: 'Telek és település, alapterület, hálószobák és helyiségek, kiegészítők, időzítés. A végén összesítés, és a választásokkal előre kitöltött e-mail, amit a látogató egy kattintással elküld.',
+      },
+      {
+        icon: Layers,
+        title: 'Interaktív falrétegrend',
+        description: 'A külső fal tíz rétege kattintható ábrán, mindegyik mellett egy mondat arról, mire való. Billentyűzettel is bejárható.',
+      },
+      {
+        icon: FileText,
+        title: 'Alaprajz és helyiséglista',
+        description: 'Nagyítható előzetes alaprajz, letölthető PDF és helyiségenkénti területek egy áttekinthető táblázatban.',
+      },
+      {
+        icon: ShieldCheck,
+        title: 'Kulcsrakész tartalom átláthatóan',
+        description: 'Két oszlopban látszik, mi része a vállalásnak, és mi az, amiről külön kell egyeztetni.',
+      },
+      {
+        icon: Images,
+        title: 'Referenciagaléria',
+        description: 'Mozaikos képrács a korábbi munkákról, teljes képernyős nagyítással, lapozással nyilakkal, billentyűzettel és mobilon húzással.',
+      },
+      {
+        icon: Info,
+        title: 'Pontos, félreérthetetlen szövegek',
+        description: 'Minden látványterv mellett ott a jelzés, hogy előzetes terv, a gyakori kérdések pedig egyenesen válaszolnak a telekre, a kulcsrakész állapotra és a jótállásra.',
+      },
+      {
+        icon: Accessibility,
+        title: 'Akadálymentes kezelés',
+        description: 'Billentyűzettel is használható galéria, falrétegrend és konfigurátor, jól látható fókusz és a mozgást csökkentő beállítás tiszteletben tartása.',
+      },
+      {
+        icon: Smartphone,
+        title: 'Reszponzív kialakítás',
+        description: 'Mobilon a tartalom fölé úszó menü, átrendezett képek és kártyába tördelt magyarázatok.',
+      },
+      {
+        icon: Search,
+        title: 'SEO és megosztás',
+        description: 'Oldalanként saját cím, leírás és megosztási kép, hogy a közösségi oldalakon is rendesen jelenjen meg.',
+      },
+    ],
+    images: [
+      { src: '/references/most-koltozom/fooldal.webp', alt: 'Most Költözöm – főoldal', caption: 'A fotós nyitóoldal a ház látványterveivel.' },
+      { src: '/references/most-koltozom/konfigurator.webp', alt: 'Most Költözöm – házkonfigurátor', caption: 'Az ötlépéses házkonfigurátor második lépése.' },
+      { src: '/references/most-koltozom/falretegek.webp', alt: 'Most Költözöm – interaktív falrétegrend', caption: 'A külső fal rétegei, rétegenkénti magyarázattal.' },
+      { src: '/references/most-koltozom/kulcsrakesz.webp', alt: 'Most Költözöm – kulcsrakész tartalom', caption: 'Mi része a vállalásnak, és hogyan jut el az ügyfél az átadásig.' },
+    ],
+    outcome:
+      'A Most Költözöm Kft. weboldala átláthatóan mutatja be a tervezett otthont és az építési megoldást: az érdeklődő látja, miből épül a fal és mi tartozik a kulcsrakész vállalásba, a konfigurátorral pedig összeállítja, milyen házat szeretne, mielőtt felveszi a kapcsolatot.',
+  },
 ]

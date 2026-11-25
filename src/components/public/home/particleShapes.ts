@@ -13,7 +13,7 @@ export type ShapeName =
   // sub-page heroes
   | 'cart' | 'calendar' | 'target' | 'funnel' | 'tag' | 'hub'
   // case-study heroes
-  | 'cartridge' | 'log' | 'padel' | 'market' | 'sunrise' | 'lion'
+  | 'cartridge' | 'log' | 'padel' | 'market' | 'sunrise' | 'lion' | 'house'
 
 export function mulberry32(seed: number) {
   return () => {
@@ -672,6 +672,60 @@ function lion(n: number, rand: Rand) {
   return out
 }
 
+/** Gabled house with a tick and a sweeping base, after the Most Költözöm logo. Built y-up, flipped at the end. */
+function house(n: number, rand: Rand) {
+  const out: number[] = []
+  const x0 = -0.5, x1 = 0.5, z0 = -0.42, z1 = 0.42, yg = -0.5, ye = 0.12, yr = 0.58, o = 0.1
+  // walls: edges plus a light fill on the front gable and the side
+  const walls: Seg3[] = []
+  for (const z of [z0, z1]) walls.push([x0, yg, z, x1, yg, z], [x0, yg, z, x0, ye, z], [x1, yg, z, x1, ye, z], [x0, ye, z, x1, ye, z])
+  for (const x of [x0, x1]) walls.push([x, yg, z0, x, yg, z1], [x, ye, z0, x, ye, z1])
+  along3D(out, walls, Math.round(n * 0.2), rand, 0.007, 0.007)
+  onTriangle(out, [x0, yg, z1], [x1, yg, z1], [x1, ye, z1], Math.round(n * 0.035), rand)
+  onTriangle(out, [x0, yg, z1], [x1, ye, z1], [x0, ye, z1], Math.round(n * 0.035), rand)
+  onTriangle(out, [x0, ye, z1], [x1, ye, z1], [0, yr, z1], Math.round(n * 0.03), rand)
+  // roof: two slopes with overhang, ridge running front to back
+  const rl: V3 = [x0 - o, ye - o * 0.9, z0 - o], rr: V3 = [x1 + o, ye - o * 0.9, z0 - o]
+  const fl: V3 = [x0 - o, ye - o * 0.9, z1 + o], fr: V3 = [x1 + o, ye - o * 0.9, z1 + o]
+  const rt: V3 = [0, yr, z0 - o], ft: V3 = [0, yr, z1 + o]
+  onTriangle(out, rl, rt, ft, Math.round(n * 0.03), rand)
+  onTriangle(out, rl, ft, fl, Math.round(n * 0.03), rand)
+  onTriangle(out, rr, rt, ft, Math.round(n * 0.03), rand)
+  onTriangle(out, rr, ft, fr, Math.round(n * 0.03), rand)
+  const roof: Seg3[] = [[...fl, ...ft], [...ft, ...fr], [...rl, ...rt], [...rt, ...rr], [...rt, ...ft], [...fl, ...rl], [...fr, ...rr]]
+  along3D(out, roof, Math.round(n * 0.17), rand, 0.008, 0.008)
+  // chimney on the right slope
+  const cx0 = 0.22, cx1 = 0.34, cz0 = 0.08, cz1 = 0.2, cyTop = 0.66
+  const slope = (x: number) => yr - (yr - ye) * (x / x1)
+  const ch: Seg3[] = []
+  for (const [x, z] of [[cx0, cz0], [cx1, cz0], [cx0, cz1], [cx1, cz1]] as const) ch.push([x, slope(x), z, x, cyTop, z])
+  ch.push([cx0, cyTop, cz0, cx1, cyTop, cz0], [cx0, cyTop, cz1, cx1, cyTop, cz1], [cx0, cyTop, cz0, cx0, cyTop, cz1], [cx1, cyTop, cz0, cx1, cyTop, cz1])
+  along3D(out, ch, Math.round(n * 0.05), rand, 0.006, 0.006)
+  // the tick, standing just in front of the front wall
+  const zt = z1 + 0.04
+  along3D(out, [[-0.24, -0.08, zt, -0.06, -0.26, zt], [-0.06, -0.26, zt, 0.28, 0.12, zt]], Math.round(n * 0.18), rand, 0.028, 0.012)
+  // swoosh: a tapering smile curve in front of the base, like the logo's
+  const sw: Seg3[] = []
+  let prev: V3 | null = null
+  for (let i = 0; i <= 24; i++) {
+    const t = i / 24, x = -0.8 + t * 1.65
+    const p: V3 = [x, yg - 0.1 - Math.sin(t * Math.PI) * 0.09 + t * 0.08, z1 + 0.14]
+    if (prev) sw.push([...prev, ...p])
+    prev = p
+  }
+  along3D(out, sw, Math.round(n * 0.12), rand, 0.02, 0.012)
+  // turn three-quarter, look slightly down
+  const a = 0.38, ca = Math.cos(a), sa = Math.sin(a), b = -0.2, cb = Math.cos(b), sb = Math.sin(b)
+  for (let i = 0; i < out.length; i += 3) {
+    const x = out[i] * 1.05, y = out[i + 1] * 1.05 + 0.02, z = out[i + 2] * 1.05
+    const x2 = x * ca + z * sa, z2 = -x * sa + z * ca
+    out[i] = x2
+    out[i + 1] = -(y * cb - z2 * sb) // screen y points down
+    out[i + 2] = y * sb + z2 * cb
+  }
+  return out
+}
+
 const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
   devices, chat, pen, progress, rocket, gears, plane,
   cart, calendar, target, funnel, tag, hub,
@@ -681,6 +735,7 @@ const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
   market,
   sunrise,
   lion,
+  house,
 }
 
 export function buildShape(name: ShapeName, n: number, seed: number): Float32Array {
