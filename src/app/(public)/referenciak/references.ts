@@ -698,4 +698,76 @@ export const REFERENCES: Reference[] = [
     outcome:
       'A Most Költözöm Kft. weboldala átláthatóan mutatja be a tervezett otthont és az építési megoldást: az érdeklődő látja, miből épül a fal és mi tartozik a kulcsrakész vállalásba, a konfigurátorral pedig összeállítja, milyen házat szeretne, mielőtt felveszi a kapcsolatot.',
   },
+  {
+    slug: 'galeria-invest',
+    name: 'Galéria Invest',
+    tagline: 'Vállalati weboldal egy békéscsabai építőipari cégnek, három üzletággal, referencialistával és hírekkel',
+    category: 'Vállalati weboldal',
+    year: '2025',
+    shape: 'crane',
+    url: 'https://galeriainvest.hu',
+    accentColor: '#4bb543',
+    gradient: 'linear-gradient(135deg, #2f8f3a, #4bb543, #f39200)',
+    gradientFrom: '#0f1f12',
+    gradientTo: '#1f3320',
+    description:
+      'A Galéria Invest Kft. békéscsabai családi vállalkozás, amely 2004 óta dolgozik építőipari projekteken: generálkivitelezés, magas-, mély-, út- és parképítés. Emellett építési-bontási hulladékot dolgoz fel, és betonelemeket forgalmaz. Új WordPress-weboldalt terveztünk és fejlesztettünk nekik, amely a három üzletágat külön, érthetően mutatja be, a referenciákat, a híreket és az álláshirdetéseket pedig egy helyen tartja.',
+    challenge:
+      'Egy építőipari cég weboldalát nagyon különböző látogatók keresik fel: megrendelők, akik referenciákat néznek, partnerek, akik hulladékot hoznának vagy betonelemet vennének, és álláskeresők. A cél egy olyan oldal volt, amelyen mindenki gyorsan megtalálja a neki szóló részt, a cég pedig maga frissítheti a híreket a futó munkákról.',
+    services: [
+      { icon: Globe, label: 'Vállalati weboldal' },
+      { icon: Sparkles, label: 'Egyedi webdesign' },
+      { icon: Settings, label: 'WordPress fejlesztés' },
+      { icon: Layers, label: 'Tartalomstruktúra három üzletágra' },
+    ],
+    features: [
+      {
+        icon: Layers,
+        title: 'Három üzletág, külön oldalakon',
+        description: 'Az építőipari szolgáltatások, a hulladékgazdálkodás és a kereskedelmi tevékenység saját oldalt kap, így minden látogató egyenesen a neki szóló részhez jut.',
+      },
+      {
+        icon: Wrench,
+        title: 'Szolgáltatások kategóriánként',
+        description: 'Magasépítés, mélyépítés, útépítés és parképítés, mindegyiknél a konkrét munkák listájával és fotókkal.',
+      },
+      {
+        icon: Landmark,
+        title: 'Referencialista',
+        description: 'A befejezett munkák helyszínnel, a munka típusával, a megrendelővel és az átadás évével, a kisebb felújításoktól a középületekig.',
+      },
+      {
+        icon: Newspaper,
+        title: 'Hírek a futó munkákról',
+        description: 'Rendszeres beszámolók az építkezésekről képgalériával, és keresés a hírek között.',
+      },
+      {
+        icon: Info,
+        title: 'Hulladékátvétel érthetően',
+        description: 'Mit vesznek át és mit nem, milyen feltételekkel, és milyen újrahasznosított anyagokat lehet vásárolni, mind egy oldalon.',
+      },
+      {
+        icon: Package,
+        title: 'Betonelemek kereskedelme',
+        description: 'Betoncsövek, támfal- és vízelvezető elemek, aknagyűrűk és fedlapok, az árak és az átvétel feltételei egyedi megkeresésre.',
+      },
+      {
+        icon: Briefcase,
+        title: 'Karrieroldal',
+        description: 'Nyitott pozíciók és általános jelentkezés, a beküldendő dokumentumok listájával.',
+      },
+      {
+        icon: Map,
+        title: 'Kapcsolat térképpel',
+        description: 'Kapcsolatfelvételi űrlap, részlegenkénti elérhetőségek és beágyazott térkép.',
+      },
+      {
+        icon: ShieldCheck,
+        title: 'Sütikezelés',
+        description: 'Hozzájárulás-kezelő sáv: a látogatottsági statisztika csak a látogató engedélyével töltődik be.',
+      },
+    ],
+    outcome:
+      'A Galéria Invest weboldalán a három üzletág külön-külön, világosan látszik: a megrendelő a referencialistában és a hírekben látja a cég munkáit, a hulladékot szállító partner előre tudja, mit vesznek át és milyen feltételekkel, az álláskereső pedig egy kattintással eléri a karrieroldalt.',
+  },
 ]
