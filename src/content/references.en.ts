@@ -674,4 +674,81 @@ export const REFERENCES_EN: Reference[] = [
     outcome:
       'The Most Költözöm website presents the planned home and the construction method openly: visitors see what the wall is made of and what the turnkey scope includes, and use the configurator to put together the home they want before they get in touch.',
   },
+  {
+    slug: 'galeria-invest',
+    name: 'Galéria Invest',
+    tagline: 'A corporate website for a construction company in Békéscsaba, with three business lines, a project list and news',
+    category: 'Corporate website',
+    year: '2025',
+    shape: 'crane',
+    url: 'https://galeriainvest.hu',
+    accentColor: '#4bb543',
+    gradient: 'linear-gradient(135deg, #2f8f3a, #4bb543, #f39200)',
+    gradientFrom: '#0f1f12',
+    gradientTo: '#1f3320',
+    description:
+      'Galéria Invest Kft. is a family-owned company in Békéscsaba, Hungary, working on construction projects since 2004: general contracting, building, civil engineering, roads and landscaping. It also processes construction and demolition waste and sells precast concrete elements. We designed and developed a new WordPress website that presents the three business lines separately and clearly, and keeps projects, news and job openings in one place.',
+    challenge:
+      'A construction company’s website is visited by very different people: clients looking at past projects, partners who want to deliver waste or buy concrete elements, and job seekers. The goal was a site where everyone quickly finds the part meant for them, and where the company can post news about ongoing work itself.',
+    services: [
+      { icon: Globe, label: 'Corporate website' },
+      { icon: Sparkles, label: 'Custom web design' },
+      { icon: Settings, label: 'WordPress development' },
+      { icon: Layers, label: 'Content structure for three business lines' },
+    ],
+    features: [
+      {
+        icon: Layers,
+        title: 'Three business lines, three pages',
+        description: 'Construction services, waste management and trade each get their own page, so every visitor goes straight to the part meant for them.',
+      },
+      {
+        icon: Wrench,
+        title: 'Services by category',
+        description: 'Building, civil engineering, road building and landscaping, each with a list of specific works and photos.',
+      },
+      {
+        icon: Landmark,
+        title: 'Project list',
+        description: 'Completed projects with location, type of work, client and year of handover, plus a photo slideshow on the homepage.',
+      },
+      {
+        icon: Newspaper,
+        title: 'News from ongoing work',
+        description: 'Regular updates from the construction sites with photo galleries, and search across the news.',
+      },
+      {
+        icon: Info,
+        title: 'Waste intake made clear',
+        description: 'What is accepted and what is not, on what conditions, and which recycled materials can be bought, all on one page.',
+      },
+      {
+        icon: Package,
+        title: 'Precast concrete trade',
+        description: 'Concrete pipes, retaining-wall and drainage elements, manhole rings and covers, with prices and pickup terms on request.',
+      },
+      {
+        icon: Briefcase,
+        title: 'Careers page',
+        description: 'Open positions and general applications, with a list of the documents to send.',
+      },
+      {
+        icon: Map,
+        title: 'Contact with a map',
+        description: 'A contact form, department contacts and an embedded map.',
+      },
+      {
+        icon: ShieldCheck,
+        title: 'Cookie consent',
+        description: 'A consent bar: analytics load only with the visitor’s permission.',
+      },
+    ],
+    images: [
+      { src: '/references/galeria-invest/fooldal.webp', alt: 'Galéria Invest – homepage', caption: 'The homepage with a slideshow of completed projects.' },
+      { src: '/references/galeria-invest/szolgaltatasok.webp', alt: 'Galéria Invest – services', caption: 'Construction services by category.' },
+      { src: '/references/galeria-invest/hirek.webp', alt: 'Galéria Invest – news', caption: 'News from ongoing work.' },
+    ],
+    outcome:
+      'On the Galéria Invest website the three business lines are clearly separated: clients see the company’s work in the project list and the news, partners delivering waste know in advance what is accepted and on what terms, and job seekers reach the careers page in one click.',
+  },
 ]

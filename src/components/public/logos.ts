@@ -34,7 +34,7 @@ export const LOGOS: PartnerLogo[] = [
   { src: '/logos/cropped-logo.png', alt: 'Rutinbau', tone: 'dark' },
   { src: '/logos/eyeloveyou_00009.png', alt: 'Eye Love You', tone: 'light', scale: 2.4 },
   { src: '/logos/g_logo_fekvo_white.png', alt: 'Galéria Chemical', tone: 'light' },
-  { src: '/logos/galeriainvest-logo.png', alt: 'Galéria Invest', tone: 'color' },
+  { src: '/logos/galeriainvest-logo.png', alt: 'Galéria Invest', tone: 'color', reference: 'galeria-invest' },
   { src: '/logos/helkem_logo2.png', alt: 'Helkem', tone: 'light', reference: 'helkem' },
   { src: '/logos/home-logo-1.svg', alt: 'ROAR.', tone: 'dark', reference: 'hello-roar' },
   { src: '/logos/logo-BBLUr7dk.jpg', alt: 'Árpád Strandfürdő', tone: 'dark', scale: 1.5, reference: 'arpad-furdo' },

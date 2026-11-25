@@ -13,7 +13,7 @@ export type ShapeName =
   // sub-page heroes
   | 'cart' | 'calendar' | 'target' | 'funnel' | 'tag' | 'hub'
   // case-study heroes
-  | 'cartridge' | 'log' | 'padel' | 'market' | 'sunrise' | 'lion' | 'house'
+  | 'cartridge' | 'log' | 'padel' | 'market' | 'sunrise' | 'lion' | 'house' | 'crane'
 
 export function mulberry32(seed: number) {
   return () => {
@@ -726,6 +726,58 @@ function house(n: number, rand: Rand) {
   return out
 }
 
+/** Building under construction with a tower crane, for a construction company (Galéria Invest). Built y-up, flipped at the end. */
+function crane(n: number, rand: Rand) {
+  const out: number[] = []
+  const yg = -0.62
+  // building frame: three storeys of slabs and columns, the top storey half done
+  const bx0 = -0.85, bx1 = 0.05, bz0 = -0.3, bz1 = 0.3, h = 0.24
+  const frame: Seg3[] = []
+  for (let f = 0; f <= 3; f++) {
+    const y = yg + f * h, xe = f === 3 ? -0.35 : bx1
+    frame.push([bx0, y, bz0, xe, y, bz0], [bx0, y, bz1, xe, y, bz1], [bx0, y, bz0, bx0, y, bz1], [xe, y, bz0, xe, y, bz1])
+  }
+  for (const x of [-0.85, -0.6, -0.35, -0.1, 0.05]) for (const z of [bz0, bz1]) {
+    const top = x > -0.35 ? yg + 2 * h : yg + 3 * h
+    frame.push([x, yg, z, x, top, z])
+  }
+  along3D(out, frame, Math.round(n * 0.34), rand, 0.007, 0.007)
+  for (let f = 1; f <= 2; f++) onTriangle(out, [bx0, yg + f * h, bz0], [bx1, yg + f * h, bz0], [bx1, yg + f * h, bz1], Math.round(n * 0.02), rand)
+  // tower crane: lattice mast, jib to the left over the building, counter-jib, cab and hook
+  const mx = 0.45, mw = 0.06, top = 0.62
+  const mast: Seg3[] = []
+  for (const [dx, dz] of [[-mw, -mw], [mw, -mw], [-mw, mw], [mw, mw]] as const) mast.push([mx + dx, yg, dz, mx + dx, top, dz])
+  for (let y = yg, k = 0; y < top - 0.05; y += 0.12, k++) {
+    const y2 = y + 0.12
+    mast.push(k % 2 ? [mx - mw, y, -mw, mx + mw, y2, -mw] : [mx + mw, y, -mw, mx - mw, y2, -mw])
+    mast.push(k % 2 ? [mx - mw, y, mw, mx - mw, y2, -mw] : [mx - mw, y, -mw, mx - mw, y2, mw])
+  }
+  along3D(out, mast, Math.round(n * 0.2), rand, 0.005, 0.005)
+  const jib: Seg3[] = [
+    [mx, top, 0, -0.95, top, 0], [mx, top - 0.07, 0, -0.95, top, 0],
+    [mx, top, 0, 0.9, top, 0], [mx, top - 0.06, 0, 0.9, top - 0.03, 0],
+    [mx, top, 0, mx, top + 0.18, 0], [mx, top + 0.18, 0, -0.5, top, 0], [mx, top + 0.18, 0, 0.88, top, 0],
+  ]
+  for (let x = mx - 0.1; x > -0.92; x -= 0.12) jib.push([x, top, 0, x - 0.06, top - 0.06, 0])
+  along3D(out, jib, Math.round(n * 0.2), rand, 0.006, 0.01)
+  // counterweight block and the cab
+  for (let i = 0, m = Math.round(n * 0.04); i < m; i++) out.push(0.72 + rand() * 0.16, top - 0.12 + rand() * 0.1, (rand() - 0.5) * 0.1)
+  // hook line and hook hanging over the building
+  along3D(out, [[-0.45, top, 0, -0.45, 0.05, 0], [-0.5, 0.05, 0, -0.4, 0.05, 0], [-0.45, 0.05, 0, -0.45, 0.0, 0]], Math.round(n * 0.05), rand, 0.004, 0.004)
+  // ground line
+  along3D(out, [[-1.05, yg, bz1 + 0.15, 1.0, yg, bz1 + 0.15]], Math.round(n * 0.04), rand, 0.006, 0.01)
+  // turn slightly and look a little down
+  const a = 0.32, ca = Math.cos(a), sa = Math.sin(a), b = -0.18, cb = Math.cos(b), sb = Math.sin(b)
+  for (let i = 0; i < out.length; i += 3) {
+    const x = out[i] * 0.95, y = out[i + 1] * 0.95 + 0.02, z = out[i + 2] * 0.95
+    const x2 = x * ca + z * sa, z2 = -x * sa + z * ca
+    out[i] = x2
+    out[i + 1] = -(y * cb - z2 * sb) // screen y points down
+    out[i + 2] = y * sb + z2 * cb
+  }
+  return out
+}
+
 const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
   devices, chat, pen, progress, rocket, gears, plane,
   cart, calendar, target, funnel, tag, hub,
@@ -736,6 +788,7 @@ const builders: Record<ShapeName, (n: number, rand: Rand) => number[]> = {
   sunrise,
   lion,
   house,
+  crane,
 }
 
 export function buildShape(name: ShapeName, n: number, seed: number): Float32Array {
