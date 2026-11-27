@@ -13,7 +13,7 @@ export function Topbar() {
   const pathname = usePathname()
   const current = findRoute(pathname)
   const rest = current ? pathname.slice(current.href.length) : ''
-  const detail = rest.endsWith('/new') ? 'Új létrehozása' : rest.endsWith('/edit') ? 'Szerkesztés' : rest ? 'Részletek' : null
+  const detail = rest === '/import' ? 'Perfex import' : rest.endsWith('/new') ? 'Új létrehozása' : rest.endsWith('/edit') ? 'Szerkesztés' : rest ? 'Részletek' : null
 
   return (
     <header className="crm-topbar">
