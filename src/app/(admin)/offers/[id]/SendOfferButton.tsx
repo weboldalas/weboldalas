@@ -1,43 +1,31 @@
 'use client'
 
-import { useState } from 'react'
+import { useTransition } from 'react'
 import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
-import { Send, CheckCircle } from 'lucide-react'
+import { Loader2, RotateCw, Send } from 'lucide-react'
 import { sendOfferEmail } from '../actions'
 
-export function SendOfferButton({ offerId, status, disabled }: { offerId: string, status: string, disabled: boolean }) {
-  const [loading, setLoading] = useState(false)
-  const [sent, setSent] = useState(false)
-
-  const handleSend = async () => {
-    setLoading(true)
-    const res = await sendOfferEmail(offerId)
-    setLoading(false)
-    if (res?.error) {
-      toast.error('Email küldés sikertelen', { description: res.error })
-    } else {
-      setSent(true)
-      toast.success('Ajánlat elküldve emailben')
-    }
-  }
-
-  if (sent || status === 'sent') {
-    return (
-      <Button variant="outline" disabled className="text-emerald-500 border-emerald-500/20 bg-emerald-500/10">
-        <CheckCircle className="mr-2 h-4 w-4" /> Kiküldve
-      </Button>
-    )
-  }
+export function SendOfferButton({ offerId, status, disabled }: { offerId: string; status: string; disabled: boolean }) {
+  const [pending, startTransition] = useTransition()
+  if (status === 'accepted' || status === 'rejected') return null
+  const resend = status === 'sent'
 
   return (
-    <Button
-      onClick={handleSend}
-      disabled={disabled || loading}
-      className="bg-violet-600 hover:bg-violet-700 text-white"
+    <button
+      type="button"
+      className={`crm-btn ${resend ? 'crm-btn-secondary' : 'crm-btn-primary'}`}
+      disabled={disabled || pending}
+      onClick={() => {
+        if (resend && !window.confirm('Újra elküldöd az ajánlatot ugyanarra a címre?')) return
+        startTransition(async () => {
+          const res = await sendOfferEmail(offerId)
+          if (res?.error) toast.error('Az ajánlat nem ment el', { description: res.error })
+          else toast.success('Ajánlat elküldve', { description: res?.to ? `Címzett: ${res.to}` : undefined })
+        })
+      }}
     >
-      <Send className="mr-2 h-4 w-4" />
-      {loading ? 'Küldés...' : 'Küldés emailben'}
-    </Button>
+      {pending ? <Loader2 className="animate-spin" /> : resend ? <RotateCw /> : <Send />}
+      {pending ? 'Küldés…' : resend ? 'Újraküldés' : 'Küldés emailben'}
+    </button>
   )
 }

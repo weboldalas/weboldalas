@@ -16,7 +16,7 @@ import {
 import { DeleteOfferIconButton } from './DeleteOfferIconButton'
 
 export const metadata = {
-  title: 'Ajánlatok | Weboldalas Admin',
+  title: 'Ajánlatok',
 }
 
 const statusMap: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {

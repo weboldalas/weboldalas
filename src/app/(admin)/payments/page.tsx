@@ -8,7 +8,7 @@ import { PaymentsList } from './PaymentsList'
 import { SubscriptionsList } from './SubscriptionsList'
 
 export const metadata = {
-  title: 'Pénzügy | Weboldalas Admin',
+  title: 'Befizetések',
 }
 
 export default async function FinancePage() {

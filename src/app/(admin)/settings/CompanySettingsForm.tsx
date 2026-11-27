@@ -107,6 +107,8 @@ export function CompanySettingsForm({ settings }: { settings: CompanySettings })
     })
   }
 
+  // A render helper, not a component: a component defined here would remount on every
+  // keystroke and the input would lose focus after each letter.
   const Field = ({ label, field, type = 'text', placeholder = '' }: {
     label: string
     field: keyof typeof form
@@ -151,11 +153,11 @@ export function CompanySettingsForm({ settings }: { settings: CompanySettings })
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-white/30 mb-3">Azonosítás</p>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Teljes név / Cégnév *" field="company_name" placeholder="Balda László Tamás" />
-            <Field label="Képviselő neve" field="representative_name" placeholder="Balda László Tamás" />
+            {Field({ label: 'Teljes név / Cégnév *', field: 'company_name', placeholder: 'Balda László Tamás' })}
+            {Field({ label: 'Képviselő neve', field: 'representative_name', placeholder: 'Balda László Tamás' })}
           </div>
           <div className="grid gap-4 sm:grid-cols-2 mt-4">
-            <Field label="Márkanév (PDF fejlécben)" field="brand_name" placeholder="Weboldalas" />
+            {Field({ label: 'Márkanév (PDF fejlécben)', field: 'brand_name', placeholder: 'Weboldalas' })}
             <div className="space-y-1.5">
               <Label>Vállalkozási forma</Label>
               <select
@@ -197,7 +199,7 @@ export function CompanySettingsForm({ settings }: { settings: CompanySettings })
                 ))}
               </select>
             </div>
-            <Field label="Adószám" field="tax_number" placeholder="59664105-1-24" />
+            {Field({ label: 'Adószám', field: 'tax_number', placeholder: '59664105-1-24' })}
           </div>
           {form.tax_form === 'aam' && (
             <div className="mt-3 rounded-xl px-4 py-3 text-xs"
@@ -207,27 +209,27 @@ export function CompanySettingsForm({ settings }: { settings: CompanySettings })
             </div>
           )}
           <div className="mt-4">
-            <Field label="Cégjegyzékszám (ha van)" field="registration_number" placeholder="—" />
+            {Field({ label: 'Cégjegyzékszám (ha van)', field: 'registration_number', placeholder: '—' })}
           </div>
         </div>
 
         {/* Contact */}
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-white/30 mb-3">Elérhetőség</p>
-          <Field label="Székhely" field="address" placeholder="5700 Gyula, Wesselényi utca 26/B." />
+          {Field({ label: 'Székhely', field: 'address', placeholder: '5700 Gyula, Wesselényi utca 26/B.' })}
           <div className="grid gap-4 sm:grid-cols-2 mt-4">
-            <Field label="E-mail" field="email" type="email" placeholder="info@weboldalas.hu" />
-            <Field label="Telefon" field="phone" placeholder="+36 30 123 4567" />
+            {Field({ label: 'E-mail', field: 'email', type: 'email', placeholder: 'info@weboldalas.hu' })}
+            {Field({ label: 'Telefon', field: 'phone', placeholder: '+36 30 123 4567' })}
           </div>
           <div className="mt-4">
-            <Field label="Weboldal" field="website" placeholder="https://weboldalas.hu" />
+            {Field({ label: 'Weboldal', field: 'website', placeholder: 'https://weboldalas.hu' })}
           </div>
         </div>
 
         {/* Bank */}
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-white/30 mb-3">Pénzügy</p>
-          <Field label="Bankszámlaszám" field="bank_account" placeholder="11600006-00000000-98016132" />
+          {Field({ label: 'Bankszámlaszám', field: 'bank_account', placeholder: '11600006-00000000-98016132' })}
         </div>
 
         {/* Logo upload */}

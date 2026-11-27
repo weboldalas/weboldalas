@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params
   const supabase = await createClient()
   const { data } = await supabase.from('leads').select('name').eq('id', id).single()
-  return { title: `${data?.name ?? 'Lead'} | Weboldalas Admin` }
+  return { title: `${data?.name ?? 'Lead'}` }
 }
 
 const TYPE_LABELS: Record<string, string> = {

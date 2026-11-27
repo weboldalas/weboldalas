@@ -4,9 +4,10 @@ import { logout } from '@/app/login/actions'
 import { Button } from '@/components/ui/button'
 import { User, Shield, LogOut } from 'lucide-react'
 import { CompanySettingsForm } from './CompanySettingsForm'
+import { OwnerSignatureCard } from './OwnerSignatureCard'
 
 export const metadata = {
-  title: 'Beállítások | Weboldalas Admin',
+  title: 'Beállítások',
 }
 
 export default async function SettingsPage() {
@@ -29,6 +30,7 @@ export default async function SettingsPage() {
       <div className="grid gap-4 w-full max-w-2xl">
         {/* Company settings */}
         {companySettings && <CompanySettingsForm settings={companySettings} />}
+        {companySettings && <OwnerSignatureCard settingsId={companySettings.id} initial={companySettings.owner_signature ?? null} />}
 
         {/* Account info */}
         <Card>

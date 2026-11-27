@@ -37,6 +37,10 @@ export async function updateSession(request: NextRequest) {
     pathname.startsWith('/dashboard') ||
     pathname.startsWith('/leads') ||
     pathname.startsWith('/customers') ||
+    pathname.startsWith('/partners') ||
+    pathname.startsWith('/invoices') ||
+    pathname.startsWith('/projects') ||
+    pathname.startsWith('/portal') ||
     pathname.startsWith('/payments') ||
     pathname.startsWith('/subscriptions') ||
     pathname.startsWith('/tasks') ||

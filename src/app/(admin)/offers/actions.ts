@@ -3,6 +3,9 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { realizeOfferRecords, offerIsExpired } from '@/lib/crm/offers'
+import { appUrl, sendEmail } from '@/lib/crm/mailer'
+import { offerCustomerHtml } from '@/lib/offer-emails'
 
 export async function createOffer(_prevState: unknown, formData: FormData) {
   const supabase = await createClient()
@@ -18,7 +21,7 @@ export async function createOffer(_prevState: unknown, formData: FormData) {
     
     const { data: newLead, error: leadError } = await supabase
       .from('leads')
-      .insert([{ name: newName, email: newEmail, phone: newPhone, status: 'new' }])
+      .insert([{ name: newName, email: newEmail, phone: newPhone, status: 'felkeresendo' }])
       .select()
       .single()
 
@@ -67,8 +70,9 @@ export async function createOffer(_prevState: unknown, formData: FormData) {
   // 2. Create offer items
   if (items.length > 0) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const offerItemsToInsert = items.map((item: any) => ({
+    const offerItemsToInsert = items.map((item: any, position: number) => ({
       offer_id: offer.id,
+      position,
       description: item.description,
       price: Number(item.price)
     }))
@@ -83,7 +87,7 @@ export async function createOffer(_prevState: unknown, formData: FormData) {
   }
 
   revalidatePath('/offers')
-  if (customerId) revalidatePath(`/customers/${customerId}`)
+  if (customerId) revalidatePath(`/partners/${customerId}`)
   if (leadId) revalidatePath(`/leads/${leadId}`)
   redirect('/offers')
 }
@@ -102,7 +106,7 @@ export async function updateOffer(id: string, _prevState: unknown, formData: For
     
     const { data: newLead, error: leadError } = await supabase
       .from('leads')
-      .insert([{ name: newName, email: newEmail, phone: newPhone, status: 'new' }])
+      .insert([{ name: newName, email: newEmail, phone: newPhone, status: 'felkeresendo' }])
       .select()
       .single()
 
@@ -153,8 +157,9 @@ export async function updateOffer(id: string, _prevState: unknown, formData: For
   // 3. Create new offer items
   if (items.length > 0) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const offerItemsToInsert = items.map((item: any) => ({
+    const offerItemsToInsert = items.map((item: any, position: number) => ({
       offer_id: id,
+      position,
       description: item.description,
       price: Number(item.price)
     }))
@@ -163,7 +168,7 @@ export async function updateOffer(id: string, _prevState: unknown, formData: For
   }
 
   revalidatePath('/offers')
-  if (customerId) revalidatePath(`/customers/${customerId}`)
+  if (customerId) revalidatePath(`/partners/${customerId}`)
   if (leadId) revalidatePath(`/leads/${leadId}`)
   redirect('/offers')
 }
@@ -171,211 +176,74 @@ export async function updateOffer(id: string, _prevState: unknown, formData: For
 export async function sendOfferEmail(id: string) {
   const supabase = await createClient()
 
-  // 1. Fetch offer, customer (or lead), and items
   const { data: offer, error: fetchError } = await supabase
     .from('offers')
-    .select('*, customers(*), leads(*)')
+    .select('*, customers(name, email, billing_email, contact_name), leads(name, email), offer_items(description, price, position)')
     .eq('id', id)
     .single()
+  if (fetchError || !offer) return { error: 'Az ajánlat nem található.' }
+  if (offer.is_realized || offer.status === 'accepted') return { error: 'Elfogadott ajánlatot már nem lehet újra kiküldeni.' }
 
-  if (fetchError || !offer) {
-    return { error: 'Ajánlat nem található.' }
-  }
+  const customer = Array.isArray(offer.customers) ? offer.customers[0] : offer.customers
+  const lead = Array.isArray(offer.leads) ? offer.leads[0] : offer.leads
+  const to = (customer?.email || customer?.billing_email || lead?.email || '').trim()
+  const name = customer?.contact_name || customer?.name || lead?.name || 'Ügyfelünk'
+  if (!to) return { error: 'A címzettnek nincs email címe. Add meg a partner vagy az érdeklődő adatlapján.' }
 
-  const { data: items } = await supabase
-    .from('offer_items')
-    .select('*')
-    .eq('offer_id', id)
-    .order('created_at', { ascending: true })
+  const items = [...(offer.offer_items ?? [])].sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+  if (!items.length) return { error: 'Az ajánlatnak nincs tétele.' }
+  if (offerIsExpired(offer.expires_at)) return { error: 'Az ajánlat érvényessége lejárt. Előbb hosszabbítsd meg.' }
 
-  // 2. Generate secure token if missing
-  let token = offer.public_token
+  let token = offer.public_token as string | null
   if (!token) {
     token = crypto.randomUUID().replace(/-/g, '') + crypto.randomUUID().replace(/-/g, '').slice(0, 16)
-    const { error: tokenError } = await supabase
-      .from('offers')
-      .update({ public_token: token })
-      .eq('id', id)
-
-    if (tokenError) {
-      return { error: 'Hiba a token generálásakor.' }
-    }
+    const { error: tokenError } = await supabase.from('offers').update({ public_token: token }).eq('id', id)
+    if (tokenError) return { error: 'Nem sikerült létrehozni az ajánlat linkjét.' }
   }
 
-  // 3. Invoke Edge Function
-  const targetEntity = offer.customer_id ? offer.customers : offer.leads;
-
-  const payload = {
-    offer: { ...offer, public_token: token },
-    customer: targetEntity,
-    items: items || []
-  }
-
-  const { data: edgeData, error: edgeError } = await supabase.functions.invoke('send-offer', {
-    body: payload,
+  const base = appUrl()
+  const sent = await sendEmail({
+    to,
+    subject: 'Árajánlat az Ön számára | Weboldalas',
+    html: offerCustomerHtml({
+      name,
+      totalAmount: Number(offer.total_amount),
+      paymentType: offer.payment_type,
+      installmentMonths: offer.installment_months,
+      subscriptionPlanName: offer.subscription_plan_name,
+      subscriptionNote: offer.subscription_note,
+      expiresAt: offer.expires_at,
+      items,
+      publicUrl: `${base}/offers/view/${token}`,
+    }, base),
   })
+  if ('error' in sent) return { error: `Az email küldése nem sikerült: ${sent.error}` }
 
-  if (edgeError) {
-    console.error('Edge Function error:', edgeError)
-    return { error: 'Hiba az email küldésekor.' }
-  }
-
-  if (edgeData?.error) {
-    console.error('Resend error:', edgeData.error)
-    return { error: 'Hiba a Resend API hívásakor.' }
-  }
-
-  // 4. Update offer status to 'sent'
-  const { error: updateError } = await supabase
-    .from('offers')
-    .update({
-      status: 'sent',
-      sent_at: new Date().toISOString()
-    })
-    .eq('id', id)
-
-  if (updateError) {
-    return { error: 'Sikeres küldés, de a státusz frissítése nem sikerült.' }
-  }
-
-  // 5. Ha van lead, átrakjuk "Ajánlat küldve" fázisba a Kanbanban
-  if (offer.lead_id) {
-    await supabase
-      .from('leads')
-      .update({ status: 'ajanlat_kint' })
-      .eq('id', offer.lead_id)
-  }
+  const { error: updateError } = await supabase.from('offers').update({ status: 'sent', sent_at: new Date().toISOString() }).eq('id', id)
+  if (updateError) return { error: 'Az email elment, de az állapot mentése nem sikerült.' }
+  if (offer.lead_id) await supabase.from('leads').update({ status: 'ajanlat_kint' }).eq('id', offer.lead_id)
 
   revalidatePath('/offers')
-  if (offer.customer_id) revalidatePath(`/customers/${offer.customer_id}`)
-  if (offer.lead_id) revalidatePath(`/leads/${offer.lead_id}`)
   revalidatePath(`/offers/${id}`)
-  
-  return { success: true }
+  if (offer.customer_id) revalidatePath(`/partners/${offer.customer_id}`)
+  if (offer.lead_id) revalidatePath('/leads')
+  return { success: true, to }
 }
 
 export async function realizeOffer(id: string) {
   const supabase = await createClient()
-
-  const { data: offer, error: fetchError } = await supabase
-    .from('offers')
-    .select('*, leads(*)')
-    .eq('id', id)
-    .single()
-
-  if (fetchError || !offer) {
-    return { error: 'Ajánlat nem található.' }
-  }
-
-  if (offer.status !== 'accepted') {
-    return { error: 'Csak elfogadott ajánlatot lehet realizálni.' }
-  }
-
-  if (offer.is_realized) {
-    return { error: 'Ez az ajánlat már realizálva lett.' }
-  }
-
-  let finalCustomerId = offer.customer_id
-
-  // 1. Ha Lead, hozzunk létre Customer-t
-  if (offer.lead_id && !offer.customer_id) {
-    const { data: newCustomer, error: customerError } = await supabase
-      .from('customers')
-      .insert([{
-        name: offer.leads.name,
-        email: offer.leads.email,
-        phone: offer.leads.phone
-      }])
-      .select()
-      .single()
-
-    if (customerError || !newCustomer) {
-      return { error: 'Hiba az ügyfél létrehozásakor a leadből.' }
-    }
-
-    finalCustomerId = newCustomer.id
-
-    // Frissítjük a Lead-et 'won' státuszra
-    await supabase.from('leads').update({ status: 'won' }).eq('id', offer.lead_id)
-  }
-
-  if (!finalCustomerId) {
-    return { error: 'Nincs megadva ügyfél.' }
-  }
-
-  const now = new Date()
-
-  // 2. Pénzügyi tételek generálása
-  if (offer.payment_type === 'one_time') {
-    await supabase.from('payments').insert([{
-      customer_id: finalCustomerId,
-      amount: offer.total_amount,
-      status: 'pending',
-      payment_type: 'egyéb',
-      due_date: now.toISOString()
-    }])
-  } else if (offer.payment_type === 'installments') {
-    const months = offer.installment_months || 12
-    const monthlyAmount = Math.round(Number(offer.total_amount) / months)
-
-    // Létrehozunk egy installment_plan rekordot (opcionális, de kérted a tervben)
-    await supabase.from('installment_plans').insert([{
-      customer_id: finalCustomerId,
-      total_amount: offer.total_amount,
-      number_of_installments: months
-    }])
-
-    const paymentsToInsert = []
-    for (let i = 0; i < months; i++) {
-      const dueDate = new Date(now)
-      dueDate.setMonth(now.getMonth() + i)
-      paymentsToInsert.push({
-        customer_id: finalCustomerId,
-        amount: monthlyAmount,
-        status: 'pending',
-        payment_type: 'egyéb',
-        due_date: dueDate.toISOString(),
-        note: `${i + 1}. részlet az ajánlat alapján`
-      })
-    }
-
-    await supabase.from('payments').insert(paymentsToInsert)
-  } else if (offer.payment_type === 'subscription') {
-    await supabase.from('subscriptions').insert([{
-      customer_id: finalCustomerId,
-      plan_name: offer.subscription_plan_name || 'Előfizetés',
-      monthly_fee: offer.total_amount,
-      status: 'active',
-      start_date: now.toISOString(),
-      next_billing_date: now.toISOString()
-    }])
-  }
-
-  // 3. Offer frissítése (realizálva)
   const { data: userData } = await supabase.auth.getUser()
-  
-  const { error: updateError } = await supabase
-    .from('offers')
-    .update({
-      is_realized: true,
-      realized_at: now.toISOString(),
-      realized_by: userData?.user?.id || null,
-      customer_id: finalCustomerId
-    })
-    .eq('id', id)
-
-  if (updateError) {
-    return { error: 'Sikeres generálás, de az ajánlat státuszának mentése sikertelen.' }
-  }
+  const result = await realizeOfferRecords(supabase, id, userData.user?.id ?? null)
+  if ('error' in result) return { error: result.error }
 
   revalidatePath('/offers')
   revalidatePath(`/offers/${id}`)
-  revalidatePath('/payments')
+  revalidatePath('/invoices')
   revalidatePath('/subscriptions')
-  revalidatePath(`/customers/${finalCustomerId}`)
-  if (offer.lead_id) revalidatePath(`/leads/${offer.lead_id}`)
-
-  return { success: true }
+  revalidatePath('/dashboard')
+  revalidatePath(`/partners/${result.customerId}`)
+  revalidatePath('/leads')
+  return { success: true, customerId: result.customerId }
 }
 
 export async function renewOffer(id: string, newExpiresAt: string) {
@@ -413,7 +281,7 @@ export async function deleteOffer(id: string) {
   }
 
   revalidatePath('/offers')
-  if (offer?.customer_id) revalidatePath(`/customers/${offer.customer_id}`)
+  if (offer?.customer_id) revalidatePath(`/partners/${offer.customer_id}`)
   if (offer?.lead_id) revalidatePath(`/leads/${offer.lead_id}`)
   
   redirect('/offers')

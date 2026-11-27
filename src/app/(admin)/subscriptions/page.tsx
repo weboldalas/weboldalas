@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { SubscriptionsList } from '@/app/(admin)/payments/SubscriptionsList'
 
 export const metadata = {
-  title: 'Előfizetések | Weboldalas Admin',
+  title: 'Havidíjak',
 }
 
 export default async function SubscriptionsPage() {

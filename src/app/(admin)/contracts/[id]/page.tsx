@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params
   const supabase = await createClient()
   const { data } = await supabase.from('documents').select('title').eq('id', id).single()
-  return { title: `${data?.title ?? 'Szerződés'} | Weboldalas Admin` }
+  return { title: `${data?.title ?? 'Szerződés'}` }
 }
 
 export default async function ContractDetailPage({ params }: { params: Promise<{ id: string }> }) {

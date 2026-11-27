@@ -2,7 +2,8 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/* The admin can switch to a light theme via html[data-theme="light"]; dark: utilities stay off there. */
+@custom-variant dark (&:is(.dark *):not(:where([data-theme="light"], [data-theme="light"] *)));
 
 @theme inline {
   --color-background: var(--background);
@@ -185,8 +186,7 @@
 /* ============================================
    GLASSMORPHISM CARDS (dark mode)
    ============================================ */
-.dark .card,
-.dark [data-slot="card"] {
+.dark :is(.card, [data-slot="card"]):not(:where(.crm-shell *)) {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid oklch(1 0 0 / 0.13);
@@ -196,22 +196,19 @@
     inset 0 1px 0 oklch(1 0 0 / 0.09);
 }
 
-/* Input fields in dark mode */
-.dark input,
-.dark textarea,
-.dark select {
+/* Input fields in dark mode (the CRM shell styles its own fields with theme tokens) */
+.dark :is(input, textarea, select):not(:where(.crm-shell *)) {
   background: oklch(1 0 0 / 0.07) !important;
   border-color: oklch(1 0 0 / 0.15) !important;
 }
 
-.dark input:focus,
-.dark textarea:focus {
+.dark :is(input, textarea):focus:not(:where(.crm-shell *)) {
   border-color: oklch(0.68 0.22 290 / 0.7) !important;
   box-shadow: 0 0 0 3px oklch(0.68 0.22 290 / 0.15) !important;
 }
 
 /* Table rows */
-.dark [role="row"]:hover td {
+.dark [role="row"]:hover td:not(:where(.crm-shell *)) {
   background: oklch(1 0 0 / 0.03);
 }
 
@@ -223,18 +220,18 @@ a, button, [role="button"] {
 }
 
 /* Table rows */
-.dark tr {
+.dark tr:not(:where(.crm-shell *)) {
   border-color: oklch(1 0 0 / 0.08) !important;
 }
-.dark th {
+.dark th:not(:where(.crm-shell *)) {
   color: oklch(0.58 0.015 264) !important;
   background: oklch(1 0 0 / 0.05) !important;
   letter-spacing: 0.05em;
 }
-.dark td {
+.dark td:not(:where(.crm-shell *)) {
   color: oklch(0.88 0.005 264) !important;
 }
-.dark tbody tr:hover td {
+.dark tbody tr:hover td:not(:where(.crm-shell *)) {
   background: oklch(1 0 0 / 0.05) !important;
 }
 
