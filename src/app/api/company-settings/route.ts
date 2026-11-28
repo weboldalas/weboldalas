@@ -1,25 +1,16 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import { getStaffUser } from '@/lib/crm/auth'
 
 export async function PUT(request: Request) {
-  const cookieStore = await cookies()
-  const supabaseAuth = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll: () => cookieStore.getAll(),
-        setAll: () => {},
-      },
-    }
-  )
-  const { data: { user } } = await supabaseAuth.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const user = await getStaffUser()
+  if (!user) return NextResponse.json({ error: 'Nincs jogosultságod ehhez.' }, { status: 403 })
 
   const body = await request.json()
-  const { id, ...data } = body
+  const { id, ...raw } = body ?? {}
+  if (typeof id !== 'string') return NextResponse.json({ error: 'Hiányzó azonosító.' }, { status: 400 })
+  // Never let the client overwrite keys or timestamps.
+  const data = Object.fromEntries(Object.entries(raw).filter(([key]) => !['id', 'created_at', 'updated_at'].includes(key)))
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

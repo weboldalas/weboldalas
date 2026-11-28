@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
       // prices are not published; old pricing links lead to the contact page
       { source: '/arak', destination: '/kapcsolat', permanent: false },
       { source: '/en/pricing', destination: '/en/contact', permanent: false },
+      // CRM: customers became partners
+      { source: '/customers', destination: '/partners', permanent: false },
+      { source: '/customers/new', destination: '/partners/new', permanent: false },
+      { source: '/customers/:id', destination: '/partners/:id', permanent: false },
     ]
   },
 };

@@ -5,12 +5,12 @@ import { Plus, Phone, Mail, Calendar, Users, PhoneCall } from 'lucide-react'
 
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
-import { convertLeadToCustomer } from '../customers/actions'
+import { convertLeadToPartner } from '../partners/actions'
 import { DeleteLeadIconButton } from './DeleteLeadIconButton'
 import { PIPELINE_STAGES } from './pipeline'
 
 export const metadata = {
-  title: 'Érdeklődők | Weboldalas Admin',
+  title: 'Érdeklődők',
 }
 
 export default async function LeadsPage() {
@@ -183,10 +183,10 @@ export default async function LeadsPage() {
                     </span>
                     <div className="flex items-center gap-1">
                       {!['elfogadott', 'elutasitott'].includes(lead.status) && (
-                        <form action={convertLeadToCustomer.bind(null, lead.id)}>
+                        <form action={convertLeadToPartner.bind(null, lead.id)}>
                           <Button variant="outline" size="sm" type="submit"
                             className="h-7 text-xs px-2 bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20">
-                            Ügyféllé
+                            Partnerré
                           </Button>
                         </form>
                       )}

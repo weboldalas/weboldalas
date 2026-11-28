@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/table'
 
 export const metadata = {
-  title: 'Feladatok | Weboldalas Admin',
+  title: 'Feladatok',
 }
 
 const statusMap: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
@@ -118,7 +118,7 @@ export default async function TasksPage() {
                   </TableCell>
                   <TableCell>
                     {task.customers?.name ? (
-                      <Link href={`/customers/${task.customer_id}`} className="text-sm hover:underline">
+                      <Link href={`/partners/${task.customer_id}`} className="text-sm hover:underline">
                         👤 {task.customers.name}
                       </Link>
                     ) : task.leads?.name ? (

@@ -2,6 +2,10 @@ const CONTACT_PHONE = '+36 30 540 4177'
 const CONTACT_EMAIL = 'info@weboldalas.hu'
 const YEAR = new Date().getFullYear()
 
+export function esc(value: unknown) {
+  return String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!))
+}
+
 function shell(appUrl: string, body: string) {
   return `<!DOCTYPE html>
 <html lang="hu">
@@ -17,7 +21,7 @@ function shell(appUrl: string, body: string) {
   <!-- Logo -->
   <tr>
     <td style="padding-bottom:28px;text-align:center;">
-      <img src="${appUrl}/weboldalas-logo.svg" alt="Weboldalas" width="150" height="20" style="display:inline-block;opacity:0.85;" />
+      <img src="${appUrl}/email/weboldalas-logo-white.png" alt="Weboldalas" width="150" style="display:inline-block;height:auto;opacity:0.9;" />
     </td>
   </tr>
 
@@ -127,7 +131,7 @@ export function respondCustomerHtml(
       <!-- Top bar -->
       <div style="${topBar};padding:26px 32px 24px;">
         <p style="margin:0 0 6px;font-size:11px;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:3px;font-weight:600;">${icon} Árajánlat ${badge}</p>
-        <h1 style="margin:0;font-size:24px;font-weight:800;color:#ffffff;line-height:1.3;">Kedves ${name}!</h1>
+        <h1 style="margin:0;font-size:24px;font-weight:800;color:#ffffff;line-height:1.3;">Kedves ${esc(name)}!</h1>
       </div>
 
       <!-- Body -->
@@ -165,7 +169,7 @@ export function adminRespondHtml(
         <!-- Status badge -->
         <div style="display:inline-flex;align-items:center;gap:8px;background:${isAccept ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)'};border:1px solid ${isAccept ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'};border-radius:10px;padding:10px 18px;margin-bottom:24px;">
           <span style="font-size:16px;">${icon}</span>
-          <span style="font-size:14px;font-weight:700;color:${color};">${contactName} ${actionText} az ajánlatot</span>
+          <span style="font-size:14px;font-weight:700;color:${color};">${esc(contactName)} ${actionText} az ajánlatot</span>
         </div>
 
         <!-- Info grid -->
@@ -173,11 +177,11 @@ export function adminRespondHtml(
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
               <td style="padding:6px 0;font-size:13px;color:#606080;width:90px;">Ügyfél</td>
-              <td style="padding:6px 0;font-size:13px;color:#d0d0e8;font-weight:600;">${contactName}</td>
+              <td style="padding:6px 0;font-size:13px;color:#d0d0e8;font-weight:600;">${esc(contactName)}</td>
             </tr>
             ${contactEmail ? `<tr>
               <td style="padding:6px 0;font-size:13px;color:#606080;">Email</td>
-              <td style="padding:6px 0;font-size:13px;"><a href="mailto:${contactEmail}" style="color:#7c6aed;text-decoration:none;">${contactEmail}</a></td>
+              <td style="padding:6px 0;font-size:13px;"><a href="mailto:${esc(contactEmail)}" style="color:#7c6aed;text-decoration:none;">${esc(contactEmail)}</a></td>
             </tr>` : ''}
             <tr>
               <td style="padding:6px 0;font-size:13px;color:#606080;">Összeg</td>
@@ -242,7 +246,7 @@ export function expiryCustomerHtml(
 
       <!-- Body -->
       <div style="padding:28px 32px 24px;">
-        <p style="margin:0 0 6px;font-size:14px;color:#7070a0;">Kedves <strong style="color:#c0c0e0;">${name}</strong>!</p>
+        <p style="margin:0 0 6px;font-size:14px;color:#7070a0;">Kedves <strong style="color:#c0c0e0;">${esc(name)}</strong>!</p>
         <p style="margin:0 0 24px;font-size:15px;color:#9090b0;line-height:1.75;">${cfg.body}</p>
 
         ${cfg.btnText
@@ -283,7 +287,7 @@ export function expiryAdminHtml(
       <div style="padding:28px 32px 24px;">
         <!-- Status badge -->
         <div style="display:inline-block;background:${cfg.bg};border:1px solid ${cfg.border};border-radius:10px;padding:10px 18px;margin-bottom:24px;">
-          <span style="font-size:13px;font-weight:700;color:${cfg.color};">${cfg.icon} ${name} ajánlata ${cfg.label}</span>
+          <span style="font-size:13px;font-weight:700;color:${cfg.color};">${cfg.icon} ${esc(name)} ajánlata ${cfg.label}</span>
         </div>
 
         <!-- Info -->
@@ -291,7 +295,7 @@ export function expiryAdminHtml(
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
               <td style="padding:6px 0;font-size:13px;color:#606080;width:90px;">Ügyfél</td>
-              <td style="padding:6px 0;font-size:13px;color:#d0d0e8;font-weight:600;">${name}</td>
+              <td style="padding:6px 0;font-size:13px;color:#d0d0e8;font-weight:600;">${esc(name)}</td>
             </tr>
             ${email ? `<tr>
               <td style="padding:6px 0;font-size:13px;color:#606080;">Email</td>
@@ -311,4 +315,72 @@ export function expiryAdminHtml(
         </div>
       </div>
   `)
+}
+
+// ─── Ügyfélnek: az ajánlat maga ───────────────────────────────────────────────
+
+export type OfferEmailInput = {
+  name: string
+  totalAmount: number
+  paymentType: string | null
+  installmentMonths: number | null
+  subscriptionPlanName: string | null
+  subscriptionNote: string | null
+  expiresAt: string | null
+  items: { description: string; price: number | string }[]
+  publicUrl: string
+}
+
+export function offerCustomerHtml(o: OfferEmailInput, appUrl: string) {
+  const huf = (n: number) => `${Math.round(n).toLocaleString('hu-HU')} Ft`
+  let badge = 'Egyösszegű fizetés'
+  let totalLabel = 'Összesen fizetendő'
+  let note = ''
+  if (o.paymentType === 'installments' && o.installmentMonths) {
+    badge = `Részletfizetés: ${o.installmentMonths} hónap`
+    note = `Havi részlet: <strong>${huf(o.totalAmount / o.installmentMonths)}</strong>`
+  } else if (o.paymentType === 'subscription') {
+    badge = `Havidíj: ${esc(o.subscriptionPlanName || 'Havidíjas csomag')}`
+    totalLabel = 'Havi díj'
+    note = esc(o.subscriptionNote || '')
+  }
+  const expiry = o.expiresAt ? new Date(o.expiresAt).toLocaleDateString('hu-HU', { timeZone: 'Europe/Budapest', year: 'numeric', month: 'long', day: 'numeric' }) : null
+  const rows = o.items.map(i => `<tr>
+        <td style="padding:13px 20px;border-bottom:1px solid #1a1a2e;color:#b0b0cc;font-size:14px;line-height:1.5;">${esc(i.description)}</td>
+        <td style="padding:13px 20px;border-bottom:1px solid #1a1a2e;color:#e0e0f0;font-size:14px;text-align:right;white-space:nowrap;font-weight:700;">${huf(Number(i.price))}</td>
+      </tr>`).join('')
+
+  return shell(appUrl, `
+      <div style="background:linear-gradient(135deg,#7c3aed,#4f46e5);padding:28px 32px;">
+        <p style="margin:0 0 6px;font-size:11px;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:3px;font-weight:600;">Személyre szabott árajánlat</p>
+        <h1 style="margin:0;font-size:26px;font-weight:800;color:#ffffff;">Kedves ${esc(o.name)}!</h1>
+        <p style="margin:10px 0 0;font-size:14px;color:rgba(255,255,255,0.8);line-height:1.6;">Köszönjük az érdeklődést! Összeállítottuk az Önnek szóló ajánlatunkat.</p>
+      </div>
+      <div style="padding:28px 32px;">
+        <div style="display:inline-block;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.35);border-radius:8px;padding:8px 16px;margin-bottom:24px;">
+          <span style="font-size:13px;color:#a78bfa;font-weight:700;">${badge}</span>
+        </div>
+        <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #1e1e3a;border-radius:12px;overflow:hidden;margin-bottom:${note ? '16px' : '24px'};">
+          <thead><tr style="background:#0f0f1e;">
+            <th style="padding:11px 20px;text-align:left;font-size:11px;color:#6060a0;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;">Szolgáltatás</th>
+            <th style="padding:11px 20px;text-align:right;font-size:11px;color:#6060a0;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;">Ár</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+          <tfoot><tr style="background:rgba(124,58,237,0.12);">
+            <td style="padding:16px 20px;font-size:14px;font-weight:700;color:#c4b5fd;">${totalLabel}</td>
+            <td style="padding:16px 20px;font-size:22px;font-weight:800;color:#a855f7;text-align:right;white-space:nowrap;">${huf(o.totalAmount)}</td>
+          </tr></tfoot>
+        </table>
+        ${note ? `<p style="margin:0 0 24px;font-size:13px;color:#8080a8;line-height:1.6;padding:12px 16px;background:rgba(255,255,255,0.03);border-radius:8px;border-left:3px solid rgba(124,58,237,0.5);">${note}</p>` : ''}
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
+          ${checkRow('Modern, mobilbarát megoldás')}
+          ${checkRow('Rövid átfutási idő, átlátható folyamat')}
+          ${checkRow('Folyamatos támogatás és karbantartás')}
+        </table>
+        <div style="text-align:center;margin-bottom:16px;">
+          <a href="${o.publicUrl}" style="display:inline-block;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#ffffff;text-decoration:none;font-size:15px;font-weight:700;padding:15px 42px;border-radius:12px;">Ajánlat megtekintése és döntés →</a>
+        </div>
+        ${expiry ? `<p style="text-align:center;font-size:12px;color:#6a6a90;margin:0 0 6px;">Az ajánlat <strong style="color:#9a9ac0;">${expiry}</strong>-ig érvényes.</p>` : ''}
+        <p style="text-align:center;font-size:11px;color:#40405e;word-break:break-all;margin:0;">${o.publicUrl}</p>
+      </div>`)
 }

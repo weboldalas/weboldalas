@@ -35,7 +35,7 @@ export async function createTask(_prevState: unknown, formData: FormData) {
   }
 
   revalidatePath('/tasks')
-  if (data.customer_id) revalidatePath(`/customers/${data.customer_id}`)
+  if (data.customer_id) revalidatePath(`/partners/${data.customer_id}`)
   if (data.lead_id) revalidatePath(`/leads/${data.lead_id}`)
   
   redirect('/tasks')
@@ -69,7 +69,7 @@ export async function updateTask(id: string, _prevState: unknown, formData: Form
   }
 
   revalidatePath('/tasks')
-  if (data.customer_id) revalidatePath(`/customers/${data.customer_id}`)
+  if (data.customer_id) revalidatePath(`/partners/${data.customer_id}`)
   if (data.lead_id) revalidatePath(`/leads/${data.lead_id}`)
 
   redirect('/tasks')

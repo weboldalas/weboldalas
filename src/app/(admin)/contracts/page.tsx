@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { DeleteContractButton } from './DeleteContractButton'
 
 export const metadata = {
-  title: 'Szerződések | Weboldalas Admin',
+  title: 'Szerződések',
 }
 
 const STATUS_CONFIG = {

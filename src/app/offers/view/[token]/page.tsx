@@ -3,9 +3,12 @@ import { createClient } from '@supabase/supabase-js'
 import { notFound } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { RespondButtons } from './RespondButtons'
+import { offerIsExpired } from '@/lib/crm/offers'
 
 // We use the service role key to bypass RLS for public token access
 // Do NOT use the client auth here as this is a public page.
+export const metadata = { robots: { index: false, follow: false } }
+
 function getServiceClient() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -27,7 +30,9 @@ export default async function PublicOfferPage({ params }: { params: Promise<{ to
     notFound()
   }
 
-  const { offer_items: items } = offer
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const items = [...(offer.offer_items ?? [])].sort((a: any, b: any) => (a.position ?? 0) - (b.position ?? 0))
+  const expired = offer.status === 'expired' || (offer.status === 'sent' && offerIsExpired(offer.expires_at))
   const targetName = offer.customers?.name || offer.leads?.name || 'Ügyfél'
 
   let paymentText = 'Egyösszegű fizetés'
@@ -69,9 +74,9 @@ export default async function PublicOfferPage({ params }: { params: Promise<{ to
             Ezt az ajánlatot elutasította.
           </div>
         )}
-        {offer.status === 'expired' && (
+        {expired && (
           <div className="mb-8 p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-center font-medium">
-            Ez az ajánlat már lejárt.
+            Ez az ajánlat már lejárt. Ha továbbra is érdekli, írjon nekünk az info@weboldalas.hu címre.
           </div>
         )}
 
@@ -128,7 +133,7 @@ export default async function PublicOfferPage({ params }: { params: Promise<{ to
           </Card>
 
           {/* Action Buttons */}
-          {offer.status === 'sent' && (
+          {offer.status === 'sent' && !expired && (
             <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
               <RespondButtons token={token} />
             </div>

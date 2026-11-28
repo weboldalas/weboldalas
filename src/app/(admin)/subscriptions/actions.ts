@@ -28,7 +28,7 @@ export async function createSubscription(_prevState: unknown, formData: FormData
 
   revalidatePath('/subscriptions')
   revalidatePath('/payments')
-  revalidatePath(`/customers/${data.customer_id}`)
+  revalidatePath(`/partners/${data.customer_id}`)
   redirect('/subscriptions')
 }
 
@@ -56,7 +56,7 @@ export async function updateSubscription(id: string, _prevState: unknown, formDa
 
   revalidatePath('/subscriptions')
   revalidatePath('/payments')
-  revalidatePath(`/customers/${data.customer_id}`)
+  revalidatePath(`/partners/${data.customer_id}`)
   redirect('/subscriptions')
 }
 
@@ -75,6 +75,6 @@ export async function deleteSubscription(id: string) {
 
   revalidatePath('/subscriptions')
   revalidatePath('/payments')
-  if (sub?.customer_id) revalidatePath(`/customers/${sub.customer_id}`)
+  if (sub?.customer_id) revalidatePath(`/partners/${sub.customer_id}`)
   return { success: true }
 }

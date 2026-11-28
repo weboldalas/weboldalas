@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 import { ContractActions } from './ContractActions'
 
+export const metadata = { robots: { index: false, follow: false } }
+
 function ContractContent({ content }: { content: string }) {
   const lines = content.split('\n')
   return (

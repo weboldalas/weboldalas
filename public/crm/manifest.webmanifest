@@ -1,0 +1,23 @@
+{
+  "name": "Weboldalas CRM",
+  "short_name": "Weboldalas",
+  "description": "Partnerek, pénzügyek és projektek egy helyen.",
+  "id": "/dashboard",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6f6f8",
+  "theme_color": "#8052ff",
+  "lang": "hu",
+  "icons": [
+    { "src": "/crm/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/crm/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/crm/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Új partner", "url": "/partners/new" },
+    { "name": "Új számla", "url": "/invoices/new" },
+    { "name": "Partnerek", "url": "/partners" }
+  ]
+}

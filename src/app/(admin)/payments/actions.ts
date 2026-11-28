@@ -26,7 +26,7 @@ export async function createPayment(_prevState: unknown, formData: FormData) {
   }
 
   revalidatePath('/payments')
-  revalidatePath(`/customers/${data.customer_id}`)
+  revalidatePath(`/partners/${data.customer_id}`)
   redirect('/payments')
 }
 
@@ -52,6 +52,6 @@ export async function updatePayment(id: string, _prevState: unknown, formData: F
   }
 
   revalidatePath('/payments')
-  revalidatePath(`/customers/${data.customer_id}`)
+  revalidatePath(`/partners/${data.customer_id}`)
   redirect('/payments')
 }

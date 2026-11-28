@@ -2,11 +2,13 @@ import { createClient } from '@/utils/supabase/server'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { logout } from '@/app/login/actions'
 import { Button } from '@/components/ui/button'
-import { User, Shield, LogOut } from 'lucide-react'
+import Link from 'next/link'
+import { User, Shield, LogOut, Upload, ChevronRight } from 'lucide-react'
 import { CompanySettingsForm } from './CompanySettingsForm'
+import { OwnerSignatureCard } from './OwnerSignatureCard'
 
 export const metadata = {
-  title: 'Beállítások | Weboldalas Admin',
+  title: 'Beállítások',
 }
 
 export default async function SettingsPage() {
@@ -29,6 +31,12 @@ export default async function SettingsPage() {
       <div className="grid gap-4 w-full max-w-2xl">
         {/* Company settings */}
         {companySettings && <CompanySettingsForm settings={companySettings} />}
+        <Link href="/settings/import" className="crm-card crm-card-pad flex items-center gap-3" style={{ textDecoration: 'none' }}>
+          <span className="crm-avatar" style={{ background: 'var(--brand-soft)', color: 'var(--brand)' }}><Upload size={18} /></span>
+          <span className="flex-1"><strong className="block text-[14px]">Perfex import</strong><span className="text-[13px]" style={{ color: 'var(--text-3)' }}>Partnerek, projektek és feladatok átvétele a Perfexből</span></span>
+          <ChevronRight size={18} style={{ color: 'var(--text-3)' }} />
+        </Link>
+        {companySettings && <OwnerSignatureCard settingsId={companySettings.id} initial={companySettings.owner_signature ?? null} />}
 
         {/* Account info */}
         <Card>

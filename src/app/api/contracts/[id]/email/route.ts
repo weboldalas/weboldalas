@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import { getStaffUser } from '@/lib/crm/auth'
 import { Resend } from 'resend'
+import { esc } from '@/lib/offer-emails'
 
 
 export async function POST(
@@ -10,19 +10,8 @@ export async function POST(
 ) {
   const { id } = await params
 
-  const cookieStore = await cookies()
-  const supabaseAuth = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll: () => cookieStore.getAll(),
-        setAll: () => {},
-      },
-    }
-  )
-  const { data: { user } } = await supabaseAuth.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const user = await getStaffUser()
+  if (!user) return NextResponse.json({ error: 'Nincs jogosultságod ehhez.' }, { status: 403 })
 
   const body = await request.json()
   const recipientEmail: string = body.recipientEmail
@@ -31,6 +20,14 @@ export async function POST(
 
   if (!recipientEmail || !pdfUrl) {
     return NextResponse.json({ error: 'Hiányzó e-mail cím vagy PDF URL.' }, { status: 400 })
+  }
+  if (!/^[^\s@,;]+@[^\s@,;]+\.[^\s@,;]+$/.test(recipientEmail.trim())) {
+    return NextResponse.json({ error: 'Érvénytelen e-mail cím.' }, { status: 400 })
+  }
+  // Only our own contract PDFs may be fetched and attached (no arbitrary URLs).
+  const allowedPrefix = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/sign/contracts/${id}/`
+  if (!pdfUrl.startsWith(allowedPrefix)) {
+    return NextResponse.json({ error: 'Érvénytelen PDF hivatkozás. Generáld újra a PDF-et.' }, { status: 400 })
   }
 
   // Fetch PDF as buffer for attachment
@@ -58,13 +55,13 @@ export async function POST(
   try {
     const { error: sendError } = await resend.emails.send({
       from: 'Weboldalas.hu <info@weboldalas.hu>',
-      to: recipientEmail,
-      subject: `Szerződés: ${title}`,
+      to: recipientEmail.trim(),
+      subject: `Szerződés: ${title.replace(/[\r\n]+/g, ' ')}`,
       html: `
         <div style="font-family: Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; color: #1a1a1a;">
           <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">Tisztelt Partnerünk!</h2>
           <p style="font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 24px;">
-            Csatoltan küldjük a(z) <strong>${title}</strong> dokumentumot.
+            Csatoltan küldjük a(z) <strong>${esc(title)}</strong> dokumentumot.
           </p>
           <p style="font-size: 15px; line-height: 1.7; color: #444; margin-bottom: 32px;">
             Kérjük, olvassa el, és amennyiben bármilyen kérdése van, forduljon hozzánk bizalommal!

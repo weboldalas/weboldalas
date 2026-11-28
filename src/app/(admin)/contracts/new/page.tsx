@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { ContractWizard } from './ContractWizard'
 
 export const metadata = {
-  title: 'Új Szerződés | Weboldalas Admin',
+  title: 'Új Szerződés',
 }
 
 export default async function NewContractPage({

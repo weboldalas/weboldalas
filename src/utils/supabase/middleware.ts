@@ -1,7 +1,33 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+// The CRM can run on its own subdomain (e.g. crm.weboldalas.hu). Set CRM_HOST in Vercel to enable it.
+const CRM_HOST = process.env.CRM_HOST?.trim().toLowerCase() || null
+const CRM_PATHS = ['/dashboard', '/leads', '/customers', '/partners', '/invoices', '/projects', '/payments', '/subscriptions', '/tasks', '/settings', '/offers', '/contracts', '/portal', '/login']
+
+function crmHostRedirect(request: NextRequest) {
+  if (!CRM_HOST) return null
+  const host = (request.headers.get('host') ?? '').toLowerCase().split(':')[0]
+  const { pathname, search } = request.nextUrl
+  if (host === CRM_HOST) {
+    // The bare CRM domain opens the app, not the marketing homepage.
+    if (pathname === '/') return NextResponse.redirect(new URL('/dashboard', request.url))
+    return null
+  }
+  // On the marketing domain, send CRM pages to the CRM domain. Share links (/offers/view, /contracts/view)
+  // keep working on both, so links already sent to partners never break. Preview deployments are left alone.
+  const isMarketingHost = host === 'weboldalas.hu' || host === 'www.weboldalas.hu'
+  const isShareLink = pathname.startsWith('/offers/view/') || pathname.startsWith('/contracts/view/')
+  if (isMarketingHost && !isShareLink && CRM_PATHS.some(p => pathname === p || pathname.startsWith(p + '/'))) {
+    return NextResponse.redirect(`https://${CRM_HOST}${pathname}${search}`, 308)
+  }
+  return null
+}
+
 export async function updateSession(request: NextRequest) {
+  const hostRedirect = crmHostRedirect(request)
+  if (hostRedirect) return hostRedirect
+
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -37,6 +63,10 @@ export async function updateSession(request: NextRequest) {
     pathname.startsWith('/dashboard') ||
     pathname.startsWith('/leads') ||
     pathname.startsWith('/customers') ||
+    pathname.startsWith('/partners') ||
+    pathname.startsWith('/invoices') ||
+    pathname.startsWith('/projects') ||
+    pathname.startsWith('/portal') ||
     pathname.startsWith('/payments') ||
     pathname.startsWith('/subscriptions') ||
     pathname.startsWith('/tasks') ||

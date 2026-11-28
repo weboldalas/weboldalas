@@ -1,3 +1,12 @@
 export default function AdminLoading() {
-  return <div className="admin-loading" role="status" aria-label="Adminoldal betöltése"><span className="sr-only">Az oldal betöltése folyamatban…</span><div className="admin-loading-line" aria-hidden="true" /><div className="dashboard-stats" aria-hidden="true">{Array.from({length:4}, (_, index) => <div key={index} className="admin-loading-panel" />)}</div><div className="admin-loading-panel" style={{height:300}} aria-hidden="true" /></div>
+  return (
+    <div className="crm-page" role="status" aria-label="Betöltés">
+      <span className="sr-only">Az oldal betöltése folyamatban…</span>
+      <div aria-hidden="true" className="crm-skeleton" style={{ width: 260, height: 34 }} />
+      <div aria-hidden="true" className="crm-grid crm-grid-kpi">
+        {Array.from({ length: 4 }, (_, i) => <div key={i} className="crm-skeleton" style={{ height: 112, borderRadius: 16 }} />)}
+      </div>
+      <div aria-hidden="true" className="crm-skeleton" style={{ height: 320, borderRadius: 16 }} />
+    </div>
+  )
 }
