@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { CalendarDays, CheckSquare, FolderKanban, Pencil, Plus, Receipt } from 'lucide-react'
+import { CalendarDays, FolderKanban, Pencil, Plus, Receipt } from 'lucide-react'
 import { createClient } from '@/utils/supabase/server'
 import { Avatar, CardHeader, EmptyState, StatusBadge } from '@/components/crm/ui'
 import { formatDate, formatMoney, partnerName, todayKey } from '@/lib/crm/format'
 import { invoiceDisplayStatus, invoiceOpenAmount, invoicePaidAmount } from '@/lib/crm/finance'
 import { INVOICE_STATUS, PROJECT_STATUS } from '@/lib/crm/status'
 import { DeleteProjectButton } from './DeleteProjectButton'
+import { ProjectTasks } from './ProjectTasks'
 
 export const metadata = { title: 'Projekt' }
 
@@ -16,9 +17,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
   const { id } = await params
   const supabase = await createClient()
   const today = todayKey()
-  const [{ data: project }, { data: invoices }] = await Promise.all([
+  const [{ data: project }, { data: invoices }, { data: tasks }] = await Promise.all([
     supabase.from('projects').select('*, customers(id, name, company_name, is_company)').eq('id', id).single(),
     supabase.from('invoices').select('id, number, status, total, currency, due_date, issue_date, payments(amount, status)').eq('project_id', id).order('issue_date', { ascending: false }),
+    supabase.from('tasks').select('id, title, status, priority, due_date, created_at, task_comments(count), task_attachments(count)').eq('project_id', id).order('created_at', { ascending: false }),
   ])
   if (!project) notFound()
 
@@ -62,10 +64,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
               <p className="whitespace-pre-wrap text-[14px] leading-relaxed" style={{ color: 'var(--text-2)' }}>{project.description}</p>
             </section>
           )}
-          <section className="crm-card">
-            <CardHeader title="Feladatok" icon={CheckSquare} />
-            <EmptyState icon={CheckSquare} title="A projektfeladatok a 2. fázisban érkeznek" text="Itt fogjátok a partnerrel közösen kezelni a feladatokat, kommentekkel és értesítésekkel." />
-          </section>
+          <ProjectTasks tasks={(tasks ?? []).map(t => ({
+            id: t.id, title: t.title, status: t.status, priority: t.priority, due_date: t.due_date,
+            comments: (t.task_comments as unknown as { count: number }[] | null)?.[0]?.count ?? 0,
+            files: (t.task_attachments as unknown as { count: number }[] | null)?.[0]?.count ?? 0,
+          }))} today={today} />
         </div>
         <section className="crm-card">
           <CardHeader title="Számlák" icon={Receipt} />

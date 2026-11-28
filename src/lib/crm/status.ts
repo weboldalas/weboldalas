@@ -58,3 +58,20 @@ export const DOCUMENT_STATUS: Record<string, { label: string; tone: Tone }> = {
 export const PAID_PAYMENT_STATUSES = ['completed', 'paid']
 /** Legacy scheduled payments that are still expected. */
 export const OPEN_PAYMENT_STATUSES = ['pending', 'overdue']
+
+export const TASK_STATUS: Record<string, { label: string; tone: Tone }> = {
+  todo: { label: 'Teendő', tone: 'neutral' },
+  in_progress: { label: 'Folyamatban', tone: 'brand' },
+  waiting: { label: 'Visszajelzésre vár', tone: 'warning' },
+  done: { label: 'Kész', tone: 'success' },
+  canceled: { label: 'Törölve', tone: 'neutral' },
+}
+
+export const TASK_PRIORITY: Record<string, { label: string; tone: Tone }> = {
+  low: { label: 'Alacsony', tone: 'neutral' },
+  medium: { label: 'Normál', tone: 'info' },
+  high: { label: 'Magas', tone: 'warning' },
+  urgent: { label: 'Sürgős', tone: 'danger' },
+}
+
+export const TASK_OPEN_STATUSES = ['todo', 'in_progress', 'waiting']

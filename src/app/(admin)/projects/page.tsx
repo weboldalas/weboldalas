@@ -1,9 +1,9 @@
 import Link from 'next/link'
-import { AlertTriangle, FolderKanban, Plus } from 'lucide-react'
+import { AlertTriangle, CheckSquare, FolderKanban, Plus } from 'lucide-react'
 import { createClient } from '@/utils/supabase/server'
 import { Avatar, EmptyState, PageHeader, StatusBadge } from '@/components/crm/ui'
 import { formatDate, formatMoney, partnerName, todayKey } from '@/lib/crm/format'
-import { PROJECT_STATUS } from '@/lib/crm/status'
+import { PROJECT_STATUS, TASK_OPEN_STATUSES } from '@/lib/crm/status'
 
 export const metadata = { title: 'Projektek' }
 
@@ -22,7 +22,7 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
   const today = todayKey()
   const { data, error } = await supabase
     .from('projects')
-    .select('id, name, status, start_date, due_date, budget, currency, customers(id, name, company_name, is_company)')
+    .select('id, name, status, start_date, due_date, budget, currency, customers(id, name, company_name, is_company), tasks(status)')
     .order('due_date', { ascending: true, nullsFirst: false })
 
   const all = data ?? []
@@ -54,6 +54,17 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
                   <StatusBadge label={st.label} tone={st.tone} />
                 </div>
                 <div className="flex items-center gap-2 text-[13px]" style={{ color: 'var(--text-2)' }}><Avatar name={name} size="sm" />{name}</div>
+                {(() => {
+                  const ts = (p.tasks ?? []) as { status: string }[]
+                  if (!ts.length) return null
+                  const openCount = ts.filter(t => TASK_OPEN_STATUSES.includes(t.status)).length
+                  return (
+                    <div className="flex items-center gap-2 text-[12.5px]" style={{ color: 'var(--text-2)' }}>
+                      <CheckSquare size={14} /> {openCount} nyitott · {ts.length - openCount} kész
+                      <div className="crm-progress" style={{ flex: 1, height: 5 }}><i style={{ width: `${((ts.length - openCount) / ts.length) * 100}%`, background: 'var(--success)' }} /></div>
+                    </div>
+                  )
+                })()}
                 <div className="mt-auto flex justify-between text-[12.5px]" style={{ color: 'var(--text-3)' }}>
                   <span style={{ color: late ? 'var(--danger)' : undefined, fontWeight: late ? 600 : undefined }}>{p.due_date ? `Határidő: ${formatDate(p.due_date)}` : 'Nincs határidő'}</span>
                   {p.budget ? <span>{formatMoney(p.budget, p.currency ?? 'HUF')}</span> : null}
