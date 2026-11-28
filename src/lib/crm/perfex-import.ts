@@ -63,13 +63,32 @@ export type PerfexPartnerSummary = { perfexId: number; name: string; active: boo
 
 export type PerfexPlan = {
   partners: PerfexPartnerSummary[]
-  counts: { partners: number; contacts: number; projects: number; tasks: number; comments: number }
+  counts: { partners: number; contacts: number; projects: number; tasks: number; comments: number; files: number }
   customers: Row[]
   contacts: Row[]
   projects: Row[]
   tasks: Row[]
   comments: Row[]
+  /** Attachments: metadata only; the bytes come from the Perfex uploads.zip on the client. */
+  files: PerfexFile[]
 }
+
+export type PerfexFile = {
+  perfex_id: number
+  /** Path inside the Perfex uploads folder, e.g. "tasks/12/kép.png" (NFC). */
+  zip_key: string
+  file_name: string
+  mime_type: string | null
+  visible_to_partner: boolean
+  author_name: string | null
+  created_at: string | null
+  _task: number | null
+  _client: number | null
+  _comment: number | null
+}
+
+/** "tasks/12/x.png" for a Perfex upload, normalised so it matches names read from the zip. */
+export const perfexZipKey = (folder: string, relId: unknown, name: string) => `${folder}/${relId}/${name}`.normalize('NFC')
 
 export function parsePerfexExport(raw: unknown, skip: number[] = []): PerfexPlan {
   const tables = new Map<string, Row[]>()
@@ -170,6 +189,29 @@ export function parsePerfexExport(raw: unknown, skip: number[] = []): PerfexPlan
     ...(ts(c.dateadded) ? { created_at: ts(c.dateadded) } : {}),
   }))
 
+  const importedComments = new Set(commentRows.map(c => c.perfex_id))
+  const fileRows: PerfexFile[] = table('files').flatMap(f => {
+    const relType = str(f.rel_type)
+    const relId = int(f.rel_id)
+    const name = str(f.file_name)
+    if (!name || str(f.external) || (relType !== 'task' && relType !== 'customer')) return []
+    if (relType === 'task' && !importedTasks.has(relId)) return []
+    if (relType === 'customer' && !imported.has(relId!)) return []
+    const commentId = int(f.task_comment_id)
+    return [{
+      perfex_id: int(f.id)!,
+      zip_key: perfexZipKey(relType === 'task' ? 'tasks' : 'clients', relId, name),
+      file_name: name.normalize('NFC'),
+      mime_type: str(f.filetype),
+      visible_to_partner: str(f.visible_to_customer) === '1' || !!int(f.contact_id),
+      author_name: int(f.contact_id) ? contactName.get(int(f.contact_id)) ?? 'Partner' : staffName.get(int(f.staffid)) ?? null,
+      created_at: ts(f.dateadded),
+      _task: relType === 'task' ? relId : null,
+      _client: relType === 'customer' ? relId : null,
+      _comment: commentId && importedComments.has(commentId) ? commentId : null,
+    }]
+  })
+
   const partners: PerfexPartnerSummary[] = clients.map(c => {
     const id = int(c.userid)!
     const projectIds = new Set(projects.filter(p => int(p.clientid) === id).map(p => int(p.id)))
@@ -187,8 +229,8 @@ export function parsePerfexExport(raw: unknown, skip: number[] = []): PerfexPlan
 
   return {
     partners,
-    counts: { partners: customerRows.length, contacts: contactRows.length, projects: projectRows.length, tasks: taskRows.length, comments: commentRows.length },
-    customers: customerRows, contacts: contactRows, projects: projectRows, tasks: taskRows, comments: commentRows,
+    counts: { partners: customerRows.length, contacts: contactRows.length, projects: projectRows.length, tasks: taskRows.length, comments: commentRows.length, files: fileRows.length },
+    customers: customerRows, contacts: contactRows, projects: projectRows, tasks: taskRows, comments: commentRows, files: fileRows,
   }
 }
 
@@ -243,4 +285,61 @@ export async function writePerfexPlan(supabase: SupabaseClient, plan: PerfexPlan
   })), log)
   await sync(supabase, 'task_comments', plan.comments.map(c => ({ ...strip(c), task_id: taskIds.get(c._task as number) })).filter(c => c.task_id), log)
   return plan.counts
+}
+
+// ---------------------------------------------------------------- attachments
+const FILE_BUCKET = 'task-files'
+
+async function idsByPerfex(supabase: SupabaseClient, table: string, perfexIds: number[]) {
+  const map = new Map<number, string>()
+  const unique = [...new Set(perfexIds)]
+  for (let i = 0; i < unique.length; i += 300) {
+    const { data, error } = await supabase.from(table).select('id, perfex_id').in('perfex_id', unique.slice(i, i + 300))
+    if (error) throw new Error(`${table}: ${error.message}`)
+    data.forEach(r => map.set(r.perfex_id, r.id))
+  }
+  return map
+}
+
+const safeName = (name: string) => name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w.-]+/g, '_').slice(-120) || 'file'
+
+/**
+ * Records the attachments (after writePerfexPlan) and returns a signed upload URL for each file,
+ * so the browser can upload the bytes straight to Supabase Storage (no serverless size limit).
+ */
+export async function preparePerfexFiles(supabase: SupabaseClient, plan: PerfexPlan) {
+  const tasks = await idsByPerfex(supabase, 'tasks', plan.files.flatMap(f => (f._task != null ? [f._task] : [])))
+  const comments = await idsByPerfex(supabase, 'task_comments', plan.files.flatMap(f => (f._comment != null ? [f._comment] : [])))
+  const customers = await idsByPerfex(supabase, 'customers', plan.files.flatMap(f => (f._client != null ? [f._client] : [])))
+  const existing = await idsByPerfex(supabase, 'task_attachments', plan.files.map(f => f.perfex_id))
+
+  const uploads: { perfexId: number; zipKey: string; path: string; token: string; mimeType: string | null }[] = []
+  for (const f of plan.files) {
+    const taskId = f._task != null ? tasks.get(f._task) ?? null : null
+    const customerId = f._client != null ? customers.get(f._client) ?? null : null
+    if (!taskId && !customerId) continue
+    const path = `perfex/${f.perfex_id}-${safeName(f.file_name)}`
+    const row = {
+      perfex_id: f.perfex_id, task_id: taskId, customer_id: customerId,
+      comment_id: f._comment != null ? comments.get(f._comment) ?? null : null,
+      storage_path: path, file_name: f.file_name, mime_type: f.mime_type,
+      visible_to_partner: f.visible_to_partner, author_name: f.author_name,
+      ...(f.created_at ? { created_at: f.created_at } : {}),
+    }
+    const id = existing.get(f.perfex_id)
+    const { error } = id
+      ? await supabase.from('task_attachments').update(row).eq('id', id)
+      : await supabase.from('task_attachments').insert(row)
+    if (error) throw new Error(`task_attachments #${f.perfex_id}: ${error.message}`)
+
+    const { data, error: urlError } = await supabase.storage.from(FILE_BUCKET).createSignedUploadUrl(path, { upsert: true })
+    if (urlError || !data) throw new Error(`Feltöltési link (${f.file_name}): ${urlError?.message ?? 'ismeretlen hiba'}`)
+    uploads.push({ perfexId: f.perfex_id, zipKey: f.zip_key, path, token: data.token, mimeType: f.mime_type })
+  }
+  return uploads
+}
+
+/** Called by the browser after each upload to store the size. */
+export async function markPerfexFileUploaded(supabase: SupabaseClient, perfexId: number, size: number) {
+  await supabase.from('task_attachments').update({ size_bytes: size }).eq('perfex_id', perfexId)
 }

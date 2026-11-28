@@ -1,11 +1,14 @@
 import { NextResponse } from 'next/server'
 import { getStaffUser } from '@/lib/crm/auth'
-import { parsePerfexExport, writePerfexPlan } from '@/lib/crm/perfex-import'
+import { parsePerfexExport, preparePerfexFiles, writePerfexPlan } from '@/lib/crm/perfex-import'
 import { serviceClient } from '@/lib/crm/service'
 
 export const maxDuration = 60
 
-/** POST { tables, skip, write } — preview (write=false) or run the Perfex import. Owner/staff only. */
+/**
+ * POST { tables, skip, write, mode } — preview (write=false), run the data import (write=true),
+ * or mode='files': record attachments and hand out signed upload URLs. Owner/staff only.
+ */
 export async function POST(request: Request) {
   const user = await getStaffUser()
   if (!user) return NextResponse.json({ error: 'Nincs jogosultságod ehhez.' }, { status: 403 })
@@ -19,6 +22,13 @@ export async function POST(request: Request) {
     plan = parsePerfexExport(body.tables, skip)
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Az export nem olvasható.' }, { status: 400 })
+  }
+  if (body.mode === 'files') {
+    try {
+      return NextResponse.json({ uploads: await preparePerfexFiles(serviceClient(), plan) })
+    } catch (err) {
+      return NextResponse.json({ error: `A fájlok előkészítése nem sikerült: ${err instanceof Error ? err.message : 'ismeretlen hiba'}` }, { status: 500 })
+    }
   }
   if (!body.write) return NextResponse.json({ partners: plan.partners, counts: plan.counts })
 

@@ -2,13 +2,14 @@
 
 import { useState, useTransition } from 'react'
 import Link from 'next/link'
-import { AlertTriangle, CheckCircle2, FileJson, Loader2, Upload } from 'lucide-react'
+import { AlertTriangle, CheckCircle2, FileJson, Loader2, Paperclip, Upload } from 'lucide-react'
+import { PerfexFilesStep } from './PerfexFilesStep'
 import { toast } from 'sonner'
 
 type Partner = { perfexId: number; name: string; active: boolean; contacts: number; projects: string[]; tasks: number; openTasks: number }
-type Counts = { partners: number; contacts: number; projects: number; tasks: number; comments: number }
+type Counts = { partners: number; contacts: number; projects: number; tasks: number; comments: number; files: number }
 
-const NEEDED = ['clients', 'contacts', 'projects', 'tasks', 'task_comments', 'staff']
+const NEEDED = ['clients', 'contacts', 'projects', 'tasks', 'task_comments', 'staff', 'files']
 
 export function PerfexImport() {
   const [tables, setTables] = useState<unknown[] | null>(null)
@@ -18,6 +19,7 @@ export function PerfexImport() {
   const [counts, setCounts] = useState<Counts | null>(null)
   const [result, setResult] = useState<{ counts: Counts; log: string[] } | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [alreadyImported, setAlreadyImported] = useState(false)
   const [pending, startTransition] = useTransition()
 
   async function call(payload: { tables: unknown[]; skip: number[]; write: boolean }) {
@@ -102,7 +104,7 @@ export function PerfexImport() {
           </div>
           {counts && (
             <div className="crm-card-pad flex flex-wrap items-center justify-between gap-3" style={{ borderTop: '1px solid var(--line)' }}>
-              <span className="text-[13px]" style={{ color: 'var(--text-2)' }}>{counts.partners} partner · {counts.contacts} kapcsolattartó · {counts.projects} projekt · {counts.tasks} feladat · {counts.comments} komment</span>
+              <span className="text-[13px]" style={{ color: 'var(--text-2)' }}>{counts.partners} partner · {counts.contacts} kapcsolattartó · {counts.projects} projekt · {counts.tasks} feladat · {counts.comments} komment · {counts.files} csatolmány</span>
               <button type="button" className="crm-btn crm-btn-primary" disabled={pending || !counts.partners} onClick={runImport}>{pending ? <Loader2 className="animate-spin" /> : <Upload />} Importálás</button>
             </div>
           )}
@@ -118,6 +120,13 @@ export function PerfexImport() {
             <Link href="/projects" className="crm-btn crm-btn-secondary">Projektek</Link>
           </div>
         </section>
+      )}
+
+      {tables && (result || alreadyImported) && counts && counts.files > 0 && <PerfexFilesStep tables={tables} skip={skip} total={counts.files} />}
+      {tables && !result && !alreadyImported && counts && counts.files > 0 && (
+        <button type="button" className="crm-btn crm-btn-ghost crm-btn-sm" style={{ alignSelf: 'flex-start' }} onClick={() => setAlreadyImported(true)}>
+          <Paperclip /> Az adatokat már importáltam, csak a csatolmányokat töltöm fel
+        </button>
       )}
     </div>
   )
